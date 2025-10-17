@@ -1,0 +1,77 @@
+---
+/**
+ * BioSection - Biografía de Bernat Scorus con imagen
+ * Componente reutilizable para todos los idiomas
+ */
+
+import { Image } from 'astro:assets';
+import ButtonGhost from '@components/ui/ButtonGhost.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  tagline: string;
+  title: string;
+  titleHighlight: string;
+  description: string;
+  achievements: string[];
+  cta: { href: string; text: string };
+  aboutImage: ImageMetadata;
+  aboutImageAlt: string;
+}
+
+const { tagline, title, titleHighlight, description, achievements, cta, aboutImage, aboutImageAlt } = Astro.props;
+---
+
+<section class="relative bg-black">
+  <div class="grid lg:grid-cols-2">
+    <!-- Image -->
+    <div class="relative min-h-[60vh] overflow-hidden bg-gradient-to-br from-gray-900 to-black lg:min-h-screen">
+      <Image
+        src={aboutImage}
+        alt={aboutImageAlt}
+        class="h-full w-full object-cover object-center"
+        widths={[640, 768, 1024, 1280]}
+        sizes="(max-width: 1024px) 100vw, 50vw"
+        quality={85}
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent"></div>
+      <div class="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-red-600 to-transparent"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="flex items-center bg-black px-8 py-24 text-white lg:px-16">
+      <div class="max-w-2xl">
+        <div class="mb-6 inline-block border-l-4 border-red-600 pl-4">
+          <p class="text-sm font-bold uppercase tracking-widest text-red-600">
+            {tagline}
+          </p>
+        </div>
+        
+        <h2 class="mb-8 text-4xl font-black uppercase leading-tight tracking-tight text-white md:text-5xl">
+          {title}<br />
+          <span class="text-red-600">{titleHighlight}</span>
+        </h2>
+        
+        <p class="mb-10 text-lg leading-relaxed text-gray-300">
+          {description}
+        </p>
+        
+        <div class="mb-10 space-y-2 border-l-4 border-red-600 pl-6">
+          {achievements.map((achievement) => (
+            <p class="font-bold text-red-600">• {achievement}</p>
+          ))}
+        </div>
+        
+        <ButtonGhost 
+          href={cta.href}
+          text={cta.text}
+          icon="arrow"
+          color="white"
+          size="md"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,210 @@
+---
+/**
+ * Página HOME en español - REFACTORIZADA con componentes reutilizables
+ * De 800 líneas a ~100 líneas
+ * ✅ 100% modular y mantenible
+ */
+
+import Layout from '@layouts/Layout.astro';
+import HeroSection from '@components/sections/HeroSection.astro';
+import ServicesGrid from '@components/sections/ServicesGrid.astro';
+import AboutSection from '@components/sections/AboutSection.astro';
+import ProgramsShowcase from '@components/sections/ProgramsShowcase.astro';
+import GymSection from '@components/sections/GymSection.astro';
+import BioSection from '@components/sections/BioSection.astro';
+import CTAFinal from '@components/sections/CTAFinal.astro';
+
+// Importar imágenes
+import heroImage from '../../../public/images/hero/bernat-hero.jpg';
+import aboutImage from '../../../public/images/about/bernat-about.jpg';
+import gymImage from '../../../public/images/gym/gym-01.jpg';
+
+// Datos de la home (idealmente en JSON)
+const homeData = {
+  hero: {
+    tagline: "Scorus Fitness",
+    title: "TRANSFORMA",
+    titleHighlight: "TU CUERPO",
+    subtitle: "Entrenamiento de élite. Resultados extraordinarios.",
+    subtitleHighlight: "Tu transformación empieza aquí.",
+    cta1: { href: "/es/contacto", text: "Comenzar Ahora" },
+    cta2: { href: "/es/servicios", text: "Ver Servicios" }
+  },
+  services: {
+    tagline: "Servicios Principales",
+    title: "EMPIEZA TU",
+    titleHighlight: "TRANSFORMACIÓN",
+    services: [
+      {
+        iconType: "dumbbell" as const,
+        title: "Entrenamiento Personal",
+        description: "Sesiones 1:1 completamente personalizadas. Plan de entrenamiento diseñado específicamente para ti.",
+        cta: "Ver Más",
+        href: "/es/servicios/entrenamiento-personal"
+      },
+      {
+        iconType: "apple" as const,
+        title: "Nutrición Deportiva",
+        description: "Plan nutricional personalizado adaptado a tus objetivos y estilo de vida.",
+        cta: "Descubrir",
+        href: "/es/servicios/consultoria-online"
+      },
+      {
+        iconType: "clipboard" as const,
+        title: "Programas Especializados",
+        description: "Programas intensivos de transformación física con seguimiento completo.",
+        cta: "Explorar",
+        href: "/es/academia"
+      },
+      {
+        iconType: "monitor" as const,
+        title: "Consultoría Online",
+        description: "Entrenamiento y asesoramiento desde cualquier lugar del mundo.",
+        cta: "Comenzar",
+        href: "/es/servicios/consultoria-online"
+      }
+    ]
+  },
+  about: {
+    tagline: "Sobre Nosotros",
+    title: "TRANSFORMAMOS TU CUERPO,",
+    titleHighlight: "POTENCIAMOS TU RENDIMIENTO",
+    subtitle: "Olvídate de las dietas y rutinas genéricas. Consigue tu mejor versión con un plan 100% personalizado y un acompañamiento real.",
+    features: [
+      {
+        iconType: "users" as const,
+        title: "Entrenamiento Personalizado",
+        description: "Cada persona es única. Tu plan también lo será."
+      },
+      {
+        iconType: "target" as const,
+        title: "Resultados Garantizados",
+        description: "Metodología probada con más de 500 transformaciones exitosas."
+      },
+      {
+        iconType: "utensils" as const,
+        title: "Nutrición Integrada",
+        description: "Plan nutricional adaptado a tu metabolismo y objetivos."
+      }
+    ]
+  },
+  programs: {
+    tagline: "Nuestros Programas",
+    title: "DESCUBRE LOS PROGRAMAS QUE",
+    titleHighlight: "TRANSFORMAN CUERPOS Y MENTES",
+    programs: [
+      {
+        iconType: "zap" as const,
+        title: "Entrenamiento Personal",
+        description: "Sesiones individuales con seguimiento personalizado y resultados garantizados.",
+        href: "/es/servicios/entrenamiento-personal"
+      },
+      {
+        iconType: "graduation-cap" as const,
+        title: "Scorus Campus",
+        description: "Formación profesional en culturismo y entrenamiento personal.",
+        href: "/es/academia/scorus-campus",
+        badge: "Premium"
+      },
+      {
+        iconType: "presentation" as const,
+        title: "Talleres & Seminarios",
+        description: "Workshops especializados sobre técnica, nutrición y suplementación.",
+        href: "/es/servicios/talleres"
+      },
+      {
+        iconType: "video" as const,
+        title: "Video Cursos",
+        description: "Contenido exclusivo en video para aprender a tu ritmo.",
+        href: "/es/servicios/video-cursos"
+      },
+      {
+        iconType: "wrench" as const,
+        title: "Consultoría Online",
+        description: "Asesoramiento profesional desde cualquier parte del mundo.",
+        href: "/es/servicios/consultoria-online"
+      },
+      {
+        iconType: "laptop" as const,
+        title: "RE-BORN",
+        description: "Programa de transformación física de 12 semanas.",
+        href: "/es/academia/re-born",
+        badge: "Popular"
+      }
+    ]
+  },
+  gym: {
+    tagline: "Scorus GYM",
+    title: "UN GIMNASIO PRIVADO DISEÑADO PARA TU",
+    titleHighlight: "MÁXIMO RENDIMIENTO",
+    description: "Entrena en un espacio exclusivo, privado y acogedor, totalmente equipado y con tu propia música.",
+    features: [
+      {
+        title: "Espacio Privado y Exclusivo",
+        description: "Sin distracciones, solo tú y tu entrenamiento"
+      },
+      {
+        title: "Equipamiento Profesional",
+        description: "Todo lo que necesitas para entrenar al máximo nivel"
+      },
+      {
+        title: "Tu Música, Tu Ambiente",
+        description: "Crea la atmósfera perfecta para tu sesión"
+      }
+    ],
+    cta: { href: "/es/gym", text: "Ver Instalaciones" }
+  },
+  bio: {
+    tagline: "Bernat Scorus",
+    title: "CULTURISTA PROFESIONAL,",
+    titleHighlight: "ENTRENADOR DE ÉLITE",
+    description: "Con más de 15 años de experiencia en el mundo del culturismo profesional y cientos de transformaciones exitosas, Bernat Scorus combina conocimiento técnico, pasión por el entrenamiento y un enfoque personalizado para ayudarte a alcanzar tu mejor versión.",
+    achievements: [
+      "Campeón Absoluto de España",
+      "Subcampeón de Mr. Universo",
+      "Entrenador Personal Certificado",
+      "Nutricionista Deportivo"
+    ],
+    cta: { href: "/es/biografia", text: "Conoce Mi Historia" }
+  },
+  cta: {
+    tagline: "Contacto",
+    title: "¿LISTO PARA",
+    titleHighlight: "TU TRANSFORMACIÓN?",
+    address: "Av. Conrado Albaladejo, 31 – 03540 Alicante",
+    cta: { href: "/es/contacto", text: "Contáctanos" }
+  }
+};
+---
+
+<Layout
+  title="Scorus Fitness | Entrenamiento Personal en Alicante"
+  description="Centro de entrenamiento personal y gimnasio en Alicante. Transformación física con programas personalizados, RE-BORN y Scorus Campus. Bernat Scorus, culturista profesional."
+>
+  <HeroSection 
+    {...homeData.hero}
+    heroImage={heroImage}
+    heroImageAlt="Bernat Scorus - Entrenamiento Personal"
+  />
+  
+  <ServicesGrid {...homeData.services} />
+  
+  <AboutSection {...homeData.about} />
+  
+  <ProgramsShowcase {...homeData.programs} />
+  
+  <GymSection 
+    {...homeData.gym}
+    gymImage={gymImage}
+    gymImageAlt="Scorus GYM - Gimnasio Privado en Alicante"
+  />
+  
+  <BioSection 
+    {...homeData.bio}
+    aboutImage={aboutImage}
+    aboutImageAlt="Bernat Scorus - Culturista Profesional"
+  />
+  
+  <CTAFinal {...homeData.cta} />
+</Layout>
+
