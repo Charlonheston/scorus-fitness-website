@@ -1,95 +1,266 @@
 ---
 /**
- * Dienstleistungen - Deutsch
+ * Dienstleistungen Übersichtsseite - Premium Schwarz/Weiß/Rot Design
+ * German services index page with reusable components
  */
 
 import Layout from '@/layouts/Layout.astro';
+import ServicesPageHeader from '@components/sections/ServicesPageHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 
-const services = [
-  {
-    title: 'Workshops',
-    description: 'Intensive praktische Schulung zu spezifischen Themen. Lerne fortgeschrittene Techniken in kleinen Gruppen.',
-    icon: '🎯',
-    href: '/de/dienstleistungen/workshops',
+const servicesData = {
+  seo: {
+    title: "Dienstleistungen | Scorus Fitness",
+    description: "Professionelle Dienstleistungen für Personal Training, Online-Beratung, Workshops, Video-Kurse und Seminare. Körperliche und mentale Transformation mit bewährten Methoden."
   },
-  {
-    title: 'Online-Beratung',
-    description: 'Personalisiertes Monitoring von überall auf der Welt. Individuelle Trainings- und Ernährungspläne.',
-    icon: '💻',
-    href: '/de/dienstleistungen/online-beratung',
+  header: {
+    tagline: "Scorus Fitness",
+    title: "VERWANDLE DEIN LEBEN MIT",
+    titleHighlight: "UNSEREN DIENSTLEISTUNGEN",
+    subtitle: "Jede Dienstleistung ist darauf ausgelegt, Ihr körperliches und geistiges Potenzial zu maximieren. Bewährte Methoden, professionelle Unterstützung und garantierte Ergebnisse."
   },
-  {
-    title: 'Video-Kurse',
-    description: 'Strukturierte Trainingsprogramme, die du in deinem eigenen Tempo folgen kannst. Qualitativ hochwertiger Inhalt immer verfügbar.',
-    icon: '🎥',
-    href: '/de/dienstleistungen/video-kurse',
-  },
-  {
-    title: 'Seminare',
-    description: 'Vertiefte theoretische Ausbildung zu Bodybuilding, Ernährung und Sport-Supplementierung.',
-    icon: '📚',
-    href: '/de/dienstleistungen/seminare',
-  },
-  {
-    title: 'Personal Training',
-    description: 'Einzelsitzungen mit vollständigem personalisierten Tracking. Maximale Aufmerksamkeit und garantierte Ergebnisse.',
-    icon: '🏋️',
-    href: '/de/dienstleistungen/personliches-training',
-  },
-];
+  services: [
+    {
+      title: 'Personal Training',
+      slug: 'personliches-training',
+      iconType: 'dumbbell',
+      description: 'Vollständig personalisierte Trainingsprogramme, die auf Ihre spezifischen Ziele abgestimmt sind.',
+      features: [
+        'Vollständige Erstbewertung',
+        'Individueller Plan für Sie',
+        'Kontinuierliches Tracking und Anpassungen',
+        'Messbare Ergebnisse'
+      ],
+    },
+    {
+      title: 'Online-Beratung',
+      slug: 'online-beratung',
+      iconType: 'laptop',
+      description: 'Professionelle Beratung von überall auf der Welt mit personalisiertem Tracking.',
+      features: [
+        'Wöchentliche Videoanrufe',
+        'Detaillierter Trainingsplan',
+        'Personalisierter Ernährungsplan',
+        'Kontinuierlicher 24/7 Support'
+      ],
+    },
+    {
+      title: 'Workshops',
+      slug: 'workshops',
+      iconType: 'users',
+      description: 'Praktische Workshops zu Trainingstechniken, Ernährung und persönlicher Entwicklung.',
+      features: [
+        'Interaktive Gruppensitzungen',
+        'Überwachte Praxis',
+        'Vollständiges Lehrmaterial',
+        'Teilnahmebescheinigung'
+      ],
+    },
+    {
+      title: 'Video-Kurse',
+      slug: 'video-kurse',
+      iconType: 'video',
+      description: 'Video-Kurse, um in Ihrem eigenen Tempo über Training und fortgeschrittene Ernährung zu lernen.',
+      features: [
+        'Lebenslanger unbegrenzter Zugang',
+        'Aktualisierte Inhalte',
+        'Praktische Übungen',
+        'Exklusive Community'
+      ],
+    },
+    {
+      title: 'Seminare',
+      slug: 'seminare',
+      iconType: 'presentation',
+      description: 'Intensive Seminare zu spezifischen Themen des Fitness und professionellen Bodybuildings.',
+      features: [
+        'Fortgeschrittenes intensives Training',
+        'Gastexperten',
+        'Professionelles Networking',
+        'Exklusives Material'
+      ],
+    },
+  ]
+};
 ---
 
 <Layout
-  title="Dienstleistungen | Scorus Fitness"
-  description="Entdecke alle unsere Dienstleistungen: Personal Training, Online-Beratung, Workshops, Seminare und Video-Kurse"
+  title={servicesData.seo.title}
+  description={servicesData.seo.description}
+  lang="de"
 >
-  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-4xl text-center">
-        <h1 class="mb-8 text-6xl font-bold leading-tight md:text-7xl">Unsere Dienstleistungen</h1>
-        <p class="text-xl text-gray-300">
-          Vom Präsenztraining bis zu Online-Programmen. Finde die Option, die am besten zu deinen Zielen und deinem Lebensstil passt.
-        </p>
-      </div>
-    </div>
-  </section>
+  <!-- Header Section -->
+  <ServicesPageHeader {...servicesData.header} />
 
+  <!-- Services Grid Section -->
   <section class="bg-white py-24">
     <div class="container">
-      <div class="grid gap-px bg-gray-200 md:grid-cols-2">
-        {services.map((service) => (
-          <a
-            href={service.href}
-            class="group bg-white p-12 transition-all hover:bg-black hover:text-white md:p-16"
-          >
-            <div class="mb-6 text-5xl">{service.icon}</div>
-            <h2 class="mb-4 text-3xl font-bold">{service.title}</h2>
-            <p class="mb-6 text-lg leading-relaxed opacity-80">{service.description}</p>
-            <span class="inline-flex items-center text-sm font-semibold uppercase tracking-wider">
-              Mehr Erfahren
-              <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-              </svg>
-            </span>
-          </a>
+      <!-- Section Title -->
+      <div class="mb-16 text-center">
+        <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
+          Entdecken Sie <span class="text-red-600">Unsere Dienstleistungen</span>
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg text-gray-600">
+          Finden Sie das perfekte Programm, um Ihre Ziele zu erreichen
+        </p>
+      </div>
+
+      <!-- Services Grid -->
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {servicesData.services.map((service) => (
+          <div class="group relative overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <!-- Service Card -->
+            <div class="p-8">
+              <!-- Icon -->
+              <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-black transition-all duration-300 group-hover:bg-red-600">
+                {service.iconType === 'dumbbell' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 16V8m10 8V8M3 12h2m14 0h2M5 8h14M5 16h14"/>
+                  </svg>
+                )}
+                {service.iconType === 'laptop' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                  </svg>
+                )}
+                {service.iconType === 'users' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                )}
+                {service.iconType === 'video' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  </svg>
+                )}
+                {service.iconType === 'presentation' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
+                  </svg>
+                )}
+              </div>
+
+              <!-- Title -->
+              <h3 class="mb-4 text-2xl font-black uppercase tracking-tight text-black">
+                {service.title}
+              </h3>
+
+              <!-- Description -->
+              <p class="mb-6 leading-relaxed text-gray-600">
+                {service.description}
+              </p>
+
+              <!-- Features List -->
+              <ul class="mb-8 space-y-2">
+                {service.features.map((feature) => (
+                  <li class="flex items-start text-sm text-gray-700">
+                    <svg class="mr-2 mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <!-- CTA Link Button -->
+              <a
+                href={`/de/dienstleistungen/${service.slug}`}
+                class="group/link inline-flex items-center text-sm font-bold uppercase tracking-wider text-black transition-all hover:text-red-600"
+              >
+                Mehr Informationen
+                <svg class="ml-2 h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Hover Border Effect -->
+            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+          </div>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-black py-32 text-white">
+  <!-- Why Choose Us Section -->
+  <section class="bg-black py-24 text-white">
     <div class="container">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-8 text-5xl font-bold">Nicht Sicher Welchen Service Wählen?</h2>
-        <p class="mb-12 text-xl text-gray-300">Kontaktiere uns und wir helfen dir die beste Option für dich zu finden</p>
-        <a
-          href="/de/kontakt"
-          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
-        >
-          Kontaktiere Uns
-        </a>
+      <div class="mx-auto max-w-5xl">
+        <div class="mb-16 text-center">
+          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter md:text-5xl">
+            Warum <span class="text-red-600">Scorus Fitness</span>?
+          </h2>
+          <p class="text-lg text-gray-400">
+            Über 20 Jahre Erfahrung in der Verwandlung von Leben
+          </p>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-3">
+          <div class="text-center">
+            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+              <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-xl font-bold uppercase">Garantierte Ergebnisse</h3>
+            <p class="text-gray-400">Bewährte Methodik mit realen und messbaren Ergebnissen</p>
+          </div>
+
+          <div class="text-center">
+            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+              <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-xl font-bold uppercase">100% Personalisiert</h3>
+            <p class="text-gray-400">Jedes Programm passt sich Ihren einzigartigen Bedürfnissen an</p>
+          </div>
+
+          <div class="text-center">
+            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+              <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-xl font-bold uppercase">Konstante Unterstützung</h3>
+            <p class="text-gray-400">Kontinuierliche Begleitung bei jedem Schritt Ihrer Transformation</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-white py-32">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter text-black md:text-6xl">
+          Bereit Sich Zu <span class="text-red-600">Verwandeln</span>?
+        </h2>
+        <p class="mb-12 text-xl text-gray-600">
+          Warten Sie nicht länger. Ihre beste Version wartet auf Sie. Vereinbaren Sie eine kostenlose Beratung und entdecken Sie, wie wir Ihnen helfen können.
+        </p>
+        
+        <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <ButtonPrimary 
+            href="/de/kontakt" 
+            text="Kostenlose Beratung" 
+            icon="zap"
+            size="xl"
+            variant="glow"
+          />
+          
+          <a
+            href="/de/biografie"
+            class="inline-flex items-center text-sm font-bold uppercase tracking-wider text-black transition-all hover:text-red-600"
+          >
+            Lernen Sie Bernat Scorus Kennen
+            <svg class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </section>
 </Layout>
-
