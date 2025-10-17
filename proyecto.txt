@@ -3,6 +3,24 @@
 LEYENDA DE PROGRESO: Marca con [x] cada tarea completada para mantener el seguimiento del proyecto
 FORMATO: [ ] = Pendiente | [x] = Completada
 
+⚠️ REGLAS IMPORTANTES DE DESARROLLO
+===========================================
+1. MULTIIDIOMA: SIEMPRE que se haga un cambio de diseño, contenido o funcionalidad,
+   DEBE aplicarse INMEDIATAMENTE a TODOS los idiomas: ES, EN, FR, DE
+
+2. MOBILE FIRST: Diseñar y desarrollar SIEMPRE pensando primero en móvil,
+   luego tablet y finalmente desktop. Responsive obligatorio.
+
+3. ICONOS REPRESENTATIVOS: Los iconos SVG deben ser claros y representar
+   visualmente el contenido que acompañan.
+
+4. CONTRASTE ACCESIBLE: En efectos hover, SIEMPRE verificar que el texto
+   mantenga un ratio de contraste adecuado (mínimo 4.5:1 para texto normal,
+   3:1 para texto grande). Usar herramientas como WebAIM Contrast Checker.
+
+5. NO avanzar con nuevas tareas hasta cumplir estas reglas.
+===========================================
+
 
 📋 ÍNDICE EJECUTIVO
 1. Información del Proyecto
