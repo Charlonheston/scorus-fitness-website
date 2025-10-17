@@ -1,0 +1,163 @@
+---
+/**
+ * ButtonSecondary - Botón Secundario
+ * Diseño 2025: Glassmorphism, border glow, backdrop blur
+ * 
+ * Props:
+ * - href: string (URL destino)
+ * - text: string (Texto del botón)
+ * - icon: boolean (Mostrar icono flecha, default: false)
+ * - class: string (Clases adicionales)
+ * - size: 'sm' | 'md' | 'lg' (Tamaño, default: 'md')
+ * - variant: 'outline' | 'glass' (Estilo, default: 'glass')
+ */
+
+interface Props {
+  href: string;
+  text: string;
+  icon?: boolean;
+  class?: string;
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'outline' | 'glass';
+}
+
+const { 
+  href, 
+  text, 
+  icon = false, 
+  class: className = '',
+  size = 'md',
+  variant = 'glass'
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'px-6 py-3 text-sm',
+  md: 'px-8 py-4 text-base',
+  lg: 'px-12 py-5 text-lg',
+};
+---
+
+<a
+  href={href}
+  class:list={[
+    'btn-secondary group relative inline-flex items-center justify-center gap-3 overflow-hidden font-bold uppercase tracking-wider transition-all duration-300',
+    sizeClasses[size],
+    variant === 'glass' ? 'btn-glass' : 'btn-outline',
+    className
+  ]}
+>
+  <!-- Border glow effect -->
+  <div class="btn-glow"></div>
+  
+  <!-- Texto -->
+  <span class="relative z-10">{text}</span>
+  
+  <!-- Icono flecha (opcional) -->
+  {icon && (
+    <svg 
+      class="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" 
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor" 
+      stroke-width="2.5"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+    </svg>
+  )}
+</a>
+
+<style>
+  .btn-secondary {
+    color: white;
+    border-radius: 2px;
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Variante Glass (Glassmorphism - Tendencia 2025) */
+  .btn-glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-glass:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  /* Variante Outline */
+  .btn-outline {
+    background: transparent;
+    border-color: rgba(220, 38, 38, 0.6);
+    color: #dc2626;
+  }
+
+  .btn-outline:hover {
+    background: rgba(220, 38, 38, 0.1);
+    border-color: #dc2626;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+      0 0 20px rgba(220, 38, 38, 0.3),
+      inset 0 0 20px rgba(220, 38, 38, 0.05);
+  }
+
+  .btn-secondary:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* Border glow effect */
+  .btn-glow {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(220, 38, 38, 0.4) 50%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    border-radius: 2px;
+    z-index: 0;
+  }
+
+  .btn-secondary:hover .btn-glow {
+    opacity: 1;
+    animation: rotate-border 3s linear infinite;
+  }
+
+  @keyframes rotate-border {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Accesibilidad */
+  .btn-secondary:focus-visible {
+    outline: 3px solid rgba(220, 38, 38, 0.5);
+    outline-offset: 4px;
+  }
+
+  /* Para fondos oscuros */
+  .btn-secondary.on-dark {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-secondary.on-dark:hover {
+    border-color: white;
+  }
+</style>
+

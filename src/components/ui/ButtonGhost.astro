@@ -1,0 +1,121 @@
+---
+/**
+ * ButtonGhost - Botón Minimalista/Ghost
+ * Diseño 2025: Hover underline animation, magnetic effect
+ * 
+ * Props:
+ * - href: string (URL destino)
+ * - text: string (Texto del botón)
+ * - icon: boolean (Mostrar icono flecha, default: true)
+ * - class: string (Clases adicionales)
+ * - color: 'red' | 'white' | 'black' (Color del texto, default: 'red')
+ */
+
+interface Props {
+  href: string;
+  text: string;
+  icon?: boolean;
+  class?: string;
+  color?: 'red' | 'white' | 'black';
+}
+
+const { 
+  href, 
+  text, 
+  icon = true, 
+  class: className = '',
+  color = 'red'
+} = Astro.props;
+
+const colorClasses = {
+  red: 'text-red-600 hover:text-red-700',
+  white: 'text-white hover:text-gray-200',
+  black: 'text-black hover:text-gray-800',
+};
+---
+
+<a
+  href={href}
+  class:list={[
+    'btn-ghost group inline-flex items-center gap-3 font-bold uppercase tracking-wider transition-all duration-300',
+    colorClasses[color],
+    className
+  ]}
+>
+  <!-- Texto con underline animado -->
+  <span class="relative">
+    {text}
+    <span class="btn-underline"></span>
+  </span>
+  
+  <!-- Icono flecha (opcional) -->
+  {icon && (
+    <svg 
+      class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-2" 
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor" 
+      stroke-width="2.5"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+    </svg>
+  )}
+</a>
+
+<style>
+  .btn-ghost {
+    padding: 0.5rem 0;
+    position: relative;
+  }
+
+  .btn-ghost:hover {
+    transform: translateX(4px);
+  }
+
+  /* Animated underline - Tendencia 2025 */
+  .btn-underline {
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-ghost:hover .btn-underline {
+    width: 100%;
+  }
+
+  /* Efecto de brillo sutil al hacer hover */
+  .btn-ghost::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      currentColor,
+      transparent
+    );
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity 0.3s ease;
+  }
+
+  .btn-ghost:hover::after {
+    opacity: 0.3;
+  }
+
+  /* Accesibilidad */
+  .btn-ghost:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+</style>
+
