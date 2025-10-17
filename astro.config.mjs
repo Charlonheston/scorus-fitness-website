@@ -7,7 +7,7 @@ import astroI18next from 'astro-i18next';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://scorusfitness.com',
+  // site: 'https://scorusfitness.com', // Comentado temporalmente - Descomentar cuando tengas tu dominio
   integrations: [
     tailwind({
       applyBaseStyles: false,
