@@ -5,20 +5,91 @@ FORMATO: [ ] = Pendiente | [x] = Completada
 
 ⚠️ REGLAS IMPORTANTES DE DESARROLLO
 ===========================================
-1. MULTIIDIOMA: SIEMPRE que se haga un cambio de diseño, contenido o funcionalidad,
-   DEBE aplicarse INMEDIATAMENTE a TODOS los idiomas: ES, EN, FR, DE
+1. **COMPONENTES REUTILIZABLES** (OBLIGATORIO):
+   - SIEMPRE crear componentes modulares en `src/components/sections/`
+   - NUNCA duplicar código HTML entre páginas de diferentes idiomas
+   - Cada sección de página debe ser un componente independiente
+   - Los componentes reciben datos vía props (texto, imágenes, etc.)
+   - Las páginas solo ensamblan componentes, NO contienen HTML directo
+   - Ejemplo: HeroSection.astro, ServicesGrid.astro, AboutSection.astro
+   - Beneficio: Cambiar un componente actualiza TODOS los idiomas automáticamente
 
-2. MOBILE FIRST: Diseñar y desarrollar SIEMPRE pensando primero en móvil,
+2. MULTIIDIOMA: SIEMPRE que se haga un cambio de diseño, contenido o funcionalidad,
+   DEBE aplicarse INMEDIATAMENTE a TODOS los idiomas: ES, EN, FR, DE
+   Con componentes reutilizables, esto se hace automáticamente.
+
+3. MOBILE FIRST: Diseñar y desarrollar SIEMPRE pensando primero en móvil,
    luego tablet y finalmente desktop. Responsive obligatorio.
 
-3. ICONOS REPRESENTATIVOS: Los iconos SVG deben ser claros y representar
+4. ICONOS REPRESENTATIVOS: Los iconos SVG deben ser claros y representar
    visualmente el contenido que acompañan.
 
-4. CONTRASTE ACCESIBLE: En efectos hover, SIEMPRE verificar que el texto
+5. CONTRASTE ACCESIBLE: En efectos hover, SIEMPRE verificar que el texto
    mantenga un ratio de contraste adecuado (mínimo 4.5:1 para texto normal,
    3:1 para texto grande). Usar herramientas como WebAIM Contrast Checker.
 
-5. NO avanzar con nuevas tareas hasta cumplir estas reglas.
+6. NO avanzar con nuevas tareas hasta cumplir estas reglas.
+===========================================
+
+🎯 ARQUITECTURA DE COMPONENTES REUTILIZABLES
+===========================================
+FILOSOFÍA: "Escribe una vez, usa en todos los idiomas"
+
+ESTRUCTURA OBLIGATORIA:
+src/
+├── components/
+│   ├── ui/              → Componentes atómicos (Button, Card, etc.)
+│   ├── sections/        → Secciones de página (Hero, Services, About, etc.)
+│   ├── layout/          → Layout global (Header, Footer, Navigation)
+│   └── i18n/            → Componentes i18n (LanguageSwitcher)
+│
+├── pages/
+│   └── [lang]/
+│       └── index.astro  → Solo ensambla componentes sections/
+│                           ~50 líneas máximo por página
+│
+└── data/
+    └── home/
+        ├── es.json      → Datos de la home en español
+        ├── en.json      → Datos de la home en inglés
+        ├── fr.json      → Datos de la home en francés
+        └── de.json      → Datos de la home en alemán
+
+EJEMPLO DE PÁGINA (BUENO ✅):
+---
+// src/pages/es/index.astro
+import Layout from '@layouts/Layout.astro';
+import HeroSection from '@components/sections/HeroSection.astro';
+import ServicesGrid from '@components/sections/ServicesGrid.astro';
+import homeData from '@data/home/es.json';
+
+---
+<Layout title={homeData.seo.title}>
+  <HeroSection {...homeData.hero} />
+  <ServicesGrid services={homeData.services} />
+  <!-- Solo 50 líneas, fácil de mantener -->
+</Layout>
+
+EJEMPLO INCORRECTO (MALO ❌):
+---
+// src/pages/es/index.astro - ¡NO HACER ESTO!
+<Layout>
+  <section class="hero">
+    <h1>Bienvenido</h1>
+    <!-- 800 líneas de HTML duplicado... -->
+  </section>
+</Layout>
+
+BENEFICIOS:
+✅ Cambiar HeroSection.astro → Actualiza ES, EN, FR, DE automáticamente
+✅ Código limpio y mantenible
+✅ Sin duplicación
+✅ Testing más fácil
+✅ Escalabilidad garantizada
+✅ Onboarding de nuevos devs más rápido
+
+REGLA DE ORO:
+"Si una sección aparece en más de un idioma, DEBE ser un componente"
 ===========================================
 
 

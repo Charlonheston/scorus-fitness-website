@@ -1,0 +1,140 @@
+---
+/**
+ * HeroSection - Hero principal con imagen de fondo
+ * Componente reutilizable para todos los idiomas
+ * 
+ * Props:
+ * - tagline: string - Etiqueta superior (ej: "Scorus Fitness")
+ * - title: string - Título principal (puede incluir <br/> o <span> para énfasis)
+ * - subtitle: string - Subtítulo/descripción
+ * - cta1: { href: string, text: string } - CTA principal
+ * - cta2: { href: string, text: string } - CTA secundario
+ * - heroImage: ImageMetadata - Imagen de fondo
+ * - showScrollIndicator?: boolean - Mostrar indicador de scroll (default: true)
+ * - scrollText?: string - Texto del indicador (default: "Scroll")
+ */
+
+import { Image } from 'astro:assets';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  tagline: string;
+  title: string;
+  titleHighlight?: string;
+  subtitle: string;
+  subtitleHighlight?: string;
+  cta1: {
+    href: string;
+    text: string;
+  };
+  cta2: {
+    href: string;
+    text: string;
+  };
+  heroImage: ImageMetadata;
+  heroImageAlt: string;
+  showScrollIndicator?: boolean;
+  scrollText?: string;
+}
+
+const {
+  tagline,
+  title,
+  titleHighlight,
+  subtitle,
+  subtitleHighlight,
+  cta1,
+  cta2,
+  heroImage,
+  heroImageAlt,
+  showScrollIndicator = true,
+  scrollText = 'Scroll'
+} = Astro.props;
+---
+
+<section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-black">
+  <!-- Hero Background Image con overlay -->
+  <div class="absolute inset-0">
+    <Image
+      src={heroImage}
+      alt={heroImageAlt}
+      class="h-full w-full object-cover"
+      widths={[640, 768, 1024, 1280, 1536, 1920]}
+      sizes="100vw"
+      quality={80}
+      loading="eager"
+      decoding="async"
+    />
+    <!-- Overlay oscuro para legibilidad del texto -->
+    <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/80"></div>
+  </div>
+  
+  <!-- Red Accent Lines -->
+  <div class="absolute left-0 top-1/4 h-1 w-32 bg-gradient-to-r from-red-600 to-transparent"></div>
+  <div class="absolute right-0 top-2/3 h-1 w-32 bg-gradient-to-l from-red-600 to-transparent"></div>
+  
+  <!-- Hero Content -->
+  <div class="container relative z-10 py-32 pt-40 text-center">
+    <div class="mx-auto max-w-6xl">
+      <!-- Tagline -->
+      <div class="mb-6 inline-block border-l-4 border-red-600 pl-4">
+        <p class="text-sm font-bold uppercase tracking-widest text-red-600">
+          {tagline}
+        </p>
+      </div>
+      
+      <h1 class="mb-8 text-7xl font-black uppercase leading-[0.9] tracking-tighter text-white md:text-8xl lg:text-9xl">
+        {title}
+        {titleHighlight && (
+          <>
+            <br />
+            <span class="text-red-600">{titleHighlight}</span>
+          </>
+        )}
+      </h1>
+      
+      <p class="mx-auto mb-12 max-w-2xl text-xl leading-relaxed text-gray-300 md:text-2xl">
+        {subtitle}
+        {subtitleHighlight && (
+          <>
+            <br />
+            <span class="font-semibold text-red-600">{subtitleHighlight}</span>
+          </>
+        )}
+      </p>
+      
+      <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
+        <ButtonPrimary 
+          href={cta1.href}
+          text={cta1.text}
+          icon="fire"
+          size="lg"
+          variant="glow"
+        />
+        
+        <ButtonSecondary 
+          href={cta2.href}
+          text={cta2.text}
+          icon="eye"
+          variant="glass"
+          size="lg"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  {showScrollIndicator && (
+    <div class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
+      <div class="flex flex-col items-center gap-2">
+        <span class="text-xs font-semibold uppercase tracking-widest text-gray-400">{scrollText}</span>
+        <svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </div>
+    </div>
+  )}
+</section>
+
