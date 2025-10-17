@@ -92,6 +92,24 @@ REGLA DE ORO:
 "Si una sección aparece en más de un idioma, DEBE ser un componente"
 ===========================================
 
+📖 DOCUMENTACIÓN COMPLETA DE METODOLOGÍA:
+Ver archivo: METODOLOGIA-COMPONENTES.md (Guía completa con ejemplos)
+
+Este archivo contiene:
+- ✅ Estructura obligatoria del proyecto detallada
+- ✅ Ejemplos de código correcto vs incorrecto
+- ✅ Guía paso a paso para crear componentes
+- ✅ Guía para añadir nuevos idiomas
+- ✅ Props más comunes y su uso
+- ✅ Checklist antes de cada commit
+- ✅ Troubleshooting de problemas comunes
+- ✅ Métricas de calidad del código
+- ✅ Beneficios conseguidos
+- ✅ Recursos y referencias
+
+⚠️ LECTURA OBLIGATORIA antes de modificar código del proyecto.
+===========================================
+
 
 📋 ÍNDICE EJECUTIVO
 1. Información del Proyecto
