@@ -1,0 +1,95 @@
+---
+/**
+ * Dienstleistungen - Deutsch
+ */
+
+import Layout from '@/layouts/Layout.astro';
+
+const services = [
+  {
+    title: 'Workshops',
+    description: 'Intensive praktische Schulung zu spezifischen Themen. Lerne fortgeschrittene Techniken in kleinen Gruppen.',
+    icon: '🎯',
+    href: '/de/dienstleistungen/workshops',
+  },
+  {
+    title: 'Online-Beratung',
+    description: 'Personalisiertes Monitoring von überall auf der Welt. Individuelle Trainings- und Ernährungspläne.',
+    icon: '💻',
+    href: '/de/dienstleistungen/online-beratung',
+  },
+  {
+    title: 'Video-Kurse',
+    description: 'Strukturierte Trainingsprogramme, die du in deinem eigenen Tempo folgen kannst. Qualitativ hochwertiger Inhalt immer verfügbar.',
+    icon: '🎥',
+    href: '/de/dienstleistungen/video-kurse',
+  },
+  {
+    title: 'Seminare',
+    description: 'Vertiefte theoretische Ausbildung zu Bodybuilding, Ernährung und Sport-Supplementierung.',
+    icon: '📚',
+    href: '/de/dienstleistungen/seminare',
+  },
+  {
+    title: 'Personal Training',
+    description: 'Einzelsitzungen mit vollständigem personalisierten Tracking. Maximale Aufmerksamkeit und garantierte Ergebnisse.',
+    icon: '🏋️',
+    href: '/de/dienstleistungen/personliches-training',
+  },
+];
+---
+
+<Layout
+  title="Dienstleistungen | Scorus Fitness"
+  description="Entdecke alle unsere Dienstleistungen: Personal Training, Online-Beratung, Workshops, Seminare und Video-Kurse"
+>
+  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h1 class="mb-8 text-6xl font-bold leading-tight md:text-7xl">Unsere Dienstleistungen</h1>
+        <p class="text-xl text-gray-300">
+          Vom Präsenztraining bis zu Online-Programmen. Finde die Option, die am besten zu deinen Zielen und deinem Lebensstil passt.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="grid gap-px bg-gray-200 md:grid-cols-2">
+        {services.map((service) => (
+          <a
+            href={service.href}
+            class="group bg-white p-12 transition-all hover:bg-black hover:text-white md:p-16"
+          >
+            <div class="mb-6 text-5xl">{service.icon}</div>
+            <h2 class="mb-4 text-3xl font-bold">{service.title}</h2>
+            <p class="mb-6 text-lg leading-relaxed opacity-80">{service.description}</p>
+            <span class="inline-flex items-center text-sm font-semibold uppercase tracking-wider">
+              Mehr Erfahren
+              <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold">Nicht Sicher Welchen Service Wählen?</h2>
+        <p class="mb-12 text-xl text-gray-300">Kontaktiere uns und wir helfen dir die beste Option für dich zu finden</p>
+        <a
+          href="/de/kontakt"
+          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+        >
+          Kontaktiere Uns
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+

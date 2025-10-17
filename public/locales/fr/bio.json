@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Biographie | Bernat Scorus",
+    "description": "Découvrez l'histoire et l'expérience de Bernat, coach personnel avec plus de 15 ans de parcours"
+  },
+  "hero": {
+    "title": "Bernat Scorus",
+    "subtitle": "Coach Personnel · Culturiste · Formateur"
+  },
+  "intro": {
+    "title": "Plus de 15 Ans à Transformer des Vies",
+    "description": "Ma mission est simple : vous aider à atteindre votre meilleure version physique et mentale grâce à un entraînement intelligent et une nutrition basée sur la science."
+  },
+  "experience": {
+    "title": "Expérience et Formation",
+    "item_1": "Certification Internationale en Coaching Personnel",
+    "item_2": "Spécialiste en Culturisme et Préparation de Compétition",
+    "item_3": "Nutritionniste Sportif Certifié",
+    "item_4": "+15 ans d'expérience dans le secteur du fitness",
+    "item_5": "Des centaines de transformations réussies"
+  },
+  "philosophy": {
+    "title": "Ma Philosophie",
+    "quote": "Je ne vends pas de promesses. J'offre des connaissances, de l'expérience et des résultats réels.",
+    "description": "Chaque personne est unique, et son entraînement doit l'être aussi. Il n'y a pas de formules magiques, seulement un travail constant, de la discipline et une méthodologie scientifique."
+  },
+  "achievements": {
+    "title": "Réalisations Notables",
+    "item_1": "Fondateur de Scorus Fitness",
+    "item_2": "Créateur du programme RE-BORN",
+    "item_3": "Directeur de Scorus Campus",
+    "item_4": "Conférencier lors de séminaires internationaux"
+  },
+  "cta": {
+    "title": "Prêt À Travailler Ensemble?",
+    "description": "Commencez votre transformation aujourd'hui",
+    "button": "Contact"
+  }
+}
+

@@ -1,0 +1,74 @@
+---
+/**
+ * Página individual de post del blog
+ */
+
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import { getBlogPostingSchema } from '@/lib/schema';
+import { SITE_CONFIG } from '@/lib/constants';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content } = await post.render();
+
+const schema = getBlogPostingSchema({
+  title: post.data.title,
+  description: post.data.description,
+  publishedDate: post.data.pubDate,
+  modifiedDate: post.data.updatedDate,
+  author: post.data.author,
+  url: `${SITE_CONFIG.url}/es/blog/${post.slug}`,
+});
+---
+
+<Layout
+  title={`${post.data.title} | Blog Scorus Fitness`}
+  description={post.data.description}
+  ogType="article"
+  schema={schema}
+>
+  <article class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+    <header class="mb-8">
+      <a href="/es/blog" class="mb-4 inline-flex items-center text-primary-600 hover:text-primary-700">
+        ← Volver al blog
+      </a>
+      
+      <h1 class="mb-4">{post.data.title}</h1>
+      
+      <div class="flex flex-wrap items-center gap-4 text-gray-600">
+        <time datetime={post.data.pubDate.toISOString()}>
+          {post.data.pubDate.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </time>
+        <span>•</span>
+        <span>Por {post.data.author}</span>
+      </div>
+
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {post.data.tags.map((tag) => (
+            <span class="rounded-full bg-primary-100 px-3 py-1 text-sm font-medium text-primary-700">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose prose-lg max-w-none">
+      <Content />
+    </div>
+  </article>
+</Layout>
+

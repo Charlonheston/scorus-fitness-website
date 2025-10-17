@@ -1,0 +1,154 @@
+---
+/**
+ * Página de Entrenamiento Personal - Con traducciones desde JSON
+ */
+
+import Layout from '@/layouts/Layout.astro';
+import translations from '../../../../public/locales/es/services.json';
+
+const t = translations.personal_training;
+const currentLang = 'es';
+---
+
+<Layout
+  title={t.meta.title}
+  description={t.meta.description}
+>
+  <!-- Hero Section -->
+  <section class="bg-white py-32">
+    <div class="container">
+      <div class="mx-auto max-w-4xl">
+        <a href={`/${currentLang}/servicios`} class="mb-8 inline-flex items-center text-sm font-semibold uppercase tracking-wider text-gray-500 transition-colors hover:text-black">
+          <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          {translations.back_to_services}
+        </a>
+        
+        <div class="mb-8 text-5xl">{t.icon}</div>
+        <h1 class="mb-8 text-6xl font-bold leading-tight text-gray-900 md:text-7xl" set:html={t.title.replace(/\n/g, '<br />')}></h1>
+        
+        <p class="text-2xl leading-relaxed text-gray-600">
+          {t.subtitle}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="bg-gray-50 py-24">
+    <div class="container">
+      <div class="grid gap-16 lg:grid-cols-2">
+        <!-- Image Placeholder -->
+        <div class="relative min-h-[400px] bg-gray-300 lg:min-h-[600px]">
+          <div class="flex h-full items-center justify-center text-gray-500">
+            <div class="text-center">
+              <span class="text-9xl">📷</span>
+              <p class="mt-4 text-sm font-semibold uppercase tracking-wider">
+                Foto Entrenamiento Personal
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex flex-col justify-center">
+          <h2 class="mb-8 text-4xl font-bold text-gray-900">{t.includes_title}</h2>
+          
+          <ul class="mb-12 space-y-4">
+            <li class="flex items-start">
+              <svg class="mr-4 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="font-semibold text-gray-900">{t.includes.physical_evaluation.title}</h3>
+                <p class="text-gray-600">{t.includes.physical_evaluation.description}</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-4 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="font-semibold text-gray-900">{t.includes.body_composition.title}</h3>
+                <p class="text-gray-600">{t.includes.body_composition.description}</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-4 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="font-semibold text-gray-900">{t.includes.personalized_plan.title}</h3>
+                <p class="text-gray-600">{t.includes.personalized_plan.description}</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-4 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="font-semibold text-gray-900">{t.includes.continuous_tracking.title}</h3>
+                <p class="text-gray-600">{t.includes.continuous_tracking.description}</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-4 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="font-semibold text-gray-900">{t.includes.nutrition_advice.title}</h3>
+                <p class="text-gray-600">{t.includes.nutrition_advice.description}</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-4 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="font-semibold text-gray-900">{t.includes.whatsapp_support.title}</h3>
+                <p class="text-gray-600">{t.includes.whatsapp_support.description}</p>
+              </div>
+            </li>
+          </ul>
+
+          <div class="space-y-8">
+            <div>
+              <h3 class="mb-4 text-2xl font-bold text-gray-900">{t.for_whom_title}</h3>
+              <p class="leading-relaxed text-gray-600">
+                {t.for_whom_description}
+              </p>
+            </div>
+
+            <div>
+              <h3 class="mb-4 text-2xl font-bold text-gray-900">{t.methodology_title}</h3>
+              <p class="leading-relaxed text-gray-600">
+                {t.methodology_description}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold md:text-6xl">
+          {t.cta_title}
+        </h2>
+        <p class="mb-12 text-lg text-gray-400">
+          {t.cta_description}
+        </p>
+        <a
+          href={`/${currentLang}/contacto`}
+          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+        >
+          {t.cta_button}
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

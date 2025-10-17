@@ -1,0 +1,199 @@
+---
+/**
+ * GYM Seite - Deutsch
+ */
+
+import Layout from '@/layouts/Layout.astro';
+
+const gymImages = [
+  { src: '/images/gym/gym-01.jpg', alt: 'Scorus Fitness - Hauptansicht des Gyms' },
+  { src: '/images/gym/gym-02.jpg', alt: 'Scorus Fitness - Weite Ansicht der Einrichtungen' },
+  { src: '/images/gym/gym-03.jpg', alt: 'Scorus Fitness - Maschinenbereich mit Spiegeln' },
+  { src: '/images/gym/gym-04.jpg', alt: 'Scorus Fitness - Freihanteln Bereich' },
+  { src: '/images/gym/gym-05.jpg', alt: 'Scorus Fitness - Professionelle Ausrüstung' },
+  { src: '/images/gym/gym-06.jpg', alt: 'Scorus Fitness - Seitliche Gym-Ansicht' },
+  { src: '/images/gym/gym-07.jpg', alt: 'Scorus Fitness - Trainingszone' },
+  { src: '/images/gym/gym-08.jpg', alt: 'Scorus Fitness - Personal Training' },
+  { src: '/images/gym/gym-09.jpg', alt: 'Scorus Fitness - Trainingsumgebung' },
+  { src: '/images/gym/gym-10.jpg', alt: 'Scorus Fitness - Komplette Einrichtungen' },
+];
+---
+
+<Layout
+  title="Scorus GYM | Training in Alicante"
+  description="Boutique-Fitnessstudio in Alicante, spezialisiert auf Bodybuilding und Personal Training"
+  image="/images/gym/gym-01.jpg"
+>
+  <!-- Hero Section -->
+  <section class="relative min-h-screen">
+    <div class="absolute inset-0">
+      <img 
+        src="/images/gym/gym-01.jpg" 
+        alt="Scorus Fitness Gym" 
+        class="h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 bg-black/60"></div>
+    </div>
+    
+    <div class="container relative z-10 flex min-h-screen items-center py-32">
+      <div class="max-w-4xl text-white">
+        <div class="mb-8 text-6xl">💪</div>
+        <h1 class="mb-8 text-6xl font-bold leading-tight md:text-7xl lg:text-8xl">
+          Scorus<br />GYM
+        </h1>
+        <p class="mb-12 max-w-2xl text-2xl leading-relaxed text-gray-200">
+          Dein Raum. Dein Tempo. Deine Musik. Personalisiertes Training in Premium-Einrichtungen.
+        </p>
+        <a
+          href="/de/kontakt"
+          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+        >
+          Sitzung Buchen
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="bg-white py-32">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold text-gray-900 md:text-6xl">Ein Anderes Fitnessstudio</h2>
+        <div class="space-y-6 text-lg leading-relaxed text-gray-600">
+          <p>
+            Scorus GYM ist kein konventionelles Fitnessstudio. Es ist ein Raum für Menschen, die echte Ergebnisse mit persönlicher Betreuung suchen.
+          </p>
+          <p>
+            Boutique-Einrichtungen mit modernster Ausrüstung, motivierender Umgebung und über 15 Jahren Erfahrung im Sektor.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bildergalerie -->
+  <section class="bg-gray-50 py-24">
+    <div class="container">
+      <h2 class="mb-16 text-center text-5xl font-bold text-gray-900">Unsere Einrichtungen</h2>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {gymImages.map((image, index) => (
+          <div class="group relative aspect-[4/3] overflow-hidden bg-gray-200">
+            <img 
+              src={image.src} 
+              alt={image.alt}
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+              loading={index < 4 ? "eager" : "lazy"}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Trainingsmodalitäten Section -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <h2 class="mb-16 text-center text-5xl font-bold text-gray-900">Trainingsmodalitäten</h2>
+      
+      <div class="grid gap-px bg-gray-200 md:grid-cols-2">
+        <div class="bg-white p-12 md:p-16">
+          <h3 class="mb-6 text-3xl font-bold text-gray-900">Dein Raum, Dein Tempo, Deine Musik</h3>
+          <p class="mb-8 text-lg leading-relaxed text-gray-600">
+            Private Sitzungen im kompletten Fitnessstudio nur für dich. Wähle deine Musik, deinen Zeitplan und trainiere ohne Ablenkungen.
+          </p>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">100% private Sitzungen</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Flexible Zeitpläne</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Deine Lieblings-Playlist</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-12 md:p-16">
+          <h3 class="mb-6 text-3xl font-bold text-gray-900">Präsenztraining</h3>
+          <p class="mb-8 text-lg leading-relaxed text-gray-600">
+            Personalisierte Einzelsitzungen mit vollständigem Tracking deines Fortschritts.
+          </p>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Personalisierte Betreuung</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Technikkorrektur</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Konstante Motivation</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="grid gap-12 md:grid-cols-3">
+        <div class="text-center">
+          <div class="mb-4 text-5xl">🏋️</div>
+          <h3 class="mb-3 text-xl font-bold">Premium-Ausrüstung</h3>
+          <p class="text-sm text-gray-400">Modernste Maschinen und Gewichte</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-4 text-5xl">🎯</div>
+          <h3 class="mb-3 text-xl font-bold">Professionelles Umfeld</h3>
+          <p class="text-sm text-gray-400">Für ernsthafte Ergebnisse konzipiert</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-4 text-5xl">⭐</div>
+          <h3 class="mb-3 text-xl font-bold">Exklusive Betreuung</h3>
+          <p class="text-sm text-gray-400">Kleine Gruppen und private Sitzungen</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-white py-32">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold text-gray-900 md:text-6xl">
+          Bereit Zu Trainieren?
+        </h2>
+        <p class="mb-12 text-lg text-gray-600">
+          Plane deine erste Sitzung und entdecke den Unterschied des Trainings in einem Boutique-Fitnessstudio
+        </p>
+        <a
+          href="/de/kontakt"
+          class="inline-flex items-center justify-center border-2 border-black bg-black px-12 py-5 text-lg font-semibold text-white transition-all hover:bg-white hover:text-black"
+        >
+          Erste Sitzung Planen
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+

@@ -1,0 +1,77 @@
+---
+/**
+ * Académie - Français
+ */
+
+import Layout from '@/layouts/Layout.astro';
+
+const programs = [
+  {
+    title: 'Scorus Campus',
+    description: 'École de formation officielle pour professionnels du fitness. Certification et formation avancée.',
+    icon: '🎓',
+    href: '/fr/academie/scorus-campus',
+  },
+  {
+    title: 'RE-BORN',
+    description: 'Programme de transformation physique et mentale. 12 semaines pour changer votre vie.',
+    icon: '🔥',
+    href: '/fr/academie/re-born',
+  },
+];
+---
+
+<Layout
+  title="Académie | Scorus Fitness"
+  description="Programmes de formation et transformation : Scorus Campus et RE-BORN"
+>
+  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h1 class="mb-8 text-6xl font-bold leading-tight md:text-7xl">Académie Scorus</h1>
+        <p class="text-xl text-gray-300">
+          Formation professionnelle et programmes de transformation pour ceux qui cherchent à aller plus loin.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="grid gap-px bg-gray-200 md:grid-cols-2">
+        {programs.map((program) => (
+          <a
+            href={program.href}
+            class="group bg-white p-16 transition-all hover:bg-black hover:text-white md:p-24"
+          >
+            <div class="mb-8 text-6xl">{program.icon}</div>
+            <h2 class="mb-6 text-4xl font-bold">{program.title}</h2>
+            <p class="mb-8 text-xl leading-relaxed opacity-80">{program.description}</p>
+            <span class="inline-flex items-center text-sm font-semibold uppercase tracking-wider">
+              En Savoir Plus
+              <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold">Vous Voulez Plus D'Informations?</h2>
+        <p class="mb-12 text-xl text-gray-300">Contactez-nous et nous expliquerons tous les détails du programme</p>
+        <a
+          href="/fr/contact"
+          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+        >
+          Nous Contacter
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+

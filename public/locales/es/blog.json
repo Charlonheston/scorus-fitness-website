@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "Blog | Scorus Fitness",
+    "description": "Artículos sobre entrenamiento, nutrición y fitness"
+  },
+  "hero": {
+    "title": "Blog",
+    "subtitle": "Conocimiento, experiencia y consejos prácticos"
+  },
+  "categories": {
+    "all": "Todos",
+    "training": "Entrenamiento",
+    "nutrition": "Nutrición",
+    "mindset": "Mentalidad",
+    "tips": "Consejos"
+  },
+  "read_time": "min de lectura",
+  "read_more": "Leer Más",
+  "latest_posts": "Últimas Publicaciones",
+  "related_posts": "Artículos Relacionados",
+  "share": "Compartir",
+  "back_to_blog": "Volver al Blog",
+  "no_posts": "No hay publicaciones disponibles",
+  "search": "Buscar artículos...",
+  "author": "Por",
+  "published": "Publicado el"
+}
+

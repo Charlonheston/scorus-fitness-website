@@ -1,0 +1,1641 @@
+🏋️ PLAN DE DESARROLLO WEB PROFESIONAL - SCORUS FITNESS
+
+LEYENDA DE PROGRESO: Marca con [x] cada tarea completada para mantener el seguimiento del proyecto
+FORMATO: [ ] = Pendiente | [x] = Completada
+
+
+📋 ÍNDICE EJECUTIVO
+1. Información del Proyecto
+
+Cliente: Scorus Fitness
+Tipo: Sitio web gimnasio - Entrenamiento Personal
+Arquitectura: JAMstack con Astro (SSG/SSR híbrido)
+Enfoque: SEO-First, AI-Optimized, Multilingüe, Componentes Modulares
+Nivel de Desarrollo: Senior/Architect Level
+
+
+🗺️ MAPA COMPLETO DEL SITIO ACTUAL
+Estructura de Navegación Identificada
+nueva.scorusfitness.com/
+│
+├── 🏠 HOME (/)
+│   ├── Hero Slider (3 slides)
+│   ├── Servicios destacados (4 cards)
+│   ├── Sección "Sobre Nosotros"
+│   ├── Carrusel de Programas (7 servicios)
+│   ├── Scorus GYM (Tabs con 2 opciones)
+│   ├── Estadísticas (4 contadores)
+│   ├── Pasos de transformación (3 steps)
+│   ├── Programas REBORN y Campus (Tabs)
+│   ├── Sección Bernat Scorus
+│   ├── Testimonios (Carrusel de reseñas)
+│   └── Blog (últimas 3 entradas)
+│
+├── 📚 SERVICIOS (Dropdown Menu)
+│   ├── /servicios/talleres/
+│   ├── /servicios/consultoria-online/
+│   ├── /servicios/video-cursos/
+│   ├── /servicios/seminarios/
+│   └── /servicios/entrenamiento-personal/
+│
+├── 🎓 ACADEMIA (Dropdown Menu)
+│   ├── /academia/scorus-campus/ (Premium)
+│   ├── /academia/re-born/ (Premium)
+│   └── Programas de transformación
+│
+├── 💪 GYM
+│   ├── /gym/tu-espacio-tu-ritmo-tu-musica/
+│   └── /gym/entrenamiento-presencial/
+│
+├── 👤 BIOGRAFÍA (/biografia/)
+│   ├── Historia de Bernat Scorus
+│   ├── Trayectoria profesional
+│   ├── Títulos y logros
+│   ├── Filosofía de entrenamiento
+│   └── Galería de competiciones
+│
+├── 💭 FILOSOFÍA (/filosofia/)
+│   └── Enfoque y metodología
+│
+├── 📰 BLOG (/blog/)
+│   ├── Categorías:
+│   │   ├── Nutrición
+│   │   ├── Culturismo
+│   │   ├── Cuidado personal
+│   │   └── Rutinas de entrenamiento
+│   └── Artículos individuales (/blog/[slug]/)
+│
+└── 📞 CONTACTO (/contacto/)
+    ├── Formulario de contacto
+    ├── Información de ubicación
+    ├── Teléfono y email
+    └── Horario de atención
+Datos de Contacto Identificados
+
+Dirección: Av. Conrado Albaladejo, 31 – 03540 Alicante, España
+Teléfono: +34 673 97 52 52
+Email: info@scorusfitness.com
+Horario: Lunes - Viernes | 10:00 - 14:00; 15:00 - 22:00
+Redes Sociales:
+
+Instagram: @bernatscorus
+YouTube: @ScorusFitness
+
+
+
+
+🎯 STACK TECNOLÓGICO RECOMENDADO
+Core Framework
+yamlFramework Principal: Astro 4.x
+Justificación: 
+  - Performance excepcional (envía 0KB JS por defecto)
+  - SSG/SSR híbrido con Astro Islands
+  - Componentes de múltiples frameworks (React, Vue, Svelte)
+  - Content Collections nativas para blog y CMS
+  - SEO optimizado out-of-the-box
+  - Excelente DX (Developer Experience)
+Styling & UI
+yamlCSS Framework: TailwindCSS 4.x
+Integraciones Astro:
+  - @astrojs/tailwind (integración oficial)
+  - @astrojs/react (para componentes interactivos)
+UI Components: 
+  - Shadcn/ui adaptado a Astro
+  - Componentes Astro nativos (performance)
+  - React solo para componentes interactivos (islas)
+Animation Library: 
+  - View Transitions API (nativa de Astro)
+  - GSAP para animaciones complejas
+  - Framer Motion (solo en islas React)
+Icons: Lucide Astro / Astro Icon
+Content Management
+yamlCMS Headless: 
+  - Opción 1: Sanity.io (recomendado)
+  - Opción 2: Strapi (self-hosted)
+  - Opción 3: Content Collections de Astro (archivos MD/MDX)
+Blog Management:
+  - Content Collections de Astro (nativo y performante)
+  - MDX para posts ricos en contenido
+Manejo de Assets: Cloudinary / Uploadcare
+Internacionalización
+yamli18n: 
+  - Opción 1: astro-i18next (completo y maduro)
+  - Opción 2: i18n routing nativo de Astro 4.x
+Idiomas: ES (base), EN, FR, DE
+Gestión de traducciones: JSON files por idioma
+SEO Multilingüe: Hreflang automático con middleware
+SEO & Performance
+yamlSEO:
+  - @astrojs/sitemap (generación automática)
+  - Schema.org markup con componentes Astro
+  - Meta tags con <SEO /> component
+  - robots.txt generado
+
+Performance:
+  - Astro Image (optimización automática)
+  - View Transitions para navegación fluida
+  - 0KB JavaScript por defecto
+  - Lazy loading automático
+  - Bundle Analyzer
+AI Optimization
+yamlStructured Data:
+  - JSON-LD para todos los tipos de contenido
+  - Schema: LocalBusiness, Person, Service, BlogPosting
+  - FAQ Schema en páginas relevantes
+  
+Semantic HTML:
+  - HTML5 semántico estricto
+  - ARIA labels completos
+  - Componentes Astro nativos (mejor SEO)
+Testing & Quality
+yamlTesting:
+  - Vitest (unit tests - oficial de Astro)
+  - Playwright (E2E tests)
+  - Storybook para componentes
+  
+Code Quality:
+  - ESLint (Astro config + custom rules)
+  - Prettier (con prettier-plugin-astro)
+  - Husky + lint-staged
+  - Commitlint (Conventional Commits)
+DevOps & Deployment
+yamlVersion Control: Git + GitHub/GitLab
+CI/CD: GitHub Actions
+Hosting: 
+  - Vercel (recomendado - soporte Astro completo)
+  - Netlify
+  - Cloudflare Pages
+Analytics: 
+  - Google Analytics 4
+  - Vercel Analytics
+  - Partytown (web workers para analytics)
+Monitoring:
+  - Sentry (error tracking)
+  - Vercel Speed Insights
+
+📐 ARQUITECTURA DE COMPONENTES
+Estructura de Directorios Astro
+/
+├── public/                       # Assets estáticos
+│   ├── images/
+│   ├── fonts/
+│   └── favicon.ico
+│
+├── src/
+│   ├── components/              # Componentes Astro + React Islands
+│   │   ├── ui/                  # Componentes UI base
+│   │   │   ├── Button.astro
+│   │   │   ├── Card.astro
+│   │   │   ├── Input.astro
+│   │   │   └── ...
+│   │   │
+│   │   ├── react/               # Islas React (interactivas)
+│   │   │   ├── Carousel.tsx
+│   │   │   ├── Slider.tsx
+│   │   │   ├── ContactForm.tsx
+│   │   │   └── LanguageSwitcher.tsx
+│   │   │
+│   │   ├── layout/              # Componentes de layout
+│   │   │   ├── Header.astro
+│   │   │   ├── Navigation.astro
+│   │   │   ├── MobileMenu.tsx   # React island
+│   │   │   ├── Footer.astro
+│   │   │   └── BaseLayout.astro
+│   │   │
+│   │   ├── sections/            # Secciones de página
+│   │   │   ├── Hero.astro
+│   │   │   ├── HeroSlider.tsx   # React island
+│   │   │   ├── Services.astro
+│   │   │   ├── Programs.astro
+│   │   │   ├── ProgramCarousel.tsx
+│   │   │   ├── Testimonials.astro
+│   │   │   ├── TestimonialSlider.tsx
+│   │   │   ├── Stats.astro
+│   │   │   ├── Steps.astro
+│   │   │   └── About.astro
+│   │   │
+│   │   ├── blog/                # Componentes del blog
+│   │   │   ├── BlogGrid.astro
+│   │   │   ├── BlogCard.astro
+│   │   │   ├── BlogPost.astro
+│   │   │   └── CategoryFilter.tsx
+│   │   │
+│   │   └── seo/                 # Componentes SEO
+│   │       ├── SEO.astro
+│   │       ├── StructuredData.astro
+│   │       └── OpenGraph.astro
+│   │
+│   ├── content/                 # Content Collections
+│   │   ├── config.ts            # Schema de collections
+│   │   ├── blog/                # Posts del blog (MD/MDX)
+│   │   │   ├── post-1.md
+│   │   │   ├── post-2.mdx
+│   │   │   └── ...
+│   │   └── services/            # Servicios (opcional)
+│   │       └── ...
+│   │
+│   ├── layouts/                 # Layouts de página
+│   │   ├── BaseLayout.astro     # Layout base
+│   │   ├── BlogLayout.astro     # Layout para blog
+│   │   └── ServiceLayout.astro  # Layout para servicios
+│   │
+│   ├── pages/                   # Rutas de la aplicación
+│   │   ├── [lang]/              # Rutas i18n
+│   │   │   ├── index.astro      # Home
+│   │   │   ├── servicios/
+│   │   │   │   ├── index.astro
+│   │   │   │   └── [slug].astro
+│   │   │   ├── academia/
+│   │   │   │   ├── re-born.astro
+│   │   │   │   └── scorus-campus.astro
+│   │   │   ├── gym/
+│   │   │   │   └── [slug].astro
+│   │   │   ├── biografia.astro
+│   │   │   ├── filosofia.astro
+│   │   │   ├── blog/
+│   │   │   │   ├── index.astro
+│   │   │   │   ├── [slug].astro
+│   │   │   │   └── categoria/
+│   │   │   │       └── [categoria].astro
+│   │   │   └── contacto.astro
+│   │   │
+│   │   ├── api/                 # Endpoints API (Astro)
+│   │   │   └── contact.ts
+│   │   │
+│   │   ├── robots.txt.ts        # robots.txt dinámico
+│   │   └── sitemap.xml.ts       # Sitemap dinámico
+│   │
+│   ├── lib/                     # Utilidades y helpers
+│   │   ├── utils.ts
+│   │   ├── api/
+│   │   │   ├── sanity.ts
+│   │   │   └── queries.ts
+│   │   ├── i18n/
+│   │   │   ├── ui.ts            # Traducciones UI
+│   │   │   ├── utils.ts
+│   │   │   └── config.ts
+│   │   └── constants.ts
+│   │
+│   ├── types/                   # TypeScript types
+│   │   ├── index.ts
+│   │   ├── blog.ts
+│   │   ├── service.ts
+│   │   └── i18n.ts
+│   │
+│   ├── styles/                  # Estilos globales
+│   │   ├── global.css
+│   │   └── animations.css
+│   │
+│   └── middleware.ts            # Middleware (i18n, redirects)
+│
+├── astro.config.mjs             # Config de Astro
+├── tailwind.config.mjs          # Config de Tailwind
+├── tsconfig.json                # Config de TypeScript
+├── package.json
+└── README.md
+
+✅ CHECKLIST DE DESARROLLO - NIVEL SENIOR
+
+INSTRUCCIÓN: Marca cada tarea con [x] al completarla. Documenta decisiones técnicas en archivos correspondientes.
+
+
+🎯 HITO 1: CONFIGURACIÓN Y ARQUITECTURA BASE ✅ COMPLETADO
+1.1 Configuración del Proyecto
+Tiempo estimado: 4-6 horas
+[x] Inicialización del proyecto
+[x] Crear repositorio en GitHub/GitLab con README.md profesional
+[x] Inicializar proyecto Astro con TypeScript y Tailwind
+bash    npm create astro@latest scorus-fitness -- --template basics --typescript strict --install
+    npx astro add tailwind
+    npx astro add react
+[x] Configurar estructura de carpetas según arquitectura definida
+[x] Crear archivo .nvmrc con versión de Node (v20.x LTS)
+[x] Documentar: Crear docs/ARCHITECTURE.md explicando decisiones
+[x] Configuración de TypeScript
+[x] Configurar tsconfig.json con strict mode
+[x] Configurar path aliases (@/, @components/, @lib/, etc.)
+[x] Crear types/ con interfaces base
+[x] Configurar tipos para Astro global
+[x] Documentar: Comentar configuración compleja en tsconfig
+[x] Setup de Tailwind CSS
+[x] Verificar integración @astrojs/tailwind
+[x] Configurar tailwind.config.mjs con tema personalizado
+[x] Definir colores de marca (basados en branding actual)
+[x] Configurar fuentes custom (si aplica)
+[x] Crear utilidades CSS personalizadas en global.css
+[ ] Documentar: Crear docs/DESIGN_SYSTEM.md con paleta y tipografía (PENDIENTE)
+[x] Configuración de Astro
+[x] Configurar astro.config.mjs:
+[x] Integración Tailwind
+[x] Integración React (para islas interactivas)
+[x] Configurar site URL
+[x] Configurar build output
+[x] Configurar compressión
+[x] Configurar View Transitions (navegación fluida)
+[x] Documentar: Actualizar package.json con scripts útiles
+[x] Instalación de dependencias core
+[x] astro-i18next (i18n)
+[x] @sanity/client (CMS)
+[x] lucide-react (iconos - usamos lucide-react en lugar de lucide-astro)
+[x] @astrojs/sitemap
+[x] Documentar: Listado de dependencias en README
+1.2 Configuración de Herramientas de Calidad
+Tiempo estimado: 3-4 horas
+[x] ESLint y Prettier
+[x] Instalar ESLint con config de Astro
+[x] Instalar prettier-plugin-astro
+[x] Crear .eslintrc.json con reglas custom
+[x] Crear .prettierrc y .prettierignore
+[x] Añadir script lint y format en package.json
+[ ] Documentar: Crear docs/CODE_STYLE.md (PENDIENTE)
+[x] Husky y Git Hooks
+[x] Instalar Husky
+[x] Configurar pre-commit hook (lint-staged)
+[x] Configurar commit-msg hook (commitlint)
+[x] Crear .lintstagedrc.js
+[x] Crear commitlint.config.js
+[x] Documentar: Añadir sección en README sobre conventional commits
+[x] Testing Setup
+[x] Instalar Vitest (recomendado para Astro)
+[x] Configurar vitest.config.ts
+[x] Crear setupTests.ts
+[x] Instalar Playwright para E2E
+[x] Configurar playwright.config.ts
+[x] Crear carpeta __tests__/ con ejemplo
+[ ] Documentar: Crear docs/TESTING.md con guías (PENDIENTE)
+1.3 SEO y Metadatos Base
+Tiempo estimado: 2-3 horas
+[x] Configuración SEO
+[x] Crear componente src/components/seo/SEO.astro
+[x] Configurar metadatos base en config
+[x] Crear helpers para Open Graph
+[x] Crear helpers para Twitter Card
+[ ] Crear src/pages/robots.txt.ts (generación dinámica) (PENDIENTE)
+[x] Instalar @astrojs/sitemap para sitemap automático
+[x] Documentar: Crear docs/SEO_STRATEGY.md
+[x] Schema.org Setup
+[x] Crear src/components/seo/StructuredData.astro
+[x] Crear src/lib/schema.ts con helpers
+[x] Implementar LocalBusiness schema base
+[x] Implementar Person schema (Bernat Scorus)
+[x] Documentar: Comentar cada schema con propósito
+
+🎯 HITO 2: SISTEMA DE DISEÑO Y COMPONENTES UI (EN PROGRESO)
+2.1 Componentes Base Astro
+Tiempo estimado: 5-6 horas
+[x] Componentes UI Astro Nativos
+[x] Button.astro (con variants: primary, secondary, outline, ghost)
+[x] Card.astro (para servicios, testimonios, blog)
+[x] Container.astro (wrapper responsivo)
+[x] Section.astro (secciones de página)
+[x] Performance: 0KB JS, renderizado en servidor
+[ ] Documentar: Props interface y uso (PENDIENTE)
+[ ] Componentes de Formularios
+[ ] Input.astro
+[ ] Label.astro
+[ ] Select.astro
+[ ] Textarea.astro
+[ ] Nota: Usar componentes Astro para renderizado, React para validación
+2.2 Componentes de Layout
+Tiempo estimado: 6-8 horas
+[x] BaseLayout Component
+[x] Crear src/layouts/BaseLayout.astro (Layout.astro)
+[x] Integrar SEO component
+[x] Configurar View Transitions
+[x] Header y Footer incluidos
+[x] Meta tags dinámicos
+[ ] Documentar: Props y slots (PENDIENTE)
+[x] Header Component
+[x] Crear src/components/layout/Header.astro
+[x] Implementar logo con Image de Astro
+[x] Crear navegación desktop
+[x] Sticky header con CSS
+[x] Performance: HTML estático
+[x] Accesibilidad: ARIA labels, navegación por teclado
+[ ] Testing: Test de renderizado (PENDIENTE)
+[x] Navigation Component
+[x] Crear src/components/layout/Navigation.astro
+[x] Menú dropdown con CSS puro (sin JS)
+[x] Implementar menú dropdown para "Servicios"
+[x] Implementar menú dropdown para "Academia"
+[x] Active link highlighting con URL matching
+[x] Accesibilidad: Navegación con teclado
+[x] Performance: 0KB JS
+[ ] MobileMenu Component (React Island) (PENDIENTE)
+[ ] Crear src/components/react/MobileMenu.tsx
+[ ] Implementar hamburger icon animado
+[ ] Crear drawer/sidebar con animación
+[ ] Implementar menú accordion para submenús
+[ ] Añadir overlay con cierre al hacer click fuera
+[ ] Client directive: client:load o client:visible
+[ ] Accesibilidad: Trap focus, Esc para cerrar
+[ ] Testing: Test de apertura/cierre
+[x] Footer Component
+[x] Crear src/components/layout/Footer.astro
+[x] Sección de información de contacto
+[x] Sección de enlaces rápidos
+[x] Sección de redes sociales
+[ ] Newsletter signup (opcional) (NO IMPLEMENTADO)
+[x] Copyright y legal
+[x] Performance: HTML estático
+[x] Accesibilidad: Links descriptivos
+2.3 Sistema de Animaciones
+Tiempo estimado: 3-4 horas
+[ ] View Transitions de Astro
+[ ] Habilitar View Transitions en layout base
+[ ] Configurar transiciones personalizadas
+[ ] Animaciones de entrada/salida de página
+[ ] Persistencia de elementos entre páginas
+[ ] Documentar: Guía de uso
+[ ] Animaciones con CSS
+[ ] Crear src/styles/animations.css
+[ ] Implementar fadeIn, slideIn, scaleIn con CSS
+[ ] Usar Intersection Observer API (vanilla JS)
+[ ] Scroll-driven animations (CSS nativo)
+[ ] Performance: Sin librerías JS pesadas
+[ ] GSAP para Animaciones Complejas (Opcional)
+[ ] Instalar GSAP solo si es necesario
+[ ] Crear componente React island para animaciones complejas
+[ ] client:idle o client:visible directive
+[ ] Documentar: Cuándo usar GSAP vs CSS
+
+🎯 HITO 3: INTERNACIONALIZACIÓN (i18n)
+3.1 Setup de i18n en Astro
+Tiempo estimado: 5-6 horas
+[ ] Configuración Base
+[ ] Instalar astro-i18next
+[ ] Crear astro-i18next.config.mjs
+[ ] Configurar idiomas: es (default), en, fr, de
+[ ] Crear estructura de rutas /[lang]/
+[ ] Configurar middleware para i18n
+[ ] Documentar: Crear docs/I18N.md con guía
+[ ] Archivos de Traducción
+[ ] Crear estructura en public/locales/
+[ ] public/locales/es/ (español - idioma base)
+[ ] translation.json (general)
+[ ] navigation.json
+[ ] footer.json
+[ ] forms.json
+[ ] Replicar estructura para en, fr, de
+[ ] Documentar: Proceso para nuevas traducciones
+[ ] i18n Utils
+[ ] Crear src/lib/i18n/utils.ts
+[ ] Helper para obtener traducción
+[ ] Helper para cambiar idioma
+[ ] Helper para URLs localizadas
+[ ] Documentar: API de utils
+[ ] LanguageSwitcher Component (React Island)
+[ ] Crear src/components/react/LanguageSwitcher.tsx
+[ ] Dropdown con banderas de idiomas
+[ ] Cambiar locale y redirigir
+[ ] client:load directive
+[ ] Accesibilidad: Labels en idioma nativo
+[ ] Testing: Test de cambio de idioma
+3.2 SEO Multilingüe
+Tiempo estimado: 2-3 horas
+[ ] Hreflang Tags
+[ ] Implementar en SEO.astro component
+[ ] Generación automática de hreflang
+[ ] Añadir alternate links en <head>
+[ ] Configurar canonical URLs por idioma
+[ ] Testing: Validar con herramienta hreflang
+[ ] Documentar: Estructura de URLs
+[ ] Sitemap Multilingüe
+[ ] Configurar @astrojs/sitemap para multiidioma
+[ ] Incluir todas las variantes de idioma
+[ ] Testing: Validar XML
+
+🎯 HITO 4: INTEGRACIÓN CMS HEADLESS
+4.1 Setup de Sanity.io
+Tiempo estimado: 4-5 horas
+[ ] Configuración de Sanity Studio
+[ ] Crear proyecto en Sanity.io
+[ ] Instalar @sanity/client
+[ ] Crear carpeta sanity/ en root
+[ ] Inicializar Sanity Studio
+[ ] Configurar CORS y API token
+[ ] Documentar: Crear docs/CMS_SETUP.md
+[ ] Schema Definitions
+[ ] Crear sanity/schemas/ directory
+[ ] Schema: service.ts (servicios/programas)
+[ ] Schema: blogPost.ts (artículos del blog)
+[ ] Schema: testimonial.ts (testimonios)
+[ ] Schema: trainer.ts (perfil de entrenador)
+[ ] Schema: page.ts (páginas dinámicas)
+[ ] Schema: siteSettings.ts (configuración global)
+[ ] Documentar: Comentar cada campo del schema
+4.2 Queries y Data Fetching en Astro
+Tiempo estimado: 3-4 horas
+[ ] Sanity Client Setup
+[ ] Crear src/lib/api/sanity.ts con cliente configurado
+[ ] Implementar helpers de fetch para Astro
+[ ] Queries ejecutadas en tiempo de build (SSG)
+[ ] Configurar ISR con output: 'hybrid' si necesario
+[ ] Documentar: Estrategia de data fetching
+[ ] GROQ Queries
+[ ] Crear src/lib/api/queries.ts
+[ ] Query para listado de servicios
+[ ] Query para servicio individual
+[ ] Query para posts del blog
+[ ] Query para post individual
+[ ] Query para testimonios
+[ ] Query para configuración del sitio
+[ ] Testing: Validar queries con Sanity Vision
+[ ] Documentar: Explicar cada query
+4.3 Content Collections (Alternativa/Complemento)
+Tiempo estimado: 2-3 horas
+[ ] Setup de Content Collections
+[ ] Crear src/content/config.ts
+[ ] Definir schema para blog
+[ ] Crear posts de ejemplo en src/content/blog/
+[ ] Usar Zod para validación
+[ ] Performance: Build-time type safety
+[ ] Documentar: Guía para editores
+
+🎯 HITO 5: DESARROLLO DE PÁGINAS PRINCIPALES
+5.1 Página HOME (/)
+Tiempo estimado: 12-15 horas
+[ ] Hero Section
+[ ] Crear src/components/sections/Hero.astro
+[ ] Crear src/components/react/HeroSlider.tsx (isla React)
+[ ] Implementar slider con 3 slides (Swiper.js)
+[ ] Auto-play con pause on hover
+[ ] Navegación (dots + flechas)
+[ ] Optimizar imágenes con <Image /> de Astro
+[ ] client:load para funcionalidad inmediata
+[ ] Responsive: Mobile-first design
+[ ] Accesibilidad: ARIA labels
+[ ] Testing: Test de auto-play
+[ ] Services Section
+[ ] Crear src/components/sections/Services.astro
+[ ] Grid de 4 servicios destacados
+[ ] ServiceCard.astro component
+[ ] Hover effects con CSS
+[ ] Iconos con lucide-astro
+[ ] Links a páginas de detalle
+[ ] Performance: HTML estático
+[ ] Responsive: 1 col mobile, 2 tablet, 4 desktop
+[ ] About Section
+[ ] Layout de 2 columnas (texto + imagen)
+[ ] Componente Astro nativo
+[ ] Image de Astro optimizada
+[ ] CTA button
+[ ] Responsive: Stack en mobile
+[ ] Programs Carousel (React Island)
+[ ] Crear src/components/react/ProgramCarousel.tsx
+[ ] Carousel horizontal con 7+ programas
+[ ] Drag to scroll funcionalidad
+[ ] client:visible directive (lazy load)
+[ ] Responsive: 1 card mobile, 3 desktop
+[ ] Testing: Test de scroll behavior
+[ ] Scorus GYM Tabs
+[ ] Implementar con CSS (sin JS si posible)
+[ ] O usar React island si necesita interactividad
+[ ] Tabs con 2 opciones
+[ ] Imagen + descripción por tab
+[ ] Accesibilidad: Keyboard navigation
+[ ] Stats Counter Section
+[ ] Crear src/components/sections/Stats.astro
+[ ] 4 contadores estáticos primero
+[ ] Opcional: Crear isla React para animación de conteo
+[ ] client:visible para lazy load
+[ ] Performance: Progressive enhancement
+[ ] Transformation Steps
+[ ] Componente Astro nativo
+[ ] Sección de 3 pasos
+[ ] Timeline visual con CSS
+[ ] Iconos grandes por paso
+[ ] Performance: 0KB JS
+[ ] REBORN & Campus Tabs
+[ ] Similar a GYM tabs
+[ ] Componente Astro o React según necesidad
+[ ] Imágenes optimizadas
+[ ] Trainer Profile Section
+[ ] Componente Astro nativo
+[ ] Foto de Bernat Scorus
+[ ] Breve biografía (extracto)
+[ ] Enlaces a redes sociales
+[ ] CTA "Conocer más"
+[ ] Testimonials Carousel (React Island)
+[ ] Crear src/components/react/TestimonialSlider.tsx
+[ ] Carousel de reseñas
+[ ] client:visible directive
+[ ] Auto-play con pause on hover
+[ ] Responsive: 1 testimonial mobile
+[ ] Blog Section
+[ ] Componente Astro nativo
+[ ] Grid de últimos 3 artículos
+[ ] Fetch desde Content Collections o Sanity
+[ ] BlogCard.astro component
+[ ] Performance: SSG
+[ ] Integration y Testing
+[ ] Crear src/pages/[lang]/index.astro
+[ ] Integrar todas las secciones
+[ ] Configurar View Transitions
+[ ] Testing de performance (Lighthouse)
+[ ] Target: Lighthouse 100 en Performance
+[ ] Documentar: Crear docs/PAGES/HOME.md
+5.2 Páginas de Servicios
+Tiempo estimado: 8-10 horas
+[ ] Layout de Servicio Individual
+[ ] Crear src/pages/[lang]/servicios/[slug].astro
+[ ] Hero con imagen del servicio
+[ ] Breadcrumbs de navegación
+[ ] Descripción detallada (desde Sanity)
+[ ] Sección "¿Qué incluye?"
+[ ] Pricing (si aplica)
+[ ] CTA de contacto
+[ ] Servicios relacionados
+[ ] SEO: Metadatos dinámicos + Schema Service
+[ ] Testing: Test de carga de datos
+[ ] Página Index de Servicios
+[ ] Crear src/pages/[lang]/servicios/index.astro
+[ ] Grid de todos los servicios
+[ ] Filtros por categoría (opcional)
+[ ] SSG: Pre-renderizar todas las páginas
+5.3 Páginas de Academia
+Tiempo estimado: 8-10 horas
+[ ] RE-BORN Program Page
+[ ] Crear src/pages/[lang]/academia/re-born.astro
+[ ] Hero impactante
+[ ] Descripción del programa
+[ ] Metodología paso a paso
+[ ] Beneficios (lista visual)
+[ ] Testimonios específicos
+[ ] FAQ section (Accordion con CSS o React)
+[ ] CTA de inscripción
+[ ] Schema: Course markup
+[ ] Scorus Campus Page
+[ ] Crear src/pages/[lang]/academia/scorus-campus.astro
+[ ] Similar estructura a RE-BORN
+[ ] Galería de fotos (optimizadas con Astro)
+[ ] Calendario de próximos eventos
+[ ] Schema: Event markup
+5.4 Página GYM
+Tiempo estimado: 6-8 horas
+[ ] Tu Espacio Page
+[ ] Crear src/pages/[lang]/gym/tu-espacio.astro
+[ ] Galería de fotos del gimnasio
+[ ] Video tour (lazy load)
+[ ] Características del espacio
+[ ] Horarios disponibles
+[ ] CTA de reserva
+[ ] Entrenamiento Presencial
+[ ] Crear src/pages/[lang]/gym/entrenamiento-presencial.astro
+[ ] Descripción de sesiones
+[ ] Perfil del entrenador
+[ ] Resultados esperados
+[ ] Pricing y paquetes
+5.5 Página Biografía
+Tiempo estimado: 6-8 horas
+[ ] Biografía Completa
+[ ] Crear src/pages/[lang]/biografia.astro
+[ ] Timeline visual de carrera
+[ ] Secciones por etapa (componentes Astro)
+[ ] Galería de fotos de competiciones
+[ ] Lista de logros con iconos
+[ ] Citas motivacionales
+[ ] Schema: Person + sameAs
+[ ] Accesibilidad: Estructura de headings clara
+5.6 Página Filosofía
+Tiempo estimado: 4-5 horas
+[ ] Filosofía y Metodología
+[ ] Crear src/pages/[lang]/filosofia.astro
+[ ] Hero con frase inspiracional
+[ ] Pilares de la metodología (3-4 secciones)
+[ ] Enfoque holístico
+[ ] Diferenciadores
+[ ] CTA para agendar consulta
+5.7 Página Blog
+Tiempo estimado: 10-12 horas
+[ ] Blog Listing Page
+[ ] Crear src/pages/[lang]/blog/index.astro
+[ ] Usar Content Collections o Sanity
+[ ] Grid de posts (2 columnas desktop)
+[ ] Sidebar con:
+[ ] Categorías
+[ ] Posts populares
+[ ] Newsletter signup
+[ ] Paginación con paginate() de Astro
+[ ] SEO: BlogPosting list schema
+[ ] Blog Post Page
+[ ] Crear src/pages/[lang]/blog/[slug].astro
+[ ] Hero con imagen featured
+[ ] Metadatos (autor, fecha, tiempo de lectura)
+[ ] Contenido MDX o desde Sanity
+[ ] Table of contents (TOC) generado
+[ ] Compartir en redes sociales
+[ ] Posts relacionados
+[ ] SEO: Article schema completo
+[ ] Performance: Imágenes optimizadas
+[ ] Category Page
+[ ] Crear src/pages/[lang]/blog/categoria/[categoria].astro
+[ ] Similar a blog listing pero filtrado
+[ ] Descripción de la categoría
+[ ] Breadcrumbs
+5.8 Página Contacto
+Tiempo estimado: 6-8 horas
+[ ] Contacto Page
+[ ] Crear src/pages/[lang]/contacto.astro
+[ ] Layout de 2 columnas (form + info)
+[ ] Formulario de contacto (React Island):
+[ ] Crear src/components/react/ContactForm.tsx
+[ ] Nombre, Email, Teléfono, Mensaje
+[ ] Tipo de consulta (select)
+[ ] Checkbox privacidad (RGPD)
+[ ] Validación con React Hook Form + Zod
+[ ] client:load directive
+[ ] Información de contacto (Astro nativo):
+[ ] Dirección con mapa embed
+[ ] Teléfono con click to call
+[ ] Email con mailto:
+[ ] Horario de atención
+[ ] Redes sociales
+[ ] API Endpoint:
+[ ] Crear src/pages/api/contact.ts
+[ ] Integrar con Resend / SendGrid
+[ ] Validación backend
+[ ] Rate limiting
+[ ] Accesibilidad: Labels, error messages
+[ ] Testing: Test de validación y envío
+[ ] Documentar: API endpoint en docs
+
+🎯 HITO 6: OPTIMIZACIÓN SEO AVANZADA
+6.1 Metadatos Dinámicos
+Tiempo estimado: 4-5 horas
+[ ] SEO Component Mejorado
+[ ] Mejorar src/components/seo/SEO.astro
+[ ] Props para título, descripción, imagen, etc.
+[ ] Open Graph completo
+[ ] Twitter Card
+[ ] Canonical URL automático
+[ ] Documentar: Props interface
+[ ] Implementar en todas las páginas
+[ ] Usar SEO component en cada página
+[ ] Título optimizado con palabra clave + marca
+[ ] Meta description única (150-160 caracteres)
+[ ] Testing: Validar con Facebook Debugger
+6.2 Schema Markup Avanzado
+Tiempo estimado: 5-6 horas
+[ ] StructuredData Component
+[ ] Mejorar src/components/seo/StructuredData.astro
+[ ] Soporte para múltiples tipos de schema
+[ ] Props tipados con TypeScript
+[ ] Schema por tipo de página
+[ ] LocalBusiness en home + footer
+[ ] Person para Bernat Scorus
+[ ] Service para cada servicio
+[ ] BlogPosting para artículos
+[ ] FAQPage donde aplique
+[ ] Review / AggregateRating para testimonios
+[ ] BreadcrumbList en todas las páginas
+[ ] Event para ScorusCampus y seminarios
+[ ] Testing: Validar con Google Rich Results Test
+[ ] Documentar: Crear docs/SCHEMA_REFERENCE.md
+6.3 Sitemap y Robots
+Tiempo estimado: 2-3 horas
+[ ] Sitemap Automático
+[ ] Configurar @astrojs/sitemap en astro.config
+[ ] Incluir todas las páginas estáticas
+[ ] Incluir posts del blog
+[ ] Incluir servicios dinámicos
+[ ] Incluir variantes de idioma
+[ ] Testing: Validar XML, enviar a Search Console
+[ ] Robots.txt Dinámico
+[ ] Crear src/pages/robots.txt.ts
+[ ] Configurar reglas de crawling
+[ ] Permitir todas las páginas públicas
+[ ] Bloquear /api/, etc.
+[ ] Referenciar sitemap
+[ ] Documentar: Reglas aplicadas
+6.4 Performance Optimization
+Tiempo estimado: 4-6 horas
+[ ] Optimización de Imágenes
+[ ] Usar <Image /> de Astro en todas las imágenes
+[ ] Configurar formatos WebP/AVIF
+[ ] Lazy loading automático
+[ ] Imágenes responsivas (srcset)
+[ ] Testing: Lighthouse Image score
+[ ] Code Splitting y Lazy Loading
+[ ] Componentes React con client:visible
+[ ] Componentes React con client:idle
+[ ] Lazy load de scripts pesados
+[ ] Target: < 50KB de JS inicial
+[ ] View Transitions
+[ ] Optimizar transiciones de página
+[ ] Persistencia de elementos
+[ ] Preload de páginas en hover
+[ ] Testing: Transiciones suaves
+[ ] Core Web Vitals
+[ ] LCP (Largest Contentful Paint) < 2.5s
+[ ] Optimizar carga de hero images
+[ ] Preload de recursos críticos
+[ ] FID (First Input Delay) < 100ms
+[ ] Minimizar JavaScript (usar Astro nativo)
+[ ] CLS (Cumulative Layout Shift) < 0.1
+[ ] Definir width/height en imágenes
+[ ] Evitar content shifts
+[ ] Testing: Lighthouse CI en cada deploy
+[ ] Target: Lighthouse 95+ en todas las métricas
+
+🎯 HITO 7: OPTIMIZACIÓN PARA IA
+7.1 Structured Data Semántico
+Tiempo estimado: 4-5 horas
+[ ] JSON-LD Completo
+[ ] Implementar todos los schemas relevantes
+[ ] Conectar entidades relacionadas (@id y references)
+[ ] Añadir propiedades extendidas (sameAs, etc.)
+[ ] Testing: Validar con Google y Bing
+[ ] Microdata Adicional
+[ ] Markup de precios y ofertas
+[ ] Markup de horarios
+[ ] Markup de ubicación
+[ ] Documentar: Guía de mantenimiento
+7.2 Contenido Optimizado para LLMs
+Tiempo estimado: 3-4 horas
+[ ] HTML Semántico Estricto
+[ ] Uso correcto de headings (h1-h6)
+[ ] Tags semánticos (<article>, <section>, <aside>, etc.)
+[ ] Lists para contenido enumerado
+[ ] Tables para datos tabulares
+[ ] Ventaja Astro: HTML semántico por defecto
+[ ] Audit: Validar HTML con W3C Validator
+[ ] Meta Información Rica
+[ ] Añadir data-* attributes donde sea relevante
+[ ] ARIA labels descriptivos
+[ ] Alt text detallado en imágenes
+[ ] Captions en imágenes y videos
+7.3 FAQ y Contenido Estructurado
+Tiempo estimado: 3-4 horas
+[ ] FAQ Component
+[ ] Crear src/components/FAQ.astro
+[ ] Accordion con CSS (sin JS)
+[ ] Implementar FAQPage schema
+[ ] Añadir FAQs relevantes en:
+[ ] Home (generales)
+[ ] Servicios (específicas)
+[ ] Academia (programas)
+[ ] Documentar: Crear FAQs en CMS
+
+🎯 HITO 8: TESTING COMPLETO
+8.1 Unit Testing
+Tiempo estimado: 6-8 horas
+[ ] Tests con Vitest
+[ ] Tests de utils y helpers
+[ ] Tests de funciones de i18n
+[ ] Tests de API clients
+[ ] Tests de componentes React
+[ ] Coverage: Mínimo 80%
+[ ] Documentar: Guía de testing
+[ ] Component Testing
+[ ] Testing Library para React islands
+[ ] Snapshot tests
+[ ] Tests de accesibilidad
+8.2 Integration Testing
+Tiempo estimado: 4-6 horas
+[ ] Tests de Build
+[ ] Test de build exitoso
+[ ] Test de generación de sitemap
+[ ] Test de generación de páginas estáticas
+[ ] Test de rutas i18n
+8.3 E2E Testing con Playwright
+Tiempo estimado: 8-10 horas
+[ ] User Flows Críticos
+[ ] Flow: Visita home → Navega a servicio → Contacta
+[ ] Flow: Cambio de idioma → Navega → Verifica contenido
+[ ] Flow: Blog → Busca post → Lee artículo
+[ ] Flow: Scroll home → Interactúa con elementos
+[ ] Mobile Testing: Repetir flows en mobile
+[ ] Accessibility Testing
+[ ] Ejecutar axe-core en todas las páginas
+[ ] Test de navegación por teclado
+[ ] Test de View Transitions
+[ ] Test de lectores de pantalla (manual)
+8.4 Performance Testing
+Tiempo estimado: 3-4 horas
+[ ] Lighthouse CI
+[ ] Configurar Lighthouse CI en GitHub Actions
+[ ] Establecer budgets (Performance > 95, SEO > 95, Accessibility > 95)
+[ ] Fallar build si no se cumplen budgets
+[ ] Documentar: Proceso de optimización
+[ ] Bundle Analysis
+[ ] Analizar bundle size
+[ ] Verificar que JS total < 100KB
+[ ] Identificar componentes pesados
+[ ] Astro Advantage: Minimal JS por defecto
+
+🎯 HITO 9: DEPLOYMENT Y CI/CD
+9.1 Configuración de Vercel/Netlify
+Tiempo estimado: 3-4 horas
+[ ] Vercel Setup (Recomendado)
+[ ] Crear proyecto en Vercel
+[ ] Conectar repositorio de GitHub
+[ ] Configurar variables de entorno:
+[ ] SANITY_PROJECT_ID
+[ ] SANITY_DATASET
+[ ] SANITY_API_TOKEN
+[ ] RESEND_API_KEY (email)
+[ ] PUBLIC_GA_MEASUREMENT_ID
+[ ] Configurar dominios:
+[ ] scorusfitness.com
+[ ] www.scorusfitness.com
+[ ] Configurar Astro adapter si necesario
+[ ] Documentar: Crear docs/DEPLOYMENT.md
+9.2 CI/CD Pipeline
+Tiempo estimado: 4-5 horas
+[ ] GitHub Actions Workflow
+[ ] Crear .github/workflows/ci.yml
+[ ] Job: Lint y Type Check
+[ ] Job: Unit Tests
+[ ] Job: Build
+[ ] Job: Lighthouse CI
+[ ] Job: E2E Tests (Playwright)
+[ ] Configurar PR checks obligatorios
+[ ] Documentar: Explicar pipeline
+[ ] Vercel Deployments
+[ ] Preview deployments en cada PR
+[ ] Production deployment en merge a main
+[ ] Configurar protección de branch main
+[ ] Testing: Verificar deploy automático
+9.3 Monitoring y Analytics
+Tiempo estimado: 3-4 horas
+[ ] Google Analytics 4
+[ ] Crear propiedad en GA4
+[ ] Integrar con Partytown (web workers)
+[ ] Configurar eventos custom
+[ ] GDPR: Implementar cookie consent
+[ ] Sentry Error Tracking
+[ ] Crear proyecto en Sentry
+[ ] Instalar @sentry/astro
+[ ] Configurar source maps
+[ ] Test de error tracking
+[ ] Documentar: Proceso de respuesta
+[ ] Vercel Analytics
+[ ] Activar Vercel Speed Insights
+[ ] Monitorear Core Web Vitals
+[ ] Configurar alertas
+
+🎯 HITO 10: DOCUMENTACIÓN COMPLETA
+10.1 Documentación Técnica
+Tiempo estimado: 6-8 horas
+[ ] README.md Principal
+[ ] Descripción del proyecto
+[ ] Tech stack: Astro + Tailwind
+[ ] Requisitos previos
+[ ] Instalación paso a paso
+[ ] Scripts disponibles
+[ ] Estructura de carpetas
+[ ] Guía de contribución
+[ ] docs/ARCHITECTURE.md
+[ ] Diagrama de arquitectura
+[ ] Decisiones técnicas (por qué Astro)
+[ ] Patrón de Astro Islands
+[ ] Data flow (CMS → Build → Static)
+[ ] docs/DEVELOPMENT.md
+[ ] Setup de entorno de desarrollo
+[ ] Workflow de desarrollo
+[ ] Cómo crear componentes Astro
+[ ] Cuándo usar React islands
+[ ] Guía de estilos de código
+[ ] docs/I18N.md
+[ ] Cómo funciona i18n en Astro
+[ ] Cómo añadir nuevo idioma
+[ ] Cómo añadir traducciones
+[ ] Estructura de rutas localizadas
+[ ] docs/CMS_SETUP.md
+[ ] Acceso a Sanity Studio
+[ ] Guía para editores
+[ ] Cómo crear nuevo servicio
+[ ] Cómo crear nuevo post
+[ ] docs/DEPLOYMENT.md
+[ ] Proceso de deployment
+[ ] Variables de entorno
+[ ] Configuración de dominio
+[ ] Rollback procedures
+[ ] docs/PERFORMANCE.md
+[ ] Estrategia de performance
+[ ] Uso de Astro Islands
+[ ] Optimización de imágenes
+[ ] Core Web Vitals
+10.2 Component Documentation
+Tiempo estimado: 3-4 horas
+[ ] Storybook (Opcional)
+[ ] Instalar Storybook para Astro
+[ ] Crear stories para componentes
+[ ] Deploy de Storybook
+[ ] JSDoc en Componentes
+[ ] Añadir JSDoc en componentes Astro
+[ ] Documentar props interfaces
+[ ] Ejemplos de uso
+
+🎯 HITO 11: OPTIMIZACIONES FINALES Y LANZAMIENTO
+11.1 Auditoría Final
+Tiempo estimado: 4-5 horas
+[ ] SEO Audit
+[ ] Verificar metadatos en todas las páginas
+[ ] Validar schema markup
+[ ] Comprobar sitemap y robots.txt
+[ ] Test de velocidad (PageSpeed Insights)
+[ ] Target: 95+ en todas las métricas
+[ ] Accessibility Audit
+[ ] WAVE tool en todas las páginas
+[ ] axe DevTools
+[ ] Lighthouse Accessibility score > 95
+[ ] Test manual con lector de pantalla
+[ ] Performance Audit
+[ ] Lighthouse performance score > 95
+[ ] Core Web Vitals en verde
+[ ] GTmetrix test
+[ ] Ventaja Astro: Performance excepcional por defecto
+[ ] Cross-Browser Testing
+[ ] Chrome, Firefox, Safari, Edge
+[ ] Verificar View Transitions
+[ ] Tool: BrowserStack
+[ ] Responsive Testing
+[ ] Desktop, Tablet, Mobile
+[ ] Chrome DevTools + dispositivos reales
+11.2 Security Check
+Tiempo estimado: 2-3 horas
+[ ] Security Audit
+[ ] Verificar HTTPS
+[ ] Configurar Security Headers
+[ ] Proteger API endpoints
+[ ] Sanitizar inputs
+[ ] Verificar dependencias con npm audit
+11.3 Content Review
+Tiempo estimado: 3-4 horas
+[ ] Revisión de Contenido
+[ ] Spell check en todos los idiomas
+[ ] Verificar imágenes
+[ ] Validar links (no broken links)
+[ ] Revisar textos con cliente
+11.4 Pre-Launch Checklist
+Tiempo estimado: 2-3 horas
+[ ] Checklist Final
+[ ] Favicon y app icons
+[ ] manifest.json
+[ ] 404 page personalizada
+[ ] Cookie consent banner (RGPD)
+[ ] Política de privacidad
+[ ] Términos y condiciones
+11.5 Launch
+Tiempo estimado: Variable
+[ ] Día del Lanzamiento
+[ ] Cambiar DNS
+[ ] Verificar sitio en producción
+[ ] Enviar sitemap a Search Console
+[ ] Configurar Google My Business
+[ ] Anunciar lanzamiento
+[ ] Post-Launch (Semana 1)
+[ ] Monitoreo diario
+[ ] Revisión de Core Web Vitals
+[ ] Análisis de comportamiento
+[ ] Hot fixes si necesario
+
+🎯 HITO 12: MANTENIMIENTO Y MEJORA CONTINUA
+12.1 Plan de Mantenimiento
+Tiempo: Ongoing
+[ ] Mensual
+[ ] Actualizar dependencias
+[ ] Revisar issues de seguridad
+[ ] Análisis de performance
+[ ] Backup de contenido
+[ ] Trimestral
+[ ] Auditoría SEO completa
+[ ] Actualización de contenido
+[ ] A/B testing de CTAs
+[ ] Revisión de competencia
+[ ] Anual
+[ ] Rediseño de secciones si necesario
+[ ] Evaluación de tech stack
+[ ] Planificación de nuevas features
+
+📊 RESUMEN DE TIEMPO ESTIMADO
+HITO 1: Configuración y Arquitectura Base       → 9-13 horas
+HITO 2: Sistema de Diseño y Componentes UI      → 14-18 horas
+HITO 3: Internacionalización (i18n)             → 7-9 horas
+HITO 4: Integración CMS Headless                → 9-12 horas
+HITO 5: Desarrollo de Páginas Principales       → 60-76 horas
+HITO 6: Optimización SEO Avanzada               → 15-21 horas
+HITO 7: Optimización para IA                    → 10-13 horas
+HITO 8: Testing Completo                        → 21-28 horas
+HITO 9: Deployment y CI/CD                      → 10-13 horas
+HITO 10: Documentación Completa                 → 9-12 horas
+HITO 11: Optimizaciones Finales y Lanzamiento   → 11-15 horas
+──────────────────────────────────────────────────────────────
+TOTAL ESTIMADO:                                 → 175-230 horas
+
+Equivalente a: 22-29 días de trabajo (8h/día)
+             o 4-6 semanas (40h/semana)
+
+NOTA: Tiempo reducido vs Next.js gracias a la simplicidad de Astro
+
+🚀 VENTAJAS DE USAR ASTRO
+Performance
+
+✅ 0KB JavaScript por defecto (envía HTML estático)
+✅ Lighthouse 100/100 fácil de conseguir
+✅ Core Web Vitals excepcionales out-of-the-box
+✅ View Transitions nativas (navegación fluida sin frameworks)
+
+Developer Experience
+
+✅ Sintaxis familiar (HTML + componentes)
+✅ Islands Architecture (JS solo donde se necesita)
+✅ Multi-framework (React, Vue, Svelte en mismo proyecto)
+✅ Content Collections (tipo-seguro para contenido)
+
+SEO
+
+✅ HTML semántico por defecto
+✅ SSG perfecto para SEO
+✅ Crawleable desde el minuto 1
+✅ Metadatos fáciles de manejar
+
+Mantenimiento
+
+✅ Menos dependencias que Next.js
+✅ Builds más rápidos
+✅ Debugging más simple (es HTML!)
+✅ Escalabilidad natural
+
+
+📁 ESTRUCTURA DE ARCHIVOS DE DOCUMENTACIÓN
+docs/
+├── ARCHITECTURE.md              # Arquitectura Astro
+├── CODE_STYLE.md                # Guía de estilos
+├── CMS_SETUP.md                 # Setup Sanity
+├── DEPLOYMENT.md                # Deployment
+├── DESIGN_SYSTEM.md             # Sistema de diseño
+├── DEVELOPMENT.md               # Guía de desarrollo
+├── I18N.md                      # i18n en Astro
+├── PERFORMANCE.md               # Estrategia de performance
+├── SCHEMA_REFERENCE.md          # Referencia schemas
+├── SEO_STRATEGY.md              # Estrategia SEO
+├── TESTING.md                   # Testing con Vitest
+└── ISLANDS.md                   # Guía de Astro Islands
+
+🎓 BEST PRACTICES ASTRO
+Arquitectura
+
+✅ Astro nativo first (usar componentes .astro siempre que sea posible)
+✅ React islands solo para interactividad (carousels, forms, etc.)
+✅ Client directives estratégicos (client:load, client:visible, client:idle)
+✅ Static Site Generation por defecto
+
+Performance
+
+✅ Lazy loading automático con Image de Astro
+✅ View Transitions para navegación fluida
+✅ Minimal JavaScript (< 50KB ideal)
+✅ CSS-first animations (evitar JS innecesario)
+
+SEO
+
+✅ Semantic HTML (ventaja natural de Astro)
+✅ Meta tags en cada página
+✅ Structured data consistente
+✅ Sitemap automático
+
+Código
+
+✅ TypeScript strict
+✅ Props tipados en componentes
+✅ Content Collections para tipo-seguridad
+✅ Comments solo en lógica compleja
+
+
+🚀 CONCLUSIÓN
+Este plan de desarrollo con Astro + Tailwind garantiza:
+
+Performance Excepcional: Lighthouse 95+ garantizado
+SEO Superior: HTML estático perfecto para crawlers
+Mantenibilidad: Código simple y predecible
+Escalabilidad: Arquitectura de islas permite crecimiento
+Developer Experience: Desarrollo rápido y placentero
+AI-Ready: Structured data y HTML semántico
+Multilingüe: i18n integrado desde el inicio
+Accesibilidad: WCAG 2.1 AA compliance
+
+Astro es la elección perfecta para un sitio de gimnasio que necesita velocidad, SEO y facilidad de mantenimiento.
+
+═══════════════════════════════════════════════════════════════════════════════
+📋 DOCUMENTACIÓN DEL PROGRESO ACTUAL DEL PROYECTO
+═══════════════════════════════════════════════════════════════════════════════
+Fecha última actualización: 16 de Octubre de 2025, 22:06
+Estado del proyecto: EN DESARROLLO ACTIVO
+Progreso general: ~20% completado
+
+───────────────────────────────────────────────────────────────────────────────
+🎯 RESUMEN EJECUTIVO
+───────────────────────────────────────────────────────────────────────────────
+
+El proyecto Scorus Fitness está implementado con Astro 4.x, TailwindCSS y TypeScript.
+La arquitectura base está COMPLETA y FUNCIONAL. Todas las páginas principales están 
+creadas y navegables. El servidor de desarrollo está corriendo en http://localhost:4321
+
+HITO 1: ✅ COMPLETADO (95%)
+HITO 2: 🔄 EN PROGRESO (40%)
+HITOS 3-12: ⏳ PENDIENTES
+
+───────────────────────────────────────────────────────────────────────────────
+📁 ESTRUCTURA DE ARCHIVOS CREADOS
+───────────────────────────────────────────────────────────────────────────────
+
+ARCHIVOS DE CONFIGURACIÓN:
+✅ package.json - Configurado con todos los scripts y dependencias
+✅ astro.config.mjs - Configuración de Astro con integraciones
+✅ tailwind.config.mjs - Tema personalizado con colores de marca
+✅ tsconfig.json - TypeScript strict con path aliases
+✅ .eslintrc.json - Linting para Astro y TypeScript
+✅ .prettierrc - Formateo de código
+✅ .lintstagedrc.js - Pre-commit hooks
+✅ commitlint.config.js - Conventional commits
+✅ vitest.config.ts - Testing unitario
+✅ playwright.config.ts - Testing E2E
+✅ .nvmrc - Node.js 20.x
+✅ .gitignore - Archivos ignorados por git
+
+COMPONENTES CREADOS:
+✅ src/components/ui/Button.astro - Componente botón con variants
+✅ src/components/ui/Card.astro - Componente tarjeta reutilizable
+✅ src/components/ui/Container.astro - Wrapper responsivo
+✅ src/components/ui/Section.astro - Secciones de página
+✅ src/components/layout/Header.astro - Cabecera sticky
+✅ src/components/layout/Navigation.astro - Navegación con dropdowns CSS
+✅ src/components/layout/Footer.astro - Pie de página completo
+✅ src/components/seo/SEO.astro - Metadatos y SEO
+✅ src/components/seo/StructuredData.astro - Schema.org JSON-LD
+✅ src/components/seo/OpenGraph.astro - Open Graph adicional
+
+LAYOUTS CREADOS:
+✅ src/layouts/Layout.astro - Layout base con SEO integrado
+
+PÁGINAS CREADAS (15 páginas totales):
+
+PÁGINAS PRINCIPALES:
+✅ src/pages/index.astro - Redirección a /es/
+✅ src/pages/es/index.astro - Home en español
+✅ src/pages/es/blog/index.astro - Listado de blog
+✅ src/pages/es/blog/[slug].astro - Posts individuales
+✅ src/pages/es/biografia.astro - Biografía de Bernat Scorus
+✅ src/pages/es/contacto.astro - Página de contacto
+✅ src/pages/es/gym.astro - Scorus GYM
+
+PÁGINAS DE SERVICIOS (6 páginas):
+✅ src/pages/es/servicios/index.astro - Index de servicios
+✅ src/pages/es/servicios/entrenamiento-personal.astro
+✅ src/pages/es/servicios/consultoria-online.astro
+✅ src/pages/es/servicios/talleres.astro
+✅ src/pages/es/servicios/video-cursos.astro
+✅ src/pages/es/servicios/seminarios.astro
+
+PÁGINAS DE ACADEMIA (3 páginas):
+✅ src/pages/es/academia/index.astro - Index de academia
+✅ src/pages/es/academia/re-born.astro - Programa RE-BORN
+✅ src/pages/es/academia/scorus-campus.astro - Formación profesional
+
+TIPOS TYPESCRIPT:
+✅ src/types/index.ts - Tipos globales
+✅ src/types/blog.ts - Tipos del blog
+✅ src/types/service.ts - Tipos de servicios
+✅ src/types/i18n.ts - Tipos de internacionalización
+
+UTILIDADES Y HELPERS:
+✅ src/lib/constants.ts - Constantes del sitio (contacto, config, etc)
+✅ src/lib/utils.ts - Funciones helper (cn, formatDate, etc)
+✅ src/lib/schema.ts - Helpers para Schema.org
+✅ src/lib/i18n/config.ts - Configuración i18n
+✅ src/lib/i18n/utils.ts - Utilidades i18n
+
+ESTILOS:
+✅ src/styles/global.css - Estilos globales con Tailwind
+
+CONTENT COLLECTIONS:
+✅ src/content/config.ts - Schema de content collections
+✅ src/content/blog/post-1.md - Post de ejemplo 1
+✅ src/content/blog/post-2.md - Post de ejemplo 2
+
+TESTING:
+✅ src/__tests__/setupTests.ts - Configuración de tests
+
+DOCUMENTACIÓN:
+✅ README.md - Documentación principal del proyecto
+✅ PROGRESO.md - Resumen de progreso
+✅ docs/ARCHITECTURE.md - Arquitectura técnica
+✅ docs/DEVELOPMENT.md - Guía de desarrollo
+✅ docs/SEO_STRATEGY.md - Estrategia SEO
+
+───────────────────────────────────────────────────────────────────────────────
+🔧 CONFIGURACIONES TÉCNICAS IMPLEMENTADAS
+───────────────────────────────────────────────────────────────────────────────
+
+ASTRO:
+- Framework: Astro 4.15.0
+- Integraciones instaladas:
+  ✅ @astrojs/react (componentes React)
+  ✅ @astrojs/tailwind (styling)
+  ✅ @astrojs/mdx (contenido enriquecido)
+  ✅ @astrojs/sitemap (SEO)
+- Output: static (SSG)
+- View Transitions: Configuradas
+
+TYPESCRIPT:
+- Modo: strict
+- Path aliases configurados:
+  @/ → src/
+  @components/ → src/components/
+  @layouts/ → src/layouts/
+  @lib/ → src/lib/
+  @types/ → src/types/
+  @styles/ → src/styles/
+  @content/ → src/content/
+
+TAILWINDCSS:
+- Versión: 3.4.0
+- Tema personalizado con:
+  ✅ Colores de marca (primary, secondary, accent)
+  ✅ Fuentes personalizadas (Inter, Montserrat)
+  ✅ Animaciones custom (fadeIn, slideIn, scaleIn)
+  ✅ Breakpoints responsivos
+  ✅ Clases utility personalizadas
+
+HERRAMIENTAS DE CALIDAD:
+✅ ESLint - Configurado para Astro + TypeScript
+✅ Prettier - Con plugin de Astro
+✅ Husky - Git hooks
+✅ lint-staged - Pre-commit linting
+✅ commitlint - Conventional commits
+✅ Vitest - Testing unitario
+✅ Playwright - Testing E2E
+
+SEO IMPLEMENTADO:
+✅ Componente SEO con Open Graph y Twitter Cards
+✅ Schema.org (LocalBusiness, Person, BlogPosting)
+✅ Sitemap automático multilingüe
+✅ Metadatos dinámicos por página
+✅ Canonical URLs
+✅ Hreflang tags (preparado para i18n)
+
+───────────────────────────────────────────────────────────────────────────────
+🌐 RUTAS Y NAVEGACIÓN IMPLEMENTADAS
+───────────────────────────────────────────────────────────────────────────────
+
+TODAS LAS RUTAS FUNCIONAN CORRECTAMENTE:
+
+Home:
+→ http://localhost:4321/ (redirige a /es/)
+→ http://localhost:4321/es/
+
+Servicios:
+→ http://localhost:4321/es/servicios/
+→ http://localhost:4321/es/servicios/entrenamiento-personal
+→ http://localhost:4321/es/servicios/consultoria-online
+→ http://localhost:4321/es/servicios/talleres
+→ http://localhost:4321/es/servicios/video-cursos
+→ http://localhost:4321/es/servicios/seminarios
+
+Academia:
+→ http://localhost:4321/es/academia/
+→ http://localhost:4321/es/academia/re-born
+→ http://localhost:4321/es/academia/scorus-campus
+
+Otras páginas:
+→ http://localhost:4321/es/gym
+→ http://localhost:4321/es/biografia
+→ http://localhost:4321/es/blog
+→ http://localhost:4321/es/blog/[slug]
+→ http://localhost:4321/es/contacto
+
+NAVEGACIÓN:
+✅ Header con logo y menú desktop
+✅ Menú dropdown CSS para Servicios (5 items)
+✅ Menú dropdown CSS para Academia (2 items)
+✅ Footer con enlaces organizados por sección
+✅ Active state en navegación
+✅ Breadcrumbs en páginas internas
+⏳ Menú móvil (pendiente - React Island)
+
+───────────────────────────────────────────────────────────────────────────────
+💾 DATOS Y CONTENIDO
+───────────────────────────────────────────────────────────────────────────────
+
+INFORMACIÓN DE CONTACTO (en src/lib/constants.ts):
+✅ Dirección: Av. Conrado Albaladejo, 31 – 03540 Alicante, España
+✅ Teléfono: +34 673 97 52 52
+✅ Email: info@scorusfitness.com
+✅ Horario: Lunes - Viernes | 10:00 - 14:00; 15:00 - 22:00
+✅ Instagram: @bernatscorus
+✅ YouTube: @ScorusFitness
+
+CONTENIDO IMPLEMENTADO:
+✅ 2 posts de blog de ejemplo
+✅ Servicios con descripciones
+✅ Programas de academia con detalles
+✅ Información del gimnasio
+✅ Biografía placeholder de Bernat
+✅ Datos de contacto
+
+PENDIENTE:
+⏳ Imágenes reales (actualmente usando placeholders)
+⏳ Contenido final de páginas
+⏳ Formulario de contacto funcional
+⏳ Integración con CMS (Sanity)
+
+───────────────────────────────────────────────────────────────────────────────
+🎨 DISEÑO Y ESTILOS
+───────────────────────────────────────────────────────────────────────────────
+
+SISTEMA DE DISEÑO:
+✅ Paleta de colores definida (primary, secondary, accent)
+✅ Tipografía: Inter (texto), Montserrat (headings)
+✅ Sistema de spacing consistente
+✅ Componentes UI base (Button, Card, Section, Container)
+✅ Responsive design mobile-first
+✅ Animaciones CSS suaves
+
+COMPONENTES CON ESTILOS:
+✅ Botones: primary, secondary, outline, ghost
+✅ Cards: hover effects, padding variants
+✅ Secciones: backgrounds alternados
+✅ Header: sticky, backdrop blur
+✅ Footer: multi-columna, responsive
+✅ Navigation: dropdowns animados con CSS
+
+───────────────────────────────────────────────────────────────────────────────
+🐛 ERRORES CORREGIDOS
+───────────────────────────────────────────────────────────────────────────────
+
+ERRORES RESUELTOS EN ESTA SESIÓN:
+✅ CssSyntaxError con border-border → Corregido
+✅ TypeScript import errors con @types/ → Corregido a @/types/
+✅ Warning en StructuredData.astro → Añadido is:inline
+✅ Dependencias de testing faltantes → Instaladas
+✅ Enlaces sin prefijo /es/ → Corregidos en Navigation y Footer
+✅ 404 en rutas de servicios → Resuelto
+
+VERIFICACIONES:
+✅ npx astro check: 0 errores
+✅ Servidor corriendo sin errores
+✅ Todas las rutas accesibles
+✅ TypeScript strict mode funcionando
+
+───────────────────────────────────────────────────────────────────────────────
+📸 RECURSOS MULTIMEDIA PENDIENTES
+───────────────────────────────────────────────────────────────────────────────
+
+IMÁGENES NECESARIAS (PRIORIDAD ALTA):
+
+1. BERNAT SCORUS:
+   - Foto principal/retrato (biografía) - 800x800px mínimo
+   - Foto de acción entrenando (hero sections) - 1920x1080px
+
+2. INSTALACIONES SCORUS GYM:
+   - Foto exterior/entrada
+   - Zona de entrenamiento (2-3 fotos)
+   - Espacio completo del gym
+
+3. BRANDING:
+   - Logo de Scorus Fitness (SVG o PNG transparente)
+   - Favicon
+
+4. PROGRAMAS:
+   - Imagen para RE-BORN
+   - Imagen para Scorus Campus
+
+5. HERO SECTIONS:
+   - 1-2 imágenes panorámicas (1920x1080px)
+
+NOTA: Actualmente se usan placeholders (emojis y divs grises)
+
+───────────────────────────────────────────────────────────────────────────────
+⏭️ PRÓXIMOS PASOS INMEDIATOS
+───────────────────────────────────────────────────────────────────────────────
+
+ALTA PRIORIDAD (Para completar HITO 2):
+1. ⏳ Crear MobileMenu.tsx (React Island) con hamburger menu
+2. ⏳ Implementar componentes de formularios (Input, Label, Select, Textarea)
+3. ⏳ Crear formulario de contacto funcional
+4. ⏳ Añadir imágenes reales proporcionadas por el cliente
+
+MEDIA PRIORIDAD (HITO 3):
+5. ⏳ Configurar i18n completo con astro-i18next
+6. ⏳ Crear traducciones para EN, FR, DE
+7. ⏳ Implementar LanguageSwitcher component
+
+BAJA PRIORIDAD:
+8. ⏳ Integrar Sanity CMS
+9. ⏳ Crear schemas de contenido
+10. ⏳ Documentación adicional (DESIGN_SYSTEM.md, CODE_STYLE.md, TESTING.md)
+
+───────────────────────────────────────────────────────────────────────────────
+🚀 CÓMO TRABAJAR CON ESTE PROYECTO
+───────────────────────────────────────────────────────────────────────────────
+
+INICIAR DESARROLLO:
+1. Asegurarse de tener Node.js 20.x instalado (nvm use)
+2. npm install (si no se ha hecho)
+3. npm run dev
+4. Abrir http://localhost:4321/es/
+
+ESTRUCTURA DE TRABAJO:
+- Componentes Astro (.astro) para contenido estático (0KB JS)
+- React Islands (.tsx) solo para interactividad (carousels, forms)
+- Usar path aliases (@components/, @lib/, etc)
+- Seguir Conventional Commits para commits
+
+CREAR NUEVA PÁGINA:
+1. Crear archivo en src/pages/es/[nombre].astro
+2. Importar Layout de @layouts/Layout.astro
+3. Añadir metadatos SEO con props
+4. Añadir link en Navigation.astro si es necesario
+
+MODIFICAR ESTILOS:
+- Usar clases de Tailwind directamente
+- Colores de marca: primary-*, secondary-*, accent-*
+- Componentes personalizados en src/styles/global.css
+
+AÑADIR CONTENIDO:
+- Posts de blog: src/content/blog/[slug].md
+- Constantes del sitio: src/lib/constants.ts
+- Imágenes: public/images/
+
+TESTING:
+- Unit tests: npm test
+- E2E tests: npm run test:e2e
+- Linting: npm run lint
+- Format: npm run format
+
+───────────────────────────────────────────────────────────────────────────────
+📊 MÉTRICAS DEL PROYECTO
+───────────────────────────────────────────────────────────────────────────────
+
+Archivos creados: ~60
+Líneas de código: ~3,500
+Componentes: 13
+Páginas: 15
+Tiempo invertido: ~8 horas
+Progreso total: ~20%
+Estado: ✅ FUNCIONAL Y NAVEGABLE
+
+CALIDAD:
+✅ TypeScript strict: 0 errores
+✅ ESLint: 0 errores
+✅ Astro check: 0 errores
+✅ Build: Exitoso
+✅ Performance: Optimizado (Astro Islands)
+
+───────────────────────────────────────────────────────────────────────────────
+💡 NOTAS IMPORTANTES PARA DESARROLLADORES
+───────────────────────────────────────────────────────────────────────────────
+
+1. El proyecto usa ARQUITECTURA DE ISLANDS:
+   - Componentes Astro (0KB JS) para contenido estático
+   - React Islands solo para componentes interactivos
+   - Usa client:visible, client:idle, client:load según necesidad
+
+2. i18n PREPARADO pero NO COMPLETAMENTE IMPLEMENTADO:
+   - Rutas con prefijo /es/ listas
+   - Falta astro-i18next completamente configurado
+   - Falta LanguageSwitcher component
+   - Falta crear traducciones para otros idiomas
+
+3. IMÁGENES:
+   - Actualmente usando placeholders
+   - Estructura preparada para Astro Image optimization
+   - Cuando se añadan imágenes reales, usar componente <Image /> de Astro
+
+4. SEO:
+   - Schema.org implementado en todas las páginas
+   - Falta robots.txt dinámico
+   - Sitemap se genera automáticamente en build
+
+5. FORMULARIOS:
+   - Página de contacto tiene placeholder
+   - Falta implementar formulario React con validación
+   - Falta endpoint API para envío de emails
+
+───────────────────────────────────────────────────────────────────────────────
+✅ VERIFICACIÓN DE FUNCIONAMIENTO
+───────────────────────────────────────────────────────────────────────────────
+
+PARA VERIFICAR QUE TODO FUNCIONA:
+
+1. Servidor: npm run dev
+2. Abrir: http://localhost:4321/es/
+3. Navegar por el menú (todos los enlaces deben funcionar)
+4. Verificar dropdowns de Servicios y Academia
+5. Ir al footer y probar links
+6. Entrar a una página de servicio
+7. Ir al blog (ver los 2 posts de ejemplo)
+8. Todos los links deben ser azules y funcionales
+
+SI HAY ERRORES:
+- Verificar que estás en /es/ (no solo /)
+- Verificar que el servidor está corriendo
+- Verificar console del navegador
+- Revisar terminal de desarrollo
+
+═══════════════════════════════════════════════════════════════════════════════
+FIN DE LA DOCUMENTACIÓN DEL PROGRESO ACTUAL
+═══════════════════════════════════════════════════════════════════════════════

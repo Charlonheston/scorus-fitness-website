@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "Scorus GYM | Entrenamiento en Alicante",
+    "description": "Gimnasio boutique en Alicante especializado en culturismo y entrenamiento personal"
+  },
+  "hero": {
+    "title": "Scorus GYM",
+    "subtitle": "Tu espacio. Tu ritmo. Tu música.",
+    "cta": "Reservar Sesión"
+  },
+  "about": {
+    "title": "Un Gimnasio Diferente",
+    "description_1": "Scorus GYM no es un gimnasio convencional. Es un espacio diseñado para personas que buscan resultados reales con atención personalizada.",
+    "description_2": "Instalaciones boutique con equipamiento de última generación, ambiente motivador y la experiencia de más de 15 años en el sector."
+  },
+  "gallery": {
+    "title": "Nuestras Instalaciones"
+  },
+  "modalities": {
+    "title": "Modalidades de Entrenamiento",
+    "private": {
+      "title": "Tu Espacio, Tu Ritmo, Tu Música",
+      "description": "Sesiones privadas en el gimnasio completo solo para ti. Elige tu música, tu horario y entrena sin distracciones.",
+      "feature_1": "Sesiones 100% privadas",
+      "feature_2": "Horarios flexibles",
+      "feature_3": "Tu playlist preferida"
+    },
+    "personal": {
+      "title": "Entrenamiento Presencial",
+      "description": "Sesiones personalizadas one-to-one con seguimiento completo de tu progreso.",
+      "feature_1": "Atención personalizada",
+      "feature_2": "Corrección de técnica",
+      "feature_3": "Motivación constante"
+    }
+  },
+  "features": {
+    "equipment": {
+      "title": "Equipamiento Premium",
+      "description": "Máquinas y pesas de última generación"
+    },
+    "environment": {
+      "title": "Ambiente Profesional",
+      "description": "Diseñado para resultados serios"
+    },
+    "attention": {
+      "title": "Atención Exclusiva",
+      "description": "Grupos reducidos y sesiones privadas"
+    }
+  },
+  "cta": {
+    "title": "¿Listo Para Entrenar?",
+    "description": "Agenda tu primera sesión y descubre la diferencia de entrenar en un gimnasio boutique",
+    "button": "Agendar Primera Sesión"
+  }
+}
+

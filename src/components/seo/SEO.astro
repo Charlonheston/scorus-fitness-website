@@ -1,0 +1,80 @@
+---
+/**
+ * Componente SEO para metadatos de página
+ * Incluye Open Graph, Twitter Cards y metadatos básicos
+ */
+
+import { SITE_CONFIG, DEFAULT_SEO } from '@lib/constants';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
+  ogType?: 'website' | 'article' | 'profile';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
+}
+
+const {
+  title = DEFAULT_SEO.title,
+  description = DEFAULT_SEO.description,
+  image = SITE_CONFIG.ogImage,
+  canonical,
+  noindex = false,
+  nofollow = false,
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
+  author,
+} = Astro.props;
+
+const canonicalURL = canonical ? new URL(canonical, SITE_CONFIG.url) : new URL(Astro.url.pathname, SITE_CONFIG.url);
+const imageURL = new URL(image, SITE_CONFIG.url);
+
+// Construir robots meta
+const robotsContent = [];
+if (noindex) robotsContent.push('noindex');
+if (nofollow) robotsContent.push('nofollow');
+const robotsMeta = robotsContent.length > 0 ? robotsContent.join(', ') : 'index, follow';
+---
+
+<!-- SEO Básico -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+<meta name="robots" content={robotsMeta} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageURL} />
+<meta property="og:site_name" content={SITE_CONFIG.name} />
+<meta property="og:locale" content="es_ES" />
+
+{ogType === 'article' && publishedTime && (
+  <meta property="article:published_time" content={publishedTime.toISOString()} />
+)}
+{ogType === 'article' && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime.toISOString()} />
+)}
+{ogType === 'article' && author && (
+  <meta property="article:author" content={author} />
+)}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
+
+<!-- Adicionales -->
+<meta name="author" content={author || 'Scorus Fitness'} />
+<meta name="generator" content={Astro.generator} />
+

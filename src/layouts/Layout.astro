@@ -1,0 +1,78 @@
+---
+/**
+ * Layout base para todas las páginas
+ * Incluye SEO, Analytics, Header y Footer
+ */
+
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import SEO from '@components/seo/SEO.astro';
+import StructuredData from '@components/seo/StructuredData.astro';
+import { getLocalBusinessSchema, getPersonSchema } from '@lib/schema';
+import '@styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  noindex?: boolean;
+  ogType?: 'website' | 'article' | 'profile';
+  schema?: Record<string, any> | Record<string, any>[];
+}
+
+const {
+  title,
+  description,
+  image,
+  canonical,
+  noindex = false,
+  ogType = 'website',
+  schema,
+} = Astro.props;
+
+// Schema.org por defecto (LocalBusiness + Person)
+const defaultSchemas = [getLocalBusinessSchema(), getPersonSchema()];
+const finalSchemas = schema ? (Array.isArray(schema) ? [...defaultSchemas, ...schema] : [...defaultSchemas, schema]) : defaultSchemas;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <!-- Meta básicos -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- SEO Component -->
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      canonical={canonical}
+      noindex={noindex}
+      ogType={ogType}
+    />
+    
+    <!-- Structured Data -->
+    <StructuredData schema={finalSchemas} />
+    
+    <!-- Preconnect a dominios externos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- View Transitions (navegación fluida) -->
+    <meta name="view-transition" content="same-origin" />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <Header />
+    
+    <!-- Main sin padding - El header está superpuesto sobre el contenido -->
+    <main class="flex-1">
+      <slot />
+    </main>
+    
+    <Footer />
+  </body>
+</html>
+

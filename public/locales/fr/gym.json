@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "Scorus GYM | Entraînement à Alicante",
+    "description": "Salle de sport boutique à Alicante spécialisée en culturisme et coaching personnel"
+  },
+  "hero": {
+    "title": "Scorus GYM",
+    "subtitle": "Votre espace. Votre rythme. Votre musique.",
+    "cta": "Réserver une Séance"
+  },
+  "about": {
+    "title": "Une Salle de Sport Différente",
+    "description_1": "Scorus GYM n'est pas une salle de sport conventionnelle. C'est un espace conçu pour les personnes qui recherchent de vrais résultats avec une attention personnalisée.",
+    "description_2": "Installations boutique avec équipement de pointe, environnement motivant et plus de 15 ans d'expérience dans le secteur."
+  },
+  "gallery": {
+    "title": "Nos Installations"
+  },
+  "modalities": {
+    "title": "Modalités d'Entraînement",
+    "private": {
+      "title": "Votre Espace, Votre Rythme, Votre Musique",
+      "description": "Séances privées dans la salle complète juste pour vous. Choisissez votre musique, votre horaire et entraînez-vous sans distractions.",
+      "feature_1": "Séances 100% privées",
+      "feature_2": "Horaires flexibles",
+      "feature_3": "Votre playlist préférée"
+    },
+    "personal": {
+      "title": "Entraînement en Personne",
+      "description": "Séances personnalisées en tête-à-tête avec suivi complet de vos progrès.",
+      "feature_1": "Attention personnalisée",
+      "feature_2": "Correction de technique",
+      "feature_3": "Motivation constante"
+    }
+  },
+  "features": {
+    "equipment": {
+      "title": "Équipement Premium",
+      "description": "Machines et poids de pointe"
+    },
+    "environment": {
+      "title": "Environnement Professionnel",
+      "description": "Conçu pour des résultats sérieux"
+    },
+    "attention": {
+      "title": "Attention Exclusive",
+      "description": "Petits groupes et séances privées"
+    }
+  },
+  "cta": {
+    "title": "Prêt À S'Entraîner?",
+    "description": "Planifiez votre première séance et découvrez la différence de s'entraîner dans une salle boutique",
+    "button": "Planifier Première Séance"
+  }
+}
+

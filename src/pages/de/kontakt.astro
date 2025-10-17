@@ -1,0 +1,125 @@
+---
+/**
+ * Kontakt Seite - Deutsch
+ */
+
+import Layout from '@/layouts/Layout.astro';
+import { CONTACT_INFO } from '@lib/constants';
+---
+
+<Layout
+  title="Kontakt | Scorus Fitness"
+  description="Kontaktiere uns. Wir sind in Alicante"
+>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h1 class="mb-6 text-6xl font-bold md:text-7xl">Kontakt</h1>
+        <p class="text-xl text-gray-300">Beginne deine Transformation heute</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Info Section -->
+  <section class="bg-white py-32">
+    <div class="container">
+      <div class="mx-auto max-w-5xl">
+        <div class="grid gap-12 md:grid-cols-2">
+          <!-- Contact Information -->
+          <div>
+            <h2 class="mb-8 text-4xl font-bold text-gray-900">Kontaktinformationen</h2>
+            <div class="space-y-6">
+              <div>
+                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">Adresse</h3>
+                <p class="text-lg text-gray-900">{CONTACT_INFO.address}</p>
+              </div>
+              <div>
+                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">Telefon</h3>
+                <a href={`tel:${CONTACT_INFO.phone}`} class="text-lg text-gray-900 hover:text-gray-600">
+                  {CONTACT_INFO.phone}
+                </a>
+              </div>
+              <div>
+                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">Email</h3>
+                <a href={`mailto:${CONTACT_INFO.email}`} class="text-lg text-gray-900 hover:text-gray-600">
+                  {CONTACT_INFO.email}
+                </a>
+              </div>
+              <div>
+                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">Zeitplan</h3>
+                <p class="text-lg text-gray-900">Montag bis Freitag: 6:00 - 22:00</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form Placeholder -->
+          <div class="bg-gray-50 p-8">
+            <h2 class="mb-6 text-2xl font-bold text-gray-900">Sende uns eine Nachricht</h2>
+            <form class="space-y-6">
+              <div>
+                <label for="name" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
+                  placeholder="Dein vollständiger Name"
+                />
+              </div>
+              <div>
+                <label for="email" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
+                  placeholder="deine@email.com"
+                />
+              </div>
+              <div>
+                <label for="message" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">
+                  Nachricht
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
+                  placeholder="Sag uns, was du brauchst..."
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="w-full border-2 border-black bg-black px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-white hover:text-black"
+              >
+                Nachricht Senden
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-4xl font-bold">Lieber Anrufen?</h2>
+        <p class="mb-8 text-lg text-gray-300">Wir sind Montag bis Freitag verfügbar</p>
+        <a
+          href={`tel:${CONTACT_INFO.phone}`}
+          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+        >
+          Jetzt Anrufen
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+

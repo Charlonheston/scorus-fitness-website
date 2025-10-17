@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "Scorus GYM | Training in Alicante",
+    "description": "Boutique gym in Alicante specialized in bodybuilding and personal training"
+  },
+  "hero": {
+    "title": "Scorus GYM",
+    "subtitle": "Your space. Your pace. Your music.",
+    "cta": "Book Session"
+  },
+  "about": {
+    "title": "A Different Gym",
+    "description_1": "Scorus GYM is not a conventional gym. It's a space designed for people seeking real results with personalized attention.",
+    "description_2": "Boutique facilities with state-of-the-art equipment, motivating environment and over 15 years of experience in the sector."
+  },
+  "gallery": {
+    "title": "Our Facilities"
+  },
+  "modalities": {
+    "title": "Training Modalities",
+    "private": {
+      "title": "Your Space, Your Pace, Your Music",
+      "description": "Private sessions in the complete gym just for you. Choose your music, your schedule and train without distractions.",
+      "feature_1": "100% private sessions",
+      "feature_2": "Flexible schedules",
+      "feature_3": "Your favorite playlist"
+    },
+    "personal": {
+      "title": "In-Person Training",
+      "description": "One-to-one personalized sessions with complete tracking of your progress.",
+      "feature_1": "Personalized attention",
+      "feature_2": "Technique correction",
+      "feature_3": "Constant motivation"
+    }
+  },
+  "features": {
+    "equipment": {
+      "title": "Premium Equipment",
+      "description": "State-of-the-art machines and weights"
+    },
+    "environment": {
+      "title": "Professional Environment",
+      "description": "Designed for serious results"
+    },
+    "attention": {
+      "title": "Exclusive Attention",
+      "description": "Small groups and private sessions"
+    }
+  },
+  "cta": {
+    "title": "Ready To Train?",
+    "description": "Schedule your first session and discover the difference of training in a boutique gym",
+    "button": "Schedule First Session"
+  }
+}
+

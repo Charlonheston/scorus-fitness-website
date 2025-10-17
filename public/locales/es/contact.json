@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "Contacto | Scorus Fitness",
+    "description": "Ponte en contacto con nosotros. Estamos en Alicante"
+  },
+  "hero": {
+    "title": "Contacto",
+    "subtitle": "Comienza tu transformación hoy"
+  },
+  "info": {
+    "title": "Información de Contacto",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "email": "Email",
+    "schedule": "Horario",
+    "schedule_value": "Lunes a Viernes: 6:00 - 22:00"
+  },
+  "form": {
+    "title": "Envíanos un Mensaje",
+    "name": "Nombre",
+    "name_placeholder": "Tu nombre completo",
+    "email": "Email",
+    "email_placeholder": "tu@email.com",
+    "phone": "Teléfono",
+    "phone_placeholder": "+34 XXX XXX XXX",
+    "service": "Servicio",
+    "service_placeholder": "Selecciona un servicio",
+    "service_personal": "Entrenamiento Personal",
+    "service_online": "Consultoría Online",
+    "service_gym": "Scorus GYM",
+    "service_campus": "Scorus Campus",
+    "service_reborn": "RE-BORN",
+    "service_other": "Otro",
+    "message": "Mensaje",
+    "message_placeholder": "Cuéntanos qué necesitas...",
+    "submit": "Enviar Mensaje",
+    "sending": "Enviando...",
+    "success": "¡Mensaje enviado! Te contactaremos pronto.",
+    "error": "Error al enviar. Por favor, inténtalo de nuevo."
+  },
+  "cta": {
+    "title": "¿Prefieres Llamar?",
+    "description": "Estamos disponibles de lunes a viernes",
+    "button": "Llamar Ahora"
+  }
+}
+

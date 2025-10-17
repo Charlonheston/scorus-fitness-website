@@ -1,0 +1,98 @@
+---
+/**
+ * Services Overview - English
+ */
+
+import Layout from '@/layouts/Layout.astro';
+
+const services = [
+  {
+    title: 'Workshops',
+    description: 'Intensive practical training on specific topics. Learn advanced techniques in reduced groups.',
+    icon: '🎯',
+    href: '/en/services/workshops',
+  },
+  {
+    title: 'Online Consulting',
+    description: 'Personalized monitoring from anywhere in the world. Custom training and nutrition plans.',
+    icon: '💻',
+    href: '/en/services/online-consulting',
+  },
+  {
+    title: 'Video Courses',
+    description: 'Structured training programs you can follow at your own pace. Quality content always available.',
+    icon: '🎥',
+    href: '/en/services/video-courses',
+  },
+  {
+    title: 'Seminars',
+    description: 'In-depth theoretical training on bodybuilding, nutrition and sports supplementation.',
+    icon: '📚',
+    href: '/en/services/seminars',
+  },
+  {
+    title: 'Personal Training',
+    description: 'One-to-one sessions with complete personalized tracking. Maximum attention and guaranteed results.',
+    icon: '🏋️',
+    href: '/en/services/personal-training',
+  },
+];
+---
+
+<Layout
+  title="Services | Scorus Fitness"
+  description="Discover all our services: personal training, online consulting, workshops, seminars and video courses"
+>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h1 class="mb-8 text-6xl font-bold leading-tight md:text-7xl">Our Services</h1>
+        <p class="text-xl text-gray-300">
+          From in-person training to online programs. Find the option that best suits your goals and lifestyle.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Grid -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="grid gap-px bg-gray-200 md:grid-cols-2">
+        {services.map((service) => (
+          <a
+            href={service.href}
+            class="group bg-white p-12 transition-all hover:bg-black hover:text-white md:p-16"
+          >
+            <div class="mb-6 text-5xl">{service.icon}</div>
+            <h2 class="mb-4 text-3xl font-bold">{service.title}</h2>
+            <p class="mb-6 text-lg leading-relaxed opacity-80">{service.description}</p>
+            <span class="inline-flex items-center text-sm font-semibold uppercase tracking-wider">
+              Learn More
+              <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold">Not Sure Which Service To Choose?</h2>
+        <p class="mb-12 text-xl text-gray-300">Contact us and we'll help you find the best option for you</p>
+        <a
+          href="/en/contact"
+          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+        >
+          Contact Us
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+

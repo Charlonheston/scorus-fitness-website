@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "title": "Akademie | Scorus Fitness",
+    "description": "Scorus Campus und RE-BORN - Professionelle Trainingsprogramme"
+  },
+  "hero": {
+    "title": "Akademie",
+    "subtitle": "Professionelle Ausbildung auf höchstem Niveau"
+  },
+  "scorus_campus": {
+    "title": "Scorus Campus",
+    "subtitle": "Fitness-Universität",
+    "description": "Vollständiges Ausbildungsprogramm für Fitness-Profis. International anerkannte Zertifizierungen.",
+    "features": {
+      "1": "Offizielle Zertifizierung",
+      "2": "Praktika inklusive",
+      "3": "Lehrmaterial",
+      "4": "Jobbörse"
+    }
+  },
+  "re_born": {
+    "title": "RE-BORN",
+    "subtitle": "Totales Transformationsprogramm",
+    "description": "12 Wochen komplette Transformation: Körper, Geist und Gewohnheiten. Eine echte Wiedergeburt.",
+    "features": {
+      "1": "12 intensive Wochen",
+      "2": "Tägliches Tracking",
+      "3": "Exklusive Gruppe",
+      "4": "Ergebnisgarantie"
+    }
+  },
+  "cta": {
+    "title": "Tritt der Akademie bei",
+    "description": "Investiere in deine berufliche Ausbildung",
+    "button": "Informationen Anfordern"
+  }
+}
+

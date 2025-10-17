@@ -1,0 +1,25 @@
+---
+/**
+ * Componente para metadatos Open Graph adicionales
+ * Complementa el componente SEO principal
+ */
+
+export interface Props {
+  locale?: string;
+  alternateLocales?: string[];
+  type?: string;
+}
+
+const {
+  locale = 'es_ES',
+  alternateLocales = [],
+  type = 'website',
+} = Astro.props;
+---
+
+<meta property="og:locale" content={locale} />
+{alternateLocales.map((altLocale) => (
+  <meta property="og:locale:alternate" content={altLocale} />
+))}
+<meta property="og:type" content={type} />
+

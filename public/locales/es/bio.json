@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Biografía | Bernat Scorus",
+    "description": "Conoce la historia y experiencia de Bernat, entrenador personal con más de 15 años de trayectoria"
+  },
+  "hero": {
+    "title": "Bernat Scorus",
+    "subtitle": "Entrenador Personal · Culturista · Formador"
+  },
+  "intro": {
+    "title": "Más de 15 Años Transformando Vidas",
+    "description": "Mi misión es simple: ayudarte a alcanzar tu mejor versión física y mental a través del entrenamiento inteligente y la nutrición basada en ciencia."
+  },
+  "experience": {
+    "title": "Experiencia y Formación",
+    "item_1": "Certificación Internacional en Entrenamiento Personal",
+    "item_2": "Especialista en Culturismo y Preparación de Competición",
+    "item_3": "Nutricionista Deportivo Certificado",
+    "item_4": "+15 años de experiencia en el sector fitness",
+    "item_5": "Cientos de transformaciones exitosas"
+  },
+  "philosophy": {
+    "title": "Mi Filosofía",
+    "quote": "No vendo promesas. Ofrezco conocimiento, experiencia y resultados reales.",
+    "description": "Cada persona es única, y así debe ser su entrenamiento. No existen fórmulas mágicas, solo trabajo constante, disciplina y metodología científica."
+  },
+  "achievements": {
+    "title": "Logros Destacados",
+    "item_1": "Fundador de Scorus Fitness",
+    "item_2": "Creador del programa RE-BORN",
+    "item_3": "Director de Scorus Campus",
+    "item_4": "Ponente en seminarios internacionales"
+  },
+  "cta": {
+    "title": "¿Listo Para Trabajar Juntos?",
+    "description": "Comienza tu transformación hoy",
+    "button": "Contactar"
+  }
+}
+

@@ -1,0 +1,36 @@
+---
+/**
+ * Container component para mantener el ancho máximo consistente
+ */
+
+import { cn } from '@lib/utils';
+
+export interface Props {
+  class?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+}
+
+const {
+  class: className,
+  size = 'xl',
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'max-w-3xl',
+  md: 'max-w-5xl',
+  lg: 'max-w-6xl',
+  xl: 'max-w-7xl',
+  full: 'max-w-full',
+};
+
+const classes = cn(
+  'mx-auto px-4 sm:px-6 lg:px-8',
+  sizeClasses[size],
+  className
+);
+---
+
+<div class={classes}>
+  <slot />
+</div>
+

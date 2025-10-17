@@ -1,0 +1,124 @@
+---
+/**
+ * Página de Video Cursos - Con traducciones desde JSON
+ */
+
+import Layout from '@/layouts/Layout.astro';
+import translations from '../../../../public/locales/es/services.json';
+
+const t = translations.video_courses;
+const currentLang = 'es';
+---
+
+<Layout
+  title={t.meta.title}
+  description={t.meta.description}
+>
+  <section class="bg-white py-32">
+    <div class="container">
+      <div class="mx-auto max-w-4xl">
+        <a href={`/${currentLang}/servicios`} class="mb-8 inline-flex items-center text-sm font-semibold uppercase tracking-wider text-gray-500 transition-colors hover:text-black">
+          <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          {translations.back_to_services}
+        </a>
+        
+        <div class="mb-8 text-5xl">{t.icon}</div>
+        <h1 class="mb-8 text-6xl font-bold leading-tight text-gray-900 md:text-7xl" set:html={t.title.replace(/\n/g, '<br />')}></h1>
+        
+        <p class="text-2xl leading-relaxed text-gray-600">
+          {t.subtitle}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray-50 py-24">
+    <div class="container">
+      <div class="mx-auto max-w-5xl space-y-24">
+        <div>
+          <h2 class="mb-12 text-4xl font-bold text-gray-900">{t.available_courses_title}</h2>
+          <div class="space-y-4">
+            <div class="bg-white p-8 transition-all hover:pl-12">
+              <h3 class="mb-2 text-2xl font-bold">{t.courses.bodybuilding.title}</h3>
+              <p class="mb-4 text-gray-600">{t.courses.bodybuilding.description}</p>
+              <span class="text-sm font-semibold uppercase tracking-wider text-gray-500">{t.courses.bodybuilding.status}</span>
+            </div>
+            <div class="bg-white p-8 transition-all hover:pl-12">
+              <h3 class="mb-2 text-2xl font-bold">{t.courses.nutrition.title}</h3>
+              <p class="mb-4 text-gray-600">{t.courses.nutrition.description}</p>
+              <span class="text-sm font-semibold uppercase tracking-wider text-gray-500">{t.courses.nutrition.status}</span>
+            </div>
+            <div class="bg-white p-8 transition-all hover:pl-12">
+              <h3 class="mb-2 text-2xl font-bold">{t.courses.cutting.title}</h3>
+              <p class="mb-4 text-gray-600">{t.courses.cutting.description}</p>
+              <span class="text-sm font-semibold uppercase tracking-wider text-gray-500">{t.courses.cutting.status}</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="mb-8 text-4xl font-bold text-gray-900">{t.includes_title}</h2>
+          <div class="grid gap-6 md:grid-cols-2">
+            <div class="flex items-start">
+              <svg class="mr-4 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="mb-1 font-semibold">{t.includes.unlimited_access.title}</h3>
+                <p class="text-sm text-gray-600">{t.includes.unlimited_access.description}</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg class="mr-4 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="mb-1 font-semibold">{t.includes.updated_content.title}</h3>
+                <p class="text-sm text-gray-600">{t.includes.updated_content.description}</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg class="mr-4 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="mb-1 font-semibold">{t.includes.practical_exercises.title}</h3>
+                <p class="text-sm text-gray-600">{t.includes.practical_exercises.description}</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg class="mr-4 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="mb-1 font-semibold">{t.includes.community.title}</h3>
+                <p class="text-sm text-gray-600">{t.includes.community.description}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold md:text-6xl">
+          {t.cta_title}
+        </h2>
+        <p class="mb-12 text-lg text-gray-400">
+          {t.cta_description}
+        </p>
+        <a
+          href={`/${currentLang}/contacto`}
+          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+        >
+          {t.cta_button}
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

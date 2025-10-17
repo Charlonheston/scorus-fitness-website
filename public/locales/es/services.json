@@ -1,0 +1,310 @@
+{
+  "meta": {
+    "title": "Servicios | Scorus Fitness",
+    "description": "Entrenamiento personal, consultoría online, talleres y más en Alicante"
+  },
+  "hero": {
+    "title": "Servicios",
+    "subtitle": "Encuentra el camino perfecto para tu transformación"
+  },
+  "back_to_services": "Servicios",
+  
+  "workshops": {
+    "meta": {
+      "title": "Talleres | Scorus Fitness",
+      "description": "Talleres prácticos sobre técnicas de entrenamiento, nutrición y desarrollo personal"
+    },
+    "icon": "👥",
+    "title": "Talleres",
+    "subtitle": "Talleres prácticos sobre técnicas de entrenamiento, nutrición y desarrollo personal con grupos reducidos.",
+    "themes_title": "Temáticas de Talleres",
+    "themes": {
+      "training": {
+        "title": "Técnica de Entrenamiento",
+        "description": "Aprende la ejecución perfecta de los ejercicios más importantes del culturismo.",
+        "items": [
+          "Sentadillas, press de banca, peso muerto",
+          "Ejercicios de aislamiento",
+          "Prevención de lesiones"
+        ]
+      },
+      "nutrition": {
+        "title": "Nutrición Deportiva",
+        "description": "Fundamentos de nutrición para maximizar tus resultados en el gimnasio.",
+        "items": [
+          "Macronutrientes y micronutrientes",
+          "Periodización nutricional",
+          "Suplementación inteligente"
+        ]
+      },
+      "programming": {
+        "title": "Programación de Entrenamiento",
+        "description": "Diseña tus propios programas de entrenamiento efectivos.",
+        "items": [
+          "Periodización del entrenamiento",
+          "Gestión de volumen e intensidad",
+          "Prevención del sobreentrenamiento"
+        ]
+      },
+      "mindset": {
+        "title": "Mindset y Motivación",
+        "description": "Desarrolla la mentalidad ganadora para alcanzar tus objetivos.",
+        "items": [
+          "Establecimiento de objetivos",
+          "Gestión del fracaso",
+          "Creación de hábitos"
+        ]
+      }
+    },
+    "includes_title": "¿Qué Incluye?",
+    "includes": {
+      "group_sessions": {
+        "title": "Sesiones Grupales",
+        "description": "Grupos reducidos para atención personalizada"
+      },
+      "supervised_practice": {
+        "title": "Práctica Supervisada",
+        "description": "Aprende haciendo con supervisión profesional"
+      },
+      "materials": {
+        "title": "Material Didáctico",
+        "description": "PDF con todo el contenido del taller"
+      },
+      "certificate": {
+        "title": "Certificado de Asistencia",
+        "description": "Reconocimiento oficial de participación"
+      }
+    },
+    "cta_title": "Próximos Talleres",
+    "cta_description": "Contáctanos para conocer las próximas fechas disponibles",
+    "cta_button": "Más Información"
+  },
+
+  "online_consulting": {
+    "meta": {
+      "title": "Consultoría Online | Scorus Fitness",
+      "description": "Asesoramiento profesional online desde cualquier lugar del mundo"
+    },
+    "icon": "💻",
+    "title": "Consultoría\nOnline",
+    "subtitle": "Asesoramiento profesional desde cualquier lugar del mundo con seguimiento personalizado y soporte continuo.",
+    "features": {
+      "video_calls": {
+        "icon": "📹",
+        "title": "Videollamadas Semanales",
+        "description": "Sesiones en vivo para seguimiento"
+      },
+      "training_plan": {
+        "icon": "📊",
+        "title": "Plan de Entrenamiento",
+        "description": "Rutinas personalizadas"
+      },
+      "nutrition_plan": {
+        "icon": "🥗",
+        "title": "Plan Nutricional",
+        "description": "Dieta adaptada a ti"
+      },
+      "support": {
+        "icon": "💬",
+        "title": "Soporte 24/7",
+        "description": "Respuestas rápidas"
+      }
+    },
+    "how_it_works_title": "Cómo Funciona",
+    "how_it_works": {
+      "step1": {
+        "title": "Primera Consulta",
+        "description": "Videollamada inicial para conocer tus objetivos, nivel actual y necesidades específicas."
+      },
+      "step2": {
+        "title": "Plan Personalizado",
+        "description": "Diseño de tu plan de entrenamiento y nutrición adaptado a tu disponibilidad y objetivos."
+      },
+      "step3": {
+        "title": "Seguimiento Continuo",
+        "description": "Videollamadas semanales y soporte diario vía WhatsApp para resolver dudas y ajustar el plan."
+      }
+    },
+    "advantages_title": "Ventajas",
+    "advantages": [
+      "Entrena desde cualquier lugar del mundo",
+      "Flexibilidad horaria total",
+      "Soporte continuo vía WhatsApp",
+      "Planes 100% personalizados",
+      "Ajustes según tu progreso",
+      "Precio más accesible"
+    ],
+    "cta_title": "Empieza Hoy",
+    "cta_description": "Primera consulta gratuita para conocernos y diseñar tu plan",
+    "cta_button": "Contactar Ahora"
+  },
+
+  "video_courses": {
+    "meta": {
+      "title": "Video Cursos | Scorus Fitness",
+      "description": "Cursos en video para aprender a tu ritmo sobre entrenamiento y nutrición"
+    },
+    "icon": "🎥",
+    "title": "Video\nCursos",
+    "subtitle": "Formación completa en video para aprender a tu ritmo sobre entrenamiento, nutrición y desarrollo físico.",
+    "available_courses_title": "Cursos Disponibles",
+    "courses": {
+      "bodybuilding": {
+        "title": "Fundamentos del Culturismo",
+        "description": "Todo lo que necesitas saber para empezar en el mundo del culturismo desde cero.",
+        "status": "Próximamente"
+      },
+      "nutrition": {
+        "title": "Nutrición para Hipertrofia",
+        "description": "Aprende a diseñar tu dieta perfecta para ganar masa muscular de forma efectiva.",
+        "status": "Próximamente"
+      },
+      "cutting": {
+        "title": "Definición Muscular Avanzada",
+        "description": "Estrategias avanzadas para perder grasa manteniendo la masa muscular.",
+        "status": "Próximamente"
+      }
+    },
+    "includes_title": "¿Qué Incluye?",
+    "includes": {
+      "unlimited_access": {
+        "title": "Acceso Ilimitado",
+        "description": "Accede al contenido cuando quieras, las veces que quieras"
+      },
+      "updated_content": {
+        "title": "Contenido Actualizado",
+        "description": "Nuevas lecciones y actualizaciones regulares"
+      },
+      "practical_exercises": {
+        "title": "Ejercicios Prácticos",
+        "description": "Aplica lo aprendido con ejercicios y plantillas"
+      },
+      "community": {
+        "title": "Comunidad Exclusiva",
+        "description": "Acceso al grupo privado de estudiantes"
+      }
+    },
+    "cta_title": "Próximamente",
+    "cta_description": "Estamos preparando contenido de máxima calidad. Contacta para más información.",
+    "cta_button": "Contáctanos"
+  },
+
+  "seminars": {
+    "meta": {
+      "title": "Seminarios | Scorus Fitness",
+      "description": "Seminarios intensivos sobre temas específicos de fitness y culturismo"
+    },
+    "icon": "🎓",
+    "title": "Seminarios",
+    "subtitle": "Formación intensiva y especializada con expertos del sector sobre temas avanzados de culturismo y fitness.",
+    "format_title": "Formato de Seminarios",
+    "format": {
+      "intensive": {
+        "icon": "⏱️",
+        "title": "Intensivos",
+        "description": "1-2 días de formación concentrada"
+      },
+      "experts": {
+        "icon": "👨‍🏫",
+        "title": "Expertos",
+        "description": "Profesionales reconocidos del sector"
+      },
+      "networking": {
+        "icon": "🤝",
+        "title": "Networking",
+        "description": "Conecta con otros profesionales"
+      }
+    },
+    "themes_title": "Temáticas",
+    "themes": {
+      "biomechanics": {
+        "title": "Biomecánica Avanzada del Entrenamiento",
+        "description": "Análisis profundo de la mecánica de los ejercicios y su aplicación práctica."
+      },
+      "periodization": {
+        "title": "Periodización para Competición",
+        "description": "Estrategias profesionales de periodización para competidores."
+      },
+      "psychology": {
+        "title": "Psicología del Alto Rendimiento",
+        "description": "Mentalidad y preparación mental para el éxito deportivo."
+      },
+      "nutrition": {
+        "title": "Nutrición Avanzada para Competición",
+        "description": "Protocolos nutricionales de élite para competidores."
+      }
+    },
+    "includes_title": "¿Qué Incluye?",
+    "includes": {
+      "intensive_training": {
+        "title": "Formación Intensiva",
+        "description": "Contenido condensado y de alto valor"
+      },
+      "guest_experts": {
+        "title": "Expertos Invitados",
+        "description": "Profesionales de renombre internacional"
+      },
+      "exclusive_materials": {
+        "title": "Material Exclusivo",
+        "description": "Documentación y recursos digitales"
+      },
+      "certificate": {
+        "title": "Certificado Profesional",
+        "description": "Reconocimiento oficial de asistencia"
+      }
+    },
+    "cta_title": "Próximos Seminarios",
+    "cta_description": "Contáctanos para conocer las próximas fechas y temáticas",
+    "cta_button": "Más Información"
+  },
+
+  "personal_training": {
+    "meta": {
+      "title": "Entrenamiento Personal | Scorus Fitness",
+      "description": "Entrenamiento personal completamente personalizado en Alicante"
+    },
+    "icon": "🏋️",
+    "title": "Entrenamiento\nPersonal",
+    "subtitle": "Programas completamente personalizados diseñados específicamente para tus objetivos, nivel y características individuales.",
+    "includes_title": "¿Qué Incluye?",
+    "includes": {
+      "physical_evaluation": {
+        "title": "Evaluación física inicial completa",
+        "description": "Análisis detallado de tu condición actual"
+      },
+      "body_composition": {
+        "title": "Análisis de composición corporal",
+        "description": "Mediciones precisas y seguimiento continuo"
+      },
+      "personalized_plan": {
+        "title": "Plan de entrenamiento personalizado",
+        "description": "Diseñado específicamente para ti"
+      },
+      "continuous_tracking": {
+        "title": "Seguimiento y ajustes continuos",
+        "description": "Adaptación constante según tu progreso"
+      },
+      "nutrition_advice": {
+        "title": "Asesoramiento nutricional básico",
+        "description": "Guías nutricionales complementarias"
+      },
+      "whatsapp_support": {
+        "title": "Soporte vía WhatsApp",
+        "description": "Resolución de dudas en tiempo real"
+      }
+    },
+    "for_whom_title": "Para Quién Es",
+    "for_whom_description": "Ideal para personas que buscan resultados específicos y quieren maximizar su tiempo en el gimnasio con la guía de un profesional.",
+    "methodology_title": "Metodología",
+    "methodology_description": "Mi enfoque se basa en el entrenamiento científico, adaptando las técnicas más efectivas a cada persona según su biotipo, objetivos y disponibilidad.",
+    "cta_title": "¿Listo Para Empezar?",
+    "cta_description": "Agenda tu primera sesión de evaluación gratuita",
+    "cta_button": "Contactar Ahora"
+  },
+
+  "cta": {
+    "title": "¿Listo Para Empezar?",
+    "description": "Elige el servicio que mejor se adapte a tus necesidades",
+    "button": "Contactar Ahora"
+  }
+}

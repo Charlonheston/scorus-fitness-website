@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "title": "Transformiere Deinen Körper, Transformiere Deinen Geist",
+    "subtitle": "Über 15 Jahre Erfahrung im Personal Training und professionellem Bodybuilding in Alicante",
+    "cta_primary": "Transformation Starten",
+    "cta_secondary": "Dienstleistungen Entdecken"
+  },
+  "about": {
+    "title": "Scorus Philosophie",
+    "description": "Wir verkaufen keine Versprechen. Wir bieten Wissen, Erfahrung und echte Ergebnisse.",
+    "feature_1": "Personalisierte Methodik",
+    "feature_1_desc": "Jeder Mensch ist einzigartig. Dein Plan auch.",
+    "feature_2": "Messbare Ergebnisse",
+    "feature_2_desc": "Wissenschaftliche Verfolgung deines Fortschritts.",
+    "feature_3": "Bewährte Erfahrung",
+    "feature_3_desc": "Über 15 Jahre Leben transformieren."
+  },
+  "services": {
+    "title": "Dienstleistungen",
+    "subtitle": "Finde den perfekten Weg für deine Transformation",
+    "personal_training": {
+      "title": "Personal Training",
+      "description": "Personalisierte Einzelsitzungen"
+    },
+    "online_consulting": {
+      "title": "Online-Beratung",
+      "description": "Coaching von überall aus"
+    },
+    "workshops": {
+      "title": "Spezialisierte Workshops",
+      "description": "Lerne fortgeschrittene Techniken"
+    }
+  },
+  "cta": {
+    "title": "Bereit Dich Zu Transformieren?",
+    "description": "Mache den ersten Schritt zu deiner besten Version",
+    "button": "Kostenlose Sitzung Buchen"
+  }
+}
+

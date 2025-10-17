@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "title": "Scorus GYM | Training in Alicante",
+    "description": "Boutique-Fitnessstudio in Alicante, spezialisiert auf Bodybuilding und Personal Training"
+  },
+  "hero": {
+    "title": "Scorus GYM",
+    "subtitle": "Dein Raum. Dein Tempo. Deine Musik.",
+    "cta": "Sitzung Buchen"
+  },
+  "about": {
+    "title": "Ein Anderes Fitnessstudio",
+    "description_1": "Scorus GYM ist kein konventionelles Fitnessstudio. Es ist ein Raum für Menschen, die echte Ergebnisse mit persönlicher Betreuung suchen.",
+    "description_2": "Boutique-Einrichtungen mit modernster Ausrüstung, motivierender Umgebung und über 15 Jahren Erfahrung im Sektor."
+  },
+  "gallery": {
+    "title": "Unsere Einrichtungen"
+  },
+  "modalities": {
+    "title": "Trainingsmodalitäten",
+    "private": {
+      "title": "Dein Raum, Dein Tempo, Deine Musik",
+      "description": "Private Sitzungen im kompletten Fitnessstudio nur für dich. Wähle deine Musik, deinen Zeitplan und trainiere ohne Ablenkungen.",
+      "feature_1": "100% private Sitzungen",
+      "feature_2": "Flexible Zeitpläne",
+      "feature_3": "Deine Lieblings-Playlist"
+    },
+    "personal": {
+      "title": "Präsenztraining",
+      "description": "Personalisierte Einzelsitzungen mit vollständigem Tracking deines Fortschritts.",
+      "feature_1": "Personalisierte Betreuung",
+      "feature_2": "Technikkorrektur",
+      "feature_3": "Konstante Motivation"
+    }
+  },
+  "features": {
+    "equipment": {
+      "title": "Premium-Ausrüstung",
+      "description": "Modernste Maschinen und Gewichte"
+    },
+    "environment": {
+      "title": "Professionelles Umfeld",
+      "description": "Für ernsthafte Ergebnisse konzipiert"
+    },
+    "attention": {
+      "title": "Exklusive Betreuung",
+      "description": "Kleine Gruppen und private Sitzungen"
+    }
+  },
+  "cta": {
+    "title": "Bereit Zu Trainieren?",
+    "description": "Plane deine erste Sitzung und entdecke den Unterschied des Trainings in einem Boutique-Fitnessstudio",
+    "button": "Erste Sitzung Planen"
+  }
+}
+

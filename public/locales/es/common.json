@@ -1,0 +1,57 @@
+{
+  "site": {
+    "name": "Scorus Fitness",
+    "tagline": "Transforma Tu Cuerpo, Transforma Tu Mente"
+  },
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "academy": "Academia",
+    "gym": "GYM",
+    "bio": "Biografía",
+    "blog": "Blog",
+    "contact": "Contacto"
+  },
+  "services": {
+    "personal_training": "Entrenamiento Personal",
+    "online_consulting": "Consultoría Online",
+    "workshops": "Talleres",
+    "video_courses": "Video Cursos",
+    "seminars": "Seminarios"
+  },
+  "academy": {
+    "scorus_campus": "Scorus Campus",
+    "re_born": "RE-BORN"
+  },
+  "cta": {
+    "learn_more": "Más Información",
+    "contact_now": "Contactar Ahora",
+    "get_started": "Comenzar Ahora",
+    "book_session": "Reservar Sesión",
+    "explore": "Explorar",
+    "discover": "Descubrir"
+  },
+  "footer": {
+    "navigation": "Navegación",
+    "services": "Servicios",
+    "academy": "Academia",
+    "information": "Información",
+    "contact": "Contacto",
+    "follow_us": "Síguenos en Redes Sociales",
+    "rights": "Todos los derechos reservados",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "email": "Email",
+    "schedule": "Horario"
+  },
+  "common": {
+    "read_more": "Leer Más",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "loading": "Cargando",
+    "error": "Error",
+    "success": "Éxito"
+  }
+}
+

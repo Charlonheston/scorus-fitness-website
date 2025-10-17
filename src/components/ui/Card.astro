@@ -1,0 +1,38 @@
+---
+/**
+ * Componente Card reutilizable
+ * Para servicios, testimonios, blog posts, etc.
+ */
+
+import { cn } from '@lib/utils';
+
+export interface Props {
+  class?: string;
+  padding?: 'sm' | 'md' | 'lg';
+  hover?: boolean;
+}
+
+const {
+  class: className,
+  padding = 'md',
+  hover = true,
+} = Astro.props;
+
+const paddingClasses = {
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
+};
+
+const classes = cn(
+  'rounded-lg border border-gray-200 bg-white',
+  paddingClasses[padding],
+  hover && 'transition-all duration-200 hover:shadow-lg hover:border-primary-300',
+  className
+);
+---
+
+<div class={classes}>
+  <slot />
+</div>
+

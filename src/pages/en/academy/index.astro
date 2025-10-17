@@ -1,0 +1,80 @@
+---
+/**
+ * Academy Overview - English
+ */
+
+import Layout from '@/layouts/Layout.astro';
+
+const programs = [
+  {
+    title: 'Scorus Campus',
+    description: 'Official training school for fitness professionals. Certification and advanced education.',
+    icon: '🎓',
+    href: '/en/academy/scorus-campus',
+  },
+  {
+    title: 'RE-BORN',
+    description: 'Physical and mental transformation program. 12 weeks to change your life.',
+    icon: '🔥',
+    href: '/en/academy/re-born',
+  },
+];
+---
+
+<Layout
+  title="Academy | Scorus Fitness"
+  description="Training and transformation programs: Scorus Campus and RE-BORN"
+>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h1 class="mb-8 text-6xl font-bold leading-tight md:text-7xl">Scorus Academy</h1>
+        <p class="text-xl text-gray-300">
+          Professional training and transformation programs for those seeking to go further.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs Grid -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="grid gap-px bg-gray-200 md:grid-cols-2">
+        {programs.map((program) => (
+          <a
+            href={program.href}
+            class="group bg-white p-16 transition-all hover:bg-black hover:text-white md:p-24"
+          >
+            <div class="mb-8 text-6xl">{program.icon}</div>
+            <h2 class="mb-6 text-4xl font-bold">{program.title}</h2>
+            <p class="mb-8 text-xl leading-relaxed opacity-80">{program.description}</p>
+            <span class="inline-flex items-center text-sm font-semibold uppercase tracking-wider">
+              Learn More
+              <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold">Want More Information?</h2>
+        <p class="mb-12 text-xl text-gray-300">Contact us and we'll explain all program details</p>
+        <a
+          href="/en/contact"
+          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+        >
+          Contact Us
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+

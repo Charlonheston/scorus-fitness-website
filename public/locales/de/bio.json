@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Biografie | Bernat Scorus",
+    "description": "Entdecke die Geschichte und Erfahrung von Bernat, Personal Trainer mit über 15 Jahren Erfahrung"
+  },
+  "hero": {
+    "title": "Bernat Scorus",
+    "subtitle": "Personal Trainer · Bodybuilder · Ausbilder"
+  },
+  "intro": {
+    "title": "Über 15 Jahre Leben Transformieren",
+    "description": "Meine Mission ist einfach: Dir zu helfen, deine beste physische und mentale Version durch intelligentes Training und wissenschaftsbasierte Ernährung zu erreichen."
+  },
+  "experience": {
+    "title": "Erfahrung und Ausbildung",
+    "item_1": "Internationale Zertifizierung im Personal Training",
+    "item_2": "Spezialist für Bodybuilding und Wettkampfvorbereitung",
+    "item_3": "Zertifizierter Sporternährungsberater",
+    "item_4": "+15 Jahre Erfahrung im Fitness-Sektor",
+    "item_5": "Hunderte erfolgreiche Transformationen"
+  },
+  "philosophy": {
+    "title": "Meine Philosophie",
+    "quote": "Ich verkaufe keine Versprechen. Ich biete Wissen, Erfahrung und echte Ergebnisse.",
+    "description": "Jeder Mensch ist einzigartig, und so sollte auch sein Training sein. Es gibt keine magischen Formeln, nur konstante Arbeit, Disziplin und wissenschaftliche Methodik."
+  },
+  "achievements": {
+    "title": "Bemerkenswerte Erfolge",
+    "item_1": "Gründer von Scorus Fitness",
+    "item_2": "Schöpfer des RE-BORN Programms",
+    "item_3": "Direktor von Scorus Campus",
+    "item_4": "Redner bei internationalen Seminaren"
+  },
+  "cta": {
+    "title": "Bereit Zusammenzuarbeiten?",
+    "description": "Beginne deine Transformation heute",
+    "button": "Kontakt"
+  }
+}
+

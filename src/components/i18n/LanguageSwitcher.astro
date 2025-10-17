@@ -1,0 +1,125 @@
+---
+/**
+ * Language Switcher Component
+ * Selector de idioma minimalista con traducción de rutas
+ */
+
+const languages = [
+  { code: 'es', name: 'ES', fullName: 'Español' },
+  { code: 'en', name: 'EN', fullName: 'English' },
+  { code: 'fr', name: 'FR', fullName: 'Français' },
+  { code: 'de', name: 'DE', fullName: 'Deutsch' },
+];
+
+// Detectar idioma desde la URL
+const currentPath = Astro.url.pathname;
+const pathParts = currentPath.split('/').filter(Boolean);
+const potentialLang = pathParts[0];
+const currentLang = ['en', 'fr', 'de'].includes(potentialLang) ? potentialLang : 'es';
+
+// Mapa de traducción de rutas (ES es la base)
+const routeTranslations = {
+  // Servicios
+  'servicios': { en: 'services', fr: 'services', de: 'dienstleistungen' },
+  'servicios/talleres': { en: 'services/workshops', fr: 'services/ateliers', de: 'dienstleistungen/workshops' },
+  'servicios/consultoria-online': { en: 'services/online-consulting', fr: 'services/consultation-en-ligne', de: 'dienstleistungen/online-beratung' },
+  'servicios/video-cursos': { en: 'services/video-courses', fr: 'services/cours-video', de: 'dienstleistungen/video-kurse' },
+  'servicios/seminarios': { en: 'services/seminars', fr: 'services/seminaires', de: 'dienstleistungen/seminare' },
+  'servicios/entrenamiento-personal': { en: 'services/personal-training', fr: 'services/entrainement-personnel', de: 'dienstleistungen/personliches-training' },
+  
+  // Academia
+  'academia': { en: 'academy', fr: 'academie', de: 'akademie' },
+  'academia/scorus-campus': { en: 'academy/scorus-campus', fr: 'academie/scorus-campus', de: 'akademie/scorus-campus' },
+  'academia/re-born': { en: 'academy/re-born', fr: 'academie/re-born', de: 'akademie/re-born' },
+  
+  // Otras páginas
+  'gym': { en: 'gym', fr: 'gym', de: 'gym' },
+  'biografia': { en: 'biography', fr: 'biographie', de: 'biografie' },
+  'blog': { en: 'blog', fr: 'blog', de: 'blog' },
+  'contacto': { en: 'contact', fr: 'contact', de: 'kontakt' },
+};
+
+// Función para obtener la ruta en español desde cualquier idioma
+function getSpanishRoute(path: string, fromLang: string): string {
+  if (fromLang === 'es') return path;
+  
+  // Buscar la ruta en español que coincida con la traducción
+  for (const [esRoute, translations] of Object.entries(routeTranslations)) {
+    if (translations[fromLang as keyof typeof translations] === path) {
+      return esRoute;
+    }
+  }
+  
+  return path; // Si no se encuentra, devolver el path original
+}
+
+// Función para traducir la ruta al idioma de destino
+function translateRoute(path: string, fromLang: string, toLang: string): string {
+  // Si es la home, devolver home
+  if (!path || path === '/') return '/';
+  
+  // Primero obtener la ruta en español
+  const spanishRoute = getSpanishRoute(path, fromLang);
+  
+  // Si el idioma de destino es español, devolver la ruta española
+  if (toLang === 'es') return spanishRoute;
+  
+  // Buscar la traducción al idioma de destino
+  const translation = routeTranslations[spanishRoute as keyof typeof routeTranslations];
+  if (translation && translation[toLang as keyof typeof translation]) {
+    return translation[toLang as keyof typeof translation];
+  }
+  
+  // Si no hay traducción, devolver la ruta española
+  return spanishRoute;
+}
+
+// Obtener el path sin el prefijo de idioma
+const pathWithoutLang = currentPath.replace(/^\/(es|en|fr|de)(\/|$)/, '').replace(/^\/+/, '');
+
+// Generar URLs traducidas para cada idioma
+const translatedUrls = languages.reduce((acc, lang) => {
+  const translatedPath = translateRoute(pathWithoutLang, currentLang, lang.code);
+  // Construir la URL final, asegurando que no haya doble slash
+  if (!translatedPath || translatedPath === '/') {
+    // Para la home
+    acc[lang.code] = `/${lang.code}/`;
+  } else {
+    // Para otras páginas, asegurar que translatedPath no empiece con /
+    const cleanPath = translatedPath.startsWith('/') ? translatedPath.slice(1) : translatedPath;
+    acc[lang.code] = `/${lang.code}/${cleanPath}`;
+  }
+  return acc;
+}, {} as Record<string, string>);
+---
+
+<div class="group relative">
+  <button
+    type="button"
+    class="flex items-center text-sm font-bold uppercase tracking-wider text-current transition-colors hover:text-red-600"
+    aria-label="Cambiar idioma"
+  >
+    {languages.find(lang => lang.code === currentLang)?.name || 'ES'}
+    <svg class="ml-1 h-3 w-3 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <!-- Dropdown Menu con acento rojo -->
+  <div class="invisible absolute right-0 mt-4 w-48 origin-top-right scale-95 border-t-2 border-red-600 bg-white py-2 opacity-0 shadow-2xl transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
+    {languages.map((lang) => (
+      <a
+        href={translatedUrls[lang.code]}
+        class:list={[
+          'block border-l-4 px-6 py-3 text-sm font-semibold uppercase tracking-wider transition-all',
+          currentLang === lang.code
+            ? 'border-red-600 bg-black text-white'
+            : 'border-transparent text-gray-700 hover:border-red-600 hover:bg-gray-50 hover:text-red-600',
+        ]}
+      >
+        <span class="font-bold">{lang.name}</span>
+        <span class="ml-2 text-xs opacity-70">{lang.fullName}</span>
+      </a>
+    ))}
+  </div>
+</div>

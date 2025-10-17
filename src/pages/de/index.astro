@@ -1,0 +1,213 @@
+---
+/**
+ * Deutsche Startseite
+ * Scorus Fitness - Hauptseite
+ */
+
+import Layout from '@layouts/Layout.astro';
+import Section from '@components/ui/Section.astro';
+import Button from '@components/ui/Button.astro';
+import Card from '@components/ui/Card.astro';
+import { getCollection } from 'astro:content';
+
+// Neueste Blog-Beiträge abrufen
+const allPosts = await getCollection('blog');
+const latestPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const services = [
+  {
+    title: 'Personal Training',
+    description: 'Maßgeschneiderte Programme, die an deine Ziele und Bedürfnisse angepasst sind.',
+    icon: '🏋️',
+    href: '/de/dienstleistungen/personal-training',
+  },
+  {
+    title: 'Online-Beratung',
+    description: 'Professionelles Coaching von überall auf der Welt.',
+    icon: '💻',
+    href: '/de/dienstleistungen/online-beratung',
+  },
+  {
+    title: 'Scorus Campus',
+    description: 'Professionelle Ausbildung in Bodybuilding und fortgeschrittenem Coaching.',
+    icon: '🎓',
+    href: '/de/akademie/scorus-campus',
+  },
+  {
+    title: 'RE-BORN Programm',
+    description: 'Vollständige physische und mentale Transformation in 12 Wochen.',
+    icon: '🔥',
+    href: '/de/akademie/re-born',
+  },
+];
+
+const stats = [
+  { value: '15+', label: 'Jahre Erfahrung' },
+  { value: '500+', label: 'Transformierte Klienten' },
+  { value: '50+', label: 'Wettkämpfe' },
+  { value: '100%', label: 'Hingabe' },
+];
+---
+
+<Layout
+  title="Scorus Fitness | Personal Training in Alicante"
+  description="Personal Training Center und Fitnessstudio in Alicante. Körperliche Transformation mit personalisierten Programmen, RE-BORN und Scorus Campus. Bernat Scorus, professioneller Bodybuilder."
+>
+  <!-- Hero Section -->
+  <section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+    <div class="absolute inset-0 bg-black/40"></div>
+    
+    <div class="container relative z-10 py-20 text-center text-white">
+      <div class="mx-auto max-w-5xl">
+        <h1 class="mb-8 text-6xl font-bold leading-[1.1] tracking-tight md:text-7xl lg:text-8xl">
+          Transformiere<br />
+          Deinen Körper
+        </h1>
+        <p class="mx-auto mb-12 max-w-2xl text-xl text-gray-200 md:text-2xl">
+          Professionelles Personal Training.<br />
+          Echte Ergebnisse. Totales Engagement.
+        </p>
+        <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a
+            href="/de/kontakt"
+            class="group relative inline-flex items-center justify-center overflow-hidden rounded-none border-2 border-white bg-white px-12 py-4 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+          >
+            Jetzt Starten
+          </a>
+          <a
+            href="/de/dienstleistungen"
+            class="inline-flex items-center justify-center rounded-none border-2 border-white px-12 py-4 text-lg font-semibold text-white transition-all hover:bg-white hover:text-black"
+          >
+            Erkunden
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce">
+      <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="bg-white py-24 md:py-32">
+    <div class="container">
+      <div class="mb-20 text-center">
+        <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-gray-500">
+          Dienstleistungen
+        </p>
+        <h2 class="text-5xl font-bold text-gray-900 md:text-6xl">
+          Wie Ich Dir Helfen Kann
+        </h2>
+      </div>
+
+      <div class="grid gap-px bg-gray-200 md:grid-cols-2">
+        {services.map((service) => (
+          <a
+            href={service.href}
+            class="group bg-white p-12 transition-all hover:bg-black hover:text-white md:p-16"
+          >
+            <div class="mb-6 text-4xl">{service.icon}</div>
+            <h3 class="mb-4 text-3xl font-bold">
+              {service.title}
+            </h3>
+            <p class="mb-6 text-lg leading-relaxed opacity-80">
+              {service.description}
+            </p>
+            <span class="inline-flex items-center text-sm font-semibold uppercase tracking-wider">
+              Entdecken
+              <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="grid gap-16 md:grid-cols-4">
+        {stats.map((stat) => (
+          <div class="text-center">
+            <div class="mb-4 text-6xl font-bold md:text-7xl">
+              {stat.value}
+            </div>
+            <div class="text-sm uppercase tracking-widest text-gray-400">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="relative min-h-screen bg-gray-100">
+    <div class="grid lg:grid-cols-2">
+      <div class="relative min-h-[50vh] bg-gray-300 lg:min-h-screen">
+        <div class="flex h-full items-center justify-center text-gray-500">
+          <div class="text-center">
+            <span class="text-9xl">📷</span>
+            <p class="mt-4 text-sm font-semibold uppercase tracking-wider">
+              Foto von Bernat Scorus
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center px-8 py-24 lg:px-16 lg:py-32">
+        <div class="max-w-xl">
+          <p class="mb-6 text-sm font-semibold uppercase tracking-widest text-gray-500">
+            Über Mich
+          </p>
+          <h2 class="mb-8 text-5xl font-bold leading-tight text-gray-900 lg:text-6xl">
+            Bernat<br />Scorus
+          </h2>
+          <div class="mb-8 space-y-6 text-lg leading-relaxed text-gray-600">
+            <p>
+              Professioneller Bodybuilder mit über 15 Jahren Erfahrung im Hochleistungstraining
+              und in der körperlichen Transformation.
+            </p>
+            <p>
+              Meine Philosophie basiert auf einem ganzheitlichen Ansatz, der personalisiertes Training,
+              optimierte Ernährung und mentale Entwicklung kombiniert.
+            </p>
+          </div>
+          <a
+            href="/de/biografie"
+            class="inline-flex items-center border-b-2 border-black pb-1 text-sm font-semibold uppercase tracking-wider text-black transition-all hover:border-gray-400"
+          >
+            Erfahre Meine Geschichte
+            <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-white py-32">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-12 text-6xl font-bold leading-tight text-gray-900 md:text-7xl">
+          Beginne Deine<br />
+          Transformation Heute
+        </h2>
+        <a
+          href="/de/kontakt"
+          class="inline-flex items-center justify-center border-2 border-black bg-black px-16 py-5 text-lg font-semibold text-white transition-all hover:bg-white hover:text-black"
+        >
+          Kontakt
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+

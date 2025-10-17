@@ -1,0 +1,240 @@
+---
+/**
+ * Header principal del sitio - Con efecto scroll transparente
+ * Incluye navegación desktop, selector de idioma y trigger para menú móvil
+ */
+
+import Navigation from './Navigation.astro';
+import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
+---
+
+<header 
+  id="main-header" 
+  class="fixed top-0 z-50 w-full header-transparent"
+>
+  <div class="container">
+    <div class="flex h-24 items-center justify-between">
+      <!-- Logo - Con efecto rojo -->
+      <div class="flex items-center">
+        <a href="/es/" class="header-link group flex items-center space-x-2">
+          <span class="header-text text-xl font-bold tracking-tight text-white transition-all group-hover:tracking-wide group-hover:text-red-600">
+            SCORUS
+          </span>
+        </a>
+      </div>
+
+      <!-- Navegación Desktop + Language Switcher -->
+      <div id="header-nav" class="hidden lg:flex lg:items-center lg:space-x-8">
+        <Navigation />
+        <LanguageSwitcher />
+      </div>
+
+      <!-- Botón Menú Móvil -->
+      <div class="lg:hidden">
+        <button
+          type="button"
+          class="header-text inline-flex items-center justify-center p-2 text-white transition-colors hover:text-red-600"
+          aria-label="Abrir menú"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Efecto de scroll para el header con cambio de colores
+  function initHeaderScroll() {
+    const header = document.getElementById('main-header');
+    const headerNav = document.getElementById('header-nav');
+    
+    if (!header) return;
+
+    function updateHeader() {
+      const currentScroll = window.pageYOffset;
+      
+      // Obtener elementos del NAV principal (EXCLUIR dropdowns)
+      const navBar = header.querySelector('#header-nav');
+      const mainLinks = navBar ? navBar.querySelectorAll(':scope > nav > div > a, :scope > div > button') : [];
+      const mainSpans = navBar ? navBar.querySelectorAll(':scope > nav > div > a > span') : [];
+      const mainSvgs = navBar ? navBar.querySelectorAll(':scope > nav > div > a > svg, :scope > div > button > svg') : [];
+      
+      // Obtener elementos del LOGO
+      const logoLink = header.querySelector('.header-link');
+      const logoSpan = logoLink ? logoLink.querySelector('span') : null;
+
+      if (currentScroll <= 50) {
+        // ========== ESTADO TRANSPARENTE ==========
+        header.style.backgroundColor = 'transparent';
+        header.style.boxShadow = 'none';
+        header.classList.remove('bg-white', 'shadow-md', 'header-solid');
+        header.classList.add('header-transparent');
+        
+        // Logo en BLANCO
+        if (logoSpan) {
+          logoSpan.style.color = 'white';
+          logoSpan.classList.add('!text-white');
+          logoSpan.classList.remove('!text-black');
+        }
+        
+        // Links principales del NAV en BLANCO (EXCEPTO activos en rojo)
+        mainLinks.forEach(el => {
+          if (!el.classList.contains('text-red-600')) {
+            el.style.color = 'white';
+            el.classList.add('!text-white');
+            el.classList.remove('!text-black');
+          }
+        });
+        
+        // Spans de los links en BLANCO
+        mainSpans.forEach(el => {
+          if (!el.closest('a').classList.contains('text-red-600')) {
+            el.style.color = 'white';
+            el.classList.add('!text-white');
+            el.classList.remove('!text-black');
+          }
+        });
+        
+        // SVGs principales en BLANCO
+        mainSvgs.forEach(el => {
+          el.style.stroke = 'white';
+          el.style.color = 'white';
+        });
+        
+      } else {
+        // ========== ESTADO SÓLIDO ==========
+        header.style.backgroundColor = 'white';
+        header.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+        header.classList.remove('header-transparent');
+        header.classList.add('bg-white', 'shadow-md', 'header-solid');
+        
+        // Logo en NEGRO
+        if (logoSpan) {
+          logoSpan.style.color = 'black';
+          logoSpan.classList.add('!text-black');
+          logoSpan.classList.remove('!text-white');
+        }
+        
+        // Links principales del NAV en NEGRO (EXCEPTO activos en rojo)
+        mainLinks.forEach(el => {
+          if (!el.classList.contains('text-red-600')) {
+            el.style.color = 'black';
+            el.classList.add('!text-black');
+            el.classList.remove('!text-white');
+          }
+        });
+        
+        // Spans de los links en NEGRO
+        mainSpans.forEach(el => {
+          if (!el.closest('a').classList.contains('text-red-600')) {
+            el.style.color = 'black';
+            el.classList.add('!text-black');
+            el.classList.remove('!text-white');
+          }
+        });
+        
+        // SVGs principales en NEGRO
+        mainSvgs.forEach(el => {
+          el.style.stroke = 'black';
+          el.style.color = 'black';
+        });
+      }
+    }
+
+    // Ejecutar al cargar y al hacer scroll
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    window.addEventListener('load', updateHeader);
+    
+    // Ejecutar inmediatamente después de un pequeño delay para asegurar que el DOM esté listo
+    setTimeout(updateHeader, 10);
+    updateHeader();
+  }
+
+  // Inicializar cuando el DOM esté listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeaderScroll);
+  } else {
+    initHeaderScroll();
+  }
+</script>
+
+<style>
+  /* Estilos para el header con JavaScript dinámico */
+  
+  /* Asegurar que las clases de Tailwind con ! se apliquen */
+  #main-header .\!text-white {
+    color: white !important;
+  }
+
+  #main-header .\!text-black {
+    color: black !important;
+  }
+
+  /* Links activos siempre en rojo (en el NAV principal) */
+  #main-header nav > div > a.text-red-600,
+  #main-header nav > div > a.text-red-600 span {
+    color: rgb(220, 38, 38) !important;
+  }
+
+  /* Hover en links PRINCIPALES (no dropdowns) siempre en rojo */
+  #main-header #header-nav > nav > div > a:hover,
+  #main-header #header-nav > div > button:hover {
+    color: rgb(220, 38, 38) !important;
+  }
+
+  #main-header #header-nav > nav > div > a:hover svg,
+  #main-header #header-nav > nav > div > a:hover path,
+  #main-header #header-nav > div > button:hover svg,
+  #main-header #header-nav > div > button:hover path {
+    stroke: rgb(220, 38, 38) !important;
+    color: rgb(220, 38, 38) !important;
+  }
+
+  /* ========== DROPDOWNS SIEMPRE CON FONDO BLANCO Y TEXTO NEGRO ========== */
+  #main-header nav > div > div,
+  #main-header .group > div {
+    background-color: white !important;
+  }
+
+  /* FORZAR texto negro en todos los elementos del dropdown */
+  #main-header nav > div > div a,
+  #main-header nav > div > div span,
+  #main-header .group > div a,
+  #main-header .group > div span {
+    color: rgb(55, 65, 81) !important;
+  }
+
+  /* Hover en dropdowns en ROJO */
+  #main-header nav > div > div a:hover,
+  #main-header nav > div > div a:hover span,
+  #main-header .group > div a:hover,
+  #main-header .group > div a:hover span {
+    color: rgb(220, 38, 38) !important;
+  }
+
+  /* Link activo en dropdown: fondo negro con texto blanco */
+  #main-header nav > div > div a.bg-black,
+  #main-header nav > div > div a.bg-black span {
+    background-color: black !important;
+    color: white !important;
+  }
+
+  /* Líneas activas en el NAV principal */
+  #main-header.header-transparent nav > div > a > span[class*="bg-red"] {
+    background-color: white !important;
+  }
+
+  #main-header.header-solid nav > div > a > span[class*="bg-red"] {
+    background-color: rgb(220, 38, 38) !important;
+  }
+</style>

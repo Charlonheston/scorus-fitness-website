@@ -1,0 +1,17 @@
+---
+/**
+ * Componente para inyectar Schema.org Structured Data
+ */
+
+export interface Props {
+  schema: Record<string, any> | Record<string, any>[];
+}
+
+const { schema } = Astro.props;
+
+// Serializar el schema a JSON-LD
+const schemaJSON = JSON.stringify(schema, null, 2);
+---
+
+<script is:inline type="application/ld+json" set:html={schemaJSON}></script>
+

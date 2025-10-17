@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "title": "Transformez Votre Corps, Transformez Votre Esprit",
+    "subtitle": "Plus de 15 ans d'expérience en coaching personnel et culturisme professionnel à Alicante",
+    "cta_primary": "Commencer la Transformation",
+    "cta_secondary": "Découvrir les Services"
+  },
+  "about": {
+    "title": "Philosophie Scorus",
+    "description": "Nous ne vendons pas de promesses. Nous offrons des connaissances, de l'expérience et des résultats réels.",
+    "feature_1": "Méthodologie Personnalisée",
+    "feature_1_desc": "Chaque personne est unique. Votre plan aussi.",
+    "feature_2": "Résultats Mesurables",
+    "feature_2_desc": "Suivi scientifique de vos progrès.",
+    "feature_3": "Expérience Prouvée",
+    "feature_3_desc": "Plus de 15 ans à transformer des vies."
+  },
+  "services": {
+    "title": "Services",
+    "subtitle": "Trouvez le chemin parfait pour votre transformation",
+    "personal_training": {
+      "title": "Coaching Personnel",
+      "description": "Séances personnalisées en tête-à-tête"
+    },
+    "online_consulting": {
+      "title": "Consultation en Ligne",
+      "description": "Coaching depuis n'importe où"
+    },
+    "workshops": {
+      "title": "Ateliers Spécialisés",
+      "description": "Apprenez des techniques avancées"
+    }
+  },
+  "cta": {
+    "title": "Prêt À Vous Transformer?",
+    "description": "Faites le premier pas vers votre meilleure version",
+    "button": "Réserver une Séance Gratuite"
+  }
+}
+

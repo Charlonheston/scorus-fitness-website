@@ -1,0 +1,199 @@
+---
+/**
+ * Page GYM - Français
+ */
+
+import Layout from '@/layouts/Layout.astro';
+
+const gymImages = [
+  { src: '/images/gym/gym-01.jpg', alt: 'Scorus Fitness - Vue principale du gym' },
+  { src: '/images/gym/gym-02.jpg', alt: 'Scorus Fitness - Vue large des installations' },
+  { src: '/images/gym/gym-03.jpg', alt: 'Scorus Fitness - Zone de machines avec miroirs' },
+  { src: '/images/gym/gym-04.jpg', alt: 'Scorus Fitness - Zone de poids libres' },
+  { src: '/images/gym/gym-05.jpg', alt: 'Scorus Fitness - Équipement professionnel' },
+  { src: '/images/gym/gym-06.jpg', alt: 'Scorus Fitness - Vue latérale du gym' },
+  { src: '/images/gym/gym-07.jpg', alt: 'Scorus Fitness - Zone d\'entraînement' },
+  { src: '/images/gym/gym-08.jpg', alt: 'Scorus Fitness - Coaching personnel' },
+  { src: '/images/gym/gym-09.jpg', alt: 'Scorus Fitness - Ambiance d\'entraînement' },
+  { src: '/images/gym/gym-10.jpg', alt: 'Scorus Fitness - Installations complètes' },
+];
+---
+
+<Layout
+  title="Scorus GYM | Entraînement à Alicante"
+  description="Salle de sport boutique à Alicante spécialisée en culturisme et coaching personnel"
+  image="/images/gym/gym-01.jpg"
+>
+  <!-- Hero Section -->
+  <section class="relative min-h-screen">
+    <div class="absolute inset-0">
+      <img 
+        src="/images/gym/gym-01.jpg" 
+        alt="Scorus Fitness Gym" 
+        class="h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 bg-black/60"></div>
+    </div>
+    
+    <div class="container relative z-10 flex min-h-screen items-center py-32">
+      <div class="max-w-4xl text-white">
+        <div class="mb-8 text-6xl">💪</div>
+        <h1 class="mb-8 text-6xl font-bold leading-tight md:text-7xl lg:text-8xl">
+          Scorus<br />GYM
+        </h1>
+        <p class="mb-12 max-w-2xl text-2xl leading-relaxed text-gray-200">
+          Votre espace. Votre rythme. Votre musique. Entraînement personnalisé dans des installations premium.
+        </p>
+        <a
+          href="/fr/contact"
+          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+        >
+          Réserver une Séance
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="bg-white py-32">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold text-gray-900 md:text-6xl">Une Salle de Sport Différente</h2>
+        <div class="space-y-6 text-lg leading-relaxed text-gray-600">
+          <p>
+            Scorus GYM n'est pas une salle de sport conventionnelle. C'est un espace conçu pour les personnes qui recherchent de vrais résultats avec une attention personnalisée.
+          </p>
+          <p>
+            Installations boutique avec équipement de pointe, environnement motivant et plus de 15 ans d'expérience dans le secteur.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galerie d'Images -->
+  <section class="bg-gray-50 py-24">
+    <div class="container">
+      <h2 class="mb-16 text-center text-5xl font-bold text-gray-900">Nos Installations</h2>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {gymImages.map((image, index) => (
+          <div class="group relative aspect-[4/3] overflow-hidden bg-gray-200">
+            <img 
+              src={image.src} 
+              alt={image.alt}
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+              loading={index < 4 ? "eager" : "lazy"}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Modalités Section -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <h2 class="mb-16 text-center text-5xl font-bold text-gray-900">Modalités d'Entraînement</h2>
+      
+      <div class="grid gap-px bg-gray-200 md:grid-cols-2">
+        <div class="bg-white p-12 md:p-16">
+          <h3 class="mb-6 text-3xl font-bold text-gray-900">Votre Espace, Votre Rythme, Votre Musique</h3>
+          <p class="mb-8 text-lg leading-relaxed text-gray-600">
+            Séances privées dans la salle complète juste pour vous. Choisissez votre musique, votre horaire et entraînez-vous sans distractions.
+          </p>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Séances 100% privées</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Horaires flexibles</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Votre playlist préférée</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-12 md:p-16">
+          <h3 class="mb-6 text-3xl font-bold text-gray-900">Entraînement en Personne</h3>
+          <p class="mb-8 text-lg leading-relaxed text-gray-600">
+            Séances personnalisées en tête-à-tête avec suivi complet de vos progrès.
+          </p>
+          <ul class="space-y-4">
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Attention personnalisée</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Correction de technique</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-gray-600">Motivation constante</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="grid gap-12 md:grid-cols-3">
+        <div class="text-center">
+          <div class="mb-4 text-5xl">🏋️</div>
+          <h3 class="mb-3 text-xl font-bold">Équipement Premium</h3>
+          <p class="text-sm text-gray-400">Machines et poids de pointe</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-4 text-5xl">🎯</div>
+          <h3 class="mb-3 text-xl font-bold">Environnement Professionnel</h3>
+          <p class="text-sm text-gray-400">Conçu pour des résultats sérieux</p>
+        </div>
+        <div class="text-center">
+          <div class="mb-4 text-5xl">⭐</div>
+          <h3 class="mb-3 text-xl font-bold">Attention Exclusive</h3>
+          <p class="text-sm text-gray-400">Petits groupes et séances privées</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-white py-32">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold text-gray-900 md:text-6xl">
+          Prêt À S'Entraîner?
+        </h2>
+        <p class="mb-12 text-lg text-gray-600">
+          Planifiez votre première séance et découvrez la différence de s'entraîner dans une salle boutique
+        </p>
+        <a
+          href="/fr/contact"
+          class="inline-flex items-center justify-center border-2 border-black bg-black px-12 py-5 text-lg font-semibold text-white transition-all hover:bg-white hover:text-black"
+        >
+          Planifier Première Séance
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+

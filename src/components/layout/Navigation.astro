@@ -1,0 +1,180 @@
+---
+/**
+ * Navegación principal - Estilo Minimalista
+ * Menú desktop con dropdowns CSS - Multiidioma
+ */
+
+// Detectar idioma desde la URL
+const currentPath = Astro.url.pathname;
+const pathParts = currentPath.split('/').filter(Boolean);
+const potentialLang = pathParts[0];
+const currentLang = ['en', 'fr', 'de'].includes(potentialLang) ? potentialLang : 'es';
+
+// Configuración de navegación por idioma
+const navigationConfig = {
+  es: {
+    items: [
+      { name: 'Inicio', href: '/es/' },
+      {
+        name: 'Servicios',
+        href: '/es/servicios',
+        children: [
+          { name: 'Talleres', href: '/es/servicios/talleres' },
+          { name: 'Consultoría Online', href: '/es/servicios/consultoria-online' },
+          { name: 'Video Cursos', href: '/es/servicios/video-cursos' },
+          { name: 'Seminarios', href: '/es/servicios/seminarios' },
+          { name: 'Entrenamiento Personal', href: '/es/servicios/entrenamiento-personal' },
+        ],
+      },
+      {
+        name: 'Academia',
+        href: '/es/academia',
+        children: [
+          { name: 'Scorus Campus', href: '/es/academia/scorus-campus' },
+          { name: 'RE-BORN', href: '/es/academia/re-born' },
+        ],
+      },
+      { name: 'GYM', href: '/es/gym' },
+      { name: 'Biografía', href: '/es/biografia' },
+      { name: 'Blog', href: '/es/blog' },
+      { name: 'Contacto', href: '/es/contacto' },
+    ]
+  },
+  en: {
+    items: [
+      { name: 'Home', href: '/en/' },
+      {
+        name: 'Services',
+        href: '/en/services',
+        children: [
+          { name: 'Workshops', href: '/en/services/workshops' },
+          { name: 'Online Consulting', href: '/en/services/online-consulting' },
+          { name: 'Video Courses', href: '/en/services/video-courses' },
+          { name: 'Seminars', href: '/en/services/seminars' },
+          { name: 'Personal Training', href: '/en/services/personal-training' },
+        ],
+      },
+      {
+        name: 'Academy',
+        href: '/en/academy',
+        children: [
+          { name: 'Scorus Campus', href: '/en/academy/scorus-campus' },
+          { name: 'RE-BORN', href: '/en/academy/re-born' },
+        ],
+      },
+      { name: 'GYM', href: '/en/gym' },
+      { name: 'Biography', href: '/en/biography' },
+      { name: 'Blog', href: '/en/blog' },
+      { name: 'Contact', href: '/en/contact' },
+    ]
+  },
+  fr: {
+    items: [
+      { name: 'Accueil', href: '/fr/' },
+      {
+        name: 'Services',
+        href: '/fr/services',
+        children: [
+          { name: 'Ateliers', href: '/fr/services/ateliers' },
+          { name: 'Consultation En Ligne', href: '/fr/services/consultation-en-ligne' },
+          { name: 'Cours Vidéo', href: '/fr/services/cours-video' },
+          { name: 'Séminaires', href: '/fr/services/seminaires' },
+          { name: 'Entraînement Personnel', href: '/fr/services/entrainement-personnel' },
+        ],
+      },
+      {
+        name: 'Académie',
+        href: '/fr/academie',
+        children: [
+          { name: 'Scorus Campus', href: '/fr/academie/scorus-campus' },
+          { name: 'RE-BORN', href: '/fr/academie/re-born' },
+        ],
+      },
+      { name: 'GYM', href: '/fr/gym' },
+      { name: 'Biographie', href: '/fr/biographie' },
+      { name: 'Blog', href: '/fr/blog' },
+      { name: 'Contact', href: '/fr/contact' },
+    ]
+  },
+  de: {
+    items: [
+      { name: 'Startseite', href: '/de/' },
+      {
+        name: 'Dienstleistungen',
+        href: '/de/dienstleistungen',
+        children: [
+          { name: 'Workshops', href: '/de/dienstleistungen/workshops' },
+          { name: 'Online-Beratung', href: '/de/dienstleistungen/online-beratung' },
+          { name: 'Video-Kurse', href: '/de/dienstleistungen/video-kurse' },
+          { name: 'Seminare', href: '/de/dienstleistungen/seminare' },
+          { name: 'Personal Training', href: '/de/dienstleistungen/personliches-training' },
+        ],
+      },
+      {
+        name: 'Akademie',
+        href: '/de/akademie',
+        children: [
+          { name: 'Scorus Campus', href: '/de/akademie/scorus-campus' },
+          { name: 'RE-BORN', href: '/de/akademie/re-born' },
+        ],
+      },
+      { name: 'GYM', href: '/de/gym' },
+      { name: 'Biografie', href: '/de/biografie' },
+      { name: 'Blog', href: '/de/blog' },
+      { name: 'Kontakt', href: '/de/kontakt' },
+    ]
+  }
+};
+
+const navItems = navigationConfig[currentLang]?.items || navigationConfig.es.items;
+---
+
+<nav class="flex items-center space-x-8">
+  {navItems.map((item) => (
+    <div class="group relative">
+      <a
+        href={item.href}
+        class:list={[
+          'relative block text-sm font-bold uppercase tracking-wider transition-colors',
+          currentPath === item.href || currentPath.startsWith(item.href + '/')
+            ? 'text-red-600'
+            : 'text-current hover:text-red-600',
+        ]}
+      >
+        {item.name}
+        {item.children && (
+          <svg
+            class="ml-1 inline-block h-3 w-3 transition-transform group-hover:rotate-180"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        )}
+        {(currentPath === item.href || currentPath.startsWith(item.href + '/')) && (
+          <span class="absolute -bottom-1 left-0 h-0.5 w-full bg-red-600" />
+        )}
+      </a>
+
+      {/* Dropdown Menu - Con acento rojo */}
+      {item.children && (
+        <div class="invisible absolute left-0 mt-4 w-64 origin-top scale-95 border-t-2 border-red-600 bg-white py-2 opacity-0 shadow-2xl transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
+          {item.children.map((child) => (
+            <a
+              href={child.href}
+              class:list={[
+                'block border-l-4 px-6 py-3 text-sm font-semibold uppercase tracking-wider transition-all',
+                currentPath === child.href
+                  ? 'border-red-600 bg-black text-white'
+                  : 'border-transparent text-gray-700 hover:border-red-600 hover:bg-gray-50 hover:text-red-600',
+              ]}
+            >
+              {child.name}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  ))}
+</nav>
