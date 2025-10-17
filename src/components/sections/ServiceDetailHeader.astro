@@ -1,0 +1,83 @@
+---
+/**
+ * ServiceDetailHeader - Cabecera para páginas de servicios individuales
+ * Componente reutilizable con estética black/white/red
+ * 
+ * Props:
+ * - backLink: { href: string, text: string } - Link de regreso
+ * - icon: string - Emoji del servicio (temporal)
+ * - title: string - Título del servicio
+ * - subtitle: string - Descripción del servicio
+ */
+
+interface Props {
+  backLink: {
+    href: string;
+    text: string;
+  };
+  icon: string;
+  title: string;
+  subtitle: string;
+}
+
+const { backLink, icon, title, subtitle } = Astro.props;
+---
+
+<section class="relative min-h-[70vh] flex items-center overflow-hidden bg-black">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+  </div>
+
+  <!-- Red Accent Corner -->
+  <div class="absolute right-0 top-0 h-64 w-64 bg-red-600 opacity-10 blur-3xl"></div>
+  <div class="absolute left-0 bottom-0 h-64 w-64 bg-red-600 opacity-10 blur-3xl"></div>
+
+  <!-- Content -->
+  <div class="container relative z-10 py-32">
+    <div class="mx-auto max-w-5xl">
+      <!-- Back Link -->
+      <a 
+        href={backLink.href}
+        class="group mb-12 inline-flex items-center text-sm font-bold uppercase tracking-wider text-gray-400 transition-all hover:text-red-600"
+      >
+        <svg 
+          class="mr-2 h-5 w-5 transition-transform duration-300 group-hover:-translate-x-1" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor" 
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        {backLink.text}
+      </a>
+
+      <div class="flex flex-col md:flex-row md:items-center md:gap-8">
+        <!-- Icon -->
+        <div class="mb-8 md:mb-0">
+          <div class="flex h-32 w-32 items-center justify-center rounded-full border-4 border-red-600 bg-black text-6xl shadow-lg shadow-red-600/50">
+            {icon}
+          </div>
+        </div>
+
+        <!-- Text Content -->
+        <div class="flex-1">
+          <!-- Title -->
+          <h1 class="mb-6 text-5xl font-black uppercase leading-tight tracking-tighter text-white md:text-6xl lg:text-7xl">
+            {title}
+          </h1>
+
+          <!-- Subtitle -->
+          <p class="max-w-2xl text-xl leading-relaxed text-gray-300 md:text-2xl">
+            {subtitle}
+          </p>
+
+          <!-- Red Underline Accent -->
+          <div class="mt-8 h-1 w-24 bg-red-600"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
