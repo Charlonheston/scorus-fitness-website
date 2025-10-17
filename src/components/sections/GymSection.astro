@@ -1,0 +1,105 @@
+---
+/**
+ * GymSection - Sección Scorus GYM con imagen y características
+ * Componente reutilizable para todos los idiomas
+ * 
+ * Props:
+ * - tagline: string
+ * - title: string
+ * - titleHighlight: string
+ * - description: string
+ * - features: Array<{ title, description }>
+ * - cta: { href, text }
+ * - gymImage: ImageMetadata
+ * - gymImageAlt: string
+ */
+
+import { Image } from 'astro:assets';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Feature {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  tagline: string;
+  title: string;
+  titleHighlight: string;
+  description: string;
+  features: Feature[];
+  cta: {
+    href: string;
+    text: string;
+  };
+  gymImage: ImageMetadata;
+  gymImageAlt: string;
+}
+
+const { tagline, title, titleHighlight, description, features, cta, gymImage, gymImageAlt } = Astro.props;
+---
+
+<section class="relative bg-black py-24 text-white md:py-32">
+  <div class="container">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <!-- Content -->
+      <div class="flex flex-col justify-center">
+        <div class="mb-6 inline-block border-l-4 border-red-600 pl-4">
+          <p class="text-sm font-bold uppercase tracking-widest text-red-600">
+            {tagline}
+          </p>
+        </div>
+        
+        <h2 class="mb-6 text-4xl font-black uppercase leading-tight tracking-tight text-white md:text-5xl">
+          {title}<br />
+          <span class="text-red-600">{titleHighlight}</span>
+        </h2>
+        
+        <p class="mb-8 text-lg leading-relaxed text-gray-300">
+          {description}
+        </p>
+
+        <div class="space-y-4">
+          {features.map((feature) => (
+            <div class="flex items-start gap-4">
+              <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-red-600 shadow-lg shadow-red-600/50">
+                <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-white">{feature.title}</h4>
+                <p class="text-sm text-gray-400">{feature.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <ButtonPrimary 
+          href={cta.href}
+          text={cta.text}
+          icon="arrow"
+          size="md"
+          class="mt-8"
+        />
+      </div>
+
+      <!-- Image -->
+      <div class="relative min-h-[400px] overflow-hidden lg:min-h-[600px]">
+        <Image
+          src={gymImage}
+          alt={gymImageAlt}
+          class="h-full w-full object-cover object-center"
+          widths={[640, 768, 1024, 1280]}
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          quality={85}
+          loading="lazy"
+        />
+        <div class="absolute inset-0 bg-gradient-to-l from-black/30 via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-red-600 to-transparent"></div>
+      </div>
+    </div>
+  </div>
+</section>
+

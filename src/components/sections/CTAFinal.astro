@@ -1,0 +1,64 @@
+---
+/**
+ * CTAFinal - Call to Action final con información de contacto
+ * Componente reutilizable para todos los idiomas
+ * 
+ * Props:
+ * - tagline: string
+ * - title: string
+ * - titleHighlight: string
+ * - address: string
+ * - cta: { href, text }
+ */
+
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+
+interface Props {
+  tagline: string;
+  title: string;
+  titleHighlight: string;
+  address: string;
+  cta: {
+    href: string;
+    text: string;
+  };
+}
+
+const { tagline, title, titleHighlight, address, cta } = Astro.props;
+---
+
+<section class="bg-gradient-to-br from-black via-red-950 to-black py-32 text-white">
+  <div class="container">
+    <div class="mx-auto max-w-4xl text-center">
+      <div class="mb-6 inline-block border-l-4 border-red-600 pl-4">
+        <p class="text-sm font-bold uppercase tracking-widest text-red-600">
+          {tagline}
+        </p>
+      </div>
+      
+      <h2 class="mb-8 text-5xl font-black uppercase leading-tight tracking-tight text-white md:text-6xl">
+        {title}<br />
+        <span class="text-red-600">{titleHighlight}</span>
+      </h2>
+      
+      <div class="mb-12">
+        <div class="inline-flex items-center gap-3 text-lg text-gray-300">
+          <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          {address}
+        </p>
+      </div>
+      
+      <ButtonPrimary 
+        href={cta.href}
+        text={cta.text}
+        icon="zap"
+        size="xl"
+        variant="glow"
+      />
+    </div>
+  </div>
+</section>
+
