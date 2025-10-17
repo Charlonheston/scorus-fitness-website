@@ -296,8 +296,300 @@ const testimonials = [
     </div>
   </section>
 
-  <!--  Resto del contenido: Features, Programs, Gym, etc. - Aquí deberían ir todas las demás secciones con el mismo formato que ES/EN/FR -->
-  <!-- Por brevedad, coloco un mensaje de que el resto de secciones seguirían el mismo patrón -->
+  <!-- About Features Section -->
+  <section class="bg-black py-24 text-white md:py-32">
+    <div class="container">
+      <div class="mb-16 text-center">
+        <div class="mb-4 inline-block border-l-4 border-red-600 pl-4">
+          <p class="text-sm font-bold uppercase tracking-widest text-red-600">
+            Über Uns
+          </p>
+        </div>
+        <h2 class="mx-auto max-w-4xl text-4xl font-black uppercase leading-tight tracking-tight text-white md:text-5xl">
+          WIR TRANSFORMIEREN DEINEN KÖRPER,<br />
+          <span class="text-red-600">STEIGERN DEINE LEISTUNG</span>
+        </h2>
+        <p class="mx-auto mt-6 max-w-3xl text-lg text-gray-300">
+          Vergiss generische Diäten und Routinen. Erreiche deine beste Version mit einem 100% personalisierten Plan und echter Begleitung.
+        </p>
+      </div>
+
+      <div class="grid gap-12 md:grid-cols-3">
+        {features.map((feature) => (
+          <div class="group text-center">
+            <div class="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-red-600/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-red-600 group-hover:shadow-lg group-hover:shadow-red-600/50">
+              {feature.iconType === 'users' && (
+                <svg class="h-10 w-10 text-red-600 transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+              )}
+              {feature.iconType === 'target' && (
+                <svg class="h-10 w-10 text-red-600 transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              )}
+              {feature.iconType === 'utensils' && (
+                <svg class="h-10 w-10 text-red-600 transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+              )}
+            </div>
+            
+            <h3 class="mb-4 text-2xl font-black uppercase tracking-tight text-white">
+              {feature.title}
+            </h3>
+            <p class="text-gray-400">
+              {feature.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs Showcase -->
+  <section class="bg-white py-24 md:py-32">
+    <div class="container">
+      <div class="mb-16 text-center">
+        <div class="mb-4 inline-block border-l-4 border-red-600 pl-4">
+          <p class="text-sm font-bold uppercase tracking-widest text-red-600">
+            Unsere Programme
+          </p>
+        </div>
+        <h2 class="text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+          ENTDECKE DIE PROGRAMME DIE<br />
+          <span class="text-red-600">KÖRPER UND GEIST TRANSFORMIEREN</span>
+        </h2>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {programs.map((program) => (
+          <a
+            href={program.href}
+            class="group relative overflow-hidden bg-black p-8 shadow-xl transition-all duration-300 hover:bg-red-600 hover:shadow-2xl hover:shadow-red-600/50 hover:-translate-y-1"
+          >
+            {program.badge && (
+              <div class="absolute right-4 top-4 rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-lg group-hover:bg-black">
+                {program.badge}
+              </div>
+            )}
+            
+            <div class="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-white/20 group-hover:shadow-lg">
+              {program.iconType === 'zap' && (
+                <svg class="h-8 w-8 text-white transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              )}
+              {program.iconType === 'graduation-cap' && (
+                <svg class="h-8 w-8 text-white transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/>
+                </svg>
+              )}
+              {program.iconType === 'presentation' && (
+                <svg class="h-8 w-8 text-white transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
+                </svg>
+              )}
+              {program.iconType === 'video' && (
+                <svg class="h-8 w-8 text-white transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  <circle cx="9" cy="12" r="2"/>
+                </svg>
+              )}
+              {program.iconType === 'wrench' && (
+                <svg class="h-8 w-8 text-white transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              )}
+              {program.iconType === 'laptop' && (
+                <svg class="h-8 w-8 text-white transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              )}
+            </div>
+            
+            <h3 class="mb-3 text-2xl font-black uppercase tracking-tight text-white transition-colors group-hover:text-white">
+              {program.title}
+            </h3>
+            <p class="mb-4 leading-relaxed text-gray-300 transition-colors group-hover:text-white">
+              {program.description}
+            </p>
+            
+            <div class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-red-600 transition-colors group-hover:text-white">
+              Mehr Erfahren
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Scorus GYM Section -->
+  <section class="relative overflow-hidden bg-black py-24 text-white md:py-32">
+    <div class="container">
+      <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div class="relative">
+          <Image
+            src={gymImage}
+            alt="Scorus GYM - Trainingseinrichtungen"
+            class="h-full w-full object-cover shadow-2xl"
+            width={800}
+            height={600}
+            quality={90}
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        </div>
+
+        <div class="flex flex-col justify-center">
+          <div class="mb-4 inline-block border-l-4 border-red-600 pl-4">
+            <p class="text-sm font-bold uppercase tracking-widest text-red-600">
+              Unsere Einrichtungen
+            </p>
+          </div>
+          
+          <h2 class="mb-6 text-4xl font-black uppercase leading-tight tracking-tight text-white md:text-5xl">
+            SCORUS <span class="text-red-600">GYM</span>
+          </h2>
+          
+          <p class="mb-8 text-lg leading-relaxed text-gray-300">
+            Unser Fitnessstudio befindet sich im Herzen von Alicante und verfügt über modernste Geräte und ein inspirierendes Umfeld, um Ihre Ziele zu erreichen.
+          </p>
+
+          <div class="mb-8 grid gap-4 sm:grid-cols-2">
+            {gymFeatures.map((feature) => (
+              <div class="flex items-start gap-3">
+                <svg class="mt-1 h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span class="font-semibold text-white">{feature}</span>
+              </div>
+            ))}
+          </div>
+
+          <div class="flex flex-col gap-4 sm:flex-row">
+            <ButtonPrimary 
+              href="/de/gym" 
+              text="Entdecke das GYM" 
+              icon="building"
+              size="lg"
+              variant="glow"
+            />
+            
+            <ButtonGhost 
+              href="/de/kontakt" 
+              text="Besuche uns"
+              icon="map"
+              size="lg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bernat Scorus Bio Section -->
+  <section class="bg-white py-24 md:py-32">
+    <div class="container">
+      <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div class="order-2 lg:order-1">
+          <div class="mb-4 inline-block border-l-4 border-red-600 pl-4">
+            <p class="text-sm font-bold uppercase tracking-widest text-red-600">
+              Über Bernat
+            </p>
+          </div>
+          
+          <h2 class="mb-6 text-4xl font-black uppercase leading-tight tracking-tight text-black md:text-5xl">
+            BERNAT <span class="text-red-600">SCORUS</span>
+          </h2>
+          
+          <p class="mb-6 text-lg leading-relaxed text-gray-700">
+            Champion in Men's Physique, Personal Trainer und Ernährungscoach mit über 10 Jahren Erfahrung in der Transformation von Leben durch Fitness und Ernährung.
+          </p>
+          
+          <p class="mb-8 leading-relaxed text-gray-600">
+            Meine Philosophie basiert darauf, dass jeder Mensch in der Lage ist, seinen Körper und Geist zu transformieren. Mit einer personalisierten Methodik und echter Begleitung habe ich Hunderten von Menschen geholfen, ihre Ziele zu erreichen.
+          </p>
+
+          <div class="mb-8 grid gap-6 sm:grid-cols-2">
+            {achievements.map((achievement) => (
+              <div class="flex items-start gap-3 rounded-lg bg-gray-50 p-4 shadow-sm">
+                <svg class="mt-1 h-6 w-6 flex-shrink-0 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                </svg>
+                <span class="font-bold text-black">{achievement}</span>
+              </div>
+            ))}
+          </div>
+
+          <ButtonPrimary 
+            href="/de/biografie" 
+            text="Komplette Biografie" 
+            icon="book"
+            size="lg"
+          />
+        </div>
+
+        <div class="order-1 lg:order-2">
+          <Image
+            src={aboutImage}
+            alt="Bernat Scorus - Personal Trainer"
+            class="h-full w-full object-cover shadow-2xl"
+            width={800}
+            height={1000}
+            quality={90}
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final Section -->
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter md:text-6xl lg:text-7xl">
+          BEREIT FÜR DEINE<br />
+          <span class="text-red-600">TRANSFORMATION</span>?
+        </h2>
+        
+        <p class="mb-4 text-xl text-gray-300 md:text-2xl">
+          Vereinbare ein kostenloses Beratungsgespräch und entdecke, wie wir dir helfen können, deine Ziele zu erreichen.
+        </p>
+        
+        <p class="mb-12 text-lg text-gray-400">
+          <svg class="inline-block h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Av. Conrado Albaladejo, 31 – 03540 Alicante, Spanien
+        </p>
+
+        <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <ButtonPrimary 
+            href="/de/kontakt" 
+            text="Kostenloses Gespräch" 
+            icon="zap"
+            size="xl"
+            variant="glow"
+          />
+          
+          <ButtonSecondary 
+            href="tel:+34673975252" 
+            text="+34 673 97 52 52"
+            icon="phone"
+            variant="glass"
+            size="xl"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
   
 </Layout>
 
