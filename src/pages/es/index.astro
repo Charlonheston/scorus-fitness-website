@@ -6,17 +6,10 @@
 
 import Layout from '@layouts/Layout.astro';
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
 
 // Importar imágenes
 import heroImage from '../../../public/images/hero/bernat-hero.jpg';
 import aboutImage from '../../../public/images/about/bernat-about.jpg';
-
-// Obtener últimos posts del blog
-const allPosts = await getCollection('blog');
-const latestPosts = allPosts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
 
 const services = [
   {
@@ -136,7 +129,7 @@ const stats = [
     
     <div class="container">
       <div class="grid gap-12 md:grid-cols-4">
-        {stats.map((stat, index) => (
+        {stats.map((stat) => (
           <div class="group text-center">
             <div class="mb-4 text-7xl font-black text-white transition-all group-hover:scale-110 group-hover:text-red-600 md:text-8xl">
               {stat.value}
@@ -169,7 +162,7 @@ const stats = [
       </div>
 
       <div class="grid gap-1 bg-black md:grid-cols-2">
-        {services.map((service, index) => (
+        {services.map((service) => (
           <a
             href={service.href}
             class="group relative overflow-hidden bg-white p-12 transition-all duration-500 hover:bg-black md:p-16"

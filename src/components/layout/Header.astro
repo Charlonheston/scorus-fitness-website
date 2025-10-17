@@ -56,11 +56,12 @@ import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
   // Efecto de scroll para el header con cambio de colores
   function initHeaderScroll() {
     const header = document.getElementById('main-header');
-    const headerNav = document.getElementById('header-nav');
     
     if (!header) return;
 
     function updateHeader() {
+      if (!header) return; // TypeScript null check
+      
       const currentScroll = window.pageYOffset;
       
       // Obtener elementos del NAV principal (EXCLUIR dropdowns)
@@ -90,7 +91,7 @@ import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
         // Links principales del NAV en BLANCO (EXCEPTO activos en rojo)
         mainLinks.forEach(el => {
           if (!el.classList.contains('text-red-600')) {
-            el.style.color = 'white';
+            (el as HTMLElement).style.color = 'white';
             el.classList.add('!text-white');
             el.classList.remove('!text-black');
           }
@@ -98,8 +99,9 @@ import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
         
         // Spans de los links en BLANCO
         mainSpans.forEach(el => {
-          if (!el.closest('a').classList.contains('text-red-600')) {
-            el.style.color = 'white';
+          const closestLink = el.closest('a');
+          if (closestLink && !closestLink.classList.contains('text-red-600')) {
+            (el as HTMLElement).style.color = 'white';
             el.classList.add('!text-white');
             el.classList.remove('!text-black');
           }
@@ -107,8 +109,8 @@ import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
         
         // SVGs principales en BLANCO
         mainSvgs.forEach(el => {
-          el.style.stroke = 'white';
-          el.style.color = 'white';
+          (el as HTMLElement).style.stroke = 'white';
+          (el as HTMLElement).style.color = 'white';
         });
         
       } else {
@@ -128,7 +130,7 @@ import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
         // Links principales del NAV en NEGRO (EXCEPTO activos en rojo)
         mainLinks.forEach(el => {
           if (!el.classList.contains('text-red-600')) {
-            el.style.color = 'black';
+            (el as HTMLElement).style.color = 'black';
             el.classList.add('!text-black');
             el.classList.remove('!text-white');
           }
@@ -136,8 +138,9 @@ import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
         
         // Spans de los links en NEGRO
         mainSpans.forEach(el => {
-          if (!el.closest('a').classList.contains('text-red-600')) {
-            el.style.color = 'black';
+          const closestLink = el.closest('a');
+          if (closestLink && !closestLink.classList.contains('text-red-600')) {
+            (el as HTMLElement).style.color = 'black';
             el.classList.add('!text-black');
             el.classList.remove('!text-white');
           }
@@ -145,8 +148,8 @@ import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
         
         // SVGs principales en NEGRO
         mainSvgs.forEach(el => {
-          el.style.stroke = 'black';
-          el.style.color = 'black';
+          (el as HTMLElement).style.stroke = 'black';
+          (el as HTMLElement).style.color = 'black';
         });
       }
     }

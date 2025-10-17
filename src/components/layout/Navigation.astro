@@ -126,11 +126,18 @@ const navigationConfig = {
   }
 };
 
-const navItems = navigationConfig[currentLang]?.items || navigationConfig.es.items;
+type NavItem = {
+  name: string;
+  href: string;
+  children?: { name: string; href: string }[];
+};
+
+type Lang = 'es' | 'en' | 'fr' | 'de';
+const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfig.es.items;
 ---
 
 <nav class="flex items-center space-x-8">
-  {navItems.map((item) => (
+  {navItems.map((item: NavItem) => (
     <div class="group relative">
       <a
         href={item.href}
@@ -160,7 +167,7 @@ const navItems = navigationConfig[currentLang]?.items || navigationConfig.es.ite
       {/* Dropdown Menu - Con acento rojo */}
       {item.children && (
         <div class="invisible absolute left-0 mt-4 w-64 origin-top scale-95 border-t-2 border-red-600 bg-white py-2 opacity-0 shadow-2xl transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
-          {item.children.map((child) => (
+          {item.children.map((child: { name: string; href: string }) => (
             <a
               href={child.href}
               class:list={[

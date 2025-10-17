@@ -5,16 +5,6 @@
  */
 
 import Layout from '@layouts/Layout.astro';
-import Section from '@components/ui/Section.astro';
-import Button from '@components/ui/Button.astro';
-import Card from '@components/ui/Card.astro';
-import { getCollection } from 'astro:content';
-
-// Get latest blog posts
-const allPosts = await getCollection('blog');
-const latestPosts = allPosts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
 
 const services = [
   {
