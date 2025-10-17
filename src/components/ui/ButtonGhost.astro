@@ -1,44 +1,60 @@
 ---
 /**
  * ButtonGhost - Botón Minimalista/Ghost
- * Diseño 2025: Hover underline animation, magnetic effect
+ * Diseño 2025: Hover underline animation, sin fondo
  * 
  * Props:
  * - href: string (URL destino)
  * - text: string (Texto del botón)
- * - icon: boolean (Mostrar icono flecha, default: true)
+ * - icon?: 'arrow' | 'chevron' | 'external' | 'none' (Icono, default: 'arrow')
  * - class: string (Clases adicionales)
  * - color: 'red' | 'white' | 'black' (Color del texto, default: 'red')
+ * - size: 'sm' | 'md' | 'lg' (Tamaño, default: 'md')
  */
 
 interface Props {
   href: string;
   text: string;
-  icon?: boolean;
+  icon?: 'arrow' | 'chevron' | 'external' | 'none';
   class?: string;
   color?: 'red' | 'white' | 'black';
+  size?: 'sm' | 'md' | 'lg';
 }
 
 const { 
   href, 
   text, 
-  icon = true, 
+  icon = 'arrow', 
   class: className = '',
-  color = 'red'
+  color = 'red',
+  size = 'md'
 } = Astro.props;
 
 const colorClasses = {
   red: 'text-red-600 hover:text-red-700',
-  white: 'text-white hover:text-gray-200',
-  black: 'text-black hover:text-gray-800',
+  white: 'text-white hover:text-gray-100',
+  black: 'text-gray-900 hover:text-black',
+};
+
+const sizeClasses = {
+  sm: 'text-sm gap-2 py-2',
+  md: 'text-base gap-3 py-3',
+  lg: 'text-lg gap-3 py-4',
+};
+
+const iconSizes = {
+  sm: 'h-4 w-4',
+  md: 'h-5 w-5',
+  lg: 'h-6 w-6',
 };
 ---
 
 <a
   href={href}
   class:list={[
-    'btn-ghost group inline-flex items-center gap-3 font-bold uppercase tracking-wider transition-all duration-300',
+    'btn-ghost group inline-flex items-center font-bold uppercase tracking-wider transition-all duration-300',
     colorClasses[color],
+    sizeClasses[size],
     className
   ]}
 >
@@ -48,10 +64,10 @@ const colorClasses = {
     <span class="btn-underline"></span>
   </span>
   
-  <!-- Icono flecha (opcional) -->
-  {icon && (
+  <!-- Iconos -->
+  {icon === 'arrow' && (
     <svg 
-      class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-2" 
+      class:list={["transition-transform duration-300 group-hover:translate-x-2", iconSizes[size]]}
       fill="none" 
       viewBox="0 0 24 24" 
       stroke="currentColor" 
@@ -61,11 +77,36 @@ const colorClasses = {
       <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
     </svg>
   )}
+  
+  {icon === 'chevron' && (
+    <svg 
+      class:list={["transition-transform duration-300 group-hover:translate-x-1", iconSizes[size]]}
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor" 
+      stroke-width="2.5"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+    </svg>
+  )}
+  
+  {icon === 'external' && (
+    <svg 
+      class:list={["transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5", iconSizes[size]]}
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor" 
+      stroke-width="2.5"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+    </svg>
+  )}
 </a>
 
 <style>
   .btn-ghost {
-    padding: 0.5rem 0;
     position: relative;
   }
 
@@ -76,7 +117,7 @@ const colorClasses = {
   /* Animated underline - Tendencia 2025 */
   .btn-underline {
     position: absolute;
-    bottom: -4px;
+    bottom: -6px;
     left: 0;
     width: 0;
     height: 2px;
@@ -88,34 +129,10 @@ const colorClasses = {
     width: 100%;
   }
 
-  /* Efecto de brillo sutil al hacer hover */
-  .btn-ghost::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      currentColor,
-      transparent
-    );
-    opacity: 0;
-    transform: translateY(-50%);
-    transition: opacity 0.3s ease;
-  }
-
-  .btn-ghost:hover::after {
-    opacity: 0.3;
-  }
-
   /* Accesibilidad */
   .btn-ghost:focus-visible {
     outline: 2px solid currentColor;
-    outline-offset: 4px;
+    outline-offset: 6px;
     border-radius: 2px;
   }
 </style>
-

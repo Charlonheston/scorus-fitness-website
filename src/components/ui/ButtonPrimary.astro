@@ -1,57 +1,97 @@
 ---
 /**
  * ButtonPrimary - Botón Principal CTA
- * Diseño 2025: Shine effect, scale hover, smooth animations
+ * Diseño 2025: Glow effect, gradiente, scale hover, iconos integrados
  * 
  * Props:
  * - href: string (URL destino)
  * - text: string (Texto del botón)
- * - icon: boolean (Mostrar icono flecha, default: true)
+ * - icon?: 'arrow' | 'fire' | 'zap' | 'none' (Icono, default: 'arrow')
  * - class: string (Clases adicionales)
- * - size: 'sm' | 'md' | 'lg' (Tamaño, default: 'md')
+ * - size: 'sm' | 'md' | 'lg' | 'xl' (Tamaño, default: 'md')
+ * - variant: 'default' | 'glow' (Estilo, default: 'default')
  */
 
 interface Props {
   href: string;
   text: string;
-  icon?: boolean;
+  icon?: 'arrow' | 'fire' | 'zap' | 'none';
   class?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  variant?: 'default' | 'glow';
 }
 
 const { 
   href, 
   text, 
-  icon = true, 
+  icon = 'arrow', 
   class: className = '',
-  size = 'md' 
+  size = 'md',
+  variant = 'default'
 } = Astro.props;
 
 const sizeClasses = {
-  sm: 'px-6 py-3 text-sm',
-  md: 'px-8 py-4 text-base',
-  lg: 'px-12 py-5 text-lg',
+  sm: 'px-6 py-2.5 text-sm gap-2',
+  md: 'px-8 py-4 text-base gap-3',
+  lg: 'px-12 py-5 text-lg gap-3',
+  xl: 'px-16 py-6 text-xl gap-4',
+};
+
+const iconSizes = {
+  sm: 'h-4 w-4',
+  md: 'h-5 w-5',
+  lg: 'h-6 w-6',
+  xl: 'h-7 w-7',
 };
 ---
 
 <a
   href={href}
   class:list={[
-    'btn-primary group relative inline-flex items-center justify-center gap-3 overflow-hidden font-bold uppercase tracking-wider transition-all duration-300',
+    'btn-primary group relative inline-flex items-center justify-center overflow-hidden rounded-md font-bold uppercase tracking-wider transition-all duration-300',
     sizeClasses[size],
+    variant === 'glow' ? 'btn-glow' : '',
     className
   ]}
 >
   <!-- Shine effect overlay -->
   <div class="btn-shine"></div>
   
+  <!-- Icono (izquierda) -->
+  {icon === 'fire' && (
+    <svg 
+      class:list={["relative z-10 transition-transform duration-300 group-hover:scale-110", iconSizes[size]]}
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor" 
+      stroke-width="2.5"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
+    </svg>
+  )}
+  
+  {icon === 'zap' && (
+    <svg 
+      class:list={["relative z-10 transition-transform duration-300 group-hover:scale-110", iconSizes[size]]}
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor" 
+      stroke-width="2.5"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+    </svg>
+  )}
+  
   <!-- Texto -->
   <span class="relative z-10">{text}</span>
   
-  <!-- Icono flecha (opcional) -->
-  {icon && (
+  <!-- Icono flecha (derecha) -->
+  {icon === 'arrow' && (
     <svg 
-      class="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" 
+      class:list={["relative z-10 transition-transform duration-300 group-hover:translate-x-1", iconSizes[size]]}
       fill="none" 
       viewBox="0 0 24 24" 
       stroke="currentColor" 
@@ -65,24 +105,55 @@ const sizeClasses = {
 
 <style>
   .btn-primary {
-    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
     color: white;
     box-shadow: 
-      0 4px 14px 0 rgba(220, 38, 38, 0.4),
-      0 0 0 0 rgba(220, 38, 38, 0);
-    border-radius: 2px;
+      0 4px 15px rgba(220, 38, 38, 0.35),
+      0 1px 3px rgba(0, 0, 0, 0.1);
     position: relative;
+    border: none;
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px) scale(1.02);
+    transform: translateY(-3px) scale(1.03);
     box-shadow: 
-      0 8px 24px 0 rgba(220, 38, 38, 0.5),
-      0 0 0 4px rgba(220, 38, 38, 0.1);
+      0 12px 35px rgba(220, 38, 38, 0.5),
+      0 5px 15px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #f87171 0%, #ef4444 50%, #dc2626 100%);
   }
 
   .btn-primary:active {
-    transform: translateY(0) scale(0.98);
+    transform: translateY(-1px) scale(0.99);
+    box-shadow: 
+      0 4px 15px rgba(220, 38, 38, 0.4);
+  }
+
+  /* Variante Glow - Efecto resplandor */
+  .btn-glow {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 
+        0 0 20px rgba(220, 38, 38, 0.5),
+        0 0 40px rgba(220, 38, 38, 0.3),
+        0 4px 15px rgba(220, 38, 38, 0.35);
+    }
+    50% {
+      box-shadow: 
+        0 0 30px rgba(220, 38, 38, 0.7),
+        0 0 60px rgba(220, 38, 38, 0.5),
+        0 4px 15px rgba(220, 38, 38, 0.35);
+    }
+  }
+
+  .btn-glow:hover {
+    animation: none;
+    box-shadow: 
+      0 0 40px rgba(220, 38, 38, 0.8),
+      0 0 80px rgba(220, 38, 38, 0.6),
+      0 12px 35px rgba(220, 38, 38, 0.5);
   }
 
   /* Shine/Shimmer effect - Tendencia 2025 */
@@ -95,10 +166,10 @@ const sizeClasses = {
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.4),
       transparent
     );
-    transition: left 0.6s ease;
+    transition: left 0.7s ease;
     z-index: 1;
   }
 
@@ -108,22 +179,11 @@ const sizeClasses = {
 
   /* Accesibilidad */
   .btn-primary:focus-visible {
-    outline: 3px solid rgba(220, 38, 38, 0.5);
+    outline: 3px solid rgba(220, 38, 38, 0.6);
     outline-offset: 4px;
-  }
-
-  /* Animación de carga sutil */
-  @keyframes pulse-subtle {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.95;
-    }
-  }
-
-  .btn-primary:focus {
-    animation: pulse-subtle 2s ease-in-out infinite;
+    box-shadow: 
+      0 0 0 4px rgba(220, 38, 38, 0.2),
+      0 4px 15px rgba(220, 38, 38, 0.4);
   }
 </style>
 

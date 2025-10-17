@@ -8,6 +8,9 @@
 import Layout from '@layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import ButtonGhost from '@components/ui/ButtonGhost.astro';
 
 // Bilder importieren
 import heroImage from '../../../public/images/hero/bernat-hero.jpg';
@@ -197,20 +200,21 @@ const testimonials = [
         </p>
         
         <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
-          <a
-            href="/de/kontakt"
-            class="group relative overflow-hidden bg-red-600 px-12 py-5 text-lg font-bold uppercase tracking-wider text-white shadow-2xl shadow-red-600/50 transition-all duration-300 hover:bg-red-700 hover:shadow-red-600/70 hover:scale-105"
-          >
-            <span class="relative z-10">Jetzt Beginnen</span>
-            <div class="absolute inset-0 -z-0 bg-gradient-to-r from-red-700 to-red-600 opacity-0 transition-opacity group-hover:opacity-100"></div>
-          </a>
+          <ButtonPrimary 
+            href="/de/kontakt" 
+            text="Jetzt Beginnen" 
+            icon="fire"
+            size="lg"
+            variant="glow"
+          />
           
-          <a
-            href="/de/dienstleistungen"
-            class="bg-white/10 px-12 py-5 text-lg font-bold uppercase tracking-wider text-white shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-white hover:text-black hover:shadow-2xl hover:scale-105"
-          >
-            Dienstleistungen Anzeigen
-          </a>
+          <ButtonSecondary 
+            href="/de/dienstleistungen" 
+            text="Dienstleistungen Anzeigen"
+            icon="eye"
+            variant="glass"
+            size="lg"
+          />
         </div>
       </div>
     </div>

@@ -8,6 +8,9 @@
 import Layout from '@layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import ButtonGhost from '@components/ui/ButtonGhost.astro';
 
 // Import images
 import heroImage from '../../../public/images/hero/bernat-hero.jpg';
@@ -197,20 +200,21 @@ const testimonials = [
         </p>
         
         <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
-          <a
-            href="/en/contact"
-            class="group relative overflow-hidden bg-red-600 px-12 py-5 text-lg font-bold uppercase tracking-wider text-white shadow-2xl shadow-red-600/50 transition-all duration-300 hover:bg-red-700 hover:shadow-red-600/70 hover:scale-105"
-          >
-            <span class="relative z-10">Start Now</span>
-            <div class="absolute inset-0 -z-0 bg-gradient-to-r from-red-700 to-red-600 opacity-0 transition-opacity group-hover:opacity-100"></div>
-          </a>
+          <ButtonPrimary 
+            href="/en/contact" 
+            text="Start Now" 
+            icon="fire"
+            size="lg"
+            variant="glow"
+          />
           
-          <a
-            href="/en/services"
-            class="bg-white/10 px-12 py-5 text-lg font-bold uppercase tracking-wider text-white shadow-xl backdrop-blur-sm transition-all duration-300 hover:bg-white hover:text-black hover:shadow-2xl hover:scale-105"
-          >
-            View Services
-          </a>
+          <ButtonSecondary 
+            href="/en/services" 
+            text="View Services"
+            icon="eye"
+            variant="glass"
+            size="lg"
+          />
         </div>
       </div>
     </div>
@@ -483,15 +487,13 @@ const testimonials = [
             </div>
           </div>
 
-          <a
+          <ButtonPrimary 
             href="/en/gym"
-            class="mt-8 inline-flex w-fit items-center gap-3 bg-red-600 px-8 py-4 font-bold uppercase tracking-wider text-white shadow-xl shadow-red-600/50 transition-all hover:shadow-2xl hover:shadow-red-600/70 hover:scale-105"
-          >
-            View Facilities
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
+            text="View Facilities"
+            icon="arrow"
+            size="md"
+            class="mt-8"
+          />
         </div>
 
         <div class="relative min-h-[400px] overflow-hidden lg:min-h-[600px]">
@@ -613,15 +615,13 @@ const testimonials = [
             <p class="font-bold text-red-600">• Sports Nutritionist</p>
           </div>
           
-          <a
+          <ButtonGhost 
             href="/en/biography"
-            class="group inline-flex items-center gap-3 border-b-2 border-red-600 pb-2 text-sm font-bold uppercase tracking-wider text-white transition-all hover:border-white"
-          >
-            Know My Story
-            <svg class="h-5 w-5 text-red-600 transition-transform group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
+            text="Know My Story"
+            icon="arrow"
+            color="white"
+            size="md"
+          />
         </div>
       </div>
     </div>
@@ -734,15 +734,12 @@ const testimonials = [
         </div>
 
         <div class="mt-12 text-center">
-          <a
+          <ButtonPrimary 
             href="/en/blog"
-            class="inline-flex items-center gap-3 bg-red-600 px-8 py-4 font-bold uppercase tracking-wider text-white shadow-xl shadow-red-600/50 transition-all hover:shadow-2xl hover:shadow-red-600/70 hover:scale-105"
-          >
-            View All Articles
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
+            text="View All Articles"
+            icon="arrow"
+            size="md"
+          />
         </div>
       </div>
     </section>
@@ -775,15 +772,13 @@ const testimonials = [
           </p>
         </div>
         
-        <a
-          href="/en/contact"
-          class="inline-flex items-center gap-3 bg-white px-16 py-6 text-xl font-black uppercase tracking-wider text-black shadow-2xl transition-all duration-300 hover:bg-black hover:text-white hover:shadow-black/50 hover:scale-105"
-        >
-          Contact Us
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
+        <ButtonPrimary 
+          href="/en/contact" 
+          text="Contact Us"
+          icon="zap"
+          size="xl"
+          variant="glow"
+        />
       </div>
     </div>
   </section>

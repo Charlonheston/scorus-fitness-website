@@ -1,61 +1,95 @@
 ---
 /**
- * ButtonSecondary - Botón Secundario
- * Diseño 2025: Glassmorphism, border glow, backdrop blur
+ * ButtonSecondary - Botón Secundario Outline
+ * Diseño 2025: Outline con efecto glow, hover fill
  * 
  * Props:
  * - href: string (URL destino)
  * - text: string (Texto del botón)
- * - icon: boolean (Mostrar icono flecha, default: false)
+ * - icon?: 'arrow' | 'sparkles' | 'eye' | 'none' (Icono, default: 'none')
  * - class: string (Clases adicionales)
- * - size: 'sm' | 'md' | 'lg' (Tamaño, default: 'md')
- * - variant: 'outline' | 'glass' (Estilo, default: 'glass')
+ * - size: 'sm' | 'md' | 'lg' | 'xl' (Tamaño, default: 'md')
+ * - variant: 'outline' | 'outline-dark' | 'glass' (Estilo, default: 'outline')
  */
 
 interface Props {
   href: string;
   text: string;
-  icon?: boolean;
+  icon?: 'arrow' | 'sparkles' | 'eye' | 'none';
   class?: string;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'outline' | 'glass';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  variant?: 'outline' | 'outline-dark' | 'glass';
 }
 
 const { 
   href, 
   text, 
-  icon = false, 
+  icon = 'none', 
   class: className = '',
   size = 'md',
-  variant = 'glass'
+  variant = 'outline'
 } = Astro.props;
 
 const sizeClasses = {
-  sm: 'px-6 py-3 text-sm',
-  md: 'px-8 py-4 text-base',
-  lg: 'px-12 py-5 text-lg',
+  sm: 'px-6 py-2.5 text-sm gap-2',
+  md: 'px-8 py-4 text-base gap-3',
+  lg: 'px-12 py-5 text-lg gap-3',
+  xl: 'px-16 py-6 text-xl gap-4',
+};
+
+const iconSizes = {
+  sm: 'h-4 w-4',
+  md: 'h-5 w-5',
+  lg: 'h-6 w-6',
+  xl: 'h-7 w-7',
 };
 ---
 
 <a
   href={href}
   class:list={[
-    'btn-secondary group relative inline-flex items-center justify-center gap-3 overflow-hidden font-bold uppercase tracking-wider transition-all duration-300',
+    'btn-secondary group relative inline-flex items-center justify-center overflow-hidden rounded-md font-bold uppercase tracking-wider transition-all duration-300',
     sizeClasses[size],
-    variant === 'glass' ? 'btn-glass' : 'btn-outline',
+    variant === 'outline-dark' ? 'btn-outline-dark' : '',
+    variant === 'glass' ? 'btn-glass' : '',
     className
   ]}
 >
-  <!-- Border glow effect -->
-  <div class="btn-glow"></div>
+  <!-- Icono (izquierda) -->
+  {icon === 'sparkles' && (
+    <svg 
+      class:list={["relative z-10 transition-all duration-300 group-hover:rotate-12", iconSizes[size]]}
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor" 
+      stroke-width="2.5"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+    </svg>
+  )}
+  
+  {icon === 'eye' && (
+    <svg 
+      class:list={["relative z-10 transition-transform duration-300 group-hover:scale-110", iconSizes[size]]}
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor" 
+      stroke-width="2.5"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+    </svg>
+  )}
   
   <!-- Texto -->
   <span class="relative z-10">{text}</span>
   
-  <!-- Icono flecha (opcional) -->
-  {icon && (
+  <!-- Icono flecha (derecha) -->
+  {icon === 'arrow' && (
     <svg 
-      class="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" 
+      class:list={["relative z-10 transition-transform duration-300 group-hover:translate-x-1", iconSizes[size]]}
       fill="none" 
       viewBox="0 0 24 24" 
       stroke="currentColor" 
@@ -68,96 +102,76 @@ const sizeClasses = {
 </a>
 
 <style>
+  /* Variante Outline (por defecto) - Rojo sobre blanco/claro */
   .btn-secondary {
-    color: white;
-    border-radius: 2px;
-    position: relative;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: #dc2626;
+    border: 2px solid #dc2626;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
   }
 
-  /* Variante Glass (Glassmorphism - Tendencia 2025) */
-  .btn-glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+  .btn-secondary:hover {
+    background: #dc2626;
+    color: white;
+    transform: translateY(-3px) scale(1.03);
     box-shadow: 
-      0 4px 12px rgba(0, 0, 0, 0.1),
+      0 8px 25px rgba(220, 38, 38, 0.4),
+      0 0 30px rgba(220, 38, 38, 0.3);
+    border-color: #dc2626;
+  }
+
+  .btn-secondary:active {
+    transform: translateY(-1px) scale(0.99);
+  }
+
+  /* Variante Outline Dark - Para fondos oscuros */
+  .btn-outline-dark {
+    background: transparent;
+    color: #1f2937;
+    border: 2px solid #1f2937;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-outline-dark:hover {
+    background: #1f2937;
+    color: white;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.3),
+      0 0 30px rgba(0, 0, 0, 0.2);
+    border-color: #1f2937;
+  }
+
+  /* Variante Glass (Glassmorphism) - Para fondos oscuros */
+  .btn-glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .btn-glass:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.18);
     border-color: rgba(255, 255, 255, 0.4);
-    transform: translateY(-2px) scale(1.02);
+    transform: translateY(-3px) scale(1.03);
     box-shadow: 
-      0 8px 24px rgba(0, 0, 0, 0.2),
+      0 10px 30px rgba(0, 0, 0, 0.25),
       inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
-  /* Variante Outline */
-  .btn-outline {
-    background: transparent;
-    border-color: rgba(220, 38, 38, 0.6);
-    color: #dc2626;
-  }
-
-  .btn-outline:hover {
-    background: rgba(220, 38, 38, 0.1);
-    border-color: #dc2626;
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 
-      0 0 20px rgba(220, 38, 38, 0.3),
-      inset 0 0 20px rgba(220, 38, 38, 0.05);
-  }
-
-  .btn-secondary:active {
-    transform: translateY(0) scale(0.98);
-  }
-
-  /* Border glow effect */
-  .btn-glow {
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(
-      45deg,
-      transparent 30%,
-      rgba(220, 38, 38, 0.4) 50%,
-      transparent 70%
-    );
-    opacity: 0;
-    transition: opacity 0.6s ease;
-    border-radius: 2px;
-    z-index: 0;
-  }
-
-  .btn-secondary:hover .btn-glow {
-    opacity: 1;
-    animation: rotate-border 3s linear infinite;
-  }
-
-  @keyframes rotate-border {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
   /* Accesibilidad */
-  .btn-secondary:focus-visible {
+  .btn-secondary:focus-visible,
+  .btn-outline-dark:focus-visible,
+  .btn-glass:focus-visible {
     outline: 3px solid rgba(220, 38, 38, 0.5);
     outline-offset: 4px;
   }
 
-  /* Para fondos oscuros */
-  .btn-secondary.on-dark {
-    color: white;
-    border-color: rgba(255, 255, 255, 0.3);
-  }
-
-  .btn-secondary.on-dark:hover {
-    border-color: white;
+  .btn-outline-dark:focus-visible {
+    outline-color: rgba(31, 41, 55, 0.5);
   }
 </style>
-
