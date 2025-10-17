@@ -102,14 +102,15 @@ const currentLang = 'fr';
                 <span class="text-lg text-white/80">/mois</span>
               </div>
 
-              <ButtonPrimary 
-                href="/fr/contact" 
-                text="Passez à l'Action!" 
-                icon="zap"
-                variant="default"
-                size="md"
-                className="!bg-white !text-red-600 hover:!bg-black hover:!text-white"
-              />
+              <div class="[&>a]:!bg-white [&>a]:!text-red-600 [&>a]:hover:!bg-black [&>a]:hover:!text-white">
+                <ButtonPrimary 
+                  href="/fr/contact" 
+                  text="Passez à l'Action!" 
+                  icon="zap"
+                  variant="default"
+                  size="md"
+                />
+              </div>
             </div>
           </div>
 
