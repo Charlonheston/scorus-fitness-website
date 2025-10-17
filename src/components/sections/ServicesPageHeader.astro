@@ -40,14 +40,14 @@ const { tagline, title, titleHighlight, subtitle } = Astro.props;
         </p>
       </div>
 
-      <!-- Title -->
-      <h1 class="mb-8 text-6xl font-black uppercase leading-[0.9] tracking-tighter text-white md:text-7xl lg:text-8xl">
+      <!-- Title (Mobile First) -->
+      <h1 class="mb-8 text-4xl font-black uppercase leading-[1.05] tracking-tighter text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
         {title}<br />
         <span class="text-red-600">{titleHighlight}</span>
       </h1>
 
-      <!-- Subtitle -->
-      <p class="mx-auto max-w-3xl text-xl leading-relaxed text-gray-300 md:text-2xl">
+      <!-- Subtitle (Mobile First) -->
+      <p class="mx-auto max-w-3xl text-base leading-relaxed text-gray-300 sm:text-lg md:text-xl lg:text-2xl">
         {subtitle}
       </p>
 

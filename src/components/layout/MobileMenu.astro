@@ -179,7 +179,11 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
   <!-- Contenido del menú -->
   <nav class="overflow-y-auto p-6" style="max-height: calc(100vh - 80px);">
     <ul class="space-y-2">
-      {navItems.map((item) => (
+      {navItems.map((item) => {
+        // Detectar si es la página de inicio (home)
+        const isHome = item.href.match(/^\/(es|en|fr|de)\/?$/);
+        
+        return (
         <li>
           {item.children ? (
             <!-- Item con submenu -->
@@ -224,89 +228,139 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
             <a
               href={item.href}
               class:list={[
-                'block rounded-lg px-4 py-3 text-sm font-bold uppercase tracking-wider transition-colors',
+                'flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-bold uppercase tracking-wider transition-colors',
                 currentPath === item.href
                   ? 'bg-red-600 text-white'
                   : 'text-gray-800 hover:bg-gray-100 hover:text-red-600',
               ]}
             >
-              {item.name}
+              {isHome ? (
+                /* Icono de casa para la página de inicio */
+                <svg 
+                  class="h-5 w-5 inline-block" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor" 
+                  stroke-width="2.5"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+              ) : null}
+              <span>{item.name}</span>
             </a>
           )}
         </li>
-      ))}
+        );
+      })}
     </ul>
   </nav>
 </div>
 
-<script>
-  function initMobileMenu() {
-    const button = document.getElementById('mobile-menu-button');
-    const overlay = document.getElementById('mobile-menu-overlay');
-    const drawer = document.getElementById('mobile-menu-drawer');
-    const closeButton = document.getElementById('mobile-menu-close');
+<script is:inline>
+  (function() {
+    function initMobileMenu() {
+      const button = document.getElementById('mobile-menu-button');
+      const overlay = document.getElementById('mobile-menu-overlay');
+      const drawer = document.getElementById('mobile-menu-drawer');
+      const closeButton = document.getElementById('mobile-menu-close');
 
-    if (!button || !overlay || !drawer || !closeButton) return;
-
-    // Abrir menú
-    function openMenu() {
-      overlay.style.pointerEvents = 'auto';
-      overlay.classList.remove('opacity-0');
-      overlay.classList.add('opacity-100');
-      drawer.classList.remove('translate-x-full');
-      drawer.classList.add('translate-x-0');
-      button.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
-    }
-
-    // Cerrar menú
-    function closeMenu() {
-      overlay.classList.remove('opacity-100');
-      overlay.classList.add('opacity-0');
-      drawer.classList.remove('translate-x-0');
-      drawer.classList.add('translate-x-full');
-      button.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-      setTimeout(() => {
-        overlay.style.pointerEvents = 'none';
-      }, 300);
-    }
-
-    // Event listeners
-    button.addEventListener('click', openMenu);
-    closeButton.addEventListener('click', closeMenu);
-    overlay.addEventListener('click', closeMenu);
-
-    // Cerrar con ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && drawer.classList.contains('translate-x-0')) {
-        closeMenu();
+      if (!button || !overlay || !drawer || !closeButton) {
+        console.warn('MobileMenu: Elementos no encontrados');
+        return;
       }
-    });
 
-    // Toggle submenus
-    const toggleButtons = document.querySelectorAll('.mobile-menu-toggle');
-    toggleButtons.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const parent = (e.currentTarget as HTMLElement).closest('.mobile-menu-item-with-submenu');
-        if (!parent) return;
-        
-        const submenu = parent.querySelector('.mobile-menu-submenu');
-        const icon = parent.querySelector('.mobile-menu-icon');
-        
-        if (submenu && icon) {
-          submenu.classList.toggle('hidden');
-          icon.classList.toggle('rotate-180');
+      // Eliminar listeners previos para evitar duplicados
+      const oldButton = button.cloneNode(true);
+      button.parentNode?.replaceChild(oldButton, button);
+      const newButton = document.getElementById('mobile-menu-button');
+      
+      const oldClose = closeButton.cloneNode(true);
+      closeButton.parentNode?.replaceChild(oldClose, closeButton);
+      const newClose = document.getElementById('mobile-menu-close');
+
+      const oldOverlay = overlay.cloneNode(true);
+      overlay.parentNode?.replaceChild(oldOverlay, overlay);
+      const newOverlay = document.getElementById('mobile-menu-overlay');
+
+      if (!newButton || !newOverlay || !newClose) return;
+
+      // Abrir menú
+      function openMenu(e) {
+        e?.preventDefault();
+        e?.stopPropagation();
+        console.log('Abriendo menú mobile');
+        newOverlay.style.pointerEvents = 'auto';
+        newOverlay.style.display = 'block';
+        newOverlay.classList.remove('opacity-0');
+        newOverlay.classList.add('opacity-100');
+        drawer.classList.remove('translate-x-full');
+        drawer.classList.add('translate-x-0');
+        newButton.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+
+      // Cerrar menú
+      function closeMenu(e) {
+        e?.preventDefault();
+        e?.stopPropagation();
+        console.log('Cerrando menú mobile');
+        newOverlay.classList.remove('opacity-100');
+        newOverlay.classList.add('opacity-0');
+        drawer.classList.remove('translate-x-0');
+        drawer.classList.add('translate-x-full');
+        newButton.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          newOverlay.style.pointerEvents = 'none';
+          newOverlay.style.display = 'none';
+        }, 300);
+      }
+
+      // Event listeners
+      newButton.addEventListener('click', openMenu);
+      newClose.addEventListener('click', closeMenu);
+      newOverlay.addEventListener('click', closeMenu);
+
+      // Cerrar con ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer.classList.contains('translate-x-0')) {
+          closeMenu();
         }
       });
-    });
-  }
 
-  // Inicializar al cargar
-  document.addEventListener('DOMContentLoaded', initMobileMenu);
-  
-  // Reinicializar en navegación de Astro (View Transitions)
-  document.addEventListener('astro:page-load', initMobileMenu);
+      // Toggle submenus
+      const toggleButtons = document.querySelectorAll('.mobile-menu-toggle');
+      toggleButtons.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const parent = btn.closest('.mobile-menu-item-with-submenu');
+          if (!parent) return;
+          
+          const submenu = parent.querySelector('.mobile-menu-submenu');
+          const icon = parent.querySelector('.mobile-menu-icon');
+          
+          if (submenu && icon) {
+            submenu.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+          }
+        });
+      });
+      
+      console.log('MobileMenu inicializado correctamente');
+    }
+
+    // Ejecutar inmediatamente si el DOM ya está listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMobileMenu);
+    } else {
+      // DOM ya está listo, ejecutar inmediatamente
+      initMobileMenu();
+    }
+    
+    // Reinicializar en navegación de Astro (View Transitions)
+    document.addEventListener('astro:page-load', initMobileMenu);
+  })();
 </script>
 
 <style>

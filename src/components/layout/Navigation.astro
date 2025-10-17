@@ -137,7 +137,11 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
 ---
 
 <nav class="flex items-center space-x-8">
-  {navItems.map((item: NavItem) => (
+  {navItems.map((item: NavItem) => {
+    // Detectar si es la página de inicio (home)
+    const isHome = item.href.match(/^\/(es|en|fr|de)\/?$/);
+    
+    return (
     <div class="group relative">
       <a
         href={item.href}
@@ -147,8 +151,23 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
             ? 'text-red-600'
             : 'text-current hover:text-red-600',
         ]}
+        aria-label={isHome ? item.name : undefined}
+        title={isHome ? item.name : undefined}
       >
-        {item.name}
+        {isHome ? (
+          /* Icono de casa para la página de inicio */
+          <svg 
+            class="h-5 w-5 inline-block" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor" 
+            stroke-width="2.5"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+        ) : (
+          item.name
+        )}
         {item.children && (
           <svg
             class="ml-1 inline-block h-3 w-3 transition-transform group-hover:rotate-180"
@@ -183,5 +202,6 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
         </div>
       )}
     </div>
-  ))}
+    );
+  })}
 </nav>
