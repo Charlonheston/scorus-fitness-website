@@ -1,8 +1,5 @@
 ---
-/**
- * Language Switcher Component
- * Selector de idioma minimalista con traducción de rutas
- */
+import { convertRoute } from '@utils/routeConverter';
 
 const languages = [
   { code: 'es', name: 'ES', fullName: 'Español' },
@@ -18,79 +15,9 @@ const pathParts = currentPath.split('/').filter(Boolean);
 const potentialLang = pathParts[0];
 const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potentialLang : 'es';
 
-// Mapa de traducción de rutas (ES es la base)
-const routeTranslations = {
-  // Servicios
-  'servicios': { en: 'services', fr: 'services', de: 'dienstleistungen', hu: 'szolgaltatasok' },
-  'servicios/talleres': { en: 'services/workshops', fr: 'services/ateliers', de: 'dienstleistungen/workshops', hu: 'szolgaltatasok/workshopok' },
-  'servicios/consultoria-online': { en: 'services/online-consulting', fr: 'services/consultation-en-ligne', de: 'dienstleistungen/online-beratung', hu: 'szolgaltatasok/online-tanacsadas' },
-  'servicios/video-cursos': { en: 'services/video-courses', fr: 'services/cours-video', de: 'dienstleistungen/video-kurse', hu: 'szolgaltatasok/video-kurzusok' },
-  'servicios/seminarios': { en: 'services/seminars', fr: 'services/seminaires', de: 'dienstleistungen/seminare', hu: 'szolgaltatasok/szeminariumok' },
-  'servicios/entrenamiento-personal': { en: 'services/personal-training', fr: 'services/entrainement-personnel', de: 'dienstleistungen/personliches-training', hu: 'szolgaltatasok/szemelyi-edzes' },
-  'servicios/asesoramiento-online': { en: 'services/online-counseling', fr: 'services/conseil-en-ligne', de: 'dienstleistungen/online-coaching', hu: 'szolgaltatasok/online-coaching' },
-  
-  // Academia
-  'academia': { en: 'academy', fr: 'academie', de: 'akademie', hu: 'akademia' },
-  'academia/scorus-campus': { en: 'academy/scorus-campus', fr: 'academie/scorus-campus', de: 'akademie/scorus-campus', hu: 'akademia/scorus-campus' },
-  'academia/re-born': { en: 'academy/re-born', fr: 'academie/re-born', de: 'akademie/re-born', hu: 'akademia/re-born' },
-  
-  // Otras páginas
-  'gym': { en: 'gym', fr: 'gym', de: 'gym', hu: 'gym' },
-  'biografia': { en: 'biography', fr: 'biographie', de: 'biografie', hu: 'eletrajz' },
-  'blog': { en: 'blog', fr: 'blog', de: 'blog', hu: 'blog' },
-  'contacto': { en: 'contact', fr: 'contact', de: 'kontakt', hu: 'kapcsolat' },
-};
-
-// Función para obtener la ruta en español desde cualquier idioma
-function getSpanishRoute(path: string, fromLang: string): string {
-  if (fromLang === 'es') return path;
-  
-  // Buscar la ruta en español que coincida con la traducción
-  for (const [esRoute, translations] of Object.entries(routeTranslations)) {
-    if (translations[fromLang as keyof typeof translations] === path) {
-      return esRoute;
-    }
-  }
-  
-  return path; // Si no se encuentra, devolver el path original
-}
-
-// Función para traducir la ruta al idioma de destino
-function translateRoute(path: string, fromLang: string, toLang: string): string {
-  // Si es la home, devolver home
-  if (!path || path === '/') return '/';
-  
-  // Primero obtener la ruta en español
-  const spanishRoute = getSpanishRoute(path, fromLang);
-  
-  // Si el idioma de destino es español, devolver la ruta española
-  if (toLang === 'es') return spanishRoute;
-  
-  // Buscar la traducción al idioma de destino
-  const translation = routeTranslations[spanishRoute as keyof typeof routeTranslations];
-  if (translation && translation[toLang as keyof typeof translation]) {
-    return translation[toLang as keyof typeof translation];
-  }
-  
-  // Si no hay traducción, devolver la ruta española
-  return spanishRoute;
-}
-
-// Obtener el path sin el prefijo de idioma
-const pathWithoutLang = currentPath.replace(/^\/(es|en|fr|de|hu)(\/|$)/, '').replace(/^\/+/, '');
-
 // Generar URLs traducidas para cada idioma
 const translatedUrls = languages.reduce((acc, lang) => {
-  const translatedPath = translateRoute(pathWithoutLang, currentLang, lang.code);
-  // Construir la URL final, asegurando que no haya doble slash
-  if (!translatedPath || translatedPath === '/') {
-    // Para la home
-    acc[lang.code] = `/${lang.code}/`;
-  } else {
-    // Para otras páginas, asegurar que translatedPath no empiece con /
-    const cleanPath = translatedPath.startsWith('/') ? translatedPath.slice(1) : translatedPath;
-    acc[lang.code] = `/${lang.code}/${cleanPath}`;
-  }
+  acc[lang.code] = convertRoute(currentPath, lang.code, currentLang);
   return acc;
 }, {} as Record<string, string>);
 ---
