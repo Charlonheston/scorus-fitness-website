@@ -1,0 +1,29 @@
+{
+  "site": {
+    "name": "Scorus Fitness",
+    "description": "Személyi edzés és online tanácsadás Alicanté-ban",
+    "author": "Bernat Scorus"
+  },
+  "nav": {
+    "home": "Kezdőlap",
+    "services": "Szolgáltatások",
+    "academy": "Akadémia",
+    "gym": "GYM",
+    "biography": "Életrajz",
+    "blog": "Blog",
+    "contact": "Kapcsolat"
+  },
+  "footer": {
+    "rights": "Minden jog fenntartva",
+    "privacy": "Adatvédelem",
+    "terms": "Felhasználási feltételek",
+    "social": "Kövess minket"
+  },
+  "cta": {
+    "learn_more": "Tudj meg többet",
+    "get_started": "Kezdd el most",
+    "contact_us": "Lépj kapcsolatba",
+    "view_services": "Szolgáltatások megtekintése"
+  }
+}
+

@@ -1,0 +1,48 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import translations from '../../../../public/locales/hu/services.json';
+
+const t = translations.seminars;
+const currentLang = 'hu';
+---
+
+<Layout title={t.meta.title} description={t.meta.description}>
+  <ServiceDetailHeader
+    backLink={{ href: `/${currentLang}/szolgaltatasok`, text: translations.back_to_services }}
+    title="SZEMINÁRIUMOK"
+    subtitle="Intenzív szemináriumok fitness és profi testépítés specifikus témáiról."
+  />
+
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center px-4">
+        <h2 class="mb-6 text-3xl sm:text-4xl font-black uppercase text-black">
+          Intenzív <span class="text-red-600">Szemináriumok</span>
+        </h2>
+        <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+          Fejlett intenzív képzés meghívott szakértőkkel, professzionális hálózatépítéssel és exkluzív anyagokkal.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center px-4">
+        <h2 class="mb-6 text-4xl sm:text-5xl font-black uppercase">
+          CSATLAKOZZ HOZZÁNK
+        </h2>
+        <ButtonPrimary 
+          href={`/${currentLang}/kapcsolat`}
+          text="Lépj Kapcsolatba"
+          icon="zap"
+          size="xl"
+          variant="glow"
+        />
+      </div>
+    </div>
+  </section>
+</Layout>
+

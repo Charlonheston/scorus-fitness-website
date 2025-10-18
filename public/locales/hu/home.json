@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "title": "Alakítsd Át Tested, Alakítsd Át Elméd",
+    "subtitle": "Több mint 15 év tapasztalat személyi edzésben és profi testépítésben Alicantéban",
+    "cta_primary": "Kezdd az Átalakulást",
+    "cta_secondary": "Szolgáltatások Megtekintése"
+  },
+  "about": {
+    "title": "Scorus Filozófia",
+    "description": "Nem ígéreteket adunk. Tudást, tapasztalatot és valódi eredményeket kínálunk.",
+    "feature_1": "Személyre Szabott Módszertan",
+    "feature_1_desc": "Minden ember egyedi. A terved is az.",
+    "feature_2": "Mérhető Eredmények",
+    "feature_2_desc": "Tudományos nyomon követés az előrehaladásoddal.",
+    "feature_3": "Bevált Tapasztalat",
+    "feature_3_desc": "Több mint 15 év életváltoztató munka."
+  },
+  "services": {
+    "title": "Szolgáltatások",
+    "subtitle": "Találd meg a tökéletes utat az átalakulásodhoz",
+    "personal_training": {
+      "title": "Személyi Edzés",
+      "description": "Személyre szabott egy-az-egyben edzések"
+    },
+    "online_consulting": {
+      "title": "Online Tanácsadás",
+      "description": "Szakértői tanácsadás bárhonnan"
+    },
+    "workshops": {
+      "title": "Szakosított Workshopok",
+      "description": "Tanulj fejlett technikákat"
+    }
+  },
+  "cta": {
+    "title": "Készen Állsz Az Átalakulásra?",
+    "description": "Tedd meg az első lépést a legjobb éned felé",
+    "button": "Ingyenes Edzés Foglalása"
+  }
+}
+

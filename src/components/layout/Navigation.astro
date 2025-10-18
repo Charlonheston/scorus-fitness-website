@@ -8,7 +8,7 @@
 const currentPath = Astro.url.pathname;
 const pathParts = currentPath.split('/').filter(Boolean);
 const potentialLang = pathParts[0];
-const currentLang = ['en', 'fr', 'de'].includes(potentialLang) ? potentialLang : 'es';
+const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potentialLang : 'es';
 
 // Configuración de navegación por idioma
 const navigationConfig = {
@@ -19,18 +19,19 @@ const navigationConfig = {
         name: 'Servicios',
         href: '/es/servicios',
         children: [
-          { name: 'Talleres', href: '/es/servicios/talleres' },
-          { name: 'Consultoría Online', href: '/es/servicios/consultoria-online' },
-          { name: 'Video Cursos', href: '/es/servicios/video-cursos' },
-          { name: 'Seminarios', href: '/es/servicios/seminarios' },
           { name: 'Entrenamiento Personal', href: '/es/servicios/entrenamiento-personal' },
+          { name: 'Consultas Online', href: '/es/servicios/consultoria-online' },
+          { name: 'Asesoramiento Online', href: '/es/servicios/asesoramiento-online' },
+          { name: 'Scorus Campus', href: '/es/academia/scorus-campus' },
         ],
       },
       {
         name: 'Academia',
         href: '/es/academia',
         children: [
-          { name: 'Scorus Campus', href: '/es/academia/scorus-campus' },
+          { name: 'Talleres', href: '/es/servicios/talleres' },
+          { name: 'Seminarios', href: '/es/servicios/seminarios' },
+          { name: 'Video Cursos', href: '/es/servicios/video-cursos' },
           { name: 'RE-BORN', href: '/es/academia/re-born' },
         ],
       },
@@ -47,18 +48,19 @@ const navigationConfig = {
         name: 'Services',
         href: '/en/services',
         children: [
-          { name: 'Workshops', href: '/en/services/workshops' },
-          { name: 'Online Consulting', href: '/en/services/online-consulting' },
-          { name: 'Video Courses', href: '/en/services/video-courses' },
-          { name: 'Seminars', href: '/en/services/seminars' },
           { name: 'Personal Training', href: '/en/services/personal-training' },
+          { name: 'Online Consulting', href: '/en/services/online-consulting' },
+          { name: 'Online Counseling', href: '/en/services/online-counseling' },
+          { name: 'Scorus Campus', href: '/en/academy/scorus-campus' },
         ],
       },
       {
         name: 'Academy',
         href: '/en/academy',
         children: [
-          { name: 'Scorus Campus', href: '/en/academy/scorus-campus' },
+          { name: 'Workshops', href: '/en/services/workshops' },
+          { name: 'Seminars', href: '/en/services/seminars' },
+          { name: 'Video Courses', href: '/en/services/video-courses' },
           { name: 'RE-BORN', href: '/en/academy/re-born' },
         ],
       },
@@ -75,18 +77,19 @@ const navigationConfig = {
         name: 'Services',
         href: '/fr/services',
         children: [
-          { name: 'Ateliers', href: '/fr/services/ateliers' },
-          { name: 'Consultation En Ligne', href: '/fr/services/consultation-en-ligne' },
-          { name: 'Cours Vidéo', href: '/fr/services/cours-video' },
-          { name: 'Séminaires', href: '/fr/services/seminaires' },
           { name: 'Entraînement Personnel', href: '/fr/services/entrainement-personnel' },
+          { name: 'Consultation En Ligne', href: '/fr/services/consultation-en-ligne' },
+          { name: 'Conseil En Ligne', href: '/fr/services/conseil-en-ligne' },
+          { name: 'Scorus Campus', href: '/fr/academie/scorus-campus' },
         ],
       },
       {
         name: 'Académie',
         href: '/fr/academie',
         children: [
-          { name: 'Scorus Campus', href: '/fr/academie/scorus-campus' },
+          { name: 'Ateliers', href: '/fr/services/ateliers' },
+          { name: 'Séminaires', href: '/fr/services/seminaires' },
+          { name: 'Cours Vidéo', href: '/fr/services/cours-video' },
           { name: 'RE-BORN', href: '/fr/academie/re-born' },
         ],
       },
@@ -103,18 +106,19 @@ const navigationConfig = {
         name: 'Dienstleistungen',
         href: '/de/dienstleistungen',
         children: [
-          { name: 'Workshops', href: '/de/dienstleistungen/workshops' },
-          { name: 'Online-Beratung', href: '/de/dienstleistungen/online-beratung' },
-          { name: 'Video-Kurse', href: '/de/dienstleistungen/video-kurse' },
-          { name: 'Seminare', href: '/de/dienstleistungen/seminare' },
           { name: 'Personal Training', href: '/de/dienstleistungen/personliches-training' },
+          { name: 'Online-Beratung', href: '/de/dienstleistungen/online-beratung' },
+          { name: 'Online-Coaching', href: '/de/dienstleistungen/online-coaching' },
+          { name: 'Scorus Campus', href: '/de/akademie/scorus-campus' },
         ],
       },
       {
         name: 'Akademie',
         href: '/de/akademie',
         children: [
-          { name: 'Scorus Campus', href: '/de/akademie/scorus-campus' },
+          { name: 'Workshops', href: '/de/dienstleistungen/workshops' },
+          { name: 'Seminare', href: '/de/dienstleistungen/seminare' },
+          { name: 'Video-Kurse', href: '/de/dienstleistungen/video-kurse' },
           { name: 'RE-BORN', href: '/de/akademie/re-born' },
         ],
       },
@@ -122,6 +126,35 @@ const navigationConfig = {
       { name: 'Biografie', href: '/de/biografie' },
       { name: 'Blog', href: '/de/blog' },
       { name: 'Kontakt', href: '/de/kontakt' },
+    ]
+  },
+  hu: {
+    items: [
+      { name: 'Kezdőlap', href: '/hu/' },
+      {
+        name: 'Szolgáltatások',
+        href: '/hu/szolgaltatasok',
+        children: [
+          { name: 'Személyi Edzés', href: '/hu/szolgaltatasok/szemelyi-edzes' },
+          { name: 'Online Tanácsadás', href: '/hu/szolgaltatasok/online-tanacsadas' },
+          { name: 'Online Coaching', href: '/hu/szolgaltatasok/online-coaching' },
+          { name: 'Scorus Campus', href: '/hu/akademia/scorus-campus' },
+        ],
+      },
+      {
+        name: 'Akadémia',
+        href: '/hu/akademia',
+        children: [
+          { name: 'Workshopok', href: '/hu/szolgaltatasok/workshopok' },
+          { name: 'Szemináriumok', href: '/hu/szolgaltatasok/szeminariumok' },
+          { name: 'Videó Kurzusok', href: '/hu/szolgaltatasok/video-kurzusok' },
+          { name: 'RE-BORN', href: '/hu/akademia/re-born' },
+        ],
+      },
+      { name: 'GYM', href: '/hu/gym' },
+      { name: 'Életrajz', href: '/hu/eletrajz' },
+      { name: 'Blog', href: '/hu/blog' },
+      { name: 'Kapcsolat', href: '/hu/kapcsolat' },
     ]
   }
 };
@@ -132,14 +165,14 @@ type NavItem = {
   children?: { name: string; href: string }[];
 };
 
-type Lang = 'es' | 'en' | 'fr' | 'de';
+type Lang = 'es' | 'en' | 'fr' | 'de' | 'hu';
 const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfig.es.items;
 ---
 
 <nav class="flex items-center space-x-8">
   {navItems.map((item: NavItem) => {
     // Detectar si es la página de inicio (home)
-    const isHome = item.href.match(/^\/(es|en|fr|de)\/?$/);
+    const isHome = item.href.match(/^\/(es|en|fr|de|hu)\/?$/);
     
     return (
     <div class="group relative">

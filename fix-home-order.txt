@@ -1,0 +1,15 @@
+ORDEN CORRECTO PARA TODOS LOS IDIOMAS (basado en /en):
+
+1. Hero Section
+2. Services Section (4 cards con imágenes)
+3. About Features Section  
+4. Academy Section (4 cards con imágenes)
+5. Scorus GYM Section
+6. Stats Section
+
+Idiomas a actualizar:
+- ES ✅ (en progreso)
+- FR ⏳
+- DE ⏳  
+- HU ⏳
+

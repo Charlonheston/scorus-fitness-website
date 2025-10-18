@@ -1,0 +1,48 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import translations from '../../../../public/locales/hu/services.json';
+
+const t = translations.workshops;
+const currentLang = 'hu';
+---
+
+<Layout title={t.meta.title} description={t.meta.description}>
+  <ServiceDetailHeader
+    backLink={{ href: `/${currentLang}/szolgaltatasok`, text: translations.back_to_services }}
+    title="WORKSHOPOK"
+    subtitle="Gyakorlati workshopok edzéstechnikákról, táplálkozásról és személyes fejlődésről."
+  />
+
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center px-4">
+        <h2 class="mb-6 text-3xl sm:text-4xl font-black uppercase text-black">
+          Gyakorlati <span class="text-red-600">Workshopok</span>
+        </h2>
+        <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+          Interaktív csoportos ülések felügyelt gyakorlással és teljes oktatási anyaggal.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center px-4">
+        <h2 class="mb-6 text-4xl sm:text-5xl font-black uppercase">
+          FOGLALJ HELYET
+        </h2>
+        <ButtonPrimary 
+          href={`/${currentLang}/kapcsolat`}
+          text="Lépj Kapcsolatba"
+          icon="zap"
+          size="xl"
+          variant="glow"
+        />
+      </div>
+    </div>
+  </section>
+</Layout>
+

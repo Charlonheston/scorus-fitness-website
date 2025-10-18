@@ -1,130 +1,289 @@
 ---
 /**
- * Página Scorus Campus - Diseño Minimalista
+ * Scorus Campus - Premium Black/White/Red Design
+ * Formación profesional avanzada
  */
 
 import Layout from '@/layouts/Layout.astro';
+import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+
+const currentLang = 'es';
 ---
 
 <Layout
   title="Scorus Campus | Formación Profesional"
-  description="Formación profesional avanzada en culturismo y entrenamiento personal"
+  description="Formación profesional avanzada en culturismo, entrenamiento personal y nutrición deportiva"
 >
-  <!-- Hero Section -->
-  <section class="bg-white py-32">
+  <!-- Header Section -->
+  <ServiceDetailHeader
+    backLink={{
+      href: `/${currentLang}/academia`,
+      text: "Volver a Academia"
+    }}
+    title="SCORUS CAMPUS"
+    subtitle="Formación profesional de élite en culturismo, entrenamiento personal y nutrición deportiva. Conviértete en un experto certificado."
+  />
+
+  <!-- Intro Section -->
+  <section class="bg-white py-24">
     <div class="container">
-      <div class="mx-auto max-w-4xl">
-        <a href="/es/academia" class="mb-8 inline-flex items-center text-sm font-semibold uppercase tracking-wider text-gray-500 transition-colors hover:text-black">
-          <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          Academia
-        </a>
-        
-        <div class="mb-8 text-5xl">🎓</div>
-        <h1 class="mb-8 text-6xl font-bold leading-tight text-gray-900 md:text-7xl">
-          Scorus<br />Campus
-        </h1>
-        
-        <p class="text-2xl leading-relaxed text-gray-600">
-          Formación profesional avanzada en culturismo, entrenamiento personal y nutrición deportiva.
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+          Conviértete En Un <span class="text-red-600">Profesional</span>
+        </h2>
+        <p class="text-lg leading-relaxed text-gray-700">
+          <strong>Scorus Campus</strong> es nuestro programa de formación profesional diseñado para personas apasionadas que desean convertirse en expertos certificados en fitness, culturismo y entrenamiento personal.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Content Section -->
+  <!-- Program Modules -->
   <section class="bg-gray-50 py-24">
     <div class="container">
-      <div class="mx-auto max-w-5xl space-y-24">
-        <div>
-          <h2 class="mb-8 text-4xl font-bold text-gray-900">¿Qué es Scorus Campus?</h2>
-          <p class="text-lg leading-relaxed text-gray-600">
-            Es nuestro programa de formación profesional diseñado para personas que quieren convertirse en expertos en fitness, culturismo y entrenamiento personal.
-          </p>
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
+            Programa <span class="text-red-600">Formativo</span>
+          </h2>
         </div>
 
-        <div>
-          <h2 class="mb-12 text-4xl font-bold text-gray-900">Programa Formativo</h2>
-          <div class="space-y-8">
-            <div class="bg-white p-8">
-              <h3 class="mb-4 text-2xl font-bold text-gray-900">Módulo 1: Fundamentos del Entrenamiento</h3>
-              <ul class="space-y-2 text-gray-600">
-                <li>• Anatomía y fisiología aplicada</li>
-                <li>• Biomecánica del movimiento</li>
-                <li>• Principios del entrenamiento</li>
+        <div class="grid gap-8 md:grid-cols-2">
+          <!-- Módulo 1 -->
+          <div class="group overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <div class="bg-black p-6 text-white">
+              <div class="mb-2 text-sm font-bold uppercase tracking-wider text-red-600">Módulo 1</div>
+              <h3 class="text-2xl font-black uppercase">Fundamentos del Entrenamiento</h3>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Anatomía y fisiología aplicada al entrenamiento</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Biomecánica del movimiento y análisis de ejercicios</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Principios científicos del entrenamiento de fuerza</span>
+                </li>
               </ul>
             </div>
+          </div>
 
-            <div class="bg-white p-8">
-              <h3 class="mb-4 text-2xl font-bold text-gray-900">Módulo 2: Culturismo Avanzado</h3>
-              <ul class="space-y-2 text-gray-600">
-                <li>• Técnicas avanzadas de entrenamiento</li>
-                <li>• Periodización y programación</li>
-                <li>• Preparación para competiciones</li>
+          <!-- Módulo 2 -->
+          <div class="group overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <div class="bg-black p-6 text-white">
+              <div class="mb-2 text-sm font-bold uppercase tracking-wider text-red-600">Módulo 2</div>
+              <h3 class="text-2xl font-black uppercase">Culturismo Avanzado</h3>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Técnicas avanzadas de hipertrofia muscular</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Periodización y programación del entrenamiento</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Preparación para competiciones de culturismo</span>
+                </li>
               </ul>
             </div>
+          </div>
 
-            <div class="bg-white p-8">
-              <h3 class="mb-4 text-2xl font-bold text-gray-900">Módulo 3: Nutrición Deportiva</h3>
-              <ul class="space-y-2 text-gray-600">
-                <li>• Nutrición para hipertrofia</li>
-                <li>• Nutrición para definición</li>
-                <li>• Suplementación deportiva</li>
+          <!-- Módulo 3 -->
+          <div class="group overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <div class="bg-black p-6 text-white">
+              <div class="mb-2 text-sm font-bold uppercase tracking-wider text-red-600">Módulo 3</div>
+              <h3 class="text-2xl font-black uppercase">Nutrición Deportiva</h3>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Nutrición para maximizar la hipertrofia muscular</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Estrategias de definición y pérdida de grasa</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Suplementación deportiva basada en evidencia</span>
+                </li>
               </ul>
             </div>
+          </div>
 
-            <div class="bg-white p-8">
-              <h3 class="mb-4 text-2xl font-bold text-gray-900">Módulo 4: Práctica Profesional</h3>
-              <ul class="space-y-2 text-gray-600">
-                <li>• Evaluación de clientes</li>
-                <li>• Diseño de programas</li>
-                <li>• Gestión de entrenamientos</li>
+          <!-- Módulo 4 -->
+          <div class="group overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <div class="bg-black p-6 text-white">
+              <div class="mb-2 text-sm font-bold uppercase tracking-wider text-red-600">Módulo 4</div>
+              <h3 class="text-2xl font-black uppercase">Práctica Profesional</h3>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Evaluación y valoración inicial de clientes</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Diseño de programas personalizados</span>
+                </li>
+                <li class="flex items-start">
+                  <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Gestión de sesiones y seguimiento de progreso</span>
+                </li>
               </ul>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div>
-          <h2 class="mb-8 text-4xl font-bold text-gray-900">Certificación</h2>
-          <p class="mb-6 text-lg leading-relaxed text-gray-600">
+  <!-- Certification Stats -->
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-5xl">
+        <div class="mb-16 text-center">
+          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter md:text-5xl">
+            Certificación <span class="text-red-600">Profesional</span>
+          </h2>
+          <p class="text-xl text-gray-300">
             Al finalizar el programa recibirás un certificado oficial de Scorus Campus que acredita tus conocimientos en culturismo y entrenamiento avanzado.
           </p>
-          <div class="grid gap-4 md:grid-cols-3">
-            <div class="bg-white p-6 text-center">
-              <div class="mb-2 text-4xl font-bold text-black">+100h</div>
-              <p class="text-sm text-gray-600">Horas de Formación</p>
-            </div>
-            <div class="bg-white p-6 text-center">
-              <div class="mb-2 text-4xl font-bold text-black">4</div>
-              <p class="text-sm text-gray-600">Módulos Completos</p>
-            </div>
-            <div class="bg-white p-6 text-center">
-              <div class="mb-2 text-4xl font-bold text-black">1</div>
-              <p class="text-sm text-gray-600">Certificación Oficial</p>
-            </div>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-3">
+          <div class="rounded-lg bg-white/10 p-8 text-center backdrop-blur-sm transition-all duration-300 hover:bg-white/20">
+            <div class="mb-3 text-5xl font-black text-red-600">+100h</div>
+            <p class="text-lg font-bold uppercase tracking-wider">Horas de Formación</p>
           </div>
+          <div class="rounded-lg bg-white/10 p-8 text-center backdrop-blur-sm transition-all duration-300 hover:bg-white/20">
+            <div class="mb-3 text-5xl font-black text-red-600">4</div>
+            <p class="text-lg font-bold uppercase tracking-wider">Módulos Completos</p>
+          </div>
+          <div class="rounded-lg bg-white/10 p-8 text-center backdrop-blur-sm transition-all duration-300 hover:bg-white/20">
+            <div class="mb-3 text-5xl font-black text-red-600">100%</div>
+            <p class="text-lg font-bold uppercase tracking-wider">Práctico</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-5xl">
+        <div class="mb-16 text-center">
+          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
+            ¿Por Qué <span class="text-red-600">Scorus Campus</span>?
+          </h2>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          {[
+            {title: "Formación de Élite", desc: "Aprende de un culturista profesional con años de experiencia"},
+            {title: "Contenido Actualizado", desc: "Basado en la última evidencia científica y práctica real"},
+            {title: "Certificación Oficial", desc: "Certificado reconocido que acredita tu nivel profesional"},
+            {title: "Prácticas Reales", desc: "Aplica lo aprendido con casos reales y práctica supervisada"},
+            {title: "Networking", desc: "Conecta con otros profesionales del sector fitness"},
+            {title: "Soporte Continuo", desc: "Acceso a la comunidad y actualizaciones de por vida"}
+          ].map(benefit => (
+            <div class="flex items-start gap-4 rounded-lg border-l-4 border-red-600 bg-gray-50 p-6 transition-all duration-300 hover:bg-gray-100">
+              <svg class="mt-1 h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h3 class="mb-2 font-bold text-black">{benefit.title}</h3>
+                <p class="text-sm text-gray-600">{benefit.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   </section>
 
   <!-- CTA Section -->
-  <section class="bg-black py-32 text-white">
+  <section class="bg-gray-50 py-32">
     <div class="container">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-8 text-5xl font-bold md:text-6xl">
-          Fórmate Como Profesional
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter text-black md:text-6xl">
+          ¿Listo Para <span class="text-red-600">Empezar</span>?
         </h2>
-        <p class="mb-12 text-lg text-gray-400">
-          Próxima edición próximamente. Plazas muy limitadas.
+        <p class="mb-8 text-xl text-gray-600">
+          Contacta con nosotros para más información sobre inscripciones y próximas convocatorias
         </p>
-        <a
-          href="/es/contacto"
-          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
-        >
-          Solicitar Información
-        </a>
+
+        <div class="mb-12 flex flex-col items-center justify-center gap-6 md:flex-row md:gap-12">
+          <a href="tel:+34673975252" class="group flex items-center gap-3 text-lg transition-colors hover:text-red-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            <span class="font-bold text-black group-hover:text-red-600">+34 673 97 52 52</span>
+          </a>
+
+          <a href={`/${currentLang}/contacto`} class="group flex items-center gap-3 text-lg transition-colors hover:text-red-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span class="font-bold text-black group-hover:text-red-600">Formulario de Contacto</span>
+          </a>
+        </div>
+
+        <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <ButtonPrimary 
+            href={`/${currentLang}/contacto`}
+            text="Solicitar Información"
+            icon="zap"
+            size="xl"
+            variant="glow"
+          />
+          
+          <ButtonSecondary 
+            href={`/${currentLang}/academia`}
+            text="Ver Todos Los Programas"
+            icon="arrow"
+            variant="glass"
+            size="xl"
+          />
+        </div>
       </div>
     </div>
   </section>

@@ -1,59 +1,16 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+const currentLang = 'de';
 ---
-
-<Layout title="RE-BORN | Transformationsprogramm">
-  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-4xl text-center">
-        <div class="mb-8 text-6xl">🔥</div>
-        <h1 class="mb-8 text-6xl font-bold md:text-7xl">RE-BORN</h1>
-        <p class="text-xl text-gray-300">12 Wochen, um deinen Körper und Geist zu transformieren</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-white py-32">
-    <div class="container">
-      <div class="mx-auto max-w-4xl">
-        <h2 class="mb-8 text-5xl font-bold text-gray-900">Vollständiges Transformationsprogramm</h2>
-        <div class="mb-12 space-y-6 text-lg leading-relaxed text-gray-600">
-          <p>
-            RE-BORN ist nicht nur ein Trainingsprogramm. Es ist ein vollständiger Transformationsprozess, der Training, Ernährung, Mindset und Gewohnheiten abdeckt.
-          </p>
-        </div>
-
-        <div class="mb-16 grid gap-8 md:grid-cols-2">
-          <div class="bg-gray-50 p-8">
-            <h3 class="mb-4 text-2xl font-bold text-gray-900">Strukturiertes Training</h3>
-            <p class="text-gray-600">Progressiver Trainingsplan für 12 Wochen mit allen Details.</p>
-          </div>
-          <div class="bg-gray-50 p-8">
-            <h3 class="mb-4 text-2xl font-bold text-gray-900">Personalisierte Ernährung</h3>
-            <p class="text-gray-600">Essensplan angepasst an dein Ziel und deine Vorlieben.</p>
-          </div>
-          <div class="bg-gray-50 p-8">
-            <h3 class="mb-4 text-2xl font-bold text-gray-900">Mentales Coaching</h3>
-            <p class="text-gray-600">Werkzeuge zur Entwicklung des notwendigen Mindsets für Erfolg.</p>
-          </div>
-          <div class="bg-gray-50 p-8">
-            <h3 class="mb-4 text-2xl font-bold text-gray-900">Private Community</h3>
-            <p class="text-gray-600">Exklusive Gruppe mit anderen RE-BORN Teilnehmern.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-black py-32 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-8 text-5xl font-bold">Bereit Für Die Herausforderung?</h2>
-        <a href="/de/kontakt" class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white">
-          RE-BORN Beitreten
-        </a>
-      </div>
-    </div>
-  </section>
+<Layout title="RE-BORN Programm | Vollständige Transformation" description="Vollständige körperliche und mentale Transformation in 12 Wochen. Werden Sie als Ihre beste Version wiedergeboren.">
+  <ServiceDetailHeader backLink={{href: `/${currentLang}/akademie`, text: "Zurück zur Akademie"}} title="RE-BORN" subtitle="Vollständige körperliche und mentale Transformation in 12 Wochen. Es ist nicht nur ein Trainingsprogramm, es ist ein umfassender Wiedergeburtsprozess."/>
+  <section class="bg-white py-24"><div class="container"><div class="mx-auto max-w-4xl text-center"><h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">Werden Sie Als Ihre <span class="text-red-600">Beste Version</span> Wiedergeboren</h2><p class="text-lg leading-relaxed text-gray-700"><strong>RE-BORN</strong> ist ein intensives Transformationsprogramm, das Hochleistungstraining, optimierte Ernährung, Siegermentalität und nachhaltige Gewohnheiten kombiniert. In 12 Wochen erreichen Sie Ergebnisse, die Sie nie für möglich gehalten hätten.</p></div></div></section>
+  <section class="bg-black py-24 text-white"><div class="container"><div class="mx-auto max-w-6xl"><div class="mb-16 text-center"><h2 class="mb-4 text-4xl font-black uppercase tracking-tighter md:text-5xl">Die 4 <span class="text-red-600">Säulen</span></h2></div><div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">{[{num:"01",title:"Training",desc:"Progressive Hochintensitätsroutinen",icon:"M13 10V3L4 14h7v7l9-11h-7z"},{num:"02",title:"Ernährung",desc:"Personalisierter Plan für Ihre Ziele",icon:"M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"},{num:"03",title:"Mentalität",desc:"Entwicklung einer Siegermentalität",icon:"M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"},{num:"04",title:"Gewohnheiten",desc:"Schaffung nachhaltiger Routinen",icon:"M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"}].map(p=>(<div class="group relative overflow-hidden rounded-lg bg-white/10 p-8 backdrop-blur-sm transition-all duration-300 hover:bg-white/20"><div class="mb-4 text-4xl font-black text-red-600/30">{p.num}</div><div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-red-600"><svg class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d={p.icon}/></svg></div><h3 class="mb-3 text-xl font-black uppercase tracking-tight">{p.title}</h3><p class="text-sm text-gray-300">{p.desc}</p></div>))}</div></div></div></section>
+  <section class="bg-gray-50 py-24"><div class="container"><div class="mx-auto max-w-6xl"><div class="mb-16 text-center"><h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">Programm<span class="text-red-600">struktur</span></h2></div><div class="grid gap-6 md:grid-cols-3">{[{phase:"Phase 1",weeks:"Wochen 1-4",title:"Anpassung",desc:"Körperliche Vorbereitung, erste Bewertung und solide Grundlage"},{phase:"Phase 2",weeks:"Wochen 5-8",title:"Fortschritt",desc:"Intensitätssteigerung, Ernährungsoptimierung und Muskelaufbau"},{phase:"Phase 3",weeks:"Wochen 9-12",title:"Transformation",desc:"Maximale Leistung, endgültige Definition und Gewohnheitsfestigung"}].map(p=>(<div class="group overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"><div class="bg-black p-6 text-white"><div class="mb-2 text-xs font-bold uppercase tracking-widest text-red-600">{p.weeks}</div><h3 class="text-2xl font-black uppercase">{p.phase}</h3><p class="mt-2 text-lg font-bold text-white">{p.title}</p></div><div class="p-6"><p class="text-gray-700">{p.desc}</p></div></div>))}</div></div></div></section>
+  <section class="bg-white py-24"><div class="container"><div class="mx-auto max-w-5xl"><div class="mb-16 text-center"><h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">Was Ist <span class="text-red-600">Enthalten</span>?</h2></div><div class="grid gap-6 md:grid-cols-2">{["Personalisierter Trainingsplan (12 Wochen)","Vollständiger und anpassbarer Ernährungsplan","Wöchentliche Fortschrittsverfolgung","Zugang zur privaten WhatsApp-Gruppe","Lehrmaterial über Gewohnheiten","Mentalitäts- und Motivationssitzungen","Monatliche körperliche Bewertungen","Kontinuierliche Unterstützung 24/7","Abschlusszertifikat","Zugang zur exklusiven Community"].map(i=>(<div class="flex items-start gap-4 rounded-lg border-l-4 border-red-600 bg-gray-50 p-6 transition-all duration-300 hover:bg-gray-100"><svg class="mt-1 h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><p class="font-semibold text-gray-800">{i}</p></div>))}</div></div></div></section>
+  <section class="bg-black py-24 text-white"><div class="container"><div class="mx-auto max-w-5xl"><div class="mb-16 text-center"><h2 class="mb-4 text-4xl font-black uppercase tracking-tighter md:text-5xl">Garantierte <span class="text-red-600">Ergebnisse</span></h2><p class="text-xl text-gray-300">Wenn Sie das Programm zu 100% befolgen, erhalten Sie sichtbare und messbare Ergebnisse</p></div><div class="grid gap-8 md:grid-cols-4">{[{val:"-8kg",txt:"Durchschnittl. Fett"},{val:"+4kg",txt:"Durchschnittl. Muskel"},{val:"100%",txt:"Engagement"},{val:"12",txt:"Wochen"}].map(s=>(<div class="rounded-lg bg-white/10 p-8 text-center backdrop-blur-sm transition-all duration-300 hover:bg-white/20"><div class="mb-3 text-5xl font-black text-red-600">{s.val}</div><p class="text-lg font-bold uppercase tracking-wider">{s.txt}</p></div>))}</div></div></div></section>
+  <section class="bg-gray-50 py-32"><div class="container"><div class="mx-auto max-w-4xl text-center"><h2 class="mb-6 text-5xl font-black uppercase tracking-tighter text-black md:text-6xl">Bereit <span class="text-red-600">Wiedergeboren</span> Zu Werden?</h2><p class="mb-8 text-xl text-gray-600">Begrenzte Plätze. Kontaktieren Sie uns jetzt, um Ihren Platz in der nächsten Ausgabe zu sichern</p><div class="mb-12 rounded-lg bg-black p-8 text-white"><div class="mb-4 text-3xl font-black text-red-600">INVESTITION</div><div class="mb-2 text-6xl font-black">997€</div><p class="text-gray-400">Einmalige Zahlung • 12 Wochen • Alles inklusive</p></div><div class="mb-12 flex flex-col items-center justify-center gap-6 md:flex-row md:gap-12"><a href="tel:+34673975252" class="group flex items-center gap-3 text-lg transition-colors hover:text-red-600"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><span class="font-bold text-black group-hover:text-red-600">+34 673 97 52 52</span></a><a href={`/${currentLang}/kontakt`} class="group flex items-center gap-3 text-lg transition-colors hover:text-red-600"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><span class="font-bold text-black group-hover:text-red-600">Kontaktformular</span></a></div><div class="flex flex-col items-center justify-center gap-6 sm:flex-row"><ButtonPrimary href={`/${currentLang}/kontakt`} text="Ihren Platz Reservieren" icon="zap" size="xl" variant="glow"/><ButtonSecondary href={`/${currentLang}/akademie`} text="Andere Programme Anzeigen" icon="arrow" variant="glass" size="xl"/></div></div></div></section>
 </Layout>
-

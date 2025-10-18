@@ -5,9 +5,11 @@
  * 
  * Props:
  * - backLink: { href: string, text: string } - Link de regreso
- * - icon: string - Emoji del servicio (temporal)
  * - title: string - Título del servicio
  * - subtitle: string - Descripción del servicio
+ * - backgroundImage?: string - URL de imagen de fondo (opcional)
+ * 
+ * Nota: Con soporte para imágenes de fondo
  */
 
 interface Props {
@@ -15,19 +17,36 @@ interface Props {
     href: string;
     text: string;
   };
-  icon: string;
   title: string;
   subtitle: string;
+  backgroundImage?: string;
 }
 
-const { backLink, icon, title, subtitle } = Astro.props;
+const { backLink, title, subtitle, backgroundImage } = Astro.props;
 ---
 
 <section class="relative min-h-[70vh] flex items-center overflow-hidden bg-black">
-  <!-- Background Pattern -->
-  <div class="absolute inset-0 opacity-5">
-    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
-  </div>
+  <!-- Background Image (if provided) -->
+  {backgroundImage && (
+    <>
+      <div class="absolute inset-0">
+        <img
+          src={backgroundImage}
+          alt={title}
+          class="h-full w-full object-cover object-center"
+        />
+      </div>
+      <!-- Dark Overlay para legibilidad -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
+    </>
+  )}
+
+  <!-- Background Pattern (solo si NO hay imagen) -->
+  {!backgroundImage && (
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+  )}
 
   <!-- Red Accent Corner -->
   <div class="absolute right-0 top-0 h-64 w-64 bg-red-600 opacity-10 blur-3xl"></div>
@@ -53,14 +72,7 @@ const { backLink, icon, title, subtitle } = Astro.props;
         {backLink.text}
       </a>
 
-      <div class="flex flex-col md:flex-row md:items-center md:gap-8">
-        <!-- Icon -->
-        <div class="mb-8 md:mb-0">
-          <div class="flex h-32 w-32 items-center justify-center rounded-full border-4 border-red-600 bg-black text-6xl shadow-lg shadow-red-600/50">
-            {icon}
-          </div>
-        </div>
-
+      <div class="flex flex-col md:items-start">
         <!-- Text Content -->
         <div class="flex-1">
           <!-- Title (Mobile First) -->

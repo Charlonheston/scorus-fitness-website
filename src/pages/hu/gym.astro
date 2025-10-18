@@ -1,0 +1,100 @@
+---
+/**
+ * GYM oldal - Húngaro
+ */
+
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+  title="Scorus GYM | Privát Edzőterem Alicante" 
+  description="Privát és exkluzív edzőterem Alicante központjában. Személyre szabott tér az edzésedhez."
+>
+  <!-- Hero Section -->
+  <section class="relative min-h-[70vh] flex items-center justify-center bg-black text-white">
+    <div class="absolute inset-0 bg-gradient-to-br from-black via-black/95 to-black"></div>
+    <div class="container relative z-10 py-32 text-center">
+      <h1 class="mb-6 text-5xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter">
+        SCORUS <span class="text-red-600">GYM</span>
+      </h1>
+      <p class="mx-auto max-w-2xl text-lg sm:text-xl text-gray-300 px-4">
+        Privát, exkluzív edzőterem a maximális teljesítményedhez
+      </p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-6 text-3xl sm:text-4xl font-black uppercase text-black">
+          EGY EGYEDI <span class="text-red-600">EDZŐTEREM</span>
+        </h2>
+        <p class="text-base sm:text-lg text-gray-600 leading-relaxed mb-8 px-4">
+          Scorus GYM egy privát, exkluzív tér, teljesen felszerelten, ahol minimális várakozással és maximum 2-3 fős kiscsoportos edzésekkel dolgozhatsz.
+        </p>
+        <p class="text-base sm:text-lg text-gray-600 leading-relaxed px-4">
+          Saját zenéddel, kényelmes környezetben és profi felszereléssel. Minden edzőeszköz elérhető a te céljaid eléréséhez.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="text-center px-4">
+          <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+            <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-lg sm:text-xl font-bold uppercase">Privát Tér</h3>
+          <p class="text-sm sm:text-base text-gray-400">Exkluzív környezet edzésedhez</p>
+        </div>
+
+        <div class="text-center px-4">
+          <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+            <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-lg sm:text-xl font-bold uppercase">Saját Zenéd</h3>
+          <p class="text-sm sm:text-base text-gray-400">Edzz a te zenéddel</p>
+        </div>
+
+        <div class="text-center px-4">
+          <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+            <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-lg sm:text-xl font-bold uppercase">Profi Felszerelés</h3>
+          <p class="text-sm sm:text-base text-gray-400">Minden amire szükséged van</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-red-600 py-24 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center px-4">
+        <h2 class="mb-6 text-4xl sm:text-5xl font-black uppercase">
+          LÁTOGASS EL HOZZÁNK
+        </h2>
+        <p class="mb-8 text-lg sm:text-xl">
+          Av. Conrado Albaladejo, 31 – 03540 Alicante
+        </p>
+        <a
+          href="/hu/kapcsolat"
+          class="inline-block bg-black px-8 sm:px-12 py-4 sm:py-5 text-base sm:text-lg font-bold uppercase text-white transition-all hover:bg-white hover:text-black"
+        >
+          Kapcsolat
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+

@@ -1,0 +1,268 @@
+---
+/**
+ * Szolgáltatások főoldal - Fekete/Fehér/Piros Prémium Design
+ * Magyar szolgáltatások index oldal újrahasznosítható komponensekkel
+ */
+
+import Layout from '@/layouts/Layout.astro';
+import ServicesPageHeader from '@components/sections/ServicesPageHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+
+const servicesData = {
+  seo: {
+    title: "Szolgáltatások | Scorus Fitness",
+    description: "Professzionális személyi edzés szolgáltatások, online tanácsadás, workshopok, videó kurzusok és szemináriumok. Fizikai és mentális átalakulás bevált módszerekkel."
+  },
+  header: {
+    tagline: "Scorus Fitness",
+    title: "ALAKÍTSD ÁT ÉLETED A",
+    titleHighlight: "SZOLGÁLTATÁSAINKKAL",
+    subtitle: "Minden szolgáltatás arra lett tervezve, hogy maximalizálja fizikai és mentális potenciálodat. Bevált módszerek, professzionális támogatás és garantált eredmények."
+  },
+  services: [
+    {
+      title: 'Személyi Edzés',
+      slug: 'szemelyi-edzes',
+      iconType: 'dumbbell',
+      description: 'Teljesen személyre szabott edzésprogramok, amelyek alkalmazkodnak a konkrét céljaidhoz.',
+      features: [
+        'Teljes kezdeti értékelés',
+        'Személyre szabott terv',
+        'Folyamatos nyomon követés és módosítások',
+        'Mérhető eredmények'
+      ],
+    },
+    {
+      title: 'Online Tanácsadás',
+      slug: 'online-tanacsadas',
+      iconType: 'laptop',
+      description: 'Professzionális tanácsadás a világ bármely pontjáról személyre szabott követéssel.',
+      features: [
+        'Heti videohívások',
+        'Részletes edzésterv',
+        'Személyre szabott táplálkozási terv',
+        'Folyamatos 24/7 támogatás'
+      ],
+    },
+    {
+      title: 'Workshopok',
+      slug: 'workshopok',
+      iconType: 'users',
+      description: 'Gyakorlati workshopok edzéstechnikákról, táplálkozásról és személyes fejlődésről.',
+      features: [
+        'Interaktív csoportos ülések',
+        'Felügyelt gyakorlás',
+        'Teljes oktatási anyag',
+        'Részvételi tanúsítvány'
+      ],
+    },
+    {
+      title: 'Videó Kurzusok',
+      slug: 'video-kurzusok',
+      iconType: 'video',
+      description: 'Videó kurzusok, hogy a saját tempódban tanulj edzésről és fejlett táplálkozásról.',
+      features: [
+        'Élethosszig tartó korlátlan hozzáférés',
+        'Frissített tartalom',
+        'Gyakorlati feladatok',
+        'Exkluzív közösség'
+      ],
+    },
+    {
+      title: 'Szemináriumok',
+      slug: 'szeminariumok',
+      iconType: 'presentation',
+      description: 'Intenzív szemináriumok fitness és profi testépítés specifikus témáiról.',
+      features: [
+        'Fejlett intenzív képzés',
+        'Meghívott szakértők',
+        'Professzionális hálózatépítés',
+        'Exkluzív anyagok'
+      ],
+    },
+  ]
+};
+---
+
+<Layout
+  title={servicesData.seo.title}
+  description={servicesData.seo.description}
+>
+  <!-- Header Szekció -->
+  <ServicesPageHeader {...servicesData.header} />
+
+  <!-- Szolgáltatások Rács Szekció -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <!-- Szekció Cím -->
+      <div class="mb-16 text-center">
+        <h2 class="mb-4 text-3xl sm:text-4xl font-black uppercase tracking-tighter text-black md:text-5xl px-4">
+          Fedezd Fel <span class="text-red-600">Szolgáltatásainkat</span>
+        </h2>
+        <p class="mx-auto max-w-2xl text-base sm:text-lg text-gray-600 px-4">
+          Találd meg a tökéletes programot céljaid eléréséhez
+        </p>
+      </div>
+
+      <!-- Szolgáltatások Rács -->
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {servicesData.services.map((service) => (
+          <div class="group relative overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <!-- Szolgáltatás Kártya -->
+            <div class="p-6 sm:p-8">
+              <!-- Ikon -->
+              <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-black transition-all duration-300 group-hover:bg-red-600">
+                {service.iconType === 'dumbbell' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 16V8m10 8V8M3 12h2m14 0h2M5 8h14M5 16h14"/>
+                  </svg>
+                )}
+                {service.iconType === 'laptop' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                  </svg>
+                )}
+                {service.iconType === 'users' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                )}
+                {service.iconType === 'video' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  </svg>
+                )}
+                {service.iconType === 'presentation' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
+                  </svg>
+                )}
+              </div>
+
+              <!-- Cím -->
+              <h3 class="mb-4 text-xl sm:text-2xl font-black uppercase tracking-tight text-black">
+                {service.title}
+              </h3>
+
+              <!-- Leírás -->
+              <p class="mb-6 text-sm sm:text-base leading-relaxed text-gray-600">
+                {service.description}
+              </p>
+
+              <!-- Jellemzők Lista -->
+              <ul class="mb-8 space-y-2">
+                {service.features.map((feature) => (
+                  <li class="flex items-start text-xs sm:text-sm text-gray-700">
+                    <svg class="mr-2 mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <!-- CTA Link Gomb -->
+              <a
+                href={`/hu/szolgaltatasok/${service.slug}`}
+                class="group/link inline-flex items-center text-xs sm:text-sm font-bold uppercase tracking-wider text-black transition-all hover:text-red-600"
+              >
+                Több Információ
+                <svg class="ml-2 h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Hover Border Effektus -->
+            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Miért Válassz Minket Szekció -->
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-5xl">
+        <div class="mb-16 text-center">
+          <h2 class="mb-4 text-3xl sm:text-4xl font-black uppercase tracking-tighter md:text-5xl px-4">
+            Miért <span class="text-red-600">Scorus Fitness</span>?
+          </h2>
+          <p class="text-base sm:text-lg text-gray-400 px-4">
+            Több mint 20 év tapasztalat életátalakításban
+          </p>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-3">
+          <div class="text-center px-4">
+            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+              <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-lg sm:text-xl font-bold uppercase">Garantált Eredmények</h3>
+            <p class="text-sm sm:text-base text-gray-400">Bevált módszertan valódi és mérhető eredményekkel</p>
+          </div>
+
+          <div class="text-center px-4">
+            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+              <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-lg sm:text-xl font-bold uppercase">100% Személyre Szabott</h3>
+            <p class="text-sm sm:text-base text-gray-400">Minden program alkalmazkodik egyedi igényeidhez</p>
+          </div>
+
+          <div class="text-center px-4">
+            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+              <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-lg sm:text-xl font-bold uppercase">Folyamatos Támogatás</h3>
+            <p class="text-sm sm:text-base text-gray-400">Folyamatos kísérés átalakulásod minden lépésében</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Szekció -->
+  <section class="bg-white py-24 sm:py-32">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center px-4">
+        <h2 class="mb-6 text-4xl sm:text-5xl font-black uppercase tracking-tighter text-black md:text-6xl">
+          Készen Állsz <span class="text-red-600">Az Átalakulásra</span>?
+        </h2>
+        <p class="mb-12 text-lg sm:text-xl text-gray-600">
+          Ne várj tovább. A legjobb verzió
+
+ód vár rád. Foglalj ingyenes konzultációt és fedezd fel, hogyan segíthetünk.
+        </p>
+        
+        <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <ButtonPrimary 
+            href="/hu/kapcsolat" 
+            text="Ingyenes Konzultáció" 
+            icon="zap"
+            size="xl"
+            variant="glow"
+          />
+          
+          <a
+            href="/hu/eletrajz"
+            class="inline-flex items-center text-xs sm:text-sm font-bold uppercase tracking-wider text-black transition-all hover:text-red-600"
+          >
+            Ismerd Meg Bernat Scorust
+            <svg class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+

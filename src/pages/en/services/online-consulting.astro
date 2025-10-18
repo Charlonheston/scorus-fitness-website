@@ -1,59 +1,271 @@
 ---
+/**
+ * Online Consultation - EXACT CONTENT from nueva.scorusfitness.com
+ * With pricing and FAQ complete
+ */
+
 import Layout from '@/layouts/Layout.astro';
+import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import translations from '../../../../public/locales/en/services.json';
+
 const t = translations.online_consulting;
 const currentLang = 'en';
 ---
-<Layout title={t.meta.title} description={t.meta.description}>
-  <section class="bg-white py-32">
-    <div class="container">
-      <div class="mx-auto max-w-4xl">
-        <a href={`/${currentLang}/services`} class="mb-8 inline-flex items-center text-sm font-semibold uppercase tracking-wider text-gray-500 transition-colors hover:text-black">
-          <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          {translations.back_to_services}
-        </a>
-        <div class="mb-8 text-5xl">{t.icon}</div>
-        <h1 class="mb-8 text-6xl font-bold leading-tight text-gray-900 md:text-7xl" set:html={t.title.replace(/\n/g, '<br />')}></h1>
-        <p class="text-2xl leading-relaxed text-gray-600">{t.subtitle}</p>
-      </div>
-    </div>
-  </section>
-  <section class="bg-gray-50 py-24">
-    <div class="container">
-      <div class="mx-auto max-w-5xl">
-        <div class="mb-20 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          <div class="text-center"><div class="mb-4 text-5xl">{t.features.video_calls.icon}</div><h3 class="mb-2 font-bold">{t.features.video_calls.title}</h3><p class="text-sm text-gray-600">{t.features.video_calls.description}</p></div>
-          <div class="text-center"><div class="mb-4 text-5xl">{t.features.training_plan.icon}</div><h3 class="mb-2 font-bold">{t.features.training_plan.title}</h3><p class="text-sm text-gray-600">{t.features.training_plan.description}</p></div>
-          <div class="text-center"><div class="mb-4 text-5xl">{t.features.nutrition_plan.icon}</div><h3 class="mb-2 font-bold">{t.features.nutrition_plan.title}</h3><p class="text-sm text-gray-600">{t.features.nutrition_plan.description}</p></div>
-          <div class="text-center"><div class="mb-4 text-5xl">{t.features.support.icon}</div><h3 class="mb-2 font-bold">{t.features.support.title}</h3><p class="text-sm text-gray-600">{t.features.support.description}</p></div>
-        </div>
-        <div class="space-y-16">
-          <div>
-            <h2 class="mb-6 text-4xl font-bold text-gray-900">{t.how_it_works_title}</h2>
-            <div class="space-y-8">
-              <div class="flex items-start"><div class="mr-6 flex h-12 w-12 flex-shrink-0 items-center justify-center bg-black text-xl font-bold text-white">1</div><div><h3 class="mb-2 text-xl font-bold">{t.how_it_works.step1.title}</h3><p class="text-gray-600">{t.how_it_works.step1.description}</p></div></div>
-              <div class="flex items-start"><div class="mr-6 flex h-12 w-12 flex-shrink-0 items-center justify-center bg-black text-xl font-bold text-white">2</div><div><h3 class="mb-2 text-xl font-bold">{t.how_it_works.step2.title}</h3><p class="text-gray-600">{t.how_it_works.step2.description}</p></div></div>
-              <div class="flex items-start"><div class="mr-6 flex h-12 w-12 flex-shrink-0 items-center justify-center bg-black text-xl font-bold text-white">3</div><div><h3 class="mb-2 text-xl font-bold">{t.how_it_works.step3.title}</h3><p class="text-gray-600">{t.how_it_works.step3.description}</p></div></div>
+
+<Layout
+  title={t.meta.title}
+  description={t.meta.description}
+>
+  <!-- Header Section -->
+  <ServiceDetailHeader
+    backLink={{
+      href: `/${currentLang}/services`,
+      text: translations.back_to_services
+    }}
+    title={t.title}
+    subtitle={t.subtitle}
+    backgroundImage="/images/services/online-consulting.jpg"
+  />
+
+  <!-- Intro Section - Premium 2025 Design -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-50 py-16 sm:py-24 lg:py-32">
+    <!-- Decorative Elements -->
+    <div class="absolute right-0 top-0 h-64 w-64 bg-red-600/5 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 h-64 w-64 bg-black/5 blur-3xl"></div>
+    
+    <div class="container relative">
+      <div class="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
+        <!-- Content Side -->
+        <div class="order-2 lg:order-1 space-y-6 sm:space-y-8">
+          <!-- Badge -->
+          <div class="inline-flex items-center gap-2 rounded-full bg-red-600/10 px-4 py-2 text-sm font-bold uppercase tracking-wider text-red-600">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+            Professional Consulting
+          </div>
+
+          <!-- Statement Title -->
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black uppercase leading-[1.1] tracking-tighter text-black">
+            60 Minutes That<br/>
+            Will <span class="text-red-600">Transform</span><br/>
+            Your Perspective
+          </h2>
+
+          <!-- Description -->
+          <p class="text-base sm:text-lg leading-relaxed text-gray-700 max-w-xl">
+            {t.intro_text}
+          </p>
+
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-3 gap-4 pt-4">
+            <div class="rounded-lg bg-white p-4 shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div class="text-2xl sm:text-3xl font-black text-red-600">60'</div>
+              <div class="text-xs sm:text-sm font-bold uppercase text-gray-600">Duration</div>
+            </div>
+            <div class="rounded-lg bg-white p-4 shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div class="text-2xl sm:text-3xl font-black text-red-600">1:1</div>
+              <div class="text-xs sm:text-sm font-bold uppercase text-gray-600">Personal</div>
+            </div>
+            <div class="rounded-lg bg-white p-4 shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div class="text-2xl sm:text-3xl font-black text-red-600">Online</div>
+              <div class="text-xs sm:text-sm font-bold uppercase text-gray-600">Zoom</div>
             </div>
           </div>
-          <div>
-            <h2 class="mb-6 text-4xl font-bold text-gray-900">{t.advantages_title}</h2>
-            <ul class="grid gap-4 md:grid-cols-2">
-              {t.advantages.map((advantage: string) => (
-                <li class="flex items-start"><svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><span class="text-gray-600">{advantage}</span></li>
-              ))}
-            </ul>
+
+          <!-- Red Accent Line -->
+          <div class="h-1 w-24 bg-red-600 rounded-full"></div>
+        </div>
+
+        <!-- Image Side -->
+        <div class="order-1 lg:order-2 relative">
+          <!-- Main Image Container -->
+          <div class="relative group">
+            <!-- Decorative Frame -->
+            <div class="absolute -inset-4 rounded-2xl bg-gradient-to-br from-red-600/20 to-black/20 blur-2xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+            
+            <!-- Image -->
+            <div class="relative overflow-hidden rounded-2xl shadow-2xl">
+              <img
+                src="/images/about/bernat-about.jpg"
+                alt="Bernat Scorus - World Bodybuilding Champion"
+                class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+              />
+              
+              <!-- Overlay Info Card -->
+              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-6">
+                <div class="flex items-center gap-3">
+                  <div class="h-12 w-1 bg-red-600 rounded-full"></div>
+                  <div>
+                    <h3 class="text-lg sm:text-xl font-black uppercase text-white">Bernat Scorus</h3>
+                    <p class="text-xs sm:text-sm text-gray-300">World Bodybuilding Champion</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Badge -->
+          <div class="absolute -right-4 -top-4 hidden sm:block">
+            <div class="flex h-24 w-24 items-center justify-center rounded-full bg-red-600 shadow-2xl">
+              <div class="text-center">
+                <div class="text-2xl font-black text-white">10+</div>
+                <div class="text-xs font-bold uppercase text-white">Years</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <section class="bg-black py-32 text-white">
+
+  <!-- How It Works -->
+  <section class="bg-gray-50 py-16 sm:py-24">
     <div class="container">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-8 text-5xl font-bold md:text-6xl">{t.cta_title}</h2>
-        <p class="mb-12 text-lg text-gray-400">{t.cta_description}</p>
-        <a href={`/${currentLang}/contact`} class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white">{t.cta_button}</a>
+      <div class="mx-auto max-w-5xl">
+        <div class="mb-12 sm:mb-16 text-center">
+          <h2 class="mb-4 text-3xl sm:text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
+            {t.how_it_works_title}
+          </h2>
+          <p class="text-base sm:text-lg text-gray-600">
+            {t.how_it_works_intro}
+          </p>
+        </div>
+
+        <div class="space-y-8 sm:space-y-12">
+          {Object.values(t.how_it_works).map((step: any) => (
+            <div class="flex flex-col gap-4 sm:gap-6 md:flex-row md:items-start">
+              <div class="flex h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0 items-center justify-center rounded-full bg-red-600 text-xl sm:text-2xl font-black text-white shadow-lg">
+                {step.number}
+              </div>
+              <div class="flex-1">
+                <h3 class="mb-2 sm:mb-3 text-xl sm:text-2xl font-black uppercase text-black">{step.title}</h3>
+                <p class="text-sm sm:text-base leading-relaxed text-gray-700">
+                  {step.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="bg-white py-16 sm:py-24">
+    <div class="container">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-12 sm:mb-16 text-center">
+          <h2 class="mb-4 text-3xl sm:text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
+            {t.pricing.title}
+          </h2>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-3">
+          {Object.values(t.pricing.plans).map((plan: any) => (
+            <div class="group relative flex flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50 to-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+              
+              <div class="mb-6 text-center">
+                <h3 class="mb-2 text-2xl font-black uppercase text-black">{plan.name}</h3>
+                <p class="text-sm text-gray-600">{plan.description}</p>
+              </div>
+
+              <div class="mb-6 text-center">
+                {plan.old_price && (
+                  <div class="mb-2">
+                    <span class="text-lg font-bold text-gray-400 line-through">{plan.old_price}{plan.currency}</span>
+                  </div>
+                )}
+                <div class="flex items-center justify-center">
+                  <span class="text-5xl font-black text-black">{plan.price}</span>
+                  <span class="ml-2 text-2xl font-bold text-red-600">{plan.currency}</span>
+                </div>
+              </div>
+
+              <div class="mt-auto w-full">
+                <ButtonPrimary
+                  href={`/${currentLang}/contact`}
+                  text={plan.cta}
+                  icon="arrow"
+                  size="lg"
+                  class="!min-h-[60px] w-full"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-gray-50 py-16 sm:py-24">
+    <div class="container">
+      <div class="mx-auto max-w-4xl">
+        <div class="mb-12 sm:mb-16 text-center">
+          <h2 class="mb-4 text-3xl sm:text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
+            {t.faq_title}
+          </h2>
+        </div>
+
+        <div class="space-y-6">
+          {Object.values(t.faq).map((item: any) => (
+            <details class="group overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl">
+              <summary class="flex cursor-pointer items-center justify-between p-6 font-bold text-black transition-colors hover:bg-gray-50">
+                <span class="text-base sm:text-lg">{item.question}</span>
+                <svg class="h-5 w-5 flex-shrink-0 text-red-600 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </summary>
+              <div class="border-t border-gray-100 p-6 pt-4">
+                <p class="text-sm sm:text-base leading-relaxed text-gray-700">{item.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final -->
+  <section class="bg-black py-20 sm:py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-4 sm:mb-6 text-4xl sm:text-5xl font-black uppercase tracking-tighter md:text-6xl">
+          Have <span class="text-red-600">Questions</span>?
+        </h2>
+        <p class="mb-6 sm:mb-8 text-lg sm:text-xl text-gray-300 px-4">
+          Call us or visit us at our gym in Alicante
+        </p>
+
+        <div class="mb-8 sm:mb-12 flex flex-col items-center justify-center gap-4 sm:gap-6 md:flex-row md:gap-12">
+          <a href="tel:+34673975252" class="group flex items-center gap-2 sm:gap-3 text-base sm:text-lg transition-colors hover:text-red-600">
+            <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            <span class="font-bold">+34 673 97 52 52</span>
+          </a>
+
+          <a href="https://maps.google.com/?q=Av.+Conrado+Albaladejo,+31+Alicante" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 sm:gap-3 text-base sm:text-lg transition-colors hover:text-red-600">
+            <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span class="font-bold">Av. Conrado Albaladejo, 31 - Alicante</span>
+          </a>
+        </div>
+
+        <div class="flex flex-col items-center justify-center gap-4 sm:gap-6">
+          <ButtonPrimary 
+            href={`/${currentLang}/contact`}
+            text="Contact Now"
+            icon="zap"
+            size="xl"
+            variant="glow"
+          />
+        </div>
       </div>
     </div>
   </section>

@@ -1,55 +1,15 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+const currentLang = 'fr';
 ---
-
-<Layout title="Scorus Campus | Académie">
-  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-4xl text-center">
-        <div class="mb-8 text-6xl">🎓</div>
-        <h1 class="mb-8 text-6xl font-bold md:text-7xl">Scorus Campus</h1>
-        <p class="text-xl text-gray-300">La formation la plus complète pour les professionnels du fitness</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-white py-32">
-    <div class="container">
-      <div class="mx-auto max-w-4xl">
-        <h2 class="mb-8 text-5xl font-bold text-gray-900">École de Formation Professionnelle</h2>
-        <div class="mb-12 space-y-6 text-lg leading-relaxed text-gray-600">
-          <p>
-            Scorus Campus est l'école officielle de formation pour les professionnels du fitness. Un programme complet qui vous enseignera tout ce dont vous avez besoin pour exceller dans le secteur.
-          </p>
-        </div>
-
-        <div class="mb-16 space-y-8">
-          <div class="border-l-4 border-black bg-gray-50 p-8">
-            <h3 class="mb-4 text-2xl font-bold text-gray-900">Méthodologie d'Entraînement Avancée</h3>
-            <p class="text-gray-600">Apprenez à concevoir et périodiser des programmes d'entraînement pour tout objectif.</p>
-          </div>
-          <div class="border-l-4 border-black bg-gray-50 p-8">
-            <h3 class="mb-4 text-2xl font-bold text-gray-900">Nutrition Sportive</h3>
-            <p class="text-gray-600">Formation complète en nutrition et supplémentation appliquée au culturisme.</p>
-          </div>
-          <div class="border-l-4 border-black bg-gray-50 p-8">
-            <h3 class="mb-4 text-2xl font-bold text-gray-900">Préparation de Compétition</h3>
-            <p class="text-gray-600">Comment préparer des athlètes pour des compétitions au plus haut niveau.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-black py-32 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-8 text-5xl font-bold">Devenez Professionnel</h2>
-        <a href="/fr/contact" class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white">
-          Demander Des Informations
-        </a>
-      </div>
-    </div>
-  </section>
+<Layout title="Scorus Campus | Formation Professionnelle" description="Formation professionnelle avancée en musculation, coaching personnel et nutrition sportive">
+  <ServiceDetailHeader backLink={{href: `/${currentLang}/academie`, text: "Retour à l'Académie"}} title="SCORUS CAMPUS" subtitle="Formation professionnelle d'élite en musculation, coaching personnel et nutrition sportive. Devenez un expert certifié."/>
+  <section class="bg-white py-24"><div class="container"><div class="mx-auto max-w-4xl text-center"><h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">Devenez Un <span class="text-red-600">Professionnel</span></h2><p class="text-lg leading-relaxed text-gray-700"><strong>Scorus Campus</strong> est notre programme de formation professionnelle conçu pour les passionnés qui souhaitent devenir des experts certifiés en fitness, musculation et coaching personnel.</p></div></div></section>
+  <section class="bg-gray-50 py-24"><div class="container"><div class="mx-auto max-w-6xl"><div class="mb-16 text-center"><h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">Programme De <span class="text-red-600">Formation</span></h2></div><div class="grid gap-8 md:grid-cols-2">{[{num:1,title:"Fondamentaux de l'Entraînement",items:["Anatomie et physiologie appliquées à l'entraînement","Biomécanique du mouvement et analyse des exercices","Principes scientifiques de l'entraînement de force"]},{num:2,title:"Musculation Avancée",items:["Techniques avancées d'hypertrophie musculaire","Périodisation et programmation de l'entraînement","Préparation aux compétitions de musculation"]},{num:3,title:"Nutrition Sportive",items:["Nutrition pour maximiser l'hypertrophie musculaire","Stratégies de définition et perte de graisse","Supplémentation sportive basée sur des preuves"]},{num:4,title:"Pratique Professionnelle",items:["Évaluation et bilan initial des clients","Conception de programmes personnalisés","Gestion des séances et suivi des progrès"]}].map(m=>(<div class="group overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"><div class="bg-black p-6 text-white"><div class="mb-2 text-sm font-bold uppercase tracking-wider text-red-600">Module {m.num}</div><h3 class="text-2xl font-black uppercase">{m.title}</h3></div><div class="p-6"><ul class="space-y-3 text-gray-700">{m.items.map(i=>(<li class="flex items-start"><svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><span>{i}</span></li>))}</ul></div></div>))}</div></div></div></section>
+  <section class="bg-black py-24 text-white"><div class="container"><div class="mx-auto max-w-5xl"><div class="mb-16 text-center"><h2 class="mb-4 text-4xl font-black uppercase tracking-tighter md:text-5xl">Certification <span class="text-red-600">Professionnelle</span></h2><p class="text-xl text-gray-300">À la fin du programme, vous recevrez un certificat officiel de Scorus Campus qui accrédite vos connaissances en musculation et entraînement avancé.</p></div><div class="grid gap-8 md:grid-cols-3">{[{val:"+100h",txt:"Heures de Formation"},{val:"4",txt:"Modules Complets"},{val:"100%",txt:"Pratique"}].map(s=>(<div class="rounded-lg bg-white/10 p-8 text-center backdrop-blur-sm transition-all duration-300 hover:bg-white/20"><div class="mb-3 text-5xl font-black text-red-600">{s.val}</div><p class="text-lg font-bold uppercase tracking-wider">{s.txt}</p></div>))}</div></div></div></section>
+  <section class="bg-white py-24"><div class="container"><div class="mx-auto max-w-5xl"><div class="mb-16 text-center"><h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">Pourquoi <span class="text-red-600">Scorus Campus</span>?</h2></div><div class="grid gap-6 md:grid-cols-2">{[{title:"Formation d'Élite",desc:"Apprenez d'un culturiste professionnel avec des années d'expérience"},{title:"Contenu Actualisé",desc:"Basé sur les dernières preuves scientifiques et la pratique réelle"},{title:"Certification Officielle",desc:"Certificat reconnu qui accrédite votre niveau professionnel"},{title:"Pratiques Réelles",desc:"Appliquez ce que vous avez appris avec des cas réels et une pratique supervisée"},{title:"Networking",desc:"Connectez-vous avec d'autres professionnels du secteur du fitness"},{title:"Support Continu",desc:"Accès à la communauté et mises à jour à vie"}].map(b=>(<div class="flex items-start gap-4 rounded-lg border-l-4 border-red-600 bg-gray-50 p-6 transition-all duration-300 hover:bg-gray-100"><svg class="mt-1 h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><div><h3 class="mb-2 font-bold text-black">{b.title}</h3><p class="text-sm text-gray-600">{b.desc}</p></div></div>))}</div></div></div></section>
+  <section class="bg-gray-50 py-32"><div class="container"><div class="mx-auto max-w-4xl text-center"><h2 class="mb-6 text-5xl font-black uppercase tracking-tighter text-black md:text-6xl">Prêt À <span class="text-red-600">Commencer</span>?</h2><p class="mb-8 text-xl text-gray-600">Contactez-nous pour plus d'informations sur les inscriptions et les prochaines sessions</p><div class="mb-12 flex flex-col items-center justify-center gap-6 md:flex-row md:gap-12"><a href="tel:+34673975252" class="group flex items-center gap-3 text-lg transition-colors hover:text-red-600"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><span class="font-bold text-black group-hover:text-red-600">+34 673 97 52 52</span></a><a href={`/${currentLang}/contact`} class="group flex items-center gap-3 text-lg transition-colors hover:text-red-600"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><span class="font-bold text-black group-hover:text-red-600">Formulaire De Contact</span></a></div><div class="flex flex-col items-center justify-center gap-6 sm:flex-row"><ButtonPrimary href={`/${currentLang}/contact`} text="Demander Des Informations" icon="zap" size="xl" variant="glow"/><ButtonSecondary href={`/${currentLang}/academie`} text="Voir Tous Les Programmes" icon="arrow" variant="glass" size="xl"/></div></div></div></section>
 </Layout>
-

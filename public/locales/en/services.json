@@ -82,61 +82,91 @@
 
   "online_consulting": {
     "meta": {
-      "title": "Online Consulting | Scorus Fitness",
-      "description": "Professional online coaching from anywhere in the world"
+      "title": "Online Consultation | Scorus Fitness",
+      "description": "Resolve all your doubts about training, supplementation or nutrition in just 60 minutes"
     },
-    "icon": "💻",
-    "title": "Online\nConsulting",
-    "subtitle": "Professional coaching from anywhere in the world with personalized follow-up and continuous support.",
-    "features": {
-      "video_calls": {
-        "icon": "📹",
-        "title": "Weekly Video Calls",
-        "description": "Live sessions for tracking"
-      },
-      "training_plan": {
-        "icon": "📊",
-        "title": "Training Plan",
-        "description": "Personalized routines"
-      },
-      "nutrition_plan": {
-        "icon": "🥗",
-        "title": "Nutrition Plan",
-        "description": "Diet adapted to you"
-      },
-      "support": {
-        "icon": "💬",
-        "title": "24/7 Support",
-        "description": "Quick responses"
-      }
-    },
-    "how_it_works_title": "How It Works",
+    "title": "Online Consultation",
+    "subtitle": "Resolve All Your Doubts in Just 60 Minutes",
+    "intro_text": "Have you been accumulating doubts about training, supplementation or nutrition for years? At Scorus Fitness, we offer you a 60-minute online consultation to provide you with clear and personalized answers from an expert in fitness and bodybuilding.",
+    "how_it_works_title": "How Does Online Consulting Work?",
+    "how_it_works_intro": "We conduct consultations through Zoom. Clients who contract this service will get a 10% discount on our Online Coaching program.",
     "how_it_works": {
       "step1": {
-        "title": "First Consultation",
-        "description": "Initial video call to know your goals, current level and specific needs."
+        "number": "1",
+        "title": "Book your online consultation",
+        "description": "Complete the contact form to schedule a 60-minute session with Bernat Scorus. You can book one or several sessions, according to your needs."
       },
       "step2": {
-        "title": "Personalized Plan",
-        "description": "Design of your training and nutrition plan adapted to your availability and goals."
+        "number": "2",
+        "title": "Make the payment and confirm your appointment",
+        "description": "Once the date and time are chosen, make the payment and Bernat will contact you to confirm the session and coordinate the first consultations."
       },
       "step3": {
-        "title": "Continuous Follow-up",
-        "description": "Weekly video calls and daily support via WhatsApp to resolve doubts and adjust the plan."
+        "number": "3",
+        "title": "Connect and resolve all your doubts",
+        "description": "At the agreed date and time, Bernat will answer all your questions live, providing you with practical and personalized advice to improve your training, nutrition or supplementation."
       }
     },
-    "advantages_title": "Advantages",
-    "advantages": [
-      "Train from anywhere in the world",
-      "Total schedule flexibility",
-      "Continuous support via WhatsApp",
-      "100% personalized plans",
-      "Adjustments according to your progress",
-      "More affordable price"
-    ],
-    "cta_title": "Start Today",
-    "cta_description": "First free consultation to get to know each other and design your plan",
-    "cta_button": "Contact Now"
+    "pricing": {
+      "title": "Pricing",
+      "plans": {
+        "single": {
+          "name": "Individual Session",
+          "description": "Resolve all your doubts in just 60 minutes",
+          "price": "60",
+          "old_price": "80",
+          "currency": "€",
+          "cta": "Book"
+        },
+        "pack4": {
+          "name": "4-Session Pack",
+          "description": "Package of 4 60-minute consultation sessions. 240 minutes to resolve all your doubts.",
+          "price": "220",
+          "old_price": "320",
+          "currency": "€",
+          "cta": "Book"
+        },
+        "pack8": {
+          "name": "8-Session Pack",
+          "description": "Package of 8 60-minute consultation sessions. 480 minutes to resolve all your doubts.",
+          "price": "420",
+          "old_price": "640",
+          "currency": "€",
+          "cta": "Book"
+        }
+      }
+    },
+    "faq_title": "Questions and answers",
+    "faq": {
+      "q1": {
+        "question": "What if it lasts less than expected?",
+        "answer": "Consultations with Bernat are one hour, he reserves an hour personally to attend to you. But if the duration is less than 30 minutes, don't worry, you can reserve those remaining 30 minutes for another occasion, requesting an appointment in advance by email and it will be scheduled."
+      },
+      "q2": {
+        "question": "Is it necessary to have a camera?",
+        "answer": "The private consultation with Bernat Scorus is usually a video call, but it is not necessary for you to have a camera for him to see you (although it's always nice to see each other's faces). Bernat can make the video call anyway and you will see him, even if he doesn't see you."
+      },
+      "q3": {
+        "question": "How long does the consultation last?",
+        "answer": "The consultation lasts 60 minutes. During that time Bernat will resolve all the doubts you have, so our advice is that before that appointment, you prepare well what you want to ask him so that nothing is left out."
+      },
+      "q4": {
+        "question": "What do I need?",
+        "answer": "With any device, phone, tablet or personal computer equipped with webcam or not, you can have that private consultation with Bernat Scorus."
+      },
+      "q5": {
+        "question": "What does the private consultation consist of?",
+        "answer": "It is a personal consultation live with the World Champion in Bodybuilding and Personal Trainer Bernat Scorus, where for 60 minutes you can ask him any doubt about nutrition, training, supplementation, healthy living..."
+      },
+      "q6": {
+        "question": "What if I don't have data or my connection is slow?",
+        "answer": "Don't worry about that. Indicate it when you fill out the questionnaire if you prefer a phone call. Bernat will make a phone call and will personally talk to you for 60 minutes where he will surely resolve all your doubts and help you."
+      },
+      "q7": {
+        "question": "Can I have more than one consultation?",
+        "answer": "You can have as many consultations as you need. The Individual Voucher gives you the right to 60 minutes of consultation, but you can also purchase Vouchers of 3 or 6, being able to use those consultations whenever you consider, You will always have to schedule in advance said consultations."
+      }
+    }
   },
 
   "video_courses": {
@@ -300,6 +330,111 @@
     "cta_title": "Ready To Start?",
     "cta_description": "Schedule your first free evaluation session",
     "cta_button": "Contact Now"
+  },
+
+  "online_counseling": {
+    "meta": {
+      "title": "Online Counseling | Scorus Fitness",
+      "description": "100% effective system with personalized plans for 3, 6 and 12 months. Video consultations, WhatsApp follow-up and exclusive discounts."
+    },
+    "title": "ONLINE COUNSELING",
+    "subtitle": "A complete and effective system for your physical and mental transformation",
+    "hero_tagline": "Discover a 100% effective system",
+    "benefits": {
+      "title": "What's Included?",
+      "items": [
+        {
+          "title": "Individual monthly video consultation",
+          "description": "Personalized 1:1 sessions to review your progress"
+        },
+        {
+          "title": "Weekly group video consultation",
+          "description": "Learn and share with others in group sessions"
+        },
+        {
+          "title": "Personal assistance via WhatsApp",
+          "description": "Direct support to resolve all your doubts"
+        },
+        {
+          "title": "Access to WhatsApp group",
+          "description": "Exclusive community of support and motivation"
+        },
+        {
+          "title": "Up to 30% discount on Great I Am clothing",
+          "description": "Exclusive benefits on sportswear"
+        },
+        {
+          "title": "Up to 30% discount on AMIX supplementation",
+          "description": "Discounts on the highest quality supplements"
+        }
+      ]
+    },
+    "story": {
+      "title": "My Story",
+      "intro": "I know what it's like to feel fragile and without confidence. At only 50 kg, my family made fun of me calling me «skinny», and my first attempt at the gym was a disaster. Lack of knowledge led me to frustration.",
+      "transformation": "But with the right guidance, in just 8 months I gained 25 kg of muscle and, in 5 years, I doubled my weight from 50 kg to 102 kg naturally. Now, I want to help you achieve the same without making my mistakes.",
+      "family": "My transformation wasn't the only one. My mother, with morbid obesity and high blood pressure, was at risk of losing her life. With my help, she lost 35 kg and recovered her health. Unfortunately, I didn't have the same success with my brother, who also suffered from obesity, but failed to take action.",
+      "results": "I have helped hundreds of people lose between 15 and 80 kg, transforming not only their bodies, but also their lives. If you want personalized training in Alicante based on real results, I am here to guide you through the process.",
+      "cta": "Call me and I'll help you!"
+    },
+    "pricing": {
+      "title": "Choose your path and transform your body and mind NOW",
+      "plans": {
+        "kickstart": {
+          "badge": "KICKSTART",
+          "name": "Quarterly Pack",
+          "price": "174",
+          "total_price": "523",
+          "currency": "€",
+          "duration": "/month",
+          "features": [
+            "Personalized diet and training according to your goals",
+            "Adjustments every 4 weeks in diet and training",
+            "Initial online 1:1 consultation to assess your status and plan strategies",
+            "Fortnightly WhatsApp assistance",
+            "1 monthly online consultation",
+            "10% discount on AMIX supplementation and Great I Am clothing"
+          ],
+          "cta": "Book"
+        },
+        "transformation": {
+          "badge": "TRANSFORMATION",
+          "name": "Biannual Pack",
+          "price": "164",
+          "total_price": "988",
+          "currency": "€",
+          "duration": "/month",
+          "popular": true,
+          "features": [
+            "Everything from the Quarterly Pack, plus:",
+            "Fortnightly diet and training reviews",
+            "1 monthly video consultation",
+            "3 personal training sessions",
+            "Exclusive WhatsApp group",
+            "20% discount on AMIX supplementation and Great I Am clothing"
+          ],
+          "cta": "Book"
+        },
+        "elite": {
+          "badge": "ELITE",
+          "name": "Annual Pack",
+          "price": "164",
+          "total_price": "1.977",
+          "currency": "€",
+          "duration": "/month",
+          "features": [
+            "Everything from the Biannual Pack, plus:",
+            "Weekly diet and training adjustments",
+            "Real-time WhatsApp support",
+            "Weekly group video consultations",
+            "Exclusive access to an online fitness and nutrition course",
+            "30% discount on AMIX supplementation and Great I Am clothing",
+            "Weekend or full Saturday in person with me"
+          ],
+          "cta": "Book"
+        }
+      }
+    }
   },
 
   "cta": {

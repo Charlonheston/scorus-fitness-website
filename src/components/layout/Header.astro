@@ -7,6 +7,12 @@
 import Navigation from './Navigation.astro';
 import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
 import MobileMenu from './MobileMenu.astro';
+
+// Detectar idioma desde la URL
+const currentPath = Astro.url.pathname;
+const pathParts = currentPath.split('/').filter(Boolean);
+const potentialLang = pathParts[0];
+const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potentialLang : 'es';
 ---
 
 <header 
@@ -15,12 +21,23 @@ import MobileMenu from './MobileMenu.astro';
 >
   <div class="container">
     <div class="flex h-24 items-center justify-between">
-      <!-- Logo - Con efecto rojo -->
+      <!-- Logo - Con cambio dinámico blanco/negro -->
       <div class="flex items-center">
-        <a href="/es/" class="header-link group flex items-center space-x-2">
-          <span class="header-text text-xl font-bold tracking-tight text-white transition-all group-hover:tracking-wide group-hover:text-red-600">
-            SCORUS
-          </span>
+        <a href={`/${currentLang}/`} class="header-link group flex items-center">
+          <!-- Logo Blanco (transparente) -->
+          <img 
+            id="logo-white"
+            src="/images/logos/logo-scorus-white.png" 
+            alt="Scorus Fitness" 
+            class="h-16 w-auto transition-all duration-300 group-hover:opacity-80 sm:h-20"
+          />
+          <!-- Logo Negro (scroll) -->
+          <img 
+            id="logo-black"
+            src="/images/logos/logo-scorus.png" 
+            alt="Scorus Fitness" 
+            class="hidden h-16 w-auto transition-all duration-300 group-hover:opacity-80 sm:h-20"
+          />
         </a>
       </div>
 
@@ -58,8 +75,8 @@ import MobileMenu from './MobileMenu.astro';
       const mainSvgs = navBar ? navBar.querySelectorAll(':scope > nav > div > a > svg, :scope > div > button > svg') : [];
       
       // Obtener elementos del LOGO
-      const logoLink = header.querySelector('.header-link');
-      const logoSpan = logoLink ? logoLink.querySelector('span') : null;
+      const logoWhite = header.querySelector('#logo-white') as HTMLElement;
+      const logoBlack = header.querySelector('#logo-black') as HTMLElement;
 
       if (currentScroll <= 50) {
         // ========== ESTADO TRANSPARENTE ==========
@@ -68,11 +85,10 @@ import MobileMenu from './MobileMenu.astro';
         header.classList.remove('bg-white', 'shadow-md', 'header-solid');
         header.classList.add('header-transparent');
         
-        // Logo en BLANCO
-        if (logoSpan) {
-          logoSpan.style.color = 'white';
-          logoSpan.classList.add('!text-white');
-          logoSpan.classList.remove('!text-black');
+        // Mostrar Logo BLANCO
+        if (logoWhite && logoBlack) {
+          logoWhite.classList.remove('hidden');
+          logoBlack.classList.add('hidden');
         }
         
         // Links principales del NAV en BLANCO (EXCEPTO activos en rojo)
@@ -107,11 +123,10 @@ import MobileMenu from './MobileMenu.astro';
         header.classList.remove('header-transparent');
         header.classList.add('bg-white', 'shadow-md', 'header-solid');
         
-        // Logo en NEGRO
-        if (logoSpan) {
-          logoSpan.style.color = 'black';
-          logoSpan.classList.add('!text-black');
-          logoSpan.classList.remove('!text-white');
+        // Mostrar Logo NEGRO
+        if (logoWhite && logoBlack) {
+          logoWhite.classList.add('hidden');
+          logoBlack.classList.remove('hidden');
         }
         
         // Links principales del NAV en NEGRO (EXCEPTO activos en rojo)

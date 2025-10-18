@@ -9,34 +9,36 @@ const languages = [
   { code: 'en', name: 'EN', fullName: 'English' },
   { code: 'fr', name: 'FR', fullName: 'Français' },
   { code: 'de', name: 'DE', fullName: 'Deutsch' },
+  { code: 'hu', name: 'HU', fullName: 'Magyar' },
 ];
 
 // Detectar idioma desde la URL
 const currentPath = Astro.url.pathname;
 const pathParts = currentPath.split('/').filter(Boolean);
 const potentialLang = pathParts[0];
-const currentLang = ['en', 'fr', 'de'].includes(potentialLang) ? potentialLang : 'es';
+const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potentialLang : 'es';
 
 // Mapa de traducción de rutas (ES es la base)
 const routeTranslations = {
   // Servicios
-  'servicios': { en: 'services', fr: 'services', de: 'dienstleistungen' },
-  'servicios/talleres': { en: 'services/workshops', fr: 'services/ateliers', de: 'dienstleistungen/workshops' },
-  'servicios/consultoria-online': { en: 'services/online-consulting', fr: 'services/consultation-en-ligne', de: 'dienstleistungen/online-beratung' },
-  'servicios/video-cursos': { en: 'services/video-courses', fr: 'services/cours-video', de: 'dienstleistungen/video-kurse' },
-  'servicios/seminarios': { en: 'services/seminars', fr: 'services/seminaires', de: 'dienstleistungen/seminare' },
-  'servicios/entrenamiento-personal': { en: 'services/personal-training', fr: 'services/entrainement-personnel', de: 'dienstleistungen/personliches-training' },
+  'servicios': { en: 'services', fr: 'services', de: 'dienstleistungen', hu: 'szolgaltatasok' },
+  'servicios/talleres': { en: 'services/workshops', fr: 'services/ateliers', de: 'dienstleistungen/workshops', hu: 'szolgaltatasok/workshopok' },
+  'servicios/consultoria-online': { en: 'services/online-consulting', fr: 'services/consultation-en-ligne', de: 'dienstleistungen/online-beratung', hu: 'szolgaltatasok/online-tanacsadas' },
+  'servicios/video-cursos': { en: 'services/video-courses', fr: 'services/cours-video', de: 'dienstleistungen/video-kurse', hu: 'szolgaltatasok/video-kurzusok' },
+  'servicios/seminarios': { en: 'services/seminars', fr: 'services/seminaires', de: 'dienstleistungen/seminare', hu: 'szolgaltatasok/szeminariumok' },
+  'servicios/entrenamiento-personal': { en: 'services/personal-training', fr: 'services/entrainement-personnel', de: 'dienstleistungen/personliches-training', hu: 'szolgaltatasok/szemelyi-edzes' },
+  'servicios/asesoramiento-online': { en: 'services/online-counseling', fr: 'services/conseil-en-ligne', de: 'dienstleistungen/online-coaching', hu: 'szolgaltatasok/online-coaching' },
   
   // Academia
-  'academia': { en: 'academy', fr: 'academie', de: 'akademie' },
-  'academia/scorus-campus': { en: 'academy/scorus-campus', fr: 'academie/scorus-campus', de: 'akademie/scorus-campus' },
-  'academia/re-born': { en: 'academy/re-born', fr: 'academie/re-born', de: 'akademie/re-born' },
+  'academia': { en: 'academy', fr: 'academie', de: 'akademie', hu: 'akademia' },
+  'academia/scorus-campus': { en: 'academy/scorus-campus', fr: 'academie/scorus-campus', de: 'akademie/scorus-campus', hu: 'akademia/scorus-campus' },
+  'academia/re-born': { en: 'academy/re-born', fr: 'academie/re-born', de: 'akademie/re-born', hu: 'akademia/re-born' },
   
   // Otras páginas
-  'gym': { en: 'gym', fr: 'gym', de: 'gym' },
-  'biografia': { en: 'biography', fr: 'biographie', de: 'biografie' },
-  'blog': { en: 'blog', fr: 'blog', de: 'blog' },
-  'contacto': { en: 'contact', fr: 'contact', de: 'kontakt' },
+  'gym': { en: 'gym', fr: 'gym', de: 'gym', hu: 'gym' },
+  'biografia': { en: 'biography', fr: 'biographie', de: 'biografie', hu: 'eletrajz' },
+  'blog': { en: 'blog', fr: 'blog', de: 'blog', hu: 'blog' },
+  'contacto': { en: 'contact', fr: 'contact', de: 'kontakt', hu: 'kapcsolat' },
 };
 
 // Función para obtener la ruta en español desde cualquier idioma
@@ -75,7 +77,7 @@ function translateRoute(path: string, fromLang: string, toLang: string): string 
 }
 
 // Obtener el path sin el prefijo de idioma
-const pathWithoutLang = currentPath.replace(/^\/(es|en|fr|de)(\/|$)/, '').replace(/^\/+/, '');
+const pathWithoutLang = currentPath.replace(/^\/(es|en|fr|de|hu)(\/|$)/, '').replace(/^\/+/, '');
 
 // Generar URLs traducidas para cada idioma
 const translatedUrls = languages.reduce((acc, lang) => {

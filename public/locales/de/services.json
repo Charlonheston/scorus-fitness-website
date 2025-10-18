@@ -83,60 +83,90 @@
   "online_consulting": {
     "meta": {
       "title": "Online-Beratung | Scorus Fitness",
-      "description": "Professionelles Online-Coaching von überall auf der Welt"
+      "description": "Klären Sie alle Ihre Zweifel über Training, Nahrungsergänzung oder Ernährung in nur 60 Minuten"
     },
-    "icon": "💻",
-    "title": "Online-\nBeratung",
-    "subtitle": "Professionelles Coaching von überall auf der Welt mit personalisierter Betreuung und kontinuierlicher Unterstützung.",
-    "features": {
-      "video_calls": {
-        "icon": "📹",
-        "title": "Wöchentliche Videoanrufe",
-        "description": "Live-Sitzungen zur Verfolgung"
-      },
-      "training_plan": {
-        "icon": "📊",
-        "title": "Trainingsplan",
-        "description": "Personalisierte Routinen"
-      },
-      "nutrition_plan": {
-        "icon": "🥗",
-        "title": "Ernährungsplan",
-        "description": "An Sie angepasste Diät"
-      },
-      "support": {
-        "icon": "💬",
-        "title": "24/7 Support",
-        "description": "Schnelle Antworten"
-      }
-    },
-    "how_it_works_title": "Wie es Funktioniert",
+    "title": "Online-Beratung",
+    "subtitle": "Klären Sie Alle Ihre Zweifel In Nur 60 Minuten",
+    "intro_text": "Haben Sie seit Jahren Zweifel über Training, Nahrungsergänzung oder Ernährung angesammelt? Bei Scorus Fitness bieten wir Ihnen eine 60-minütige Online-Beratung an, um Ihnen klare und personalisierte Antworten von einem Experten für Fitness und Bodybuilding zu geben.",
+    "how_it_works_title": "Wie Funktioniert Die Online-Beratung?",
+    "how_it_works_intro": "Wir führen die Beratungen über Zoom durch. Kunden, die diesen Service buchen, erhalten 10% Rabatt auf unser Online-Coaching-Programm.",
     "how_it_works": {
       "step1": {
-        "title": "Erste Beratung",
-        "description": "Erster Videoanruf, um Ihre Ziele, aktuelles Niveau und spezifische Bedürfnisse kennenzulernen."
+        "number": "1",
+        "title": "Buchen Sie Ihre Online-Beratung",
+        "description": "Füllen Sie das Kontaktformular aus, um eine 60-minütige Sitzung mit Bernat Scorus zu vereinbaren. Sie können eine oder mehrere Sitzungen buchen, je nach Ihren Bedürfnissen."
       },
       "step2": {
-        "title": "Personalisierter Plan",
-        "description": "Gestaltung Ihres Trainings- und Ernährungsplans, angepasst an Ihre Verfügbarkeit und Ziele."
+        "number": "2",
+        "title": "Führen Sie die Zahlung durch und bestätigen Sie Ihren Termin",
+        "description": "Sobald Datum und Uhrzeit gewählt sind, führen Sie die Zahlung durch und Bernat wird Sie kontaktieren, um die Sitzung zu bestätigen und die ersten Beratungen zu koordinieren."
       },
       "step3": {
-        "title": "Kontinuierliche Betreuung",
-        "description": "Wöchentliche Videoanrufe und tägliche Unterstützung via WhatsApp zur Klärung von Zweifeln und Anpassung des Plans."
+        "number": "3",
+        "title": "Verbinden Sie sich und klären Sie alle Ihre Zweifel",
+        "description": "Zum vereinbarten Datum und zur Uhrzeit wird Bernat alle Ihre Fragen live beantworten und Ihnen praktische und personalisierte Ratschläge geben, um Ihr Training, Ihre Ernährung oder Nahrungsergänzung zu verbessern."
       }
     },
-    "advantages_title": "Vorteile",
-    "advantages": [
-      "Trainieren Sie von überall auf der Welt",
-      "Totale zeitliche Flexibilität",
-      "Kontinuierliche Unterstützung via WhatsApp",
-      "100% personalisierte Pläne",
-      "Anpassungen entsprechend Ihrem Fortschritt",
-      "Erschwinglicherer Preis"
-    ],
-    "cta_title": "Starten Sie Heute",
-    "cta_description": "Erste kostenlose Beratung, um uns kennenzulernen und Ihren Plan zu entwerfen",
-    "cta_button": "Jetzt Kontaktieren"
+    "pricing": {
+      "title": "Preise",
+      "plans": {
+        "single": {
+          "name": "Einzelsitzung",
+          "description": "Klären Sie alle Ihre Zweifel in nur 60 Minuten",
+          "price": "60",
+          "old_price": "80",
+          "currency": "€",
+          "cta": "Buchen"
+        },
+        "pack4": {
+          "name": "4-Sitzungs-Paket",
+          "description": "Paket mit 4 60-minütigen Beratungssitzungen. 240 Minuten, um alle Ihre Zweifel zu klären.",
+          "price": "220",
+          "old_price": "320",
+          "currency": "€",
+          "cta": "Buchen"
+        },
+        "pack8": {
+          "name": "8-Sitzungs-Paket",
+          "description": "Paket mit 8 60-minütigen Beratungssitzungen. 480 Minuten, um alle Ihre Zweifel zu klären.",
+          "price": "420",
+          "old_price": "640",
+          "currency": "€",
+          "cta": "Buchen"
+        }
+      }
+    },
+    "faq_title": "Fragen und Antworten",
+    "faq": {
+      "q1": {
+        "question": "Was ist, wenn es kürzer als erwartet dauert?",
+        "answer": "Beratungen mit Bernat dauern eine Stunde, er reserviert persönlich eine Stunde für Sie. Aber wenn die Dauer weniger als 30 Minuten beträgt, machen Sie sich keine Sorgen, Sie können diese verbleibenden 30 Minuten für einen anderen Termin reservieren, indem Sie im Voraus per E-Mail einen Termin anfordern und er wird geplant."
+      },
+      "q2": {
+        "question": "Ist eine Kamera notwendig?",
+        "answer": "Die private Beratung mit Bernat Scorus ist normalerweise ein Videoanruf, aber Sie benötigen keine Kamera, damit er Sie sehen kann (obwohl es immer schön ist, sich gegenseitig zu sehen). Bernat kann den Videoanruf trotzdem durchführen und Sie werden ihn sehen, auch wenn er Sie nicht sieht."
+      },
+      "q3": {
+        "question": "Wie lange dauert die Beratung?",
+        "answer": "Die Beratung dauert 60 Minuten. In dieser Zeit wird Bernat alle Ihre Zweifel klären, daher ist unser Rat, dass Sie sich vor diesem Termin gut vorbereiten, was Sie ihn fragen möchten, damit nichts unbeantwortet bleibt."
+      },
+      "q4": {
+        "question": "Was brauche ich?",
+        "answer": "Mit jedem Gerät, Telefon, Tablet oder PC mit oder ohne Webcam können Sie diese private Beratung mit Bernat Scorus haben."
+      },
+      "q5": {
+        "question": "Woraus besteht die private Beratung?",
+        "answer": "Es ist eine persönliche Live-Beratung mit dem Weltmeister im Bodybuilding und Personal Trainer Bernat Scorus, wo Sie ihm 60 Minuten lang jede Frage zu Ernährung, Training, Nahrungsergänzung, gesundem Leben... stellen können."
+      },
+      "q6": {
+        "question": "Was ist, wenn ich keine Daten habe oder meine Verbindung langsam ist?",
+        "answer": "Machen Sie sich darüber keine Sorgen. Geben Sie es an, wenn Sie den Fragebogen ausfüllen, wenn Sie einen Telefonanruf bevorzugen. Bernat wird einen Telefonanruf tätigen und 60 Minuten lang persönlich mit Ihnen sprechen, wo er sicherlich alle Ihre Zweifel klären und Ihnen helfen wird."
+      },
+      "q7": {
+        "question": "Kann ich mehr als eine Beratung haben?",
+        "answer": "Sie können so viele Beratungen haben, wie Sie benötigen. Der Einzelgutschein gibt Ihnen Anspruch auf 60 Minuten Beratung, aber Sie können auch Gutscheine für 3 oder 6 kaufen und diese Beratungen nutzen, wann Sie möchten. Sie müssen diese Beratungen immer im Voraus vereinbaren."
+      }
+    }
   },
 
   "video_courses": {
@@ -300,6 +330,111 @@
     "cta_title": "Bereit zu Starten?",
     "cta_description": "Planen Sie Ihre erste kostenlose Evaluierungssitzung",
     "cta_button": "Jetzt Kontaktieren"
+  },
+
+  "online_counseling": {
+    "meta": {
+      "title": "Online-Beratung | Scorus Fitness",
+      "description": "100% effektives System mit personalisierten Plänen für 3, 6 und 12 Monate. Videokonsultationen, WhatsApp-Betreuung und exklusive Rabatte."
+    },
+    "title": "ONLINE-BERATUNG",
+    "subtitle": "Ein vollständiges und effektives System für Ihre körperliche und mentale Transformation",
+    "hero_tagline": "Entdecken Sie ein 100% effektives System",
+    "benefits": {
+      "title": "Was ist Enthalten?",
+      "items": [
+        {
+          "title": "Individuelle monatliche Videokonsultation",
+          "description": "Personalisierte 1:1-Sitzungen zur Überprüfung Ihres Fortschritts"
+        },
+        {
+          "title": "Wöchentliche Gruppenvideokonsultation",
+          "description": "Lernen und teilen Sie mit anderen in Gruppensitzungen"
+        },
+        {
+          "title": "Persönliche Unterstützung via WhatsApp",
+          "description": "Direkte Unterstützung zur Klärung all Ihrer Zweifel"
+        },
+        {
+          "title": "Zugang zur WhatsApp-Gruppe",
+          "description": "Exklusive Community für Unterstützung und Motivation"
+        },
+        {
+          "title": "Bis zu 30% Rabatt auf Great I Am Kleidung",
+          "description": "Exklusive Vorteile bei Sportbekleidung"
+        },
+        {
+          "title": "Bis zu 30% Rabatt auf AMIX Nahrungsergänzung",
+          "description": "Rabatte auf hochwertigste Nahrungsergänzungsmittel"
+        }
+      ]
+    },
+    "story": {
+      "title": "Meine Geschichte",
+      "intro": "Ich weiß, wie es ist, sich zerbrechlich und ohne Selbstvertrauen zu fühlen. Mit nur 50 kg machte sich meine Familie über mich lustig und nannte mich «dünn», und mein erster Versuch im Fitnessstudio war ein Desaster. Mangelndes Wissen führte mich zur Frustration.",
+      "transformation": "Aber mit der richtigen Anleitung habe ich in nur 8 Monaten 25 kg Muskeln zugelegt und in 5 Jahren mein Gewicht auf natürliche Weise von 50 kg auf 102 kg verdoppelt. Jetzt möchte ich Ihnen helfen, dasselbe zu erreichen, ohne meine Fehler zu machen.",
+      "family": "Meine Transformation war nicht die einzige. Meine Mutter mit morbider Fettleibigkeit und hohem Blutdruck war in Gefahr, ihr Leben zu verlieren. Mit meiner Hilfe verlor sie 35 kg und erlangte ihre Gesundheit zurück. Leider hatte ich bei meinem Bruder, der ebenfalls an Fettleibigkeit litt, nicht denselben Erfolg, aber es gelang ihm nicht, aktiv zu werden.",
+      "results": "Ich habe Hunderten von Menschen geholfen, zwischen 15 und 80 kg abzunehmen und nicht nur ihre Körper, sondern auch ihr Leben zu transformieren. Wenn Sie ein personalisiertes Training in Alicante basierend auf echten Ergebnissen wünschen, bin ich hier, um Sie durch den Prozess zu führen.",
+      "cta": "Rufen Sie mich an und ich helfe Ihnen!"
+    },
+    "pricing": {
+      "title": "Wählen Sie Ihren Weg und transformieren Sie Ihren Körper und Geist JETZT",
+      "plans": {
+        "kickstart": {
+          "badge": "KICKSTART",
+          "name": "Quartalspaket",
+          "price": "174",
+          "total_price": "523",
+          "currency": "€",
+          "duration": "/Monat",
+          "features": [
+            "Personalisierte Ernährung und Training nach Ihren Zielen",
+            "Anpassungen alle 4 Wochen bei Ernährung und Training",
+            "Erste Online-1:1-Konsultation zur Bewertung Ihres Status und Planung von Strategien",
+            "Zweiwöchentliche WhatsApp-Unterstützung",
+            "1 monatliche Online-Konsultation",
+            "10% Rabatt auf AMIX-Nahrungsergänzung und Great I Am Kleidung"
+          ],
+          "cta": "Buchen"
+        },
+        "transformation": {
+          "badge": "TRANSFORMATION",
+          "name": "Halbjahrespaket",
+          "price": "164",
+          "total_price": "988",
+          "currency": "€",
+          "duration": "/Monat",
+          "popular": true,
+          "features": [
+            "Alles aus dem Quartalspaket, plus:",
+            "Zweiwöchentliche Überprüfungen von Ernährung und Training",
+            "1 monatliche Videokonsultation",
+            "3 Personal Training Sitzungen",
+            "Exklusive WhatsApp-Gruppe",
+            "20% Rabatt auf AMIX-Nahrungsergänzung und Great I Am Kleidung"
+          ],
+          "cta": "Buchen"
+        },
+        "elite": {
+          "badge": "ELITE",
+          "name": "Jahrespaket",
+          "price": "164",
+          "total_price": "1.977",
+          "currency": "€",
+          "duration": "/Monat",
+          "features": [
+            "Alles aus dem Halbjahrespaket, plus:",
+            "Wöchentliche Anpassungen von Ernährung und Training",
+            "WhatsApp-Unterstützung in Echtzeit",
+            "Wöchentliche Gruppenvideokonsultationen",
+            "Exklusiver Zugang zu einem Online-Kurs für Fitness und Ernährung",
+            "30% Rabatt auf AMIX-Nahrungsergänzung und Great I Am Kleidung",
+            "Wochenende oder ganzer Samstag persönlich mit mir"
+          ],
+          "cta": "Buchen"
+        }
+      }
+    }
   },
 
   "cta": {

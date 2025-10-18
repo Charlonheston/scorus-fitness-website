@@ -1,0 +1,48 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import translations from '../../../../public/locales/hu/services.json';
+
+const t = translations.online_counseling;
+const currentLang = 'hu';
+---
+
+<Layout title={t.meta.title} description={t.meta.description}>
+  <ServiceDetailHeader
+    backLink={{ href: `/${currentLang}/szolgaltatasok`, text: translations.back_to_services }}
+    title="ONLINE COACHING"
+    subtitle="Teljes online coaching program személyre szabott támogatással."
+  />
+
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center px-4">
+        <h2 class="mb-6 text-3xl sm:text-4xl font-black uppercase text-black">
+          Személyre Szabott <span class="text-red-600">Online Coaching</span>
+        </h2>
+        <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+          Teljes online coaching program hetialapú tervekkel, táplálkozási útmutatással és folyamatos támogatással.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center px-4">
+        <h2 class="mb-6 text-4xl sm:text-5xl font-black uppercase">
+          KEZDJÜK EL
+        </h2>
+        <ButtonPrimary 
+          href={`/${currentLang}/kapcsolat`}
+          text="Lépj Kapcsolatba"
+          icon="zap"
+          size="xl"
+          variant="glow"
+        />
+      </div>
+    </div>
+  </section>
+</Layout>
+

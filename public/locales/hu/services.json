@@ -1,0 +1,232 @@
+{
+  "back_to_services": "Vissza a Szolgáltatásokhoz",
+  "personal_training": {
+    "meta": {
+      "title": "Személyi Edzés | Scorus Fitness",
+      "description": "Személyre szabott edzésprogramok izomtömeg növelésre és zsírvesztésre. Profi útmutatás minden lépésben."
+    }
+  },
+  "online_consulting": {
+    "title": "Online Tanácsadás",
+    "subtitle": "Professzionális tanácsadás 60 perces videohíváson keresztül",
+    "meta": {
+      "title": "Online Tanácsadás | Scorus Fitness",
+      "description": "60 perces online tanácsadási ülések személyre szabott útmutatással és stratégiákkal."
+    },
+    "intro_text": "Az online tanácsadásom lehetőséget ad neked, hogy megkapd azt a professzionális útmutatást, amire szükséged van, bárhonnan. 60 perces videohívásban megválaszolom kérdéseidet és személyre szabott stratégiákat kínálok céljaid eléréséhez.",
+    "how_it_works_title": "Hogyan Működik",
+    "how_it_works_intro": "Egyszerű és hatékony folyamat a legjobb eredmények elérésére:",
+    "how_it_works": {
+      "step_1": {
+        "number": "1",
+        "title": "Foglalás",
+        "description": "Válaszd ki a számodra legmegfelelőbb opciókat és foglalj időpontot."
+      },
+      "step_2": {
+        "number": "2",
+        "title": "Videohívás",
+        "description": "Kapcsolódjunk Zoom-on keresztül egy személyre szabott ülésre."
+      },
+      "step_3": {
+        "number": "3",
+        "title": "Tanácsadás",
+        "description": "Kapj konkrét válaszokat és stratégiákat céljaidhoz."
+      },
+      "step_4": {
+        "number": "4",
+        "title": "Követés",
+        "description": "Email követés a konzultáció utáni támogatással."
+      }
+    },
+    "pricing": {
+      "title": "Árak és Csomagok",
+      "plans": {
+        "single": {
+          "name": "Egyéni Konzultáció",
+          "description": "Egyetlen 60 perces ülés",
+          "price": "60",
+          "old_price": "80",
+          "currency": "€",
+          "cta": "Foglalás"
+        },
+        "pack4": {
+          "name": "4 Konzultációs Csomag",
+          "description": "4 ülés kedvezményes áron",
+          "price": "220",
+          "old_price": "320",
+          "currency": "€",
+          "cta": "Foglalás"
+        },
+        "pack8": {
+          "name": "8 Konzultációs Csomag",
+          "description": "8 ülés maximum kedvezménnyel",
+          "price": "420",
+          "old_price": "640",
+          "currency": "€",
+          "cta": "Foglalás"
+        }
+      }
+    },
+    "faq_title": "Gyakran Ismételt Kérdések",
+    "faq": {
+      "q1": {
+        "question": "Mennyi ideig tart egy konzultáció?",
+        "answer": "Minden konzultáció 60 percig tart, amelyben megválaszolom minden kérdésedet és személyre szabott stratégiákat kínálok."
+      },
+      "q2": {
+        "question": "Milyen platformon zajlik?",
+        "answer": "A konzultációk Zoom videohíváson keresztül zajlanak, ami egyszerű és mindenki számára hozzáférhető."
+      },
+      "q3": {
+        "question": "Kaphatok követést a konzultáció után?",
+        "answer": "Igen, minden konzultációt email követés követ, ahol összefoglalom a fő pontokat és ajánlásokat."
+      },
+      "q4": {
+        "question": "Mi történik, ha le kell mondanom?",
+        "answer": "Értesíts 24 órával előre, és átütemezhetjük az ülésedet probléma nélkül."
+      },
+      "q5": {
+        "question": "Alkalmas személyes edzéssel kombinálni?",
+        "answer": "Természetesen! Sok ügyfelem kombinálja a személyes edzést online tanácsadással a legjobb eredmények érdekében."
+      },
+      "q6": {
+        "question": "Hány konzultációra van szükségem?",
+        "answer": "Céljaidtól függ. Néhányan csak egyre van szükségük, mások pedig a folyamatos követéshez többet vásárolnak."
+      },
+      "q7": {
+        "question": "Van garancia?",
+        "answer": "Igen, ha nem vagy elégedett az első konzultációval, visszatérítjük a pénzed, kérdések nélkül."
+      }
+    }
+  },
+  "online_counseling": {
+    "meta": {
+      "title": "Online Coaching | Scorus Fitness",
+      "description": "Személyre szabott online coaching program teljes támogatással."
+    }
+  },
+  "workshops": {
+    "meta": {
+      "title": "Workshopok | Scorus Fitness",
+      "description": "Gyakorlati workshopok edzéstechnikákról és táplálkozásról."
+    }
+  },
+  "video_courses": {
+    "meta": {
+      "title": "Videó Kurzusok | Scorus Fitness",
+      "description": "Tanulj a saját tempódban online videó kurzusokkal."
+    }
+  },
+  "seminars": {
+    "meta": {
+      "title": "Szemináriumok | Scorus Fitness",
+      "description": "Intenzív szemináriumok fitness és testépítés témákban."
+    }
+  },
+
+  "online_counseling": {
+    "meta": {
+      "title": "Online Tanácsadás | Scorus Fitness",
+      "description": "100%-ban hatékony rendszer 3, 6 és 12 hónapos személyre szabott tervekkel. Videó konzultációk, WhatsApp követés és exkluzív kedvezmények."
+    },
+    "title": "ONLINE TANÁCSADÁS",
+    "subtitle": "Egy teljes és hatékony rendszer fizikai és mentális átalakulásához",
+    "hero_tagline": "Fedezz fel egy 100%-ban hatékony rendszert",
+    "benefits": {
+      "title": "Mit Tartalmaz?",
+      "items": [
+        {
+          "title": "Egyéni havi videó konzultáció",
+          "description": "Személyre szabott 1:1 ülések fejlődésed áttekintésére"
+        },
+        {
+          "title": "Heti csoportos videó konzultáció",
+          "description": "Tanulj és oszd meg másokkal csoportos üléseken"
+        },
+        {
+          "title": "Személyes segítségnyújtás WhatsAppon keresztül",
+          "description": "Közvetlen támogatás minden kérdésed megoldására"
+        },
+        {
+          "title": "Hozzáférés WhatsApp csoporthoz",
+          "description": "Exkluzív támogató és motiváló közösség"
+        },
+        {
+          "title": "Akár 30% kedvezmény Great I Am ruhákból",
+          "description": "Exkluzív előnyök sportruházatból"
+        },
+        {
+          "title": "Akár 30% kedvezmény AMIX kiegészítőkből",
+          "description": "Kedvezmények a legmagasabb minőségű kiegészítőkből"
+        }
+      ]
+    },
+    "story": {
+      "title": "Történetem",
+      "intro": "Tudom, milyen érzés törékenyként és bizalom nélkül élni. Mindössze 50 kg-mal a családom kigúnyolt «vékony»-nak hívva, és az első próbálkozásom az edzőteremben katasztrófa volt. A tudás hiánya frusztrációhoz vezetett.",
+      "transformation": "De a megfelelő útmutatással mindössze 8 hónap alatt 25 kg izmot építettem, és 5 év alatt megdupláztam a súlyomat 50 kg-ról 102 kg-ra természetes módon. Most segíteni szeretnék neked ugyanezt elérni anélkül, hogy elkövetnéd az én hibáimat.",
+      "family": "Az én átalakulásom nem volt az egyetlen. Anyám, aki súlyos elhízásban és magas vérnyomásban szenvedett, veszélyben volt, hogy elveszíti az életét. Az én segítségemmel 35 kg-ot fogyott és visszanyerte egészségét. Sajnos nem volt ugyanolyan sikeres a bátyámnál, aki szintén elhízásban szenvedett, de nem tudott cselekedni.",
+      "results": "Több száz embernek segítettem 15 és 80 kg közötti súlyt leadni, átalakítva nemcsak a testüket, hanem az életüket is. Ha személyre szabott edzést szeretnél Alicantéban valódi eredmények alapján, itt vagyok, hogy végigvezesselek a folyamaton.",
+      "cta": "Hívj fel és segítek!"
+    },
+    "pricing": {
+      "title": "Válaszd ki utadat és alakítsd át tested és elméd MOST",
+      "plans": {
+        "kickstart": {
+          "badge": "KICKSTART",
+          "name": "Negyedéves Csomag",
+          "price": "174",
+          "total_price": "523",
+          "currency": "€",
+          "duration": "/hó",
+          "features": [
+            "Személyre szabott étrend és edzés céljaid szerint",
+            "Módosítások 4 hetente az étrendben és edzésben",
+            "Kezdeti online 1:1 konzultáció állapotod felmérésére és stratégiák tervezésére",
+            "Kétheti WhatsApp segítségnyújtás",
+            "1 havi online konzultáció",
+            "10% kedvezmény AMIX kiegészítőkből és Great I Am ruhákból"
+          ],
+          "cta": "Foglalás"
+        },
+        "transformation": {
+          "badge": "ÁTALAKULÁS",
+          "name": "Féléves Csomag",
+          "price": "164",
+          "total_price": "988",
+          "currency": "€",
+          "duration": "/hó",
+          "popular": true,
+          "features": [
+            "Minden a Negyedéves Csomagból, plusz:",
+            "Kétheti étrend és edzés felülvizsgálatok",
+            "1 havi videó konzultáció",
+            "3 személyi edzés",
+            "Exkluzív WhatsApp csoport",
+            "20% kedvezmény AMIX kiegészítőkből és Great I Am ruhákból"
+          ],
+          "cta": "Foglalás"
+        },
+        "elite": {
+          "badge": "ELIT",
+          "name": "Éves Csomag",
+          "price": "164",
+          "total_price": "1.977",
+          "currency": "€",
+          "duration": "/hó",
+          "features": [
+            "Minden a Féléves Csomagból, plusz:",
+            "Heti étrend és edzés módosítások",
+            "Valós idejű WhatsApp támogatás",
+            "Heti csoportos videó konzultációk",
+            "Exkluzív hozzáférés online fitness és táplálkozási tanfolyamhoz",
+            "30% kedvezmény AMIX kiegészítőkből és Great I Am ruhákból",
+            "Hétvége vagy teljes szombat személyesen velem"
+          ],
+          "cta": "Foglalás"
+        }
+      }
+    }
+  }
+}
+

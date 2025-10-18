@@ -1,0 +1,51 @@
+---
+/**
+ * Blog főoldal - Húngaro
+ */
+
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout 
+  title="Blog | Scorus Fitness" 
+  description="Cikkek edzésről, táplálkozásról és egészséges életmódról."
+>
+  <!-- Hero Section -->
+  <section class="relative min-h-[70vh] flex items-center justify-center bg-black text-white">
+    <div class="absolute inset-0 bg-gradient-to-br from-black via-black/95 to-black"></div>
+    <div class="container relative z-10 py-32 text-center">
+      <p class="mb-4 text-sm sm:text-base font-bold uppercase tracking-widest text-red-600">
+        Tudásbázis
+      </p>
+      <h1 class="mb-6 text-5xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter">
+        SCORUS <span class="text-red-600">BLOG</span>
+      </h1>
+      <p class="mx-auto max-w-2xl text-lg sm:text-xl text-gray-300 px-4">
+        Tippek, stratégiák és tudás az átalakulásodhoz
+      </p>
+    </div>
+  </section>
+
+  <!-- Coming Soon Section -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center px-4">
+        <h2 class="mb-6 text-3xl sm:text-4xl font-black uppercase text-black">
+          HAMAROSAN <span class="text-red-600">ELÉRHETŐ</span>
+        </h2>
+        <p class="mb-8 text-base sm:text-lg text-gray-600">
+          Dolgozunk exkluzív tartalom létrehozásán edzésről, táplálkozásról és átalak
+
+ulásról. Maradj velünk!
+        </p>
+        <a
+          href="/hu/"
+          class="inline-block bg-red-600 px-8 sm:px-12 py-4 sm:py-5 text-base sm:text-lg font-bold uppercase text-white transition-all hover:bg-black"
+        >
+          Vissza a Kezdőlapra
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
