@@ -23,37 +23,6 @@ const latestPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-const mainServices = [
-  {
-    title: 'Personal Training',
-    description: 'Learn to perform exercises, stretch and breathe.',
-    cta: 'Transform yourself now!',
-    iconType: 'dumbbell',
-    href: '/en/services/personal-training',
-  },
-  {
-    title: 'Personalized Diets',
-    description: 'Nutritional plan tailored to all types of diets.',
-    cta: 'Discover your plan',
-    iconType: 'apple',
-    href: '/en/services',
-  },
-  {
-    title: 'Personalized Routines',
-    description: 'Personalized and visually designed workout routines.',
-    cta: 'Get physically prepared',
-    iconType: 'clipboard',
-    href: '/en/services',
-  },
-  {
-    title: 'Online Consulting',
-    description: 'Answers to all your questions.',
-    cta: 'Get advice from a champion',
-    iconType: 'monitor',
-    href: '/en/services/online-consulting',
-  },
-];
-
 const features = [
   {
     title: 'Support',
