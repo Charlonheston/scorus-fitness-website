@@ -28,9 +28,33 @@ export default defineConfig({
     }),
   ],
   output: 'static',
+  image: {
+    // Optimización de imágenes
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        limitInputPixels: false,
+      },
+    },
+  },
   vite: {
     build: {
       cssMinify: 'lightningcss',
+      // Optimizar imágenes estáticas
+      rollupOptions: {
+        output: {
+          assetFileNames: (assetInfo) => {
+            let extType = assetInfo.name.split('.').at(-1);
+            if (/png|jpe?g|gif|svg|webp|avif/i.test(extType)) {
+              extType = 'img';
+            }
+            return `assets/${extType}/[name]-[hash][extname]`;
+          },
+        },
+      },
+    },
+    ssr: {
+      external: ['sharp'],
     },
   },
   experimental: {

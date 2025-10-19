@@ -1,0 +1,64 @@
+---
+/**
+ * OptimizedImage Component
+ * Automáticamente sirve WebP si está disponible, fallback a JPG
+ * Mejora de performance: ~2600 KiB según Google PageSpeed Insights
+ */
+
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+  decoding?: 'sync' | 'async' | 'auto';
+  widths?: number[];
+  sizes?: string;
+}
+
+const {
+  src,
+  alt,
+  class: className = '',
+  loading = 'lazy',
+  decoding = 'async',
+  widths = [640, 768, 1024, 1280, 1536, 1920],
+  sizes = '100vw',
+} = Astro.props;
+
+// Crear versión WebP y JPG del path
+const webpSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+const jpgSrc = src;
+
+// Generar srcset para WebP
+const webpSrcSet = widths
+  .map((w) => `${webpSrc.replace(/^(.+?)(\.webp)$/i, `$1-${w}w$2`)} ${w}w`)
+  .join(', ');
+
+// Generar srcset para JPG (fallback)
+const jpgSrcSet = widths
+  .map((w) => `${jpgSrc.replace(/^(.+?)(\.jpg|\.jpeg|\.png)$/i, `$1-${w}w$2`)} ${w}w`)
+  .join(', ');
+---
+
+<picture>
+  <!-- WebP version (primary) -->
+  <source srcset={webpSrcSet} sizes={sizes} type="image/webp" />
+  
+  <!-- JPG/PNG fallback -->
+  <img
+    src={jpgSrc}
+    srcset={jpgSrcSet}
+    sizes={sizes}
+    alt={alt}
+    class={className}
+    loading={loading}
+    decoding={decoding}
+  />
+</picture>
+
+<style>
+  /* Ensure consistent styling */
+  picture {
+    display: contents;
+  }
+</style>

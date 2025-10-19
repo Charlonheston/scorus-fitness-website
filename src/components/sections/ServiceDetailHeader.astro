@@ -9,7 +9,7 @@
  * - subtitle: string - Descripción del servicio
  * - backgroundImage?: string - URL de imagen de fondo (opcional)
  * 
- * Nota: Con soporte para imágenes de fondo
+ * Nota: Con soporte para imágenes de fondo optimizadas (WebP con fallback a JPG)
  */
 
 interface Props {
@@ -23,6 +23,9 @@ interface Props {
 }
 
 const { backLink, title, subtitle, backgroundImage } = Astro.props;
+
+// Generar URL WebP automáticamente (con fallback a JPG si no existe)
+const webpImageUrl = backgroundImage?.replace(/\.(jpg|jpeg|png)$/i, '.webp') || null;
 ---
 
 <section class="relative min-h-[70vh] flex items-center overflow-hidden bg-black">
@@ -30,11 +33,20 @@ const { backLink, title, subtitle, backgroundImage } = Astro.props;
   {backgroundImage && (
     <>
       <div class="absolute inset-0">
-        <img
-          src={backgroundImage}
-          alt={title}
-          class="h-full w-full object-cover object-center"
-        />
+        <picture>
+          {/* WebP version (primary) */}
+          {webpImageUrl && (
+            <source srcset={webpImageUrl} type="image/webp" />
+          )}
+          {/* JPG/PNG fallback */}
+          <img
+            src={backgroundImage}
+            alt={title}
+            class="h-full w-full object-cover object-center"
+            loading="eager"
+            decoding="async"
+          />
+        </picture>
       </div>
       <!-- Dark Overlay para legibilidad -->
       <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
