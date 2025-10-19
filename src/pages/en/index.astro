@@ -379,13 +379,18 @@ const testimonials = [
             href={program.href}
             class="group relative overflow-hidden min-h-[380px] p-8 shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-600/50 hover:-translate-y-2 flex flex-col"
           >
-            {/* Background Image */}
+            {/* Background Image with WebP optimization */}
             <div class="absolute inset-0 z-0">
-              <img
-                src={program.image}
-                alt={program.title}
-                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
+              <picture>
+                <source srcset={program.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
+                <img
+                  src={program.image}
+                  alt={program.title}
+                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             
             {/* Dark Overlay for contrast */}
