@@ -18,6 +18,21 @@
   box-shadow: none !important;
 }
 
+/* ==================== Global Optimizations ==================== */
+
+/* Optimizar el primer elemento contentful (Hero) */
+section:first-of-type {
+  content-visibility: auto;
+  contain: layout style paint;
+}
+
+/* Prerender importante para LCP */
+.group {
+  will-change: transform;
+}
+
+/* ==================== Reset Base ==================== */
+
 @layer base {
   :root {
     --max-width: 1200px;
