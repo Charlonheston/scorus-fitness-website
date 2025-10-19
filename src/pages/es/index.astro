@@ -13,7 +13,6 @@ import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import ButtonGhost from '@components/ui/ButtonGhost.astro';
 
 // Importar imágenes
-import heroImage from '../../../public/images/hero/bernat-hero.jpg';
 import aboutImage from '../../../public/images/about/bernat-champion.jpg';
 import gymImage from '../../../public/images/gym/gym-01.jpg';
 
@@ -162,16 +161,12 @@ const testimonials = [
   <section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-black">
     <!-- Hero Background Image con overlay -->
     <div class="absolute inset-0">
-      <Image
-        src={heroImage}
-        alt="Bernat Scorus - Entrenamiento Personal"
-        class="h-full w-full object-cover"
-        widths={[640, 768, 1024, 1280, 1536, 1920]}
-        sizes="100vw"
-        quality={80}
-        loading="eager"
-        decoding="async"
-      />
+      <div set:html={`
+        <picture>
+          <source srcset="/images/hero/bernat-hero-640w.webp 640w, /images/hero/bernat-hero-1024w.webp 1024w, /images/hero/bernat-hero.webp 1920w" type="image/webp" sizes="100vw">
+          <img src="/images/hero/bernat-hero.jpg" alt="Bernat Scorus - Entrenamiento Personal" class="h-full w-full object-cover" loading="eager" decoding="async">
+        </picture>
+      `} />
       <!-- Overlay oscuro para legibilidad del texto -->
       <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/80"></div>
     </div>
