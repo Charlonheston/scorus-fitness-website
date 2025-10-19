@@ -4,7 +4,6 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import astroI18next from 'astro-i18next';
-import compress from 'astro-compress';
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,21 +23,6 @@ export default defineConfig({
           en: 'en-US',
           fr: 'fr-FR',
           de: 'de-DE',
-          hu: 'hu-HU',
-        },
-      },
-    }),
-    compress({
-      Image: true,
-      SVG: true,
-      HTML: {
-        'html-minifier-terser': {
-          removeComments: true,
-          removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          minifyJS: true,
-          minifyCSS: false, // Disabled CSS minification - puede estar removiendo clases
         },
       },
     }),
@@ -47,22 +31,6 @@ export default defineConfig({
   vite: {
     build: {
       cssMinify: 'lightningcss',
-      minify: 'terser',
-      terserOptions: {
-        compress: {
-          drop_console: false,
-        },
-      },
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            'vendor-react': ['react', 'react-dom'],
-          },
-        },
-      },
-    },
-    ssr: {
-      external: ['sharp'],
     },
   },
   experimental: {
