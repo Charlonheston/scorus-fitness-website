@@ -1,0 +1,4 @@
+# Serve WebP when browser supports it
+/images/*.jpg  /images/:splat.webp  200!  Accept=image/webp
+/images/*.jpeg /images/:splat.webp  200!  Accept=image/webp
+/images/*.png  /images/:splat.webp  200!  Accept=image/webp

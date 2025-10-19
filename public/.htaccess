@@ -1,0 +1,25 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Servir WebP si existe y el navegador lo soporta
+  RewriteCond %{HTTP_ACCEPT} image/webp
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteCond %{REQUEST_FILENAME}\.webp -f
+  RewriteRule ^(.+)\.(jpg|jpeg|png)$ $1.webp [T=image/webp,E=accept:1]
+  
+  # Headers para WebP
+  <FilesMatch "\.webp$">
+    Header add Vary Accept
+    Header add Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  
+  # Cache headers para imágenes
+  <FilesMatch "\.(?:jpg|jpeg|png|gif|svg|webp)$">
+    Header add Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+
+# Habilitar compresión GZIP
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
