@@ -22,6 +22,10 @@
   ],
   "rewrites": [
     {
+      "source": "^/$",
+      "destination": "/es"
+    },
+    {
       "source": "/images/:path(.+)\\.(jpg|jpeg|png)$",
       "destination": "/images/:path.webp",
       "has": [
