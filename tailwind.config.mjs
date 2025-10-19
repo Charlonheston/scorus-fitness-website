@@ -1,6 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  safelist: [
+    // Grid columns - asegurar que se incluyan en producción
+    'md:grid-cols-1', 'md:grid-cols-2', 'md:grid-cols-3', 'md:grid-cols-4', 'md:grid-cols-5', 'md:grid-cols-6',
+    'lg:grid-cols-1', 'lg:grid-cols-2', 'lg:grid-cols-3', 'lg:grid-cols-4', 'lg:grid-cols-5', 'lg:grid-cols-6',
+    // Display utilities
+    'md:flex', 'md:hidden', 'lg:flex', 'lg:hidden', 'lg:block', 'lg:grid',
+    // Responsive spacing
+    'md:gap-2', 'md:gap-4', 'md:gap-6', 'md:gap-8', 'md:gap-12',
+    'lg:gap-2', 'lg:gap-4', 'lg:gap-6', 'lg:gap-8', 'lg:gap-12',
+    // Responsive text sizing
+    'md:text-lg', 'md:text-xl', 'md:text-2xl', 'md:text-3xl', 'md:text-4xl', 'md:text-5xl',
+    'lg:text-lg', 'lg:text-xl', 'lg:text-2xl', 'lg:text-3xl', 'lg:text-4xl', 'lg:text-5xl', 'lg:text-6xl',
+    // Responsive padding/margin
+    'md:p-4', 'md:p-6', 'md:p-8', 'md:px-6', 'md:py-8', 'md:py-12', 'md:py-24',
+    'lg:p-4', 'lg:p-6', 'lg:p-8', 'lg:px-8', 'lg:py-12', 'lg:py-24', 'lg:py-32',
+  ],
   theme: {
     extend: {
       colors: {
