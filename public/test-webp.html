@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test WebP - Scorus Fitness</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f3f4f6; padding: 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { margin: 2rem 0 1rem 0; color: #1f2937; }
+        .images-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0; }
+        .image-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .image-card img { width: 100%; height: 250px; object-fit: cover; display: block; }
+        .image-info { padding: 1rem; }
+        .image-info p { color: #666; font-size: 0.9rem; margin: 0.5rem 0; }
+        .network-info { background: #1f2937; color: #fff; padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.85rem; margin: 1rem 0; overflow-x: auto; }
+        .success { color: #10b981; }
+        .warning { color: #f59e0b; }
+        .error { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test de Optimización WebP</h1>
+        <p>Esta página verifica si el servidor Vercel está sirviendo correctamente imágenes WebP.</p>
+        
+        <h2 style="margin-top: 2rem; color: #1f2937;">Imágenes de Prueba</h2>
+        <div class="images-grid">
+            <div class="image-card">
+                <picture>
+                    <source srcset="/images/gym/gym-01.webp" type="image/webp">
+                    <img src="/images/gym/gym-01.jpg" alt="Gym 01" loading="lazy">
+                </picture>
+                <div class="image-info">
+                    <strong>GYM 01</strong>
+                    <p class="format">Formato: <span id="format-gym-01">detectando...</span></p>
+                    <p class="size">Tamaño: <span id="size-gym-01">detectando...</span></p>
+                </div>
+            </div>
+            
+            <div class="image-card">
+                <picture>
+                    <source srcset="/images/gym/gym-03.webp" type="image/webp">
+                    <img src="/images/gym/gym-03.jpg" alt="Gym 03" loading="lazy">
+                </picture>
+                <div class="image-info">
+                    <strong>GYM 03</strong>
+                    <p class="format">Formato: <span id="format-gym-03">detectando...</span></p>
+                    <p class="size">Tamaño: <span id="size-gym-03">detectando...</span></p>
+                </div>
+            </div>
+            
+            <div class="image-card">
+                <picture>
+                    <source srcset="/images/gym/gym-05.webp" type="image/webp">
+                    <img src="/images/gym/gym-05.jpg" alt="Gym 05" loading="lazy">
+                </picture>
+                <div class="image-info">
+                    <strong>GYM 05</strong>
+                    <p class="format">Formato: <span id="format-gym-05">detectando...</span></p>
+                    <p class="size">Tamaño: <span id="size-gym-05">detectando...</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <h2 style="margin-top: 2rem; color: #1f2937;">📊 Información de Red</h2>
+        <div class="network-info" id="network-info">
+            <p>Abriendo DevTools (F12) → Network → Recarga la página</p>
+            <p>Busca las peticiones a /images/gym/*.jpg y verifica en "Type" si dice "webp"</p>
+        </div>
+        
+        <h2 style="margin-top: 2rem; color: #1f2937;">✅ Verificación</h2>
+        <div id="verification" style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1rem 0;"></div>
+    </div>
+    
+    <script>
+        // Detectar formato de imagen descargado
+        async function detectImageFormat() {
+            const images = document.querySelectorAll('img');
+            const verification = document.getElementById('verification');
+            let webpCount = 0;
+            let jpgCount = 0;
+            
+            images.forEach((img, idx) => {
+                if (img.alt) {
+                    fetch(img.currentSrc || img.src, { method: 'HEAD' })
+                        .then(response => {
+                            const contentType = response.headers.get('content-type');
+                            const isWebP = contentType && contentType.includes('webp');
+                            
+                            if (isWebP) webpCount++;
+                            else jpgCount++;
+                            
+                            const formatEl = document.getElementById(`format-${img.alt.toLowerCase()}`);
+                            const sizeEl = document.getElementById(`size-${img.alt.toLowerCase()}`);
+                            
+                            if (formatEl) {
+                                const className = isWebP ? 'success' : 'warning';
+                                formatEl.innerHTML = `<span class="${className}">${isWebP ? '✓ WebP' : '⚠ JPG'}</span>`;
+                            }
+                            if (sizeEl) {
+                                sizeEl.textContent = `${(img.naturalWidth || '?')}×${(img.naturalHeight || '?')}px`;
+                            }
+                        });
+                }
+            });
+            
+            // Verificación final
+            setTimeout(() => {
+                const allImages = images.length;
+                const status = webpCount > 0 ? 'success' : jpgCount === allImages ? 'warning' : 'error';
+                let message = '';
+                
+                if (webpCount === allImages) {
+                    message = `<p class="success">✓ <strong>Perfecto!</strong> Todas las imágenes se están sirviendo en WebP</p>`;
+                } else if (webpCount > 0) {
+                    message = `<p class="warning">⚠ <strong>Parcial:</strong> ${webpCount} de ${allImages} imágenes en WebP</p>`;
+                } else {
+                    message = `<p class="warning">⚠ <strong>No optimizado:</strong> Las imágenes se sirven en JPG. Verifica que Vercel aplique las rewrites.</p>`;
+                }
+                
+                verification.innerHTML = message;
+            }, 2000);
+        }
+        
+        // Ejecutar al cargar
+        window.addEventListener('load', detectImageFormat);
+    </script>
+</body>
+</html>
