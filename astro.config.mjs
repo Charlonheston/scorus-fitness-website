@@ -29,12 +29,9 @@ export default defineConfig({
   ],
   output: 'static',
   image: {
-    // Optimización de imágenes
+    // No usar optimización automática de Astro - estamos usando set:html con picture elements
     service: {
-      entrypoint: 'astro/assets/services/sharp',
-      config: {
-        limitInputPixels: false,
-      },
+      entrypoint: 'astro/assets/services/noop',
     },
   },
   vite: {
