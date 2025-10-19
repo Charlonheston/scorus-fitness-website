@@ -229,8 +229,19 @@ const currentLang = 'es';
   </section>
 
   <!-- Beneficios Exclusivos -->
-  <section class="bg-black py-24 text-white">
-    <div class="container">
+  <section class="relative bg-black py-24 text-white overflow-hidden">
+    {/* Background Image */}
+    <div class="absolute inset-0 z-0" set:html={`
+      <picture>
+        <source srcset="/images/academia/scorus-benefits-bg-640w.webp 640w, /images/academia/scorus-benefits-bg-1024w.webp 1024w, /images/academia/scorus-benefits-bg.webp 1920w" type="image/webp" sizes="100vw">
+        <img src="/images/academia/scorus-benefits-bg.jpg" alt="Beneficios Exclusivos Background" class="h-full w-full object-cover" loading="lazy" decoding="async">
+      </picture>
+    `} />
+    
+    {/* Dark Overlay */}
+    <div class="absolute inset-0 z-1 bg-gradient-to-b from-black/40 via-black/50 to-black/60"></div>
+    
+    <div class="container relative z-10">
       <div class="mx-auto max-w-5xl">
         <div class="mb-16 text-center">
           <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter md:text-5xl">
