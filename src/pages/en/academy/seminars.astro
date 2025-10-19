@@ -1,0 +1,317 @@
+---
+/**
+ * Seminars - Integral Training in Training, Nutrition and Well-being
+ * In-person and online seminars with Bernat Scorus
+ * Modern and vanguard design 2025-26
+ */
+
+import Layout from '@/layouts/Layout.astro';
+import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+
+const currentLang = 'en';
+
+const seminars = [
+  { title: 'Overweight and Obesity', desc: 'Strategies to lose weight in a healthy way' },
+  { title: 'Healthy Nutrition', desc: 'How to structure a balanced diet' },
+  { title: 'Supplementation', desc: 'Discover which supplements work and how to use them correctly' },
+  { title: 'Fat Loss', desc: 'Effective methods to reduce body fat percentage' },
+  { title: 'Muscle Gain', desc: 'Fundamental principles of muscle development' },
+  { title: 'Home Training', desc: 'Effective routines without needing a gym' },
+  { title: 'Cosmetic Poisons', desc: 'Identification of products harmful to health' },
+  { title: 'Foods that Kill', desc: 'What to avoid for healthy eating' },
+  { title: 'Anti-Aging', desc: 'Strategies to slow down aging' },
+  { title: 'Detox', desc: 'Effective detoxification methods' },
+  { title: 'Menopause', desc: 'Nutrition and wellness strategies for this stage' },
+  { title: 'Vegan Nutrition', desc: 'How to maintain a balanced and healthy vegan diet' },
+  { title: 'Motivation and Personal Growth', desc: 'Strategies for mental and emotional development' },
+  { title: 'Resilience and Habit Change', desc: 'How to overcome obstacles and transform life positively' }
+];
+
+const modalities = [
+  {
+    title: 'IN-PERSON SEMINARS',
+    subtitle: 'Live, in your city',
+    icon: '🎤',
+    features: [
+      'Available in Spanish, English and Hungarian',
+      'For gyms, sports centers and events',
+      'Practical sessions and live interaction',
+      'Audiovisual support material',
+      'Variable duration according to your needs'
+    ],
+    highlight: true
+  },
+  {
+    title: 'ONLINE SEMINARS',
+    subtitle: 'From anywhere',
+    icon: '💻',
+    features: [
+      'Live HD videoconference',
+      'Unlimited access to recordings',
+      'Supplementary material (PDFs, videos, podcasts)',
+      'Real-time interaction with questions',
+      'Between 60 and 120 minutes duration'
+    ],
+    highlight: false
+  }
+];
+
+const benefits = [
+  { icon: '📚', title: 'Deep Knowledge', desc: 'Comprehensive training based on science and real experience' },
+  { icon: '🎯', title: 'Varied Topics', desc: '14 different seminars adapted to your interests' },
+  { icon: '👨‍🏫', title: 'Elite Expert', desc: 'Taught by Bernat Scorus, world champion' },
+  { icon: '🌍', title: 'Global Reach', desc: 'Available in 3 languages: Spanish, English and Hungarian' },
+  { icon: '💡', title: 'Immediately Applicable', desc: 'Practical knowledge you can use today' },
+  { icon: '🔄', title: 'Flexible', desc: 'Choose between in-person or online according to your needs' }
+];
+---
+
+<Layout
+  title="Seminars | Scorus Fitness - Comprehensive Training in Training and Well-being"
+  description="14 specialized in-person and online seminars on nutrition, training, supplementation, anti-aging and wellness. Taught by Bernat Scorus in Spanish, English and Hungarian."
+>
+  <!-- Hero Section -->
+  <ServiceDetailHeader
+    backLink={{
+      href: `/${currentLang}/academy`,
+      text: "Back to Academy"
+    }}
+    title="SEMINARS"
+    subtitle="14 specialized seminars for comprehensive training. Learn proven strategies on training, nutrition, supplementation, anti-aging and wellness. In-person or online."
+  />
+
+  <!-- Intro Section -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Transformation through knowledge</p>
+        <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+          Transform Your <span class="text-red-600">Habits</span> and Transform Your Life
+        </h2>
+        <p class="mb-8 text-lg leading-relaxed text-gray-700">
+          Seminars are a unique opportunity to access deep knowledge about training, nutrition, supplementation, anti-aging and healthy living. Designed to improve athletic performance and overall well-being.
+        </p>
+        <p class="text-gray-600">
+          These seminars are <strong>structured to provide you with comprehensive training</strong>, based on science and real experience from a world bodybuilding champion.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modalities Section -->
+  <section class="bg-gray-50 py-24">
+    <div class="container">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Choose your format</p>
+          <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+            Two <span class="text-red-600">Modalities</span>
+          </h2>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-2">
+          {modalities.map((modality) => (
+            <div class={`rounded-2xl border-2 transition-all duration-300 ${
+              modality.highlight 
+                ? 'border-red-600 bg-red-50 shadow-lg hover:shadow-xl hover:shadow-red-600/30' 
+                : 'border-gray-200 bg-white hover:border-red-600 hover:shadow-lg'
+            }`}>
+              <div class="p-8">
+                <div class="mb-4 text-5xl">{modality.icon}</div>
+                <h3 class="mb-2 text-2xl font-black uppercase text-black">{modality.title}</h3>
+                <p class="mb-8 text-sm text-gray-600">{modality.subtitle}</p>
+                
+                <ul class="space-y-3">
+                  {modality.features.map((feature) => (
+                    <li class="flex items-start gap-3">
+                      <svg class="h-5 w-5 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                      <span class="text-sm font-medium text-gray-800">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Available Seminars Grid -->
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Complete content</p>
+          <h2 class="text-4xl font-black uppercase tracking-tight md:text-5xl">
+            The 14 <span class="text-red-600">Seminars</span>
+          </h2>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {seminars.map((seminar, idx) => (
+            <div class="group relative overflow-hidden rounded-lg border border-gray-800 bg-gradient-to-br from-gray-900 to-black transition-all duration-300 hover:border-red-600 hover:shadow-lg hover:shadow-red-600/50 p-6">
+              {/* Gradient overlay on hover */}
+              <div class="absolute inset-0 bg-gradient-to-br from-red-600/0 to-red-600/0 transition-all duration-300 group-hover:from-red-600/10 group-hover:to-red-600/5"></div>
+              
+              <div class="relative z-10">
+                {/* Number */}
+                <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-red-600/20 group-hover:bg-red-600/30">
+                  <span class="text-sm font-black text-red-600">{String(idx + 1).padStart(2, '0')}</span>
+                </div>
+                
+                {/* Title */}
+                <h3 class="mb-3 text-lg font-black uppercase leading-tight">{seminar.title}</h3>
+                
+                {/* Description */}
+                <p class="text-sm leading-relaxed text-gray-400">{seminar.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Benefits</p>
+          <h2 class="text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+            Why <span class="text-red-600">Participate</span>?
+          </h2>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {benefits.map((benefit) => (
+            <div class="group overflow-hidden rounded-lg bg-gray-50 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div class="mb-4 text-4xl">{benefit.icon}</div>
+              <h3 class="mb-2 text-lg font-black uppercase text-black">{benefit.title}</h3>
+              <p class="text-sm text-gray-700">{benefit.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Requirements Section -->
+  <section class="bg-gray-50 py-24">
+    <div class="container">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
+            What Do You <span class="text-red-600">Need</span>?
+          </h2>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-2">
+          <!-- For Attendees -->
+          <div class="rounded-xl bg-white p-8 border-l-4 border-red-600">
+            <h3 class="mb-6 text-2xl font-black uppercase text-black">For Attendees</h3>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-700"><strong>Time and availability</strong> to participate</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-700">For online: <strong>device with Internet</strong> (mobile, tablet or computer)</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-700">A <strong>quiet environment</strong> to enjoy the session</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- For Organizers -->
+          <div class="rounded-xl bg-white p-8 border-l-4 border-red-600">
+            <h3 class="mb-6 text-2xl font-black uppercase text-black">For Organizers</h3>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-700"><strong>Suitable room or auditorium</strong> for the topic</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-700"><strong>Microphone</strong> for audio amplification</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-gray-700"><strong>Screen or projector</strong> for audiovisual material</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter md:text-6xl">
+          Ready to <span class="text-red-600">Learn</span>?
+        </h2>
+        <p class="mb-12 text-lg text-gray-400">
+          Choose your favorite seminar and begin your transformation. Available in 3 languages and in in-person or online modality.
+        </p>
+
+        <!-- Contact Info -->
+        <div class="mb-12 flex flex-col items-center justify-center gap-6 md:flex-row md:gap-12">
+          <a href="tel:+34673975252" class="group flex items-center gap-3 transition-all hover:text-red-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            <span class="font-bold">+34 673 97 52 52</span>
+          </a>
+
+          <a href={`/${currentLang}/contact`} class="group flex items-center gap-3 transition-all hover:text-red-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span class="font-bold">Send Message</span>
+          </a>
+        </div>
+
+        <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <ButtonPrimary 
+            href={`/${currentLang}/contact`}
+            text="Book your Seminar"
+            icon="zap"
+            size="xl"
+            variant="glow"
+          />
+          
+          <ButtonSecondary 
+            href={`/${currentLang}/academy`}
+            text="Back to Academy"
+            icon="arrow"
+            variant="glass"
+            size="xl"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
