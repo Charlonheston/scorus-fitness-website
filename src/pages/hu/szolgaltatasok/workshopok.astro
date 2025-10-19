@@ -2,45 +2,228 @@
 import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
-import translations from '../../../../public/locales/hu/services.json';
+import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 
-const t = translations.workshops;
 const currentLang = 'hu';
+
+const workshops = [
+  { number: '01', title: 'ALAPVETÕ EDZÉS', description: 'Optimalizálja az edzéseit a legjobb kombinációval.', icon: '⚡', topics: ['Periódusosítás', 'Térfogat és intenzitás', 'Felépülés'] },
+  { number: '02', title: 'TÁPLÁLKOZÁS TESTÉPÍTÉSHEZ', description: 'Ismerje meg az étkezési tervet az izomépítéshez vagy a zsírvesztéshez.', icon: '🥗', topics: ['Makrotápanyagok', 'Táplálkozás periódusosítása', 'Kalóriaszámítás'] },
+  { number: '03', title: 'INTELLIGENS KIEGÉSZÍTÉS', description: 'Fedezzen fel olyan kiegészítéseket, amelyek működnek.', icon: '💊', topics: ['Fehérjék', 'Kreatin', 'Vitaminok és ásványi anyagok'] },
+  { number: '04', title: 'MELLKAS ÉS HASIZMOK', description: 'Technikák az erõs mellkas és definiált hasizomhoz.', icon: '💪', topics: ['Lenyomás', 'Izolálás', 'Core edzés'] },
+  { number: '05', title: 'HÁTIZOM ÉS TRAPÉZ', description: 'Építsen széles hátat és óvja meg a gerincét.', icon: '🏋️', topics: ['Húzódzkodás', 'Evezés', 'Háti szélesség'] },
+  { number: '06', title: 'ERÕS VÁLLON', description: 'Kulcsfontosságú gyakorlatok a deltaizomhoz.', icon: '🎯', topics: ['Katonai lenyomás', 'Oldalsó emelkedés', 'Háti deltoid'] },
+  { number: '07', title: 'KAROK ÉS ALKARORSZÁG', description: 'Stratégiák a méret és erõ növeléséhez.', icon: '🦾', topics: ['Bicepsz', 'Tricepsz', 'Alkar'] },
+  { number: '08', title: 'SZIMMETRIKUS LÁBAK', description: 'Kiegyensúlyozott fejlesztés az izmok között.', icon: '🦵', topics: ['Guggolás', 'Kiterjesztések', 'Lábszárcsont'] },
+  { number: '09', title: 'KARDIÓ ÉS ZSÍRÉGETÉS', description: 'Maximalizálja a zsírvesztést az izmok károsítása nélkül.', icon: '🔥', topics: ['HIIT', 'Állandó kardió', 'Testösszetétel'] },
+  { number: '10', title: 'EDZÉSTERVEZÉS', description: 'Hozzon létre hatékony edzésterveket szintjéhez.', icon: '📋', topics: ['Periódusosítás', 'Éves tervezés', 'Értékelés'] }
+];
+
+const modalities = [
+  {
+    title: 'SZEMÉLYES OKTATÁS',
+    subtitle: 'A Scorus Gym-ben, Alicante',
+    features: [
+      { icon: '🏢', text: 'Privát edzõterem professzionális felszereléssel' },
+      { icon: '✅', text: 'Valós idejû korrekciók és beállítások' },
+      { icon: '📚', text: 'Integrált elmélet és gyakorlat' },
+      { icon: '👤', text: 'Bernat Scorus személyes figyelme' }
+    ],
+    highlight: true
+  },
+  {
+    title: 'ONLINE MÓD',
+    subtitle: 'Mindenhonnan',
+    features: [
+      { icon: '🎥', text: 'Élõ videókonferencia' },
+      { icon: '♻️', text: 'Korlátlan hozzáférés felvételekhez' },
+      { icon: '💬', text: 'Közvetlen interakció Bernattal' },
+      { icon: '📄', text: 'Kiegészítõ anyag (PDF-ek és szkriptek)' }
+    ],
+    highlight: false
+  }
+];
+
+const benefits = [
+  { title: 'STRUKTURÁLT KÉPZÉS', description: '10 haladó workshop az átfogó tanuláshoz' },
+  { title: 'BAJNOKI SZAKTUDÁS', description: 'Világbajnok tanítása 30+ év tapasztalattal' },
+  { title: 'KIS CSOPORTOK', description: 'Személyes odafigyelés és egyéni megközelítés' },
+  { title: 'TANÚSÍTVÁNY MELLÉKELT', description: 'Hivatalos diploma a program befejezése után' },
+  { title: 'EXKLUZÍV ANYAGOK', description: 'Hozzáférés erõforrásokhoz, útmutatókhoz és bemutatókhoz' },
+  { title: 'RUGALMASSÁG', description: 'Válasszon személyes vagy online mód között' }
+];
 ---
 
-<Layout title={t.meta.title} description={t.meta.description}>
+<Layout
+  title="Speciális Workshopok | Scorus Fitness - 10 Speciális Workshopok"
+  description="10 intenzív workshop testépítésben, táplálkozásban és edzésben. Személyes vagy online képzés Bernat Scorus, világbajnok testépítõvel."
+>
   <ServiceDetailHeader
-    backLink={{ href: `/${currentLang}/szolgaltatasok`, text: translations.back_to_services }}
-    title="WORKSHOPOK"
-    subtitle="Gyakorlati workshopok edzéstechnikákról, táplálkozásról és személyes fejlődésről."
+    backLink={{
+      href: `/${currentLang}/szolgaltatasok`,
+      text: "Vissza a Szolgáltatásokhoz"
+    }}
+    title="SPECIÁLIS WORKSHOPOK"
+    subtitle="10 intenzív workshop a testépítés, táplálkozás és edzés mestereléséhez. Személyes vagy online."
   />
 
   <section class="bg-white py-24">
     <div class="container">
-      <div class="mx-auto max-w-4xl text-center px-4">
-        <h2 class="mb-6 text-3xl sm:text-4xl font-black uppercase text-black">
-          Gyakorlati <span class="text-red-600">Workshopok</span>
+      <div class="mx-auto max-w-4xl text-center">
+        <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Teljes Képzés</p>
+        <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+          Alakítsa Az Ön Testét És <span class="text-red-600">Tudását</span>
         </h2>
-        <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
-          Interaktív csoportos ülések felügyelt gyakorlással és teljes oktatási anyaggal.
+        <p class="text-lg leading-relaxed text-gray-700">
+          Nem mindenki engedheti meg magának a folyamatos személyi edzést, de mindenkinek szüksége van helyes iránymutatásra. 10 speciális workshopunkkal teljes képzést kap a testépítésben és fitneszben.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray-50 py-24">
+    <div class="container">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Válassza Ki A Formátumot</p>
+          <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+            Két <span class="text-red-600">Lehetõség</span>
+          </h2>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-2">
+          {modalities.map((modality) => (
+            <div class={`rounded-2xl border-2 transition-all duration-300 ${
+              modality.highlight 
+                ? 'border-red-600 bg-red-50 shadow-lg hover:shadow-xl hover:shadow-red-600/30' 
+                : 'border-gray-200 bg-white hover:border-red-600 hover:shadow-lg'
+            }`}>
+              <div class="p-8">
+                <h3 class="mb-2 text-2xl font-black uppercase text-black">{modality.title}</h3>
+                <p class="mb-8 text-sm text-gray-600">{modality.subtitle}</p>
+                
+                <ul class="space-y-4">
+                  {modality.features.map((feature) => (
+                    <li class="flex items-start gap-3">
+                      <span class="text-2xl">{feature.icon}</span>
+                      <span class="pt-1 text-sm font-medium text-gray-800">{feature.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
 
   <section class="bg-black py-24 text-white">
     <div class="container">
-      <div class="mx-auto max-w-3xl text-center px-4">
-        <h2 class="mb-6 text-4xl sm:text-5xl font-black uppercase">
-          FOGLALJ HELYET
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Teljes Tartalom</p>
+          <h2 class="text-4xl font-black uppercase tracking-tight md:text-5xl">
+            A 10 <span class="text-red-600">Workshop</span>
+          </h2>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {workshops.map((workshop) => (
+            <div class="group relative overflow-hidden rounded-lg border border-gray-800 bg-gradient-to-br from-gray-900 to-black transition-all duration-300 hover:border-red-600 hover:shadow-lg hover:shadow-red-600/50">
+              <div class="absolute inset-0 bg-gradient-to-br from-red-600/0 to-red-600/0 transition-all duration-300 group-hover:from-red-600/10 group-hover:to-red-600/5"></div>
+              
+              <div class="relative z-10 p-6">
+                <div class="mb-4 flex items-start justify-between">
+                  <span class="text-5xl font-black text-red-600/30 group-hover:text-red-600/50">{workshop.number}</span>
+                  <span class="text-3xl">{workshop.icon}</span>
+                </div>
+                
+                <h3 class="mb-3 text-xl font-black uppercase leading-tight">{workshop.title}</h3>
+                <p class="mb-6 text-sm leading-relaxed text-gray-400">{workshop.description}</p>
+                
+                <div class="space-y-2">
+                  {workshop.topics.map((topic) => (
+                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                      <div class="h-1 w-1 rounded-full bg-red-600"></div>
+                      {topic}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Elõnyök</p>
+          <h2 class="text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+            Mi A <span class="text-red-600">Mellékelt</span>?
+          </h2>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {benefits.map((benefit) => (
+            <div class="group overflow-hidden rounded-lg bg-gray-50 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div class="mb-3 h-1 w-12 bg-gradient-to-r from-red-600 to-red-400 transition-all duration-300 group-hover:w-full"></div>
+              <h3 class="mb-2 text-lg font-black uppercase text-black">{benefit.title}</h3>
+              <p class="text-sm text-gray-700">{benefit.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter md:text-6xl">
+          Kész Az <span class="text-red-600">Edzéshez</span>?
         </h2>
-        <ButtonPrimary 
-          href={`/${currentLang}/kapcsolat`}
-          text="Lépj Kapcsolatba"
-          icon="zap"
-          size="xl"
-          variant="glow"
-        />
+        <p class="mb-12 text-lg text-gray-400">
+          Ellenõrizze az elõször jövõ dátumokat és biztosítsa helyét. Korlátozott helyek az oktatás minõségének megtartásához.
+        </p>
+
+        <div class="mb-12 flex flex-col items-center justify-center gap-6 md:flex-row md:gap-12">
+          <a href="tel:+34673975252" class="group flex items-center gap-3 transition-all hover:text-red-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            <span class="font-bold">+34 673 97 52 52</span>
+          </a>
+
+          <a href={`/${currentLang}/kapcsolat`} class="group flex items-center gap-3 transition-all hover:text-red-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span class="font-bold">Üzenet Küldése</span>
+          </a>
+        </div>
+
+        <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <ButtonPrimary 
+            href={`/${currentLang}/kapcsolat`}
+            text="Dátumok Ellenõrzése"
+            icon="zap"
+            size="xl"
+            variant="glow"
+          />
+          
+          <ButtonSecondary 
+            href={`/${currentLang}/szolgaltatasok`}
+            text="Más Szolgáltatások"
+            icon="arrow"
+            variant="glass"
+            size="xl"
+          />
+        </div>
       </div>
     </div>
   </section>
