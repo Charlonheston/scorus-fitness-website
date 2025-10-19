@@ -386,18 +386,12 @@ const testimonials = [
             class="group relative overflow-hidden min-h-[380px] p-8 shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-600/50 hover:-translate-y-2 flex flex-col"
           >
             {/* Image de fond avec optimisation WebP */}
-            <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 z-0" set:html={`
               <picture>
-                <source srcset={program.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
-                <img
-                  src={program.image}
-                  alt={program.title}
-                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <source srcset="${program.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')}" type="image/webp" sizes="100vw">
+                <img src="${program.image}" alt="${program.title}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async">
               </picture>
-            </div>
+            `} />
             
             {/* Overlay sombre pour le contraste */}
             <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/80 to-black/95 transition-opacity duration-300 group-hover:from-red-600/70 group-hover:via-red-600/80 group-hover:to-red-600/95"></div>
