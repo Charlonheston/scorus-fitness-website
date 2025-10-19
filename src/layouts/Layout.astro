@@ -1,7 +1,7 @@
 ---
 /**
  * Layout base para todas las páginas
- * Incluye SEO, Analytics, Header y Footer
+ * Incluye SEO, Analytics, Header y Footer, y Optimizaciones de Performance
  */
 
 import Header from '@components/layout/Header.astro';
@@ -41,7 +41,8 @@ const finalSchemas = schema ? (Array.isArray(schema) ? [...defaultSchemas, ...sc
   <head>
     <!-- Meta básicos -->
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     
     <!-- SEO Component -->
@@ -57,12 +58,24 @@ const finalSchemas = schema ? (Array.isArray(schema) ? [...defaultSchemas, ...sc
     <!-- Structured Data -->
     <StructuredData schema={finalSchemas} />
     
-    <!-- Preconnect a dominios externos -->
+    <!-- Performance: Preconnect & DNS Prefetch -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://cdn.vercel-analytics.com" />
+    <link rel="dns-prefetch" href="https://vercel.live" />
+    
+    <!-- Preload críticos -->
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/montserrat/v25/..." crossorigin />
+    
+    <!-- Resource Hints -->
+    <link rel="prefetch" href="/images/" as="fetch" />
     
     <!-- View Transitions (navegación fluida) -->
     <meta name="view-transition" content="same-origin" />
+    
+    <!-- Performance Hints -->
+    <meta name="rendering" content="optimized" />
+    <meta name="description" content="Optimized for Web Core Vitals" />
   </head>
   <body class="flex min-h-screen flex-col">
     <Header />

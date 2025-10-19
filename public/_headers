@@ -1,0 +1,26 @@
+# Cache headers para Vercel
+# Archivos inmutables (con hash) - caché de 1 año
+/dist/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+  
+# Activos estáticos (imágenes, fuentes) - caché de 1 año
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  
+# HTML - sin caché (siempre fresco)
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  X-XSS-Protection: 1; mode=block
+  
+# Compression
+/*.html
+  Content-Encoding: gzip
+  
+# Preload headers para optimizar LCP
+/
+  Link: </images/hero/bernat-hero.jpg>; rel=preload; as=image
+  Link: </fonts/montserrat.woff2>; rel=preload; as=font; crossorigin

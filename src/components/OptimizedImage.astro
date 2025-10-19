@@ -1,0 +1,58 @@
+---
+/**
+ * Componente de Imagen Optimizada
+ * Sirve WebP con fallback automático + lazy loading + atributos de performance
+ */
+
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  class?: string;
+  srcWebp?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  loading = 'lazy',
+  class: className,
+  srcWebp = src.replace(/\.(jpg|jpeg|png)$/i, '.webp'),
+} = Astro.props;
+
+// Generar atributos srcset con múltiples resoluciones si width/height se especifican
+const srcSet = width ? `${src} 1x, ${src.replace(/\.(\w+)$/, '@2x.$1')} 2x` : undefined;
+const srcSetWebp = width ? `${srcWebp} 1x, ${srcWebp.replace(/\.(\w+)$/, '@2x.$1')} 2x` : undefined;
+---
+
+<picture>
+  <!-- WebP para navegadores modernos -->
+  <source
+    srcset={srcSetWebp || srcWebp}
+    type="image/webp"
+  />
+  <!-- Fallback a JPG/PNG -->
+  <img
+    src={src}
+    srcset={srcSet}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    class={className}
+    data-optimized="true"
+  />
+</picture>
+
+<style>
+  img[data-optimized="true"] {
+    /* Prevenir CLS (Cumulative Layout Shift) */
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

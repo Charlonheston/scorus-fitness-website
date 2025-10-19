@@ -1,0 +1,29 @@
+---
+/**
+ * Performance Optimization Meta Tags
+ * Inyecta hints, preload y directivas de cache para optimizar performance
+ */
+---
+
+<!-- Preconnect a CDN y servicios externos críticos -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- Preload de fonts críticas -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" />
+
+<!-- DNS Prefetch para servicios -->
+<link rel="dns-prefetch" href="https://cdn.vercel-analytics.com" />
+
+<!-- Resource hints para optimización -->
+<link rel="prefetch" href="/images/" as="fetch" />
+
+<!-- Meta tags de performance -->
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+<!-- Cache control sugerido -->
+<meta http-equiv="Cache-Control" content="max-age=31536000, public, immutable" />
+
+<!-- Instrucciones para rendering prioritario -->
+<meta name="rendering" content="optimized" />
