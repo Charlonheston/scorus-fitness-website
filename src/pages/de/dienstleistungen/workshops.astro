@@ -1,16 +1,303 @@
 ---
+/**
+ * Workshops - 10 Spezialisierte Bodybuilding- und Fitness-Workshops
+ * Intensive praktische und theoretische Schulung
+ * Modernes avantgardistisches Design 2025-26
+ */
+
 import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
-import translations from '../../../../public/locales/de/services.json';
-const t = translations.workshops;
+
 const currentLang = 'de';
+
+const workshops = [
+  {
+    number: '01',
+    title: 'FUNDAMENTALES TRAINING',
+    description: 'Optimieren Sie Ihr Training mit der besten Kombination aus Übungen, Sätzen und Pausen.',
+    icon: '⚡',
+    topics: ['Periodisierung', 'Volumen und Intensität', 'Erholung']
+  },
+  {
+    number: '02',
+    title: 'ERNÄHRUNG FÜR BODYBUILDING',
+    description: 'Lernen Sie, Ihre Ernährung zum Muskelaufbau oder zur Fettverbrennung zu strukturieren.',
+    icon: '🥗',
+    topics: ['Makronährstoffe', 'Ernährungsperiodisierung', 'Kalorienberechnung']
+  },
+  {
+    number: '03',
+    title: 'INTELLIGENTE SUPPLEMENTIERUNG',
+    description: 'Entdecken Sie, welche Nahrungsergänzungsmittel wirken und wie man sie richtig einsetzt.',
+    icon: '💊',
+    topics: ['Proteine', 'Kreatin', 'Vitamine und Mineralien']
+  },
+  {
+    number: '04',
+    title: 'BRUST UND ABS',
+    description: 'Techniken zum Aufbau einer starken Brust und definierten Bauchmuskeln.',
+    icon: '💪',
+    topics: ['Bankdrücken', 'Isolationsübungen', 'Core-Training']
+  },
+  {
+    number: '05',
+    title: 'RÜCKEN UND TRAPEZ',
+    description: 'Bauen Sie einen breiten Rücken auf und schützen Sie Ihre Wirbelsäule.',
+    icon: '🏋️',
+    topics: ['Klimmzüge', 'Ruderungen', 'Rückenbreite']
+  },
+  {
+    number: '06',
+    title: 'STARKE SCHULTERN',
+    description: 'Schlüsselübungen zur Definition und Stärkung der Deltamuskeln.',
+    icon: '🎯',
+    topics: ['Militärpresse', 'Seitenheben', 'Hintere Delts']
+  },
+  {
+    number: '07',
+    title: 'ARME UND UNTERARME',
+    description: 'Strategien zum Aufbau von Größe und Kraft ohne Verletzungen.',
+    icon: '🦾',
+    topics: ['Bizeps', 'Trizeps', 'Unterarme']
+  },
+  {
+    number: '08',
+    title: 'SYMMETRISCHE BEINE',
+    description: 'Ausgewogene Entwicklung von Gesäß, Quadrizeps und Waden.',
+    icon: '🦵',
+    topics: ['Kniebeugen', 'Leg Extensions', 'Waden']
+  },
+  {
+    number: '09',
+    title: 'CARDIO UND FETTVERBRENNUNG',
+    description: 'Maximieren Sie die Fettverbrennung ohne Ihre Muskulatur zu beeinträchtigen.',
+    icon: '🔥',
+    topics: ['HIIT', 'Stationäres Cardio', 'Körperzusammensetzung']
+  },
+  {
+    number: '10',
+    title: 'TRAININGSPLANUNG',
+    description: 'Erstellen Sie effektive Trainingspläne nach Ihrem Niveau und Ihren Zielen.',
+    icon: '📋',
+    topics: ['Periodisierung', 'Jahresplanung', 'Bewertung']
+  }
+];
+
+const modalities = [
+  {
+    title: 'PRÄSENZUNTERRICHT',
+    subtitle: 'Bei Scorus Gym, Alicante',
+    features: [
+      { icon: '🏢', text: 'Privates Fitnessstudio mit professioneller Ausrüstung' },
+      { icon: '✅', text: 'Echtzeit-Korrekturen und Anpassungen' },
+      { icon: '📚', text: 'Integrierte Theorie und Praxis' },
+      { icon: '👤', text: 'Persönliche Betreuung von Bernat Scorus' }
+    ],
+    highlight: true
+  },
+  {
+    title: 'ONLINE-MODUS',
+    subtitle: 'Von überall',
+    features: [
+      { icon: '🎥', text: 'Direktes Videokonferenzmeeting' },
+      { icon: '♻️', text: 'Unbegrenzter Zugriff auf Aufzeichnungen' },
+      { icon: '💬', text: 'Direkte Interaktion mit Bernat' },
+      { icon: '📄', text: 'Ergänzendes Material (PDFs und Skripte)' }
+    ],
+    highlight: false
+  }
+];
+
+const benefits = [
+  { title: 'STRUKTURIERTE AUSBILDUNG', description: '10 progressive Workshops für umfassendes Lernen' },
+  { title: 'EXPERTISE DES CHAMPIONS', description: 'Unterricht von einem Weltmeister mit 30+ Jahren Erfahrung' },
+  { title: 'KLEINE GRUPPEN', description: 'Persönliche Betreuung und individualisierter Ansatz' },
+  { title: 'ZERTIFIKAT INBEGRIFFEN', description: 'Offizielles Diplom nach Abschluss des Programms' },
+  { title: 'EXKLUSIVES MATERIAL', description: 'Zugang zu Ressourcen, Leitfäden und Demonstrationen' },
+  { title: 'FLEXIBILITÄT', description: 'Wählen Sie zwischen Präsenz- oder Online-Modus' }
+];
 ---
-<Layout title={t.meta.title} description={t.meta.description}>
-  <ServiceDetailHeader backLink={{href: `/${currentLang}/dienstleistungen`, text: translations.back_to_services}} title="TRAINING WORKSHOPS" subtitle="Intensive praktische Ausbildung in Training, Ernährung und Programmierung. Lernen Sie von einem Weltmeister mit über 30 Jahren Erfahrung."/>
-  <section class="bg-white py-24"><div class="container"><div class="mx-auto max-w-4xl text-center"><h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">Lernen Sie Von Den <span class="text-red-600">Besten</span></h2><p class="text-lg leading-relaxed text-gray-700">Die <strong>Workshops von Scorus Fitness</strong> sind für Profis und Enthusiasten konzipiert, die ihr Wissen auf die nächste Stufe bringen möchten. Praktische und intensive Schulungen mit Zertifikat inklusive.</p></div></div></section>
-  <section class="bg-gray-50 py-24"><div class="container"><div class="mx-auto max-w-6xl"><div class="mb-16 text-center"><h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">Verfügbare <span class="text-red-600">Themen</span></h2></div><div class="grid gap-8 md:grid-cols-2">{[{theme: t.themes.training, icon: "M13 10V3L4 14h7v7l9-11h-7z"}, {theme: t.themes.nutrition, icon: "M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"}, {theme: t.themes.programming, icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"}, {theme: t.themes.mindset, icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"}].map(({theme, icon}) => (<div class="group overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"><div class="border-b-4 border-red-600 bg-black px-8 py-6"><div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600"><svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d={icon}/></svg></div><h3 class="text-2xl font-black uppercase text-white">{theme.title}</h3></div><div class="p-8"><p class="mb-6 text-gray-700">{theme.description}</p><ul class="space-y-3">{theme.items.map((item: string) => (<li class="flex items-start gap-3"><svg class="mt-1 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg><span class="text-sm text-gray-700">{item}</span></li>))}</ul></div></div>))}</div></div></div></section>
-  <section class="bg-black py-24 text-white"><div class="container"><div class="mx-auto max-w-5xl"><div class="mb-16 text-center"><h2 class="mb-4 text-4xl font-black uppercase tracking-tighter md:text-5xl">Was Ist <span class="text-red-600">Enthalten</span>?</h2></div><div class="grid gap-6 md:grid-cols-2">{[{...t.includes.group_sessions, icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"}, {...t.includes.supervised_practice, icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"}, {...t.includes.materials, icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"}, {...t.includes.certificate, icon: "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"}].map(({title, description, icon}) => (<div class="flex items-start gap-4 rounded-lg bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"><svg class="mt-1 h-8 w-8 flex-shrink-0 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d={icon}/></svg><div><h3 class="mb-2 text-xl font-bold uppercase">{title}</h3><p class="text-sm text-gray-300">{description}</p></div></div>))}</div></div></div></section>
-  <section class="bg-white py-32"><div class="container"><div class="mx-auto max-w-4xl text-center"><h2 class="mb-6 text-5xl font-black uppercase tracking-tighter text-black md:text-6xl">Bereit Zum <span class="text-red-600">Lernen</span>?</h2><p class="mb-8 text-xl text-gray-600">Überprüfen Sie die kommenden Workshop-Termine und sichern Sie sich Ihren Platz. Begrenzte Plätze.</p><div class="mb-12 flex flex-col items-center justify-center gap-6 md:flex-row md:gap-12"><a href="tel:+34673975252" class="group flex items-center gap-3 text-lg transition-colors hover:text-red-600"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg><span class="font-bold text-black group-hover:text-red-600">+34 673 97 52 52</span></a><a href={`/${currentLang}/kontakt`} class="group flex items-center gap-3 text-lg transition-colors hover:text-red-600"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg><span class="font-bold text-black group-hover:text-red-600">Kontaktformular</span></a></div><div class="flex flex-col items-center justify-center gap-6 sm:flex-row"><ButtonPrimary href={`/${currentLang}/kontakt`} text="Kommende Termine Prüfen" icon="zap" size="xl" variant="glow"/><ButtonSecondary href={`/${currentLang}/dienstleistungen`} text="Alle Dienstleistungen Anzeigen" icon="arrow" variant="glass" size="xl"/></div></div></div></section>
+
+<Layout
+  title="Spezialisierte Workshops | Scorus Fitness - 10 Spezialisierte Workshops"
+  description="10 intensive Workshops in Bodybuilding, Ernährung und Training. Präsenz- oder Online-Training mit Bernat Scorus, Weltmeister im Bodybuilding."
+>
+  <!-- Hero Section -->
+  <ServiceDetailHeader
+    backLink={{
+      href: `/${currentLang}/dienstleistungen`,
+      text: "Zurück zu Dienstleistungen"
+    }}
+    title="SPEZIALISIERTE WORKSHOPS"
+    subtitle="10 intensive Workshops zum Beherrschen von Bodybuilding, Ernährung und Training. Präsenz oder Online."
+  />
+
+  <!-- Intro Section -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Umfassende Ausbildung</p>
+        <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+          Verändern Sie Ihren Körper Und <span class="text-red-600">Ihr Wissen</span>
+        </h2>
+        <p class="text-lg leading-relaxed text-gray-700">
+          Nicht jeder kann sich kontinuierliches Personal Training leisten, aber jeder braucht richtige Anleitung. Mit unseren <strong>10 spezialisierten Workshops</strong> erhalten Sie vollständige Schulungen in Bodybuilding und Fitness, strukturiert in intensiven Sitzungen, in denen Sie alles über <strong>Ernährung, Supplementierung, Training und Muskelaufbau</strong> lernen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modalities Section -->
+  <section class="bg-gray-50 py-24">
+    <div class="container">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Wählen Sie Ihr Format</p>
+          <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+            Zwei <span class="text-red-600">Modalitäten</span>
+          </h2>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-2">
+          {modalities.map((modality) => (
+            <div class={`rounded-2xl border-2 transition-all duration-300 ${
+              modality.highlight 
+                ? 'border-red-600 bg-red-50 shadow-lg hover:shadow-xl hover:shadow-red-600/30' 
+                : 'border-gray-200 bg-white hover:border-red-600 hover:shadow-lg'
+            }`}>
+              <div class="p-8">
+                <h3 class="mb-2 text-2xl font-black uppercase text-black">{modality.title}</h3>
+                <p class="mb-8 text-sm text-gray-600">{modality.subtitle}</p>
+                
+                <ul class="space-y-4">
+                  {modality.features.map((feature) => (
+                    <li class="flex items-start gap-3">
+                      <span class="text-2xl">{feature.icon}</span>
+                      <span class="pt-1 text-sm font-medium text-gray-800">{feature.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workshops Grid -->
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Vollständiger Inhalt</p>
+          <h2 class="text-4xl font-black uppercase tracking-tight md:text-5xl">
+            Die 10 <span class="text-red-600">Workshops</span>
+          </h2>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {workshops.map((workshop) => (
+            <div class="group relative overflow-hidden rounded-lg border border-gray-800 bg-gradient-to-br from-gray-900 to-black transition-all duration-300 hover:border-red-600 hover:shadow-lg hover:shadow-red-600/50">
+              <div class="absolute inset-0 bg-gradient-to-br from-red-600/0 to-red-600/0 transition-all duration-300 group-hover:from-red-600/10 group-hover:to-red-600/5"></div>
+              
+              <div class="relative z-10 p-6">
+                <div class="mb-4 flex items-start justify-between">
+                  <span class="text-5xl font-black text-red-600/30 group-hover:text-red-600/50">{workshop.number}</span>
+                  <span class="text-3xl">{workshop.icon}</span>
+                </div>
+                
+                <h3 class="mb-3 text-xl font-black uppercase leading-tight">{workshop.title}</h3>
+                
+                <p class="mb-6 text-sm leading-relaxed text-gray-400">{workshop.description}</p>
+                
+                <div class="space-y-2">
+                  {workshop.topics.map((topic) => (
+                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                      <div class="h-1 w-1 rounded-full bg-red-600"></div>
+                      {topic}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="bg-white py-24">
+    <div class="container">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Vorteile</p>
+          <h2 class="text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+            Was ist <span class="text-red-600">Inbegriffen</span>?
+          </h2>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {benefits.map((benefit) => (
+            <div class="group overflow-hidden rounded-lg bg-gray-50 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div class="mb-3 h-1 w-12 bg-gradient-to-r from-red-600 to-red-400 transition-all duration-300 group-hover:w-full"></div>
+              <h3 class="mb-2 text-lg font-black uppercase text-black">{benefit.title}</h3>
+              <p class="text-sm text-gray-700">{benefit.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-black py-32 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter md:text-6xl">
+          Bereit Zu <span class="text-red-600">Trainieren</span>?
+        </h2>
+        <p class="mb-12 text-lg text-gray-400">
+          Überprüfen Sie die kommenden Termine und sichern Sie sich Ihren Platz. Begrenzte Plätze zur Qualitätssicherung.
+        </p>
+
+        <div class="mb-12 flex flex-col items-center justify-center gap-6 md:flex-row md:gap-12">
+          <a href="tel:+34673975252" class="group flex items-center gap-3 transition-all hover:text-red-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            <span class="font-bold">+34 673 97 52 52</span>
+          </a>
+
+          <a href={`/${currentLang}/kontakt`} class="group flex items-center gap-3 transition-all hover:text-red-600">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span class="font-bold">Nachricht Senden</span>
+          </a>
+        </div>
+
+        <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <ButtonPrimary 
+            href={`/${currentLang}/kontakt`}
+            text="Termine Überprüfen"
+            icon="zap"
+            size="xl"
+            variant="glow"
+          />
+          
+          <ButtonSecondary 
+            href={`/${currentLang}/dienstleistungen`}
+            text="Andere Dienstleistungen"
+            icon="arrow"
+            variant="glass"
+            size="xl"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
