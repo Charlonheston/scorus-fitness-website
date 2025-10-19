@@ -20,7 +20,7 @@ Promise.all(sizes.map(async (size) => {
       fit: 'cover', 
       withoutEnlargement: true 
     })
-    .webp({ quality: 80 })
+    .webp({ quality: 60 })
     .toFile(outName);
 }))
 .then(() => {
