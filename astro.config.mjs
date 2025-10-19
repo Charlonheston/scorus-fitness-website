@@ -38,7 +38,7 @@ export default defineConfig({
           removeScriptTypeAttributes: true,
           removeStyleLinkTypeAttributes: true,
           minifyJS: true,
-          minifyCSS: true,
+          minifyCSS: false, // Disabled CSS minification - puede estar removiendo clases
         },
       },
     }),
