@@ -8,9 +8,8 @@
  * - title: string - Título del servicio
  * - subtitle: string - Descripción del servicio
  * - backgroundImage?: string - URL de imagen de fondo (opcional)
- * - isHero?: boolean - Si es hero (para preload)
  * 
- * Nota: Con soporte para imágenes de fondo optimizadas
+ * Nota: Con soporte para imágenes de fondo
  */
 
 interface Props {
@@ -21,14 +20,13 @@ interface Props {
   title: string;
   subtitle: string;
   backgroundImage?: string;
-  isHero?: boolean;
 }
 
-const { backLink, title, subtitle, backgroundImage, isHero = false } = Astro.props;
+const { backLink, title, subtitle, backgroundImage } = Astro.props;
 ---
 
 <section class="relative min-h-[70vh] flex items-center overflow-hidden bg-black">
-  <!-- Background Image (if provided) - Optimized -->
+  <!-- Background Image (if provided) -->
   {backgroundImage && (
     <>
       <div class="absolute inset-0">
@@ -36,9 +34,6 @@ const { backLink, title, subtitle, backgroundImage, isHero = false } = Astro.pro
           src={backgroundImage}
           alt={title}
           class="h-full w-full object-cover object-center"
-          loading={isHero ? "eager" : "lazy"}
-          decoding="async"
-          fetchpriority={isHero ? "high" : "auto"}
         />
       </div>
       <!-- Dark Overlay para legibilidad -->
