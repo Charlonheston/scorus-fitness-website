@@ -57,7 +57,7 @@ const currentLang = 'fr';
         <div class="grid gap-8 md:grid-cols-3">
           <!-- Forfait 8 Séances -->
           <div class="group relative overflow-hidden rounded-lg bg-white text-black transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-600/50">
-            <div class="p-8 text-center">
+            <div class="p-8 text-center relative z-10">
               <div class="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-black text-3xl font-black text-white">
                 8
               </div>
@@ -71,14 +71,14 @@ const currentLang = 'fr';
               </div>
 
               <ButtonSecondary 
-                href="/fr/contact" 
-                text="Commencez Maintenant!" 
+                href={`/${currentLang}/contact`}
+                text="Commencer" 
                 icon="arrow"
                 variant="outline-dark"
                 size="md"
               />
             </div>
-            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-0 pointer-events-none"></div>
           </div>
 
           <!-- Forfait 12 Séances (VEDETTE) -->
@@ -104,8 +104,8 @@ const currentLang = 'fr';
 
               <div class="[&>a]:!bg-black [&>a]:!text-white [&>a]:hover:!bg-white [&>a]:hover:!text-black">
                 <ButtonPrimary 
-                  href="/fr/contact" 
-                  text="Passez à l'Action!" 
+                  href={`/${currentLang}/contact`}
+                  text="Agir" 
                   icon="zap"
                   variant="default"
                   size="md"
@@ -116,7 +116,7 @@ const currentLang = 'fr';
 
           <!-- Forfait 16 Séances -->
           <div class="group relative overflow-hidden rounded-lg bg-white text-black transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-600/50">
-            <div class="p-8 text-center">
+            <div class="p-8 text-center relative z-10">
               <div class="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-black text-3xl font-black text-white">
                 16
               </div>
@@ -130,14 +130,14 @@ const currentLang = 'fr';
               </div>
 
               <ButtonSecondary 
-                href="/fr/contact" 
-                text="Transformez Votre Vie!" 
+                href={`/${currentLang}/contact`}
+                text="Transformer" 
                 icon="arrow"
                 variant="outline-dark"
                 size="md"
               />
             </div>
-            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-0 pointer-events-none"></div>
           </div>
         </div>
       </div>
@@ -303,7 +303,7 @@ const currentLang = 'fr';
 
         <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
           <ButtonPrimary 
-            href="/fr/contact"
+            href={`/${currentLang}/contact`}
             text="Réservez Votre Séance"
             icon="zap"
             size="xl"
@@ -311,7 +311,7 @@ const currentLang = 'fr';
           />
           
           <a
-            href="/fr/services"
+            href={`/${currentLang}/services`}
             class="inline-flex items-center text-sm font-bold uppercase tracking-wider text-white transition-all hover:text-red-600"
           >
             Voir Tous Les Services

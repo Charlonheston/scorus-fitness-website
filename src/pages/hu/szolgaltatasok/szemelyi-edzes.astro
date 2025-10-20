@@ -57,7 +57,7 @@ const currentLang = 'hu';
         <div class="grid gap-6 sm:gap-8 md:grid-cols-3">
           <!-- Bono 8 Ülés -->
           <div class="group relative overflow-hidden rounded-lg bg-white text-black transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-600/50">
-            <div class="p-6 sm:p-8 text-center">
+            <div class="p-6 sm:p-8 text-center relative z-10">
               <!-- Icon Badge -->
               <div class="mb-6 inline-flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-black text-2xl sm:text-3xl font-black text-white">
                 8
@@ -74,14 +74,14 @@ const currentLang = 'hu';
 
               <ButtonSecondary 
                 href={`/${currentLang}/kapcsolat`}
-                text="Kezdd Most!" 
+                text="Kezdd el" 
                 icon="arrow"
                 variant="outline-dark"
                 size="md"
               />
             </div>
             <!-- Hover Border -->
-            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-0 pointer-events-none"></div>
           </div>
 
           <!-- Bono 12 Ülés (DESTACADO) -->
@@ -111,7 +111,7 @@ const currentLang = 'hu';
               <div class="[&>a]:!bg-black [&>a]:!text-white [&>a]:hover:!bg-white [&>a]:hover:!text-black">
                 <ButtonPrimary 
                   href={`/${currentLang}/kapcsolat`}
-                  text="Cselekedj Most!" 
+                  text="Cselekedj" 
                   icon="zap"
                   variant="default"
                   size="md"
@@ -122,7 +122,7 @@ const currentLang = 'hu';
 
           <!-- Bono 16 Ülés -->
           <div class="group relative overflow-hidden rounded-lg bg-white text-black transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-600/50">
-            <div class="p-6 sm:p-8 text-center">
+            <div class="p-6 sm:p-8 text-center relative z-10">
               <!-- Icon Badge -->
               <div class="mb-6 inline-flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-black text-2xl sm:text-3xl font-black text-white">
                 16
@@ -139,14 +139,14 @@ const currentLang = 'hu';
 
               <ButtonSecondary 
                 href={`/${currentLang}/kapcsolat`}
-                text="Alakítsd Át Életed!" 
+                text="Alakítsd át" 
                 icon="arrow"
                 variant="outline-dark"
                 size="md"
               />
             </div>
             <!-- Hover Border -->
-            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-0 pointer-events-none"></div>
           </div>
         </div>
       </div>

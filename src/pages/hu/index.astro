@@ -1,8 +1,8 @@
 ---
 /**
- * Kezdőlap magyar nyelvű verzió - Premium Design: Fekete, Fehér és Piros
- * Scorus Fitness - Fő landolólap
- * Teljes verzió az összes modullal
+ * Página de inicio en español - Diseño Premium con Negro, Blanco y Rojo
+ * Scorus Fitness - Landing page principal
+ * Versión completa con todos los módulos
  */
 
 import Layout from '@layouts/Layout.astro';
@@ -12,12 +12,11 @@ import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import ButtonGhost from '@components/ui/ButtonGhost.astro';
 
-// Képek importálása
-import heroImage from '../../../public/images/hero/bernat-hero.jpg';
+// Importar imágenes
 import aboutImage from '../../../public/images/about/bernat-champion.jpg';
 import gymImage from '../../../public/images/gym/gym-01.jpg';
 
-// Legutóbbi blogbejegyzések lekérése
+// Obtener últimos posts del blog
 const allPosts = await getCollection('blog');
 const latestPosts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -48,7 +47,7 @@ const services = [
     description: 'Személyre szabott tervek a célaidhoz és szintedhez igazítva.',
     badge: 'Népszerű',
     iconType: 'user',
-    href: '/hu/services/personal-training',
+    href: '/hu/szolgaltatasok/szemelyi-edzes',
     image: '/images/services/personal-training.jpg',
   },
   {
@@ -56,14 +55,14 @@ const services = [
     description: 'Teljes rendszer videókonzultációkkal és személyes nyomon követéssel.',
     badge: 'Prémium',
     iconType: 'laptop',
-    href: '/hu/services/online-coaching',
+    href: '/hu/szolgaltatasok/online-coaching',
     image: '/images/services/online-coaching-hero.jpg',
   },
   {
     title: 'Online Tanácsadás',
     description: 'Oldj meg minden kérdést professzionális tanácsadási munkamenetekkel.',
     iconType: 'video',
-    href: '/hu/services/online-consultation',
+    href: '/hu/szolgaltatasok/online-tanacsadas',
     image: '/images/services/online-consulting.jpg',
   },
   {
@@ -71,7 +70,7 @@ const services = [
     description: 'Exkluzív 7 napos intenzív edzésélmény.',
     badge: 'Exkluzív',
     iconType: 'graduation-cap',
-    href: '/hu/academy/scorus-campus',
+    href: '/hu/akademia/scorus-campus',
     image: '/images/gym/gym-01.jpg',
   },
 ];
@@ -82,37 +81,37 @@ const academy = [
     title: 'Műhelyek',
     description: 'Gyakorlati munkamenetek a technika tökéletesítéséhez.',
     iconType: 'wrench',
-    href: '/hu/services/workshops',
+    href: '/hu/szolgaltatasok/workshopok',
     image: '/images/gym/gym-03.jpg',
   },
   {
     title: 'Szemináriumok',
     description: 'Speciális képzés fejlett edzéstechnikákban.',
     iconType: 'presentation',
-    href: '/hu/services/seminars',
+    href: '/hu/akademia/szeminarium',
     image: '/images/gym/gym-05.jpg',
   },
   {
     title: 'Videó Kurzusok',
     description: 'Tanulj saját tempódban kizárólagos előre rögzített tartalommal.',
     iconType: 'camera',
-    href: '/hu/services/video-courses',
+    href: '/hu/akademia/videokursusok',
     image: '/images/gym/gym-07.jpg',
   },
   {
     title: 'RE-BORN',
-    description: 'Teljes transzformáció fizikai, mentális és szellemi szinten.',
+    description: 'Átfogó transzformáció fizikai, mentális és spirituális szinten.',
     badge: 'Prémium',
     iconType: 'zap',
-    href: '/hu/academy/re-born',
+    href: '/hu/akademia/re-born',
     image: '/images/gym/gym-09.jpg',
   },
 ];
 
 const stats = [
-  { value: '4500+', label: 'Megváltoztatott Kliensek' },
-  { value: '30+', label: 'Év Tapasztalat' },
-  { value: '50+', label: 'Nyert Trófeák' },
+  { value: '4500+', label: 'Megváltoztatott Kliens' },
+  { value: '30+', label: 'Évek Tapasztalata' },
+  { value: '50+', label: 'Megnyert Trófeák' },
   { value: '100%', label: 'Teljes Elkötelezettség' },
 ];
 
@@ -120,58 +119,54 @@ const transformationSteps = [
   {
     number: '1',
     title: 'Kérj konzultációt',
-    description: 'Vegyél fel velem és válaszd ki a legjobban illő szolgáltatást, vagy foglalj konzultációt az ideális lehetőség megtalálásához.',
+    description: 'Lépj kapcsolatba velem és válassza az igényeidnek leginkább megfelelő szolgáltatást, vagy foglalj konzultációt az ideális lehetőség megtalálásához.',
   },
   {
     number: '2',
-    title: 'Kezdd el a tervedet',
-    description: 'Hozzáférés egy edzés- és táplálási programhoz, amely a célaidhoz és életstílusodhoz igazított.',
+    title: 'Kezd a tervedet',
+    description: 'Hozzáférés egy az edzési és táplálkozási programhoz, amely a célodhoz és az életed üteméhez igazított.',
   },
   {
     number: '3',
-    title: 'Alakítsd meg magad',
-    description: 'Alakítsd meg a testedet és elmedet egy strukturált tervvel és személyes támogatásommal. Kövesd a megfelelő irányelveket és érj el olyan eredményeket, amit mindig is akartál.',
+    title: 'Alakulj át',
+    description: 'Alakítsd át a testedet és elmédět egy strukturált terv és az én személyes támogatásom segítségével. Kövesd az ideális utasításokat és érj el olyan eredményeket, amelyeket mindig is szerettél volna.',
   },
 ];
 
 const testimonials = [
   {
     name: 'Alberto Bernal',
-    text: 'Bernat sokkal több, mint egy személyes edző. Professionalizmusáról önmagáért beszél, de ami igazán megkülönböztet, az a fantasztikus személyisége. Nemcsak fizikai fejlődésben segít, hanem motivál személyes növekedésedben és tanulásodban.',
+    text: 'Bernat sokkal több mint egy személyi edző. A professzionalitása önmagáért beszél, de az igazi különlegessé teszi őt az a tény, hogy milyen kiváló ember. Nem csak a fizikai fejlődésben segít, hanem a személyes növekedésben és tanulásban is motivál.',
     image: 'testimonial-1',
   },
   {
     name: 'Mónica Olmeda',
     role: 'Klasszikus Pilates',
-    text: 'Bernat nem csak egy kiváló személy, hanem egy személyes edző páratlan tapasztalattal és karizmával. A edzőterme nagyon családias és kellemes. Folyamatosan figyel minden ügyfélre és a megfelelő technikára a legjobb eredmények eléréséhez.',
+    text: 'Bernat kiváló ember mellett egy olyan személyi edző, akinek páratlan tapasztalata és karizmája van. A tornaterme nagyon családias és kellemes. Állandóan figyel minden ügyfélre és arra, hogy a technika helyes legyen a legjobb eredmények eléréséhez.',
     image: 'testimonial-2',
   },
   {
     name: 'Aaron Navarro',
-    text: 'Első osztályú személyes edző. Bernattal már körülbelül 3 hónapja edzek és imádom. Az edzőtermében az edzések kicsik, maximum 2-3 fő, ami személyesebb edzéslehetőséget biztosít. Mindig ajánlom azt, aki Alikantében személyes edzőt keres.',
+    text: 'Egy 10-es személyi edző. Körülbelül 3 hónapja edzek Bernattal és nagyon elégedett vagyok. A tornalójában kis csoportok vannak, maximum 2-3 fő, ami lehetővé teszi a személyesebb edzést. Mindig ajánlom mindenkinek, aki Alicantéban személyi edzőt kérdez tőlem.',
     image: 'testimonial-3',
   },
 ];
 ---
 
 <Layout
-  title="Scorus Fitness | Személyes Edzés Alikantében"
-  description="Edzőközpont és edzőterem Alikantében. Testfejlesztés személyre szabott programokkal, RE-BORN és Scorus Campus. Bernat Scorus, profi testépítő edző."
+  title="Scorus Fitness | Személyes Edzés Alicantéban"
+  description="Személyes edzésközpont és tornaterem Alicantéban. Fizikai transzformáció személyre szabott programokkal, RE-BORN és Scorus Campus. Bernat Scorus, profi testépítő."
 >
   <!-- Hero Section - Lenyűgöző háttérképpel -->
   <section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-black">
     <!-- Hero háttérkép fedőréteggel -->
     <div class="absolute inset-0">
-      <Image
-        src={heroImage}
-        alt="Bernat Scorus - Személyes Edzés"
-        class="h-full w-full object-cover"
-        widths={[640, 768, 1024, 1280, 1536, 1920]}
-        sizes="100vw"
-        quality={80}
-        loading="eager"
-        decoding="async"
-      />
+      <div set:html={`
+        <picture>
+          <source srcset="/images/hero/bernat-hero-640w.webp 640w, /images/hero/bernat-hero-1024w.webp 1024w, /images/hero/bernat-hero.webp 1920w" type="image/webp" sizes="100vw">
+          <img src="/images/hero/bernat-hero.jpg" alt="Bernat Scorus - Személyes Edzés" class="h-full w-full object-cover" loading="eager" decoding="async">
+        </picture>
+      `} />
       <!-- Sötét fedőréteg a szöveg olvashatóságához -->
       <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/80"></div>
     </div>
@@ -190,19 +185,19 @@ const testimonials = [
           </p>
         </div>
         
-        <h1 class="mb-8 text-4xl font-black uppercase leading-[0.9] tracking-tighter text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-          ALAKÍTSD MEG<br />
-          <span class="text-red-600">A TESTED</span>
+        <h1 class="mb-8 text-3xl font-black uppercase leading-[0.9] tracking-tighter text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+          ALAKÍTSD<br />
+          <span class="text-red-600">AZ TESTED</span>
         </h1>
         
-        <p class="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-gray-300 sm:text-xl md:text-2xl">
-          Elit szintű edzés. Rendkívüli eredmények.<br />
+        <p class="mx-auto mb-12 max-w-2xl text-sm leading-relaxed text-gray-300 sm:text-base md:text-lg lg:text-xl">
+          Elit edzés. Rendkívüli eredmények.<br />
           <span class="font-semibold text-red-600">A transzformációd itt kezdődik.</span>
         </p>
         
         <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
           <ButtonPrimary 
-            href="/hu/contact" 
+            href="/hu/kapcsolat" 
             text="Kezdj Most" 
             icon="fire"
             size="lg"
@@ -210,8 +205,8 @@ const testimonials = [
           />
           
           <ButtonSecondary 
-            href="/hu/services" 
-            text="Nézd meg a Szolgáltatásokat"
+            href="/hu/szolgaltatasok" 
+            text="Szolgáltatások"
             icon="eye"
             variant="glass"
             size="lg"
@@ -220,10 +215,10 @@ const testimonials = [
       </div>
     </div>
 
-    <!-- Scroll mutató -->
+    <!-- Scroll Indicator -->
     <div class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
       <div class="flex flex-col items-center gap-2">
-        <span class="text-xs font-semibold uppercase tracking-widest text-gray-400">Scroll</span>
+        <span class="text-xs font-semibold uppercase tracking-widest text-gray-400">Görgetés</span>
         <svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
         </svg>
@@ -231,7 +226,7 @@ const testimonials = [
     </div>
   </section>
 
-  <!-- Szolgáltatások szekció -->
+  <!-- Services Section -->
   <section class="bg-white py-24 md:py-32">
     <div class="container">
       <div class="mb-16 text-center">
@@ -241,8 +236,8 @@ const testimonials = [
           </p>
         </div>
         <h2 class="text-2xl font-black uppercase tracking-tight text-black sm:text-3xl md:text-4xl lg:text-5xl">
-          SZEMÉLYRE SZABOTT PROGRAMOK<br />
-          <span class="text-red-600">A TRANSZFORMÁCIÓDHOZ</span>
+          SZEMÉLYRE SZABOTT<br />
+          <span class="text-red-600">PROGRAMOK AZ ÁTALAKULÁSODHOZ</span>
         </h2>
       </div>
 
@@ -252,7 +247,7 @@ const testimonials = [
             href={program.href}
             class="group relative overflow-hidden min-h-[380px] p-8 shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-600/50 hover:-translate-y-2 flex flex-col"
           >
-            {/* Háttérkép WebP optimizálással és reszponzív méretekkel */}
+            {/* Imagen de fondo con WebP optimization y responsive sizes */}
             <div class="absolute inset-0 z-0" set:html={`
               <picture>
                 <source srcset="${program.image.replace(/\.(jpg|jpeg|png)$/i, '-400w.webp')} 400w, ${program.image.replace(/\.(jpg|jpeg|png)$/i, '-800w.webp')} 800w, ${program.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')} 1200w" type="image/webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw">
@@ -260,10 +255,10 @@ const testimonials = [
               </picture>
             `} />
             
-            {/* Sötét fedőréteg a kontrasztért */}
+            {/* Overlay oscuro para contraste */}
             <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/80 to-black/95 transition-opacity duration-300 group-hover:from-red-600/70 group-hover:via-red-600/80 group-hover:to-red-600/95"></div>
             
-            {/* Jelvény */}
+            {/* Badge */}
             {program.badge && (
               <div class="absolute right-4 top-4 z-20 rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-lg group-hover:bg-black">
                 {program.badge}
@@ -300,8 +295,8 @@ const testimonials = [
               {program.description}
             </p>
             
-            <div class="relative z-20 mt-auto inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-red-600 transition-colors group-hover:text-black">
-              Fedezd fel
+            <div class="relative z-20 mt-auto inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-red-600 transition-colors group-hover:text-white">
+              Descubrir
               <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
               </svg>
@@ -312,7 +307,7 @@ const testimonials = [
     </div>
   </section>
 
-  <!-- Rólunk szekció -->
+  <!-- About Features Section -->
   <section class="bg-black py-24 text-white md:py-32">
     <div class="container">
       <div class="mb-16 text-center">
@@ -322,11 +317,11 @@ const testimonials = [
           </p>
         </div>
         <h2 class="mx-auto max-w-4xl text-2xl font-black uppercase leading-tight tracking-tight text-white sm:text-3xl md:text-4xl lg:text-5xl">
-          MI MEGVÁLTOZTATJUK A TESTED,<br />
-          <span class="text-red-600">JAVÍTJUK A TELJESÍTMÉNYED</span>
+          MEGVÁLTOZTATJUK AZ AGYAD,<br />
+          <span class="text-red-600">ERŐSÍTJÜK AZ ERŐDET</span>
         </h2>
         <p class="mx-auto mt-6 max-w-3xl text-lg text-gray-300">
-          Feledj meg általános diétákról és rutinokról. Érj el legjobb verziót 100% személyre szabott tervvel és igazi támogatással.
+          Feledj meg a generikus diétákról és edzésekről. Érj el a legjobb verziódhoz egy 100%-ban személyre szabott tervvel és valós támogatással.
         </p>
       </div>
 
@@ -363,7 +358,7 @@ const testimonials = [
     </div>
   </section>
 
-  <!-- Akadémia szekció -->
+  <!-- Academy Section -->
   <section class="bg-gray-50 py-24 md:py-32">
     <div class="container">
       <div class="mb-16 text-center">
@@ -373,8 +368,8 @@ const testimonials = [
           </p>
         </div>
         <h2 class="text-2xl font-black uppercase tracking-tight text-black sm:text-3xl md:text-4xl lg:text-5xl">
-          KÉPZÉS ÉS OKTATÁS<br />
-          <span class="text-red-600">SZAKEMBEREKNEK</span>
+          FORMÁCIÓ ÉS OKTATÁS<br />
+          <span class="text-red-600">PROFIESZIONÁLISOK RÉSZÉRE</span>
         </h2>
       </div>
 
@@ -384,18 +379,18 @@ const testimonials = [
             href={program.href}
             class="group relative overflow-hidden min-h-[380px] p-8 shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-red-600/50 hover:-translate-y-2 flex flex-col"
           >
-            {/* Háttérkép WebP optimizálással */}
+            {/* Imagen de fondo con WebP optimization */}
             <div class="absolute inset-0 z-0" set:html={`
               <picture>
-                <source srcset="${program.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')}" type="image/webp" sizes="100vw">
+                <source srcset="${program.image.replace(/\.(jpg|jpeg|png)$/i, '-400w.webp')} 400w, ${program.image.replace(/\.(jpg|jpeg|png)$/i, '-800w.webp')} 800w, ${program.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')} 1200w" type="image/webp" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw">
                 <img src="${program.image}" alt="${program.title}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async">
               </picture>
             `} />
             
-            {/* Sötét fedőréteg a kontrasztért */}
+            {/* Overlay oscuro para contraste */}
             <div class="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/80 to-black/95 transition-opacity duration-300 group-hover:from-red-600/70 group-hover:via-red-600/80 group-hover:to-red-600/95"></div>
             
-            {/* Jelvény */}
+            {/* Badge */}
             {program.badge && (
               <div class="absolute right-4 top-4 z-20 rounded-full bg-red-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-lg group-hover:bg-black">
                 {program.badge}
@@ -416,7 +411,7 @@ const testimonials = [
               )}
               {program.iconType === 'camera' && (
                 <svg class="h-8 w-8 text-white transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0118.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
               )}
@@ -434,8 +429,8 @@ const testimonials = [
               {program.description}
             </p>
             
-            <div class="relative z-20 mt-auto inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-red-600 transition-colors group-hover:text-black">
-              Fedezd fel
+            <div class="relative z-20 mt-auto inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-red-600 transition-colors group-hover:text-white">
+              Descubrir
               <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
               </svg>
@@ -446,11 +441,11 @@ const testimonials = [
     </div>
   </section>
 
-  <!-- Scorus GYM szekció -->
+  <!-- Scorus GYM Section -->
   <section class="relative bg-black py-24 text-white md:py-32">
     <div class="container">
       <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
-        <!-- Tartalom -->
+        <!-- Content -->
         <div class="flex flex-col justify-center">
           <div class="mb-6 inline-block border-l-4 border-red-600 pl-4">
             <p class="text-sm font-bold uppercase tracking-widest text-red-600">
@@ -459,13 +454,13 @@ const testimonials = [
           </div>
           
           <h2 class="mb-6 text-2xl font-black uppercase leading-tight tracking-tight text-white sm:text-3xl md:text-4xl lg:text-5xl">
-            MAGÁNTEREM<br />
-            TERVEZETT A<br />
-            <span class="text-red-600">MAXIMÁLIS TELJESÍTMÉNYD SZÁMÁRA</span>
+            EGY PRIVÁT GIMNASZIUM<br />
+            TERVEZETT AZ<br />
+            <span class="text-red-600">MAXIMÁLIS EREDMÉNYÉRT</span>
           </h2>
           
           <p class="mb-8 text-lg leading-relaxed text-gray-300">
-            Edzz egy kizárólagos, magán és otthonos térben, teljes felszereléssel és a te zenéddel.
+            Edződ egy kizárólagos, magán és kellemes térben, teljesen felszerelt és saját zenével.
           </p>
 
           <div class="space-y-4">
@@ -476,8 +471,8 @@ const testimonials = [
                 </svg>
               </div>
               <div>
-                <h4 class="font-bold text-white">Magán és Exkluzív Tér</h4>
-                <p class="text-sm text-gray-400">Nincs zavaró tényező, csak te és az edzésed</p>
+                <h4 class="font-bold text-white">Magán és Kizárólagos Tér</h4>
+                <p class="text-sm text-gray-400">Nincs zavar, csak te és az edzésed</p>
               </div>
             </div>
             
@@ -488,8 +483,8 @@ const testimonials = [
                 </svg>
               </div>
               <div>
-                <h4 class="font-bold text-white">Professzionális Felszerelés</h4>
-                <p class="text-sm text-gray-400">Mindaz, amire szükséged van, hogy a legmagasabb szinten edzess</p>
+                <h4 class="font-bold text-white">Professionális Felszerelés</h4>
+                <p class="text-sm text-gray-400">Minden, ami szükséges az edzés maximális szintjéhez</p>
               </div>
             </div>
             
@@ -500,26 +495,26 @@ const testimonials = [
                 </svg>
               </div>
               <div>
-                <h4 class="font-bold text-white">A te Zenéd, A te Légköre</h4>
-                <p class="text-sm text-gray-400">Teremts meg a tökéletes légkört az edzésedhez</p>
+                <h4 class="font-bold text-white">Saját Zenéd, Saját Környezeted</h4>
+                <p class="text-sm text-gray-400">Hozz létre a tökéletes atmoszférát a munkamenethez</p>
               </div>
             </div>
           </div>
 
           <ButtonPrimary 
             href="/hu/gym"
-            text="Nézd meg a Berendezéseket"
+            text="Települések Megtekintése"
             icon="arrow"
             size="md"
             class="mt-8"
           />
         </div>
 
-        <!-- Kép helyőrzője -->
+        <!-- Image Placeholder -->
         <div class="relative min-h-[400px] overflow-hidden lg:min-h-[600px]">
           <Image
             src={gymImage}
-            alt="Scorus GYM - Magán Edzőterem Alikantében"
+            alt="Scorus GYM - Privát Gimnázium Alicantéban"
             class="h-full w-full object-cover object-center"
             widths={[640, 768, 1024, 1280]}
             sizes="(max-width: 1024px) 100vw, 50vw"
@@ -533,10 +528,10 @@ const testimonials = [
     </div>
   </section>
 
-  <!-- Statisztikák szekció -->
+  <!-- Stats Section -->
   <section class="relative bg-white py-24">
     <div class="container">
-      <div class="grid gap-12 sm:grid-cols-2 md:grid-cols-4">
+      <div class="grid gap-12 md:grid-cols-4">
         {stats.map((stat) => (
           <div class="group text-center">
             <div class="mb-4 text-4xl font-black text-black transition-all group-hover:scale-110 group-hover:text-red-600 sm:text-5xl md:text-6xl lg:text-7xl">
@@ -550,21 +545,21 @@ const testimonials = [
     </div>
   </section>
 
-  <!-- Transzformáció lépések -->
+  <!-- Transformation Steps -->
   <section class="bg-black py-24 text-white md:py-32">
     <div class="container">
       <div class="mb-16 text-center">
         <div class="mb-4 inline-block border-l-4 border-red-600 pl-4">
           <p class="text-sm font-bold uppercase tracking-widest text-red-600">
-            A Te Folyamated
+            A Transzformációd Folyamata
           </p>
         </div>
         <h2 class="text-4xl font-black uppercase tracking-tight text-white md:text-5xl">
-          LÉPÉSEK A TESTED MEGVÁLTOZTATÁSÁHOZ<br />
-          <span class="text-red-600">ALAKÍTÁSÁHOZ</span>
+          LÉPÉSEK AZ ÁTALAKULÁSHOZ<br />
+          <span class="text-red-600">A TESTEDED</span>
         </h2>
         <p class="mx-auto mt-6 max-w-2xl text-lg text-gray-300">
-          A fejlődésed egy strukturált tervvel kezdődik. Kövesd ezeket a három lépést és érj el a legjobb verziót.
+          A transzformációd egy strukturált tervvel kezdődik. Kövesd ezt a három lépést, és érj el a legjobb verziód.
         </p>
       </div>
 
@@ -589,14 +584,14 @@ const testimonials = [
     </div>
   </section>
 
-  <!-- Bernatról szekció -->
+  <!-- About Bernat Section -->
   <section class="relative bg-white">
     <div class="grid lg:grid-cols-2">
-      <!-- Képoldal -->
+      <!-- Image Side -->
       <div class="relative min-h-[60vh] overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 lg:min-h-screen">
         <Image
           src={aboutImage}
-          alt="Bernat Scorus - Profi Testépítő"
+          alt="Bernat Scorus - Profeszionális Testépítő"
           class="h-full w-full object-cover object-center"
           widths={[640, 768, 1024, 1280]}
           sizes="(max-width: 1024px) 100vw, 50vw"
@@ -607,7 +602,7 @@ const testimonials = [
         <div class="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-red-600 to-transparent"></div>
       </div>
 
-      <!-- Tartalomoldal -->
+      <!-- Content Side -->
       <div class="flex items-center bg-black px-8 py-24 text-white lg:px-16 lg:py-32">
         <div class="max-w-xl">
           <div class="mb-6 border-l-4 border-red-600 pl-4">
@@ -617,29 +612,29 @@ const testimonials = [
           </div>
           
           <h2 class="mb-8 text-4xl font-black uppercase leading-tight text-white lg:text-5xl">
-            VITTEM A KÖVETKEZŐ<br />
-            <span class="text-red-600">SZINTRE</span>
+            ELVISZÜK AZ<br />
+            <span class="text-red-600">KÖVETKEZŐ SZINTRE</span>
           </h2>
           
           <div class="mb-8 space-y-6 text-lg leading-relaxed text-gray-300">
             <p>
-              Több mint <span class="font-bold text-white">30 év tapasztalattal</span> a testépítésben, fitneszben, edzésben és sporttáplálásban, több mint <span class="font-bold text-red-600">4500 embert</span> segítettem (személyes és online munkamenetekben) a testük megváltoztatásában és teljesítményük maximális szintjére emelésében.
+              Több mint <span class="font-bold text-white">30 év tapasztalattal</span> a testépítésben, fitnessben, edzésben és sportnutricionban, segítettem több mint <span class="font-bold text-red-600">4,500 embert</span> (fizikai és online munkamenetekben) a testépítésben és a teljesítmény maximális szintjére való vezetésében.
             </p>
             <p>
-              Ha igazi eredményeket akarsz és egy rád szabott tervet, itt vagyok, hogy útmutatást adjak a transzformációd minden lépésében.
+              Ha valós eredményeket szeretnél és egy testre szabott tervet, itt vagyok, hogy segítsek a transzformációd minden lépésében.
             </p>
           </div>
 
           <div class="mb-8 space-y-2">
-            <p class="font-bold text-red-600">• A Világ Testépítő Bajnoka</p>
-            <p class="font-bold text-red-600">• Mr. Univerzum Alelnöke</p>
-            <p class="font-bold text-red-600">• Tanúsított Személyes Edző</p>
-            <p class="font-bold text-red-600">• Sportoktatási Szakember</p>
+            <p class="font-bold text-red-600">• Világbajnok Testépítésben</p>
+            <p class="font-bold text-red-600">• Mr. Világ Bajnok</p>
+            <p class="font-bold text-red-600">• Tanácsadói Tanúsítvány</p>
+            <p class="font-bold text-red-600">• Sportnutricionista</p>
           </div>
           
           <ButtonGhost 
-            href="/hu/biography"
-            text="Fedezd fel a Történetemet"
+            href="/hu/biografia"
+            text="Ismerd meg a történetemet"
             icon="arrow"
             color="white"
             size="md"
@@ -649,21 +644,21 @@ const testimonials = [
     </div>
   </section>
 
-  <!-- Testimonialok szekció -->
+  <!-- Testimonials Section -->
   <section class="bg-white py-24 md:py-32">
     <div class="container">
       <div class="mb-16 text-center">
         <div class="mb-4 inline-block border-l-4 border-red-600 pl-4">
           <p class="text-sm font-bold uppercase tracking-widest text-red-600">
-            Vélemények
+            Visszajelzések
           </p>
         </div>
         <h2 class="text-2xl font-black uppercase tracking-tight text-black sm:text-3xl md:text-4xl lg:text-5xl">
           SIKERTÖRTÉNETEK:<br />
-          <span class="text-red-600">VALÓDI EREDMÉNYEK</span>
+          <span class="text-red-600">VALÓS EREDMÉNYEK</span>
         </h2>
         <p class="mx-auto mt-6 max-w-3xl text-lg text-gray-600">
-          Semmi sem beszél jobban, mint az eredmények. Fedezd fel, mit mondanak azok, akik rám és a Scorus Fitnessre bíztak, hogy megváltoztatják a testüket, mentalitásukat és az életüket.
+          Semmi sem beszél jobban, mint a visszajelzések. Fedezd fel, mit mondanak azok, akik bíztak bennem és a Scorus Fitness-ben a transzformációjukban.
         </p>
       </div>
 
@@ -698,22 +693,22 @@ const testimonials = [
     </div>
   </section>
 
-  <!-- Blog szekció -->
+  <!-- Blog Section -->
   {latestPosts.length > 0 && (
     <section class="bg-black py-24 text-white md:py-32">
       <div class="container">
         <div class="mb-16 text-center">
           <div class="mb-4 inline-block border-l-4 border-red-600 pl-4">
             <p class="text-sm font-bold uppercase tracking-widest text-red-600">
-              A Mi Blogunk
+              Blog
             </p>
           </div>
           <h2 class="text-4xl font-black uppercase tracking-tight text-white md:text-5xl">
-            TIPPEK ÉS STRATÉGIÁK<br />
-            <span class="text-red-600">AZ EDZÉSED FEJLESZTÉSÉHEZ</span>
+            TIPP ÉS STRATÉGIÁK<br />
+            <span class="text-red-600">AZ EDZÉSED JAVÍTÁSÁHOZ</span>
           </h2>
           <p class="mx-auto mt-6 max-w-3xl text-lg text-gray-300">
-            Fedezd fel az exkluzív tartalmat az edzésről, táplálásról, kiegészítésről, sérülések megelőzéséről, anti-aging és egészséges élet témákban.
+            Fedezz fel exkluzív tartalmat az edzésről, táplálkozásról, szuplementációról, sérülésmegelőzésről, anti-aging-ről és egészséges életmódról.
           </p>
         </div>
 
@@ -724,7 +719,7 @@ const testimonials = [
               class="group relative overflow-hidden bg-white shadow-xl transition-all duration-300 hover:bg-red-600 hover:shadow-2xl hover:shadow-red-600/50 hover:-translate-y-1"
             >
               <div class="h-48 bg-gradient-to-br from-gray-200 to-gray-300">
-                {/* Helyőrző a bejegyzés képéhez */}
+                {/* Placeholder para imagen del post */}
                 <div class="flex h-full items-center justify-center">
                   <svg class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -746,7 +741,7 @@ const testimonials = [
                 </p>
                 
                 <div class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-red-600 transition-colors group-hover:text-black">
-                  Olvasd tovább
+                  Tovább olvasom
                   <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                   </svg>
@@ -759,7 +754,7 @@ const testimonials = [
         <div class="mt-12 text-center">
           <ButtonPrimary 
             href="/hu/blog"
-            text="Nézd meg az Összes Cikket"
+            text="Minden cikk megtekintése"
             icon="arrow"
             size="md"
           />
@@ -768,7 +763,7 @@ const testimonials = [
     </section>
   )}
 
-  <!-- CTA Végső -->
+  <!-- CTA Final -->
   <section class="relative overflow-hidden bg-red-600 py-32">
     <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,.1) 10px, rgba(0,0,0,.1) 20px);"></div>
     
@@ -776,7 +771,7 @@ const testimonials = [
       <div class="mx-auto max-w-4xl text-center">
         <h2 class="mb-12 text-3xl font-black uppercase leading-[0.9] tracking-tighter text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
           KÉRDÉSEID VANNAK?<br />
-          <span class="text-black">HÍVJON VAGY LÁTOGASS MEG</span>
+          <span class="text-black">HÍVJ MEG VAGY LÁTOGASS MEG</span>
         </h2>
         
         <div class="mb-12 space-y-4 text-xl font-bold text-white">
@@ -796,8 +791,8 @@ const testimonials = [
         </div>
         
         <ButtonPrimary 
-          href="/hu/contact" 
-          text="Vegyél Fel Minket"
+          href="/hu/kapcsolat" 
+          text="Kapcsolatfelvétel"
           icon="zap"
           size="xl"
           variant="glow"
@@ -828,4 +823,3 @@ const testimonials = [
     overflow: hidden;
   }
 </style>
-

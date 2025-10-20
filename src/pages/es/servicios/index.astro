@@ -1,7 +1,7 @@
 ---
 /**
- * Página principal de Servicios - Diseño Black/White/Red Premium
- * Spanish services index page with reusable components
+ * Page Servicios - Diseño Premium Negro/Blanco/Rojo
+ * Página de índice de servicios en español con componentes reutilizables
  */
 
 import Layout from '@/layouts/Layout.astro';
@@ -11,13 +11,13 @@ import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 const servicesData = {
   seo: {
     title: "Servicios | Scorus Fitness",
-    description: "Servicios profesionales de entrenamiento personal, consultoría online, talleres, video cursos y seminarios. Transformación física y mental con metodologías probadas."
+    description: "Servicios profesionales de entrenamiento personal, consultoría en línea, talleres, cursos de vídeo y seminarios. Transformación física y mental con metodologías probadas."
   },
   header: {
     tagline: "Scorus Fitness",
     title: "TRANSFORMA TU VIDA CON",
     titleHighlight: "NUESTROS SERVICIOS",
-    subtitle: "Cada servicio está diseñado para maximizar tu potencial físico y mental. Metodologías probadas, soporte profesional y resultados garantizados."
+    subtitle: "Cada servicio está diseñado para maximizar tu potencial físico y mental. Metodologías probadas, apoyo profesional y resultados garantizados."
   },
   services: [
     {
@@ -27,21 +27,21 @@ const servicesData = {
       description: 'Programas de entrenamiento completamente personalizados y adaptados a tus objetivos específicos.',
       features: [
         'Evaluación inicial completa',
-        'Plan personalizado a tu medida',
+        'Plan personalizado para ti',
         'Seguimiento continuo y ajustes',
         'Resultados medibles'
       ],
     },
     {
-      title: 'Consultoría Online',
+      title: 'Consultoría En Línea',
       slug: 'consultoria-online',
       iconType: 'laptop',
       description: 'Asesoramiento profesional desde cualquier lugar del mundo con seguimiento personalizado.',
       features: [
-        'Videollamadas semanales',
+        'Llamadas de vídeo semanales',
         'Plan de entrenamiento detallado',
         'Plan nutricional personalizado',
-        'Soporte continuo 24/7'
+        'Apoyo continuo 24/7'
       ],
     },
     {
@@ -50,17 +50,17 @@ const servicesData = {
       iconType: 'users',
       description: 'Talleres prácticos sobre técnicas de entrenamiento, nutrición y desarrollo personal.',
       features: [
-        'Sesiones grupales interactivas',
+        'Sesiones de grupo interactivas',
         'Práctica supervisada',
-        'Material didáctico completo',
-        'Certificado de asistencia'
+        'Material educativo completo',
+        'Certificado de participación'
       ],
     },
     {
-      title: 'Video Cursos',
+      title: 'Cursos de Vídeo',
       slug: 'video-cursos',
       iconType: 'video',
-      description: 'Cursos en video para aprender a tu ritmo sobre entrenamiento y nutrición avanzada.',
+      description: 'Cursos de vídeo para aprender a tu propio ritmo sobre entrenamiento y nutrición avanzada.',
       features: [
         'Acceso ilimitado de por vida',
         'Contenido actualizado',
@@ -221,8 +221,8 @@ const servicesData = {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <h3 class="mb-2 text-xl font-bold uppercase">Soporte Constante</h3>
-            <p class="text-gray-400">Acompañamiento continuo en cada paso de tu transformación</p>
+            <h3 class="mb-2 text-xl font-bold uppercase">Apoyo Constante</h3>
+            <p class="text-gray-400">Acompañamiento continuo en cada etapa de tu transformación</p>
           </div>
         </div>
       </div>
@@ -233,7 +233,7 @@ const servicesData = {
   <section class="bg-white py-32">
     <div class="container">
       <div class="mx-auto max-w-4xl text-center">
-        <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter text-black md:text-6xl">
+        <h2 class="mb-6 text-3xl font-black uppercase tracking-tighter text-black sm:text-4xl md:text-5xl lg:text-6xl">
           ¿Listo Para <span class="text-red-600">Transformarte</span>?
         </h2>
         <p class="mb-12 text-xl text-gray-600">
@@ -243,7 +243,7 @@ const servicesData = {
         <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
           <ButtonPrimary 
             href="/es/contacto" 
-            text="Consulta Gratuita" 
+            text="Consulta" 
             icon="zap"
             size="xl"
             variant="glow"
@@ -253,7 +253,7 @@ const servicesData = {
             href="/es/biografia"
             class="inline-flex items-center text-sm font-bold uppercase tracking-wider text-black transition-all hover:text-red-600"
           >
-            Conoce a Bernat Scorus
+            Sobre Bernat
             <svg class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>

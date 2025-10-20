@@ -75,8 +75,8 @@ const currentLang = 'es';
               </div>
 
               <ButtonSecondary 
-                href="/es/contacto" 
-                text="¡Empieza Ahora!" 
+                href={`/${currentLang}/contacto`}
+                text="¡Empieza!" 
                 icon="arrow"
                 variant="outline-dark"
                 size="md"
@@ -110,8 +110,8 @@ const currentLang = 'es';
 
               <div class="[&>a]:!bg-black [&>a]:!text-white [&>a]:hover:!bg-white [&>a]:hover:!text-black">
                 <ButtonPrimary 
-                  href="/es/contacto" 
-                  text="¡Toma Acción!" 
+                  href={`/${currentLang}/contacto`}
+                  text="¡Actúa!" 
                   icon="zap"
                   variant="default"
                   size="md"
@@ -140,8 +140,8 @@ const currentLang = 'es';
               </div>
 
               <ButtonSecondary 
-                href="/es/contacto" 
-                text="¡Transforma Tu Vida!" 
+                href={`/${currentLang}/contacto`}
+                text="¡Transforma!" 
                 icon="arrow"
                 variant="outline-dark"
                 size="md"
@@ -313,7 +313,7 @@ const currentLang = 'es';
 
         <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
           <ButtonPrimary 
-            href="/es/contacto"
+            href={`/${currentLang}/contacto`}
             text="Reserva Tu Sesión"
             icon="zap"
             size="xl"
@@ -321,7 +321,7 @@ const currentLang = 'es';
           />
           
           <a
-            href="/es/servicios"
+            href={`/${currentLang}/servicios`}
             class="inline-flex items-center text-sm font-bold uppercase tracking-wider text-white transition-all hover:text-red-600"
           >
             Ver Todos Los Servicios

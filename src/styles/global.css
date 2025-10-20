@@ -44,9 +44,21 @@ section:first-of-type {
     box-sizing: border-box;
   }
 
+  html {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
   body {
     @apply bg-white text-gray-900 antialiased;
     font-feature-settings: 'rlig' 1, 'calt' 1;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
   }
 
   /* Headings */
