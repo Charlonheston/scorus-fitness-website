@@ -77,7 +77,7 @@ const { tagline, title, titleHighlight, address, cta, description, primaryCta, s
           <ButtonPrimary 
             href={primaryCta.href}
             text={primaryCta.text}
-            icon={primaryCta.icon || "zap"}
+            icon={(primaryCta.icon as 'arrow' | 'fire' | 'zap' | 'none' | undefined) || "zap"}
             size="xl"
             variant="glow"
           />

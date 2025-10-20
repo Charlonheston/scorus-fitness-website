@@ -72,6 +72,8 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
     if (!header) return;
 
     function updateHeader() {
+      if (!header) return; // TypeScript null check
+      
       const currentScroll = window.scrollY || window.pageYOffset;
       
       // Obtener elementos del NAV principal (EXCLUIR dropdowns)
