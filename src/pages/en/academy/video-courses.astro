@@ -1,7 +1,7 @@
 ---
 /**
- * Página de Video Cursos - Diseño Netflix
- * German video courses page with Netflix-style design
+ * Video Courses Page - Netflix-style Design
+ * English video courses page
  */
 
 import Layout from '@/layouts/Layout.astro';
@@ -11,49 +11,49 @@ import CTAFinal from '@components/sections/CTAFinal.astro';
 
 const coursesData = {
   seo: {
-    title: "Video Kurse Online | Scorus Fitness",
-    description: "Zugang zu Online-Videokursen zu Training und Ernährung. Lernen Sie in Ihrem eigenen Tempo mit qualitativ hochwertigem 100% Videoinhalten und zusätzlichem Material."
+    title: "Online Video Courses | Scorus Fitness",
+    description: "Access online video courses on training and nutrition. Learn at your own pace with high-quality 100% video content and extra materials included."
   },
   courses: [
     {
       id: 'nutrition',
-      title: 'Ernährung und Diät',
-      description: 'Erfahren Sie, wie Sie Ihre Ernährung strukturieren und Makronährstoffe berechnen, um Ihre körperlichen Ziele zu erreichen.',
+      title: 'Nutrition and Diet',
+      description: 'Learn to structure your diet and calculate macronutrients to achieve your physical goals.',
       icon: 'nutrition',
       color: 'from-emerald-600 to-teal-600'
     },
     {
       id: 'supplement',
-      title: 'Intelligente Supplementierung',
-      description: 'Entdecken Sie, welche Nahrungsergänzungsmittel wirklich wirken und wie Sie sie in Ihre Routine integrieren.',
+      title: 'Smart Supplementation',
+      description: 'Discover which supplements really work and how to implement them in your routine.',
       icon: 'supplement',
       color: 'from-blue-600 to-cyan-600'
     },
     {
       id: 'training',
-      title: 'Strukturiertes Training',
-      description: 'Muskelaufbau-, Kraft- und Ausdauerroutinen, die von Experten entwickelt wurden.',
+      title: 'Structured Training',
+      description: 'Muscle building, strength and endurance routines designed by experts.',
       icon: 'training',
       color: 'from-red-600 to-pink-600'
     },
     {
       id: 'antiaging',
-      title: 'Anti-Aging und optimale Gesundheit',
-      description: 'Strategien zur Verlangsamung des Alterns und Verbesserung der Lebensqualität.',
+      title: 'Anti-Aging and Optimal Health',
+      description: 'Strategies to slow down aging and improve quality of life.',
       icon: 'antiaging',
       color: 'from-purple-600 to-violet-600'
     },
     {
       id: 'cardio',
-      title: 'Cardio und Fettabbau',
-      description: 'Wirksame Methoden zur Verbesserung der Ausdauer und zum nachhaltigen Fettabbau.',
+      title: 'Cardio and Fat Burning',
+      description: 'Effective methods to improve endurance and lose fat sustainably.',
       icon: 'cardio',
       color: 'from-orange-600 to-red-600'
     },
     {
       id: 'wellness',
-      title: 'Prävention und Wohlbefinden',
-      description: 'Tipps zur Vermeidung von Verletzungen und Optimierung der Langlebigkeit und Erholung.',
+      title: 'Prevention and Wellness',
+      description: 'Keys to prevent injuries and optimize longevity and recovery.',
       icon: 'wellness',
       color: 'from-indigo-600 to-blue-600'
     }
@@ -82,27 +82,27 @@ const coursesData = {
       </div>
 
       <h1 class="mb-8 text-5xl md:text-7xl font-black uppercase tracking-tighter text-white max-w-4xl mx-auto">
-        Video Kurse <span class="text-red-600">Online</span>
+        Online Video <span class="text-red-600">Courses</span>
       </h1>
 
       <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-        Möchten Sie mit mir trainieren, aber die Entfernung macht es schwierig? Greifen Sie auf meine Videokurse zu und lernen Sie, wie ein Profi zu trainieren und sich zu ernähren, überall und jederzeit.
+        Would you like to train with me but distance makes it difficult? Access my video courses and learn to train and nourish yourself like a professional from anywhere and anytime.
       </p>
 
       <!-- CTA Buttons -->
       <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
         <ButtonPrimary 
-          href="#kurse" 
-          text="Kurse Erkunden" 
+          href="#courses" 
+          text="Explore Courses" 
           icon="zap"
           size="xl"
           variant="glow"
         />
         <a
-          href="#wie-es-funktioniert"
+          href="#how-it-works"
           class="inline-flex items-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 rounded-lg font-black uppercase tracking-wider"
         >
-          So funktioniert es
+          How It Works
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
           </svg>
@@ -133,7 +133,7 @@ const coursesData = {
             100% Video
           </h3>
           <p class="text-gray-600">
-            Detaillierte und praktische Erklärungen für jedes Konzept
+            Detailed and practical explanations of every concept
           </p>
         </div>
 
@@ -145,10 +145,10 @@ const coursesData = {
             </svg>
           </div>
           <h3 class="text-xl font-black uppercase tracking-tight text-black mb-3">
-            Zusatzmaterial
+            Extra Materials
           </h3>
           <p class="text-gray-600">
-            Tabellen, Diäten, Rezepte und herunterladbare PDF-Anleitungen
+            Tables, diets, recipes and downloadable PDF guides
           </p>
         </div>
 
@@ -160,10 +160,10 @@ const coursesData = {
             </svg>
           </div>
           <h3 class="text-xl font-black uppercase tracking-tight text-black mb-3">
-            Unbegrenzter Zugriff
+            Unlimited Access
           </h3>
           <p class="text-gray-600">
-            Lernen Sie in Ihrem Tempo, wann und wo Sie möchten
+            Learn at your pace, whenever and wherever you want
           </p>
         </div>
 
@@ -175,10 +175,10 @@ const coursesData = {
             </svg>
           </div>
           <h3 class="text-xl font-black uppercase tracking-tight text-black mb-3">
-            Bewährte Methode
+            Proven Method
           </h3>
           <p class="text-gray-600">
-            Auf Wissenschaft und 20+ Jahre Erfahrung basierend
+            Based on science and real experience of 20+ years
           </p>
         </div>
 
@@ -190,10 +190,10 @@ const coursesData = {
             </svg>
           </div>
           <h3 class="text-xl font-black uppercase tracking-tight text-black mb-3">
-            Garantierte Ergebnisse
+            Guaranteed Results
           </h3>
           <p class="text-gray-600">
-            Wenden Sie das Wissen an und sehen Sie echte Veränderungen
+            Apply the knowledge and see real changes
           </p>
         </div>
       </div>
@@ -201,25 +201,25 @@ const coursesData = {
   </section>
 
   <!-- Video Courses Carousel Section -->
-  <section id="kurse" class="py-4">
+  <section id="courses" class="py-4">
     <VideoCourseCarousel 
-      title="Unsere"
-      titleHighlight="Video Kurse"
+      title="Our"
+      titleHighlight="Video Courses"
       courses={coursesData.courses}
-      nextLabel="Nächste"
-      prevLabel="Vorherige"
+      nextLabel="Next"
+      prevLabel="Previous"
     />
   </section>
 
   <!-- How It Works Section -->
-  <section id="wie-es-funktioniert" class="bg-white py-24 md:py-32">
+  <section id="how-it-works" class="bg-white py-24 md:py-32">
     <div class="container">
       <div class="mb-16 text-center">
         <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black mb-4">
-          Wie <span class="text-red-600">Video Kurse</span> Funktionieren
+          How <span class="text-red-600">Video Courses</span> Work
         </h2>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-          Ein einfacher, aber effektiver Prozess, um Ihr Wissen in Ergebnisse umzuwandeln
+          A simple but effective process to transform your knowledge into results
         </p>
       </div>
 
@@ -234,10 +234,10 @@ const coursesData = {
             </div>
             <div class="ml-6">
               <h3 class="text-2xl font-black uppercase tracking-tight text-black mb-3">
-                Wählen Sie Ihren Kurs
+                Choose Your Course
               </h3>
               <p class="text-gray-600 leading-relaxed">
-                Wählen Sie denjenigen aus, der am besten zu Ihren Zielen und Ihrem Erfahrungsniveau passt. Wir haben Optionen für Anfänger bis Fortgeschrittene.
+                Find the one that best suits your goals and experience level. We have options for beginners to advanced.
               </p>
             </div>
           </div>
@@ -255,10 +255,10 @@ const coursesData = {
             </div>
             <div class="ml-6">
               <h3 class="text-2xl font-black uppercase tracking-tight text-black mb-3">
-                Zugriff auf Inhalte
+                Access Content
               </h3>
               <p class="text-gray-600 leading-relaxed">
-                Lernen Sie mit detaillierten Videos, herunterladbaren Materialien und ergänzenden Ressourcen. Alles ist nach Modulen organisiert.
+                Learn with detailed videos, downloadable materials and complementary resources. All organized by modules.
               </p>
             </div>
           </div>
@@ -276,10 +276,10 @@ const coursesData = {
             </div>
             <div class="ml-6">
               <h3 class="text-2xl font-black uppercase tracking-tight text-black mb-3">
-                Anwenden und Transformieren
+                Apply and Transform
               </h3>
               <p class="text-gray-600 leading-relaxed">
-                Folgen Sie jedem Schritt und wenden Sie das Gelernte im wirklichen Leben an. Die Ergebnisse werden kommen, wenn Sie konsistent bleiben.
+                Follow each step and apply what you learn in real life. Results will come if you maintain consistency.
               </p>
             </div>
           </div>
@@ -289,8 +289,8 @@ const coursesData = {
       <!-- CTA Button -->
       <div class="mt-16 text-center">
         <ButtonPrimary 
-          href="#kurse" 
-          text="Alle Kurse Anschauen" 
+          href="#courses" 
+          text="See All Courses" 
           icon="arrow-right"
           size="lg"
           variant="default"
@@ -305,10 +305,10 @@ const coursesData = {
       <div class="max-w-4xl mx-auto">
         <div class="mb-16 text-center">
           <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">
-            Warum <span class="text-red-600">Video Kurse</span>?
+            Why <span class="text-red-600">Video Courses</span>?
           </h2>
           <p class="text-xl text-gray-400">
-            Der flexibelste und zugänglichste Weg, um hochwertige Bildung zu erhalten
+            The most flexible and accessible way to access quality education
           </p>
         </div>
 
@@ -319,8 +319,8 @@ const coursesData = {
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
               <div>
-                <h4 class="font-black uppercase text-white mb-1">Flexibles Lernen</h4>
-                <p class="text-gray-400">Studieren Sie in Ihrem eigenen Tempo, wann und wo Sie möchten. Keine festen Zeitpläne.</p>
+                <h4 class="font-black uppercase text-white mb-1">Flexible Learning</h4>
+                <p class="text-gray-400">Study at your own pace, whenever and wherever you want. No fixed schedules.</p>
               </div>
             </div>
 
@@ -329,8 +329,8 @@ const coursesData = {
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
               <div>
-                <h4 class="font-black uppercase text-white mb-1">Premium-Inhalte</h4>
-                <p class="text-gray-400">Zugriff auf exklusives Wissen von Fachleuten mit jahrelanger Erfahrung.</p>
+                <h4 class="font-black uppercase text-white mb-1">Premium Content</h4>
+                <p class="text-gray-400">Access exclusive knowledge from professionals with years of experience.</p>
               </div>
             </div>
 
@@ -339,8 +339,8 @@ const coursesData = {
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
               <div>
-                <h4 class="font-black uppercase text-white mb-1">Lebenslanger Zugriff</h4>
-                <p class="text-gray-400">Kaufen Sie einmal, greifen Sie für immer zu. Einschließlich zukünftiger Updates.</p>
+                <h4 class="font-black uppercase text-white mb-1">Lifetime Access</h4>
+                <p class="text-gray-400">Buy once, access forever. Including future updates.</p>
               </div>
             </div>
           </div>
@@ -351,8 +351,8 @@ const coursesData = {
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
               <div>
-                <h4 class="font-black uppercase text-white mb-1">Exklusive Gemeinschaft</h4>
-                <p class="text-gray-400">Verbinden Sie sich mit anderen Studierenden und teilen Sie Ihren Fortschritt in unserer Gemeinschaft.</p>
+                <h4 class="font-black uppercase text-white mb-1">Exclusive Community</h4>
+                <p class="text-gray-400">Connect with other students and share your progress in our community.</p>
               </div>
             </div>
 
@@ -361,8 +361,8 @@ const coursesData = {
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
               <div>
-                <h4 class="font-black uppercase text-white mb-1">Zertifikate</h4>
-                <p class="text-gray-400">Erhalten Sie Abschlusszertifikate für jeden absolvierten Kurs.</p>
+                <h4 class="font-black uppercase text-white mb-1">Certificates</h4>
+                <p class="text-gray-400">Get certificates of completion for each course you finish.</p>
               </div>
             </div>
 
@@ -371,8 +371,8 @@ const coursesData = {
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
               <div>
-                <h4 class="font-black uppercase text-white mb-1">Zufriedenheitsgarantie</h4>
-                <p class="text-gray-400">30 Tage Geld-zurück-Garantie, wenn Sie nicht zufrieden sind.</p>
+                <h4 class="font-black uppercase text-white mb-1">Satisfaction Guarantee</h4>
+                <p class="text-gray-400">30-day money-back guarantee if you're not satisfied.</p>
               </div>
             </div>
           </div>
@@ -383,18 +383,13 @@ const coursesData = {
 
   <!-- Final CTA Section -->
   <CTAFinal 
-    tagline="BEREIT ZUM STARTEN?"
-    title="Wandeln Sie Ihr"
-    titleHighlight="Wissen in Ergebnisse Um"
-    description="Greifen Sie jetzt auf unsere Videokurse zu und beginnen Sie Ihre Transformationsreise. Hunderte von Schülern sehen bereits Ergebnisse."
-    primaryCta={{
-      text: "Verfügbare Kurse Anschauen",
-      href: "#kurse",
-      icon: "zap"
-    }}
-    secondaryCta={{
-      text: "Kostenlose Beratung",
-      href: "/de/kontakt"
+    tagline="READY TO START?"
+    title="Transform Your"
+    titleHighlight="Knowledge Into Results"
+    address="Av. Conrado Albaladejo, 31 – 03540 Alicante, Spain"
+    cta={{
+      text: "See Available Courses",
+      href: "#courses"
     }}
   />
 </Layout>

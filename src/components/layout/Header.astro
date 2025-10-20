@@ -20,7 +20,7 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
   class="fixed top-0 z-50 w-full header-transparent"
 >
   <div class="container">
-    <div class="flex h-32 items-center justify-between">
+    <div class="flex h-28 items-center justify-between">
       <!-- Logo - Con cambio dinámico blanco/negro -->
       <div class="flex items-center">
         <a href={`/${currentLang}/`} class="header-link group flex items-center">
@@ -29,9 +29,9 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
             id="logo-white"
             src="/images/logos/logo-scorus-white.webp" 
             alt="Scorus Fitness" 
-            class="h-20 w-auto transition-all duration-300 group-hover:opacity-80 sm:h-24"
-            width="80"
-            height="80"
+            class="h-20 w-auto transition-all duration-300 group-hover:opacity-80 sm:h-28"
+            width="auto"
+            height="auto"
             loading="eager"
             decoding="async"
           />
@@ -40,9 +40,9 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
             id="logo-black"
             src="/images/logos/logo-scorus.webp" 
             alt="Scorus Fitness" 
-            class="hidden h-20 w-auto transition-all duration-300 group-hover:opacity-80 sm:h-24"
-            width="80"
-            height="80"
+            class="hidden h-20 w-auto transition-all duration-300 group-hover:opacity-80 sm:h-28"
+            width="auto"
+            height="auto"
             loading="eager"
             decoding="async"
           />
@@ -72,9 +72,7 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
     if (!header) return;
 
     function updateHeader() {
-      if (!header) return; // TypeScript null check
-      
-      const currentScroll = window.pageYOffset;
+      const currentScroll = window.scrollY || window.pageYOffset;
       
       // Obtener elementos del NAV principal (EXCLUIR dropdowns)
       const navBar = header.querySelector('#header-nav');
@@ -85,9 +83,13 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
       // Obtener elementos del LOGO
       const logoWhite = header.querySelector('#logo-white') as HTMLElement;
       const logoBlack = header.querySelector('#logo-black') as HTMLElement;
+      
+      // Obtener elementos móviles (hamburguesa y language switcher)
+      const mobileMenuButton = header.querySelector('#mobile-menu-button') as HTMLElement;
+      const mobileContainer = header.querySelector('.flex.items-center.gap-4.lg\\:hidden') as HTMLElement;
 
       if (currentScroll <= 50) {
-        // ========== ESTADO TRANSPARENTE ==========
+        // ========== ESTADO TRANSPARENTE (TOP) ==========
         header.style.backgroundColor = 'transparent';
         header.style.boxShadow = 'none';
         header.classList.remove('bg-white', 'shadow-md', 'header-solid');
@@ -124,8 +126,23 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
           (el as HTMLElement).style.color = 'white';
         });
         
+        // MOBILE: Hamburguesa en BLANCO
+        if (mobileMenuButton) {
+          mobileMenuButton.style.color = 'white';
+          const hamburgerSvg = mobileMenuButton.querySelector('svg');
+          if (hamburgerSvg) {
+            hamburgerSvg.style.stroke = 'white';
+            hamburgerSvg.style.color = 'white';
+          }
+        }
+        
+        // MOBILE: Contenedor móvil en BLANCO
+        if (mobileContainer) {
+          mobileContainer.style.color = 'white';
+        }
+        
       } else {
-        // ========== ESTADO SÓLIDO ==========
+        // ========== ESTADO SÓLIDO (SCROLLED) ==========
         header.style.backgroundColor = 'white';
         header.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
         header.classList.remove('header-transparent');
@@ -161,6 +178,21 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
           (el as HTMLElement).style.stroke = 'black';
           (el as HTMLElement).style.color = 'black';
         });
+        
+        // MOBILE: Hamburguesa en NEGRO
+        if (mobileMenuButton) {
+          mobileMenuButton.style.color = 'black';
+          const hamburgerSvg = mobileMenuButton.querySelector('svg');
+          if (hamburgerSvg) {
+            hamburgerSvg.style.stroke = 'black';
+            hamburgerSvg.style.color = 'black';
+          }
+        }
+        
+        // MOBILE: Contenedor móvil en NEGRO
+        if (mobileContainer) {
+          mobileContainer.style.color = 'black';
+        }
       }
     }
 
@@ -168,8 +200,7 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
     window.addEventListener('scroll', updateHeader, { passive: true });
     window.addEventListener('load', updateHeader);
     
-    // Ejecutar inmediatamente después de un pequeño delay para asegurar que el DOM esté listo
-    setTimeout(updateHeader, 10);
+    // Ejecutar inmediatamente
     updateHeader();
   }
 

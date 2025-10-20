@@ -1,222 +1,331 @@
 ---
 /**
- * RE-BORN - Premium Black/White/Red Design
- * Programa de transformación integral 12 semanas
+ * Página de RE-BORN - Transformación Total para Hombres 35-55
+ * Spanish RE-BORN program page with Netflix-style design
  */
 
 import Layout from '@/layouts/Layout.astro';
-import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
-import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import RebornPhases from '@/components/sections/RebornPhases.astro';
 
-const currentLang = 'es';
+const rebornData = {
+  seo: {
+    title: "RE-BORN | Programa de Transformación | Scorus Fitness",
+    description: "Programa completo de transformación para hombres 35-55 que han pasado por crisis. Reconstruye tu identidad, mente y cuerpo en Scorus Gym Alicante."
+  },
+  phases: [
+    {
+      number: "1",
+      title: "Reconstrucción",
+      description: "La base de tu nueva vida comienza aquí. Supera el impacto emocional y construye cimientos sólidos.",
+      items: [
+        "Supera el impacto emocional de tu crisis",
+        "Implementa hábitos de alto rendimiento",
+        "Diseña un plan físico y nutricional efectivo"
+      ]
+    },
+    {
+      number: "2",
+      title: "Expansión",
+      description: "Crece más allá de tus limitaciones. Reprograma tu mente para el éxito y conecta con tu propósito.",
+      items: [
+        "Reprograma tu mentalidad para el éxito",
+        "Conéctate con un propósito superior",
+        "Aumenta fuerza, resistencia y claridad mental"
+      ]
+    },
+    {
+      number: "3",
+      title: "Maestría",
+      description: "Consolida tu transformación y conviértete en líder de tu propia vida.",
+      items: [
+        "Consolida tu transformación física y emocional",
+        "Aprende estrategias avanzadas de autodisciplina",
+        "Conviértete en el líder de tu propia vida"
+      ]
+    }
+  ],
+  includes: [
+    { title: "Entrenamiento Personalizado", description: "Rutinas adaptadas a tu nivel y objetivos específicos." },
+    { title: "Plan de Alimentación y Suplementación", description: "Optimizado para tu transformación física y energética." },
+    { title: "Reprogramación Mental y Emocional", description: "Recupera tu confianza, claridad y poder personal." },
+    { title: "Herramientas Espirituales", description: "Encuentra propósito, motivación y conexión profunda." },
+    { title: "Comunidad Privada Exclusiva", description: "Soporte de otros hombres en el mismo camino de transformación." },
+    { title: "Mentoría Grupal y 1:1", description: "Acompañamiento cercano para tu evolución constante." }
+  ]
+};
 ---
 
-<Layout
-  title="Programa RE-BORN | Transformación Integral"
-  description="Transformación física y mental completa en 12 semanas. Renace como la mejor versión de ti mismo."
->
-  <!-- Header Section -->
-  <ServiceDetailHeader
-    backLink={{
-      href: `/${currentLang}/academia`,
-      text: "Volver a Academia"
-    }}
-    title="RE-BORN"
-    subtitle="Transformación física y mental completa en 12 semanas. No es solo un programa de entrenamiento, es un proceso de renacimiento integral."
-  />
+<Layout title={rebornData.seo.title} description={rebornData.seo.description}>
+  <!-- Hero Section -->
+  <section class="relative min-h-screen bg-black overflow-hidden flex items-center justify-center pt-32 pb-16">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-0 left-1/4 w-96 h-96 bg-red-600 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-red-900 rounded-full blur-3xl"></div>
+    </div>
 
-  <!-- Intro Section -->
-  <section class="bg-white py-24">
-    <div class="container">
-      <div class="mx-auto max-w-4xl text-center">
-        <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
-          Renace Como Tu <span class="text-red-600">Mejor Versión</span>
-        </h2>
-        <p class="text-lg leading-relaxed text-gray-700">
-          <strong>RE-BORN</strong> es un programa intensivo de transformación que combina entrenamiento de alto rendimiento, nutrición optimizada, mentalidad ganadora y hábitos sostenibles. En 12 semanas, alcanzarás resultados que nunca imaginaste posibles.
+    <!-- Content -->
+    <div class="relative z-10 container text-center">
+      <div class="mb-6 inline-block border-l-4 border-red-600 pl-4">
+        <p class="text-sm font-bold uppercase tracking-widest text-red-600">
+          PROGRAMA EXCLUSIVO
         </p>
       </div>
-    </div>
-  </section>
 
-  <!-- Pillars Section -->
-  <section class="bg-black py-24 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-6xl">
-        <div class="mb-16 text-center">
-          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter md:text-5xl">
-            Los 4 <span class="text-red-600">Pilares</span>
-          </h2>
-        </div>
+      <h1 class="mb-8 text-5xl md:text-7xl font-black uppercase tracking-tighter text-white max-w-4xl mx-auto">
+        RE-<span class="text-red-600">BORN</span>
+      </h1>
 
-        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {[
-            {num: "01", title: "Entrenamiento", desc: "Rutinas progresivas de alta intensidad", icon: "M13 10V3L4 14h7v7l9-11h-7z"},
-            {num: "02", title: "Nutrición", desc: "Plan personalizado según tus objetivos", icon: "M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"},
-            {num: "03", title: "Mentalidad", desc: "Desarrollo de mindset ganador", icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"},
-            {num: "04", title: "Hábitos", desc: "Creación de rutinas sostenibles", icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"}
-          ].map(pillar => (
-            <div class="group relative overflow-hidden rounded-lg bg-white/10 p-8 backdrop-blur-sm transition-all duration-300 hover:bg-white/20">
-              <div class="mb-4 text-4xl font-black text-red-600/30">{pillar.num}</div>
-              <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-full bg-red-600">
-                <svg class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d={pillar.icon}/>
-                </svg>
-              </div>
-              <h3 class="mb-3 text-xl font-black uppercase tracking-tight">{pillar.title}</h3>
-              <p class="text-sm text-gray-300">{pillar.desc}</p>
-            </div>
-          ))}
-        </div>
+      <p class="text-xl md:text-2xl text-gray-300 mb-6 max-w-3xl mx-auto leading-relaxed font-bold">
+        Reconstruye Tu Identidad Completa
+      </p>
+
+      <p class="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+        Para hombres de 35-55 años que han pasado por crisis (divorcio, despido, pérdida de propósito). No es solo entrenamiento físico, es una reconstrucción total de tu identidad.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+        <ButtonPrimary 
+          href="#incluye" 
+          text="Descubre Qué Incluye" 
+          icon="zap"
+          size="xl"
+          variant="glow"
+        />
+        <a
+          href="#fases"
+          class="inline-flex items-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 rounded-lg font-black uppercase tracking-wider"
+        >
+          Ver Las 3 Fases
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="mt-16 animate-bounce">
+        <svg class="w-6 h-6 text-red-600 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
       </div>
     </div>
   </section>
 
-  <!-- Program Structure -->
-  <section class="bg-gray-50 py-24">
+  <!-- Why RE-BORN is Different -->
+  <section class="bg-white py-20 md:py-32">
     <div class="container">
-      <div class="mx-auto max-w-6xl">
-        <div class="mb-16 text-center">
-          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
-            Estructura Del <span class="text-red-600">Programa</span>
-          </h2>
+      <div class="mb-16 text-center">
+        <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black mb-4">
+          ¿Por Qué <span class="text-red-600">RE-BORN</span> Es Diferente?
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Mientras otros programas solo se enfocan en el cuerpo o la mentalidad, RE-BORN es un sistema completo que sincroniza cuerpo, mente y espíritu.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center p-8 rounded-lg hover:bg-red-50 transition-colors">
+          <div class="inline-flex h-20 w-20 items-center justify-center rounded-full bg-red-100 mb-6">
+            <svg class="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black uppercase tracking-tight text-black mb-3">Holístico</h3>
+          <p class="text-gray-600">
+            Trabajamos cuerpo, mente, emociones y espíritu en armonía total.
+          </p>
         </div>
 
-        <div class="grid gap-6 md:grid-cols-3">
-          {[
-            {phase: "Fase 1", weeks: "Semanas 1-4", title: "Adaptación", desc: "Preparación física, evaluación inicial y creación de base sólida", color: "red"},
-            {phase: "Fase 2", weeks: "Semanas 5-8", title: "Progresión", desc: "Aumento de intensidad, optimización nutricional y construcción muscular", color: "red"},
-            {phase: "Fase 3", weeks: "Semanas 9-12", title: "Transformación", desc: "Máximo rendimiento, definición final y consolidación de hábitos", color: "red"}
-          ].map(phase => (
-            <div class="group overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-              <div class="bg-black p-6 text-white">
-                <div class="mb-2 text-xs font-bold uppercase tracking-widest text-red-600">{phase.weeks}</div>
-                <h3 class="text-2xl font-black uppercase">{phase.phase}</h3>
-                <p class="mt-2 text-lg font-bold text-white">{phase.title}</p>
-              </div>
-              <div class="p-6">
-                <p class="text-gray-700">{phase.desc}</p>
-              </div>
-            </div>
-          ))}
+        <div class="text-center p-8 rounded-lg hover:bg-red-50 transition-colors">
+          <div class="inline-flex h-20 w-20 items-center justify-center rounded-full bg-red-100 mb-6">
+            <svg class="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black uppercase tracking-tight text-black mb-3">Personalizado</h3>
+          <p class="text-gray-600">
+            Cada programa se adapta a tu situación, objetivos y ritmo de vida único.
+          </p>
+        </div>
+
+        <div class="text-center p-8 rounded-lg hover:bg-red-50 transition-colors">
+          <div class="inline-flex h-20 w-20 items-center justify-center rounded-full bg-red-100 mb-6">
+            <svg class="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black uppercase tracking-tight text-black mb-3">Transformacional</h3>
+          <p class="text-gray-600">
+            Cambios profundos y duraderos, no solo resultados temporales.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- What's Included -->
-  <section class="bg-white py-24">
+  <section id="incluye" class="bg-black py-24 md:py-32">
     <div class="container">
-      <div class="mx-auto max-w-5xl">
+      <div class="mb-16 text-center">
+        <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white mb-4">
+          ¿Qué Incluye <span class="text-red-600">RE-BORN</span>?
+        </h2>
+        <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+          Programa completo en Scorus Gym con atención personalizada y grupos reducidos
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        {rebornData.includes.map((item, index) => (
+          <div class="group p-8 rounded-xl bg-gradient-to-br from-gray-900 to-black border border-gray-800 hover:border-red-600 transition-all duration-300">
+            <div class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-600 mb-6 text-white font-black">
+              {index + 1}
+            </div>
+            <h3 class="text-lg font-black uppercase tracking-tight text-white mb-3 group-hover:text-red-600 transition-colors">
+              {item.title}
+            </h3>
+            <p class="text-gray-400 leading-relaxed">
+              {item.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Phases of Transformation -->
+  <section id="fases">
+    <RebornPhases 
+      title="Transforma Tu Vida En"
+      titleHighlight="3 Fases"
+      phases={rebornData.phases}
+    />
+  </section>
+
+  <!-- Why Choose RE-BORN -->
+  <section class="bg-gradient-to-br from-black via-red-950 to-black py-24 md:py-32 text-white">
+    <div class="container">
+      <div class="max-w-4xl mx-auto">
         <div class="mb-16 text-center">
-          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
-            ¿Qué <span class="text-red-600">Incluye</span>?
+          <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">
+            ¿Por Qué <span class="text-red-600">Hombres 35-55</span>?
           </h2>
+          <p class="text-xl text-gray-400">
+            Esta etapa de la vida requiere una transformación específica y profunda
+          </p>
         </div>
 
-        <div class="grid gap-6 md:grid-cols-2">
-          {[
-            "Plan de entrenamiento personalizado (12 semanas)",
-            "Plan nutricional completo y ajustable",
-            "Seguimiento semanal de progreso",
-            "Acceso a grupo privado de WhatsApp",
-            "Material educativo sobre hábitos",
-            "Sesiones de mentalidad y motivación",
-            "Evaluaciones físicas mensuales",
-            "Soporte continuo 24/7",
-            "Certificado de finalización",
-            "Acceso a comunidad exclusiva"
-          ].map(item => (
-            <div class="flex items-start gap-4 rounded-lg border-l-4 border-red-600 bg-gray-50 p-6 transition-all duration-300 hover:bg-gray-100">
-              <svg class="mt-1 h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="space-y-6">
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
-              <p class="font-semibold text-gray-800">{item}</p>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Experiencia Acumulada</h4>
+                <p class="text-gray-400">Aprovechamos tu experiencia de vida para un cambio más profundo y auténtico.</p>
+              </div>
             </div>
-          ))}
+
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Recuperación Óptima</h4>
+                <p class="text-gray-400">Metodología adaptada a la fisiología y metabolismo del hombre maduro.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Comunidad Real</h4>
+                <p class="text-gray-400">Conecta con hombres en tu mismo estadio que entienden tus desafíos.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Mentoría Experta</h4>
+                <p class="text-gray-400">Bernat Scorus ha acompañado a cientos de hombres en esta transformación.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Ambiente Privado</h4>
+                <p class="text-gray-400">Scorus Gym exclusivo para un aprendizaje confidencial y profundo.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Resulados Duraderos</h4>
+                <p class="text-gray-400">Transformación integral que perdura toda la vida.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Results Stats -->
-  <section class="bg-black py-24 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-5xl">
-        <div class="mb-16 text-center">
-          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter md:text-5xl">
-            Resultados <span class="text-red-600">Garantizados</span>
-          </h2>
-          <p class="text-xl text-gray-300">Si sigues el programa al 100%, obtendrás resultados visibles y medibles</p>
-        </div>
-
-        <div class="grid gap-8 md:grid-cols-4">
-          {[
-            {val: "-8kg", txt: "Grasa Promedio"},
-            {val: "+4kg", txt: "Músculo Promedio"},
-            {val: "100%", txt: "Compromiso"},
-            {val: "12", txt: "Semanas"}
-          ].map(stat => (
-            <div class="rounded-lg bg-white/10 p-8 text-center backdrop-blur-sm transition-all duration-300 hover:bg-white/20">
-              <div class="mb-3 text-5xl font-black text-red-600">{stat.val}</div>
-              <p class="text-lg font-bold uppercase tracking-wider">{stat.txt}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="bg-gray-50 py-32">
+  <!-- Final CTA Section -->
+  <section class="bg-white py-20 md:py-32">
     <div class="container">
       <div class="mx-auto max-w-4xl text-center">
         <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter text-black md:text-6xl">
           ¿Listo Para <span class="text-red-600">Renacer</span>?
         </h2>
-        <p class="mb-8 text-xl text-gray-600">
-          Plazas limitadas. Contacta ahora para asegurar tu lugar en la próxima edición
+        <p class="mb-12 text-xl text-gray-600">
+          El momento para tu transformación es ahora. Contacta con nosotros y descubre cómo RE-BORN puede cambiar tu vida.
         </p>
 
-        <div class="mb-12 rounded-lg bg-black p-8 text-white">
-          <div class="mb-4 text-3xl font-black text-red-600">INVERSIÓN</div>
-          <div class="mb-2 text-6xl font-black">997€</div>
-          <p class="text-gray-400">Pago único • 12 semanas • Todo incluido</p>
-        </div>
-
-        <div class="mb-12 flex flex-col items-center justify-center gap-6 md:flex-row md:gap-12">
-          <a href="tel:+34673975252" class="group flex items-center gap-3 text-lg transition-colors hover:text-red-600">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-            </svg>
-            <span class="font-bold text-black group-hover:text-red-600">+34 673 97 52 52</span>
-          </a>
-
-          <a href={`/${currentLang}/contacto`} class="group flex items-center gap-3 text-lg transition-colors hover:text-red-600">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-            <span class="font-bold text-black group-hover:text-red-600">Formulario de Contacto</span>
-          </a>
-        </div>
-
-        <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
           <ButtonPrimary 
-            href={`/${currentLang}/contacto`}
-            text="Reserva Tu Plaza"
-            icon="zap"
+            href="tel:+34673975252" 
+            text="Llamar: +34 673 97 52 52" 
+            icon="phone"
             size="xl"
             variant="glow"
           />
-          
-          <ButtonSecondary 
-            href={`/${currentLang}/academia`}
-            text="Ver Otros Programas"
-            icon="arrow"
-            variant="glass"
+          <ButtonPrimary 
+            href="/es/contacto" 
+            text="Solicitar Información" 
+            icon="mail"
             size="xl"
+            variant="default"
           />
+        </div>
+
+        <div class="mt-12 pt-12 border-t border-gray-300 text-left">
+          <h3 class="text-2xl font-black uppercase text-black mb-6">📍 Ubicación</h3>
+          <p class="text-lg text-gray-600 mb-4">
+            <strong>Scorus Gym (Gimnasio Exclusivo y Privado)</strong><br/>
+            Av. Conrado Albaladejo, 31 – 03540 Alicante, España
+          </p>
+          <h3 class="text-2xl font-black uppercase text-black mb-6 mt-8">🕐 Horario</h3>
+          <p class="text-lg text-gray-600">
+            <strong>Lunes - Viernes:</strong> 07:00 - 10:00<br/>
+            <strong>Domingo:</strong> Cerrado
+          </p>
         </div>
       </div>
     </div>

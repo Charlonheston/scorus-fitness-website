@@ -1,157 +1,332 @@
 ---
 /**
- * RE-BORN oldal - Magyar verzió
+ * RE-BORN oldal - Netflix Design
+ * Hungarian RE-BORN program page with Netflix-style design
  */
 
 import Layout from '@/layouts/Layout.astro';
-import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import RebornPhases from '@/components/sections/RebornPhases.astro';
 
-const currentLang = 'hu';
+const rebornData = {
+  seo: {
+    title: "ÚJJASZÜLETÉS | Átalakulási Program | Scorus Fitness",
+    description: "Teljes átalakulási program a 35-55 éves férfiaknak, akik válsággal szembesültek. Építsd újra az identitásodat, elmédet és tested a Scorus Gym Alicante-ban."
+  },
+  phases: [
+    {
+      number: "1",
+      title: "Újjáépítés",
+      description: "Az új életed alapjai itt kezdődnek. Győzd le az érzelmi hatást és építs szilárd alapokat.",
+      items: [
+        "Legyőzni a válság érzelmi hatását",
+        "Magas teljesítményre épülő szokások implementálása",
+        "Hatékony fizikai és táplálkozási terv megtervezése"
+      ]
+    },
+    {
+      number: "2",
+      title: "Kiterjesztés",
+      description: "Nőj túl a korlátaidon. Programozd újra az elmédet a sikerhez és kapcsolódj az céljaidhoz.",
+      items: [
+        "Átprogramozni az elmédet a sikerhez",
+        "Kapcsolódj egy magasabb célhoz",
+        "Növeld az erőd, kitartásodat és mentális tisztaságodat"
+      ]
+    },
+    {
+      number: "3",
+      title: "Mesteriség",
+      description: "Konszolidáld az átalakulásodat és válj az életed vezetőjévé.",
+      items: [
+        "Konszolidáld a fizikai és érzelmi átalakulásodat",
+        "Tanulj meg fejlett önfegyelem stratégiákat",
+        "Válj az életed vezetőjévé"
+      ]
+    }
+  ],
+  includes: [
+    { title: "Személyre Szabott Edzés", description: "Az edzésed szintjéhez és specifikus céljaidhoz igazított rutinok." },
+    { title: "Táplálkozás és Kiegészítés Terv", description: "Optimalizálva a fizikai és energetikai átalakulásodhoz." },
+    { title: "Mentális és Érzelmi Újraprogramozás", description: "Visszakaptad a magabiztosságod, tisztaságod és személyes erejét." },
+    { title: "Spirituális Eszközök", description: "Találj célt, motivációt és mély kapcsolatot." },
+    { title: "Exkluzív Privát Közösség", description: "Támogatás más férfiak részéről, akik ugyanazon az átalakulás útjára vannak." },
+    { title: "Csoport és 1:1 Mentorálás", description: "Közvetlen támogatás az állandó fejlődésedhez." }
+  ]
+};
 ---
 
-<Layout 
-  title="RE-BORN | Scorus Fitness" 
-  description="Integrált átalakulás fizikai, mentális és spirituális szinten."
->
-  <ServiceDetailHeader
-    backLink={{
-      href: `/${currentLang}/akademia`,
-      text: "Vissza az Akadémiához"
-    }}
-    title="RE-BORN"
-    subtitle="Integrált átalakulás fizikai, mentális és spirituális szinten."
-  />
+<Layout title={rebornData.seo.title} description={rebornData.seo.description}>
+  <!-- Hero Section -->
+  <section class="relative min-h-screen bg-black overflow-hidden flex items-center justify-center pt-32 pb-16">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-0 left-1/4 w-96 h-96 bg-red-600 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-red-900 rounded-full blur-3xl"></div>
+    </div>
 
-  <!-- Intro Section -->
-  <section class="bg-white py-16 sm:py-24">
-    <div class="container">
-      <div class="mx-auto max-w-4xl text-center px-4">
-        <h2 class="mb-6 text-3xl sm:text-4xl font-black uppercase text-black md:text-5xl">
-          SZÜLESSEN ÚJJÁ MINT A <span class="text-red-600">LEGJOBB VERZIÓD</span>
-        </h2>
-        <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
-          A RE-BORN egy 12 hetes intenzív átalakulási program, amely integrálja a fizikai edzést, a mentális coachingot és a spirituális fejlődést. Nem csak megváltoztatja testedet, hanem az életed minden aspektusát átalakítja.
+    <!-- Content -->
+    <div class="relative z-10 container text-center">
+      <div class="mb-6 inline-block border-l-4 border-red-600 pl-4">
+        <p class="text-sm font-bold uppercase tracking-widest text-red-600">
+          EXKLUZÍV PROGRAM
         </p>
       </div>
-    </div>
-  </section>
 
-  <!-- 3 Pillars Section -->
-  <section class="bg-black py-16 sm:py-24 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-6xl px-4">
-        <h2 class="mb-12 text-center text-3xl sm:text-4xl font-black uppercase">
-          A 3 <span class="text-red-600">PILLÉR</span>
-        </h2>
-        <div class="grid gap-8 md:grid-cols-3">
-          <div class="text-center">
-            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
-              <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-              </svg>
-            </div>
-            <h3 class="mb-3 text-xl sm:text-2xl font-bold uppercase">Fizikai</h3>
-            <p class="text-sm sm:text-base text-gray-400">Személyre szabott edzés és táplálkozás tökéletes testalkatodért</p>
-          </div>
+      <h1 class="mb-8 text-5xl md:text-7xl font-black uppercase tracking-tighter text-white max-w-4xl mx-auto">
+        ÚJJA-<span class="text-red-600">SZÜLETÉS</span>
+      </h1>
 
-          <div class="text-center">
-            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
-              <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-              </svg>
-            </div>
-            <h3 class="mb-3 text-xl sm:text-2xl font-bold uppercase">Mentális</h3>
-            <p class="text-sm sm:text-base text-gray-400">Coaching és stratégiák a mentális akadályok leküzdésére</p>
-          </div>
+      <p class="text-xl md:text-2xl text-gray-300 mb-6 max-w-3xl mx-auto leading-relaxed font-bold">
+        Építsd Újra a Teljes Identitásodat
+      </p>
 
-          <div class="text-center">
-            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
-              <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-              </svg>
-            </div>
-            <h3 class="mb-3 text-xl sm:text-2xl font-bold uppercase">Spirituális</h3>
-            <p class="text-sm sm:text-base text-gray-400">Kapcsolódj belső önmagaddal és találd meg célodat</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+      <p class="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+        35-55 éves férfiak számára, akik válsággal szembesültek (válás, munkahelyvesztés, célelkerülés). Nem csak fizikai edzésről van szó, hanem az identitásod teljes újraépítéséről.
+      </p>
 
-  <!-- What's Included Section -->
-  <section class="bg-gray-50 py-16 sm:py-24">
-    <div class="container">
-      <div class="mx-auto max-w-5xl px-4">
-        <h2 class="mb-12 text-center text-3xl sm:text-4xl font-black uppercase text-black">
-          MIT TARTALMAZ?
-        </h2>
-        <div class="space-y-4">
-          <div class="flex items-center gap-4 rounded-lg bg-white p-4 sm:p-6 shadow-md">
-            <svg class="h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-            </svg>
-            <p class="text-sm sm:text-base text-gray-700 font-semibold">12 hetes személyre szabott edzésterv</p>
-          </div>
-
-          <div class="flex items-center gap-4 rounded-lg bg-white p-4 sm:p-6 shadow-md">
-            <svg class="h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-            </svg>
-            <p class="text-sm sm:text-base text-gray-700 font-semibold">Személyre szabott táplálkozási terv minden hétre</p>
-          </div>
-
-          <div class="flex items-center gap-4 rounded-lg bg-white p-4 sm:p-6 shadow-md">
-            <svg class="h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-            </svg>
-            <p class="text-sm sm:text-base text-gray-700 font-semibold">Heti mentális coaching ülések</p>
-          </div>
-
-          <div class="flex items-center gap-4 rounded-lg bg-white p-4 sm:p-6 shadow-md">
-            <svg class="h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-            </svg>
-            <p class="text-sm sm:text-base text-gray-700 font-semibold">Exkluzív hozzáférés privát közösséghez</p>
-          </div>
-
-          <div class="flex items-center gap-4 rounded-lg bg-white p-4 sm:p-6 shadow-md">
-            <svg class="h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-            </svg>
-            <p class="text-sm sm:text-base text-gray-700 font-semibold">24/7 támogatás és nyomon követés</p>
-          </div>
-
-          <div class="flex items-center gap-4 rounded-lg bg-white p-4 sm:p-6 shadow-md">
-            <svg class="h-6 w-6 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-            </svg>
-            <p class="text-sm sm:text-base text-gray-700 font-semibold">Spirituális gyakorlatok és meditáció</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="bg-red-600 py-20 sm:py-32 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-4xl text-center px-4">
-        <h2 class="mb-4 sm:mb-6 text-4xl sm:text-5xl font-black uppercase tracking-tighter md:text-6xl">
-          SZÜLESSEN ÚJJÁ<br/>
-          <span class="text-black">MOST</span>
-        </h2>
-        <p class="mb-6 sm:mb-8 text-base sm:text-lg sm:text-xl">
-          Ne várj tovább. A legjobb befektetés, amit tehetsz, magadba.
-        </p>
-        
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
         <ButtonPrimary 
-          href={`/${currentLang}/kapcsolat`}
-          text="Információ és Foglalás"
+          href="#tartalom" 
+          text="Fedezd Fel a Tartalmakat" 
           icon="zap"
           size="xl"
           variant="glow"
         />
+        <a
+          href="#fázisok"
+          class="inline-flex items-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 rounded-lg font-black uppercase tracking-wider"
+        >
+          Tekintsd Meg a 3 Fázist
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="mt-16 animate-bounce">
+        <svg class="w-6 h-6 text-red-600 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why RE-BORN is Different -->
+  <section class="bg-white py-20 md:py-32">
+    <div class="container">
+      <div class="mb-16 text-center">
+        <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-black mb-4">
+          Miért <span class="text-red-600">ÚJJASZÜLETÉS</span> Más?
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Míg más programok csak a testre vagy az elmére koncentrálnak, az ÚJJASZÜLETÉS egy teljes rendszer, amely szinkronizálja a testet, az elmét és a lelket.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center p-8 rounded-lg hover:bg-red-50 transition-colors">
+          <div class="inline-flex h-20 w-20 items-center justify-center rounded-full bg-red-100 mb-6">
+            <svg class="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black uppercase tracking-tight text-black mb-3">Holisztikus</h3>
+          <p class="text-gray-600">
+            Testet, elmét, érzelmi világot és lelket dolgozunk teljes harmóniában.
+          </p>
+        </div>
+
+        <div class="text-center p-8 rounded-lg hover:bg-red-50 transition-colors">
+          <div class="inline-flex h-20 w-20 items-center justify-center rounded-full bg-red-100 mb-6">
+            <svg class="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black uppercase tracking-tight text-black mb-3">Személyre Szabott</h3>
+          <p class="text-gray-600">
+            Minden program alkalmazkodik a helyzetedhez, céljaidhoz és egyedi élettempódhoz.
+          </p>
+        </div>
+
+        <div class="text-center p-8 rounded-lg hover:bg-red-50 transition-colors">
+          <div class="inline-flex h-20 w-20 items-center justify-center rounded-full bg-red-100 mb-6">
+            <svg class="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black uppercase tracking-tight text-black mb-3">Transzformatív</h3>
+          <p class="text-gray-600">
+            Mély és tartós változások, nem csak átmeneti eredmények.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What's Included -->
+  <section id="tartalom" class="bg-black py-24 md:py-32">
+    <div class="container">
+      <div class="mb-16 text-center">
+        <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white mb-4">
+          Mit Tartalmaz az <span class="text-red-600">ÚJJASZÜLETÉS</span>?
+        </h2>
+        <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+          Teljes program a Scorus Gym-ben személyre szabott figyelemmel és kis csoportokkal
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        {rebornData.includes.map((item, index) => (
+          <div class="group p-8 rounded-xl bg-gradient-to-br from-gray-900 to-black border border-gray-800 hover:border-red-600 transition-all duration-300">
+            <div class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-600 mb-6 text-white font-black">
+              {index + 1}
+            </div>
+            <h3 class="text-lg font-black uppercase tracking-tight text-white mb-3 group-hover:text-red-600 transition-colors">
+              {item.title}
+            </h3>
+            <p class="text-gray-400 leading-relaxed">
+              {item.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Phases of Transformation -->
+  <section id="fázisok">
+    <RebornPhases 
+      title="Alakítsd Át Az Életedet"
+      titleHighlight="3 Fázisban"
+      phases={rebornData.phases}
+    />
+  </section>
+
+  <!-- Why Choose RE-BORN -->
+  <section class="bg-gradient-to-br from-black via-red-950 to-black py-24 md:py-32 text-white">
+    <div class="container">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-16 text-center">
+          <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">
+            Miért <span class="text-red-600">35-55 Éves Férfiak</span>?
+          </h2>
+          <p class="text-xl text-gray-400">
+            Az élet ezen szakasza specifikus és mély átalakulást igényel
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="space-y-6">
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Felhalmozott Tapasztalat</h4>
+                <p class="text-gray-400">Az élettapasztalataidat mély és autentikus változásokra használjuk.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Optimális Helyreállítás</h4>
+                <p class="text-gray-400">Módszertan az érett férfifiziológia és anyagcserére adaptálva.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Igazi Közösség</h4>
+                <p class="text-gray-400">Csatlakozz azokhoz a férfiakhoz, akik ugyanabban a szakaszban vannak és megértik a kihívásaidat.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Szak Mentorálás</h4>
+                <p class="text-gray-400">Bernat Scorus száz féria végigkísérte ezt az átalakulást.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Privát Környezet</h4>
+                <p class="text-gray-400">Exkluzív Scorus Gym a bizalmas és mély tanuláshoz.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <div>
+                <h4 class="font-black uppercase text-white mb-1">Tartós Eredmények</h4>
+                <p class="text-gray-400">Teljes átalakulás, amely egész életed során tart.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="bg-white py-20 md:py-32">
+    <div class="container">
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter text-black md:text-6xl">
+          Készen Vagy Az <span class="text-red-600">Újjaszületésre</span>?
+        </h2>
+        <p class="mb-12 text-xl text-gray-600">
+          Az átalakulás ideje most van. Lépj velünk kapcsolatba és fedezd fel, hogyan változtathatja meg az ÚJJASZÜLETÉS az életedet.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <ButtonPrimary 
+            href="tel:+34673975252" 
+            text="Hívj: +34 673 97 52 52" 
+            icon="phone"
+            size="xl"
+            variant="glow"
+          />
+          <ButtonPrimary 
+            href="/hu/kapcsolat" 
+            text="Kérj Információkat" 
+            icon="mail"
+            size="xl"
+            variant="default"
+          />
+        </div>
+
+        <div class="mt-12 pt-12 border-t border-gray-300 text-left">
+          <h3 class="text-2xl font-black uppercase text-black mb-6">📍 Hely</h3>
+          <p class="text-lg text-gray-600 mb-4">
+            <strong>Scorus Gym (Exkluzív és Privát Edzőterem)</strong><br/>
+            Av. Conrado Albaladejo, 31 – 03540 Alicante, Spanyolország
+          </p>
+          <h3 class="text-2xl font-black uppercase text-black mb-6 mt-8">🕐 Nyitvatartás</h3>
+          <p class="text-lg text-gray-600">
+            <strong>Hétfő - Péntek:</strong> 07:00 - 10:00<br/>
+            <strong>Vasárnap:</strong> Zárva
+          </p>
+        </div>
       </div>
     </div>
   </section>

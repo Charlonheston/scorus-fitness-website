@@ -1,8 +1,8 @@
 ---
 /**
- * Seminars - Comprehensive Training, Nutrition and Wellness Education
- * In-person and online seminars with Bernat Scorus
- * Modern and cutting-edge 2025-26 design
+ * Szemináriumok - Átfogó Edzés-, Táplálkozás- és Wellness-oktatás
+ * Személyes és online szemináriumok Bernat Scorus-szal
+ * Modern és avant-garde design 2025-26
  */
 
 import Layout from '@/layouts/Layout.astro';
@@ -10,219 +10,219 @@ import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro'
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 
-const currentLang = 'en';
+const currentLang = 'hu';
 
 const seminars = [
-  { title: 'Overweight and Obesity', desc: 'Strategies for healthy weight loss' },
-  { title: 'Healthy Nutrition', desc: 'How to structure balanced eating' },
-  { title: 'Supplementation', desc: 'Discover which supplements work and how to use them correctly' },
-  { title: 'Fat Loss', desc: 'Effective methods to reduce body fat percentage' },
-  { title: 'Muscle Gain', desc: 'Fundamental principles of muscle development' },
-  { title: 'Home Training', desc: 'Effective routines without needing a gym' },
-  { title: 'Cosmetic Poisons', desc: 'Identifying products harmful to health' },
-  { title: 'Foods That Kill', desc: 'What to avoid for healthy eating' },
-  { title: 'Anti-aging', desc: 'Strategies to slow down aging' },
-  { title: 'Detox', desc: 'Effective detoxification methods' },
-  { title: 'Menopause', desc: 'Nutrition and wellness strategies for this stage' },
-  { title: 'Vegan Nutrition', desc: 'How to maintain a balanced and healthy vegan diet' },
-  { title: 'Motivation and Personal Growth', desc: 'Strategies for mental and emotional development' },
-  { title: 'Resilience and Habit Change', desc: 'How to overcome obstacles and transform your life positively' }
+  { title: 'Túlsúly és Elhízottság', desc: 'Stratégiák a kíméletes fogyáshoz' },
+  { title: 'Egészséges Táplálkozás', desc: 'Hogyan strukturáljunk kiegyensúlyozott étrendet' },
+  { title: 'Táplálékkiegészítés', desc: 'Ismerje meg, mely kiegészítések működnek és hogyan használja azokat helyesen' },
+  { title: 'Zsírégés', desc: 'Hatékony módszerek a testzsír százalékának csökkentésére' },
+  { title: 'Izomépítés', desc: 'Az izomfejlesztés alapelvei' },
+  { title: 'Otthoni Edzés', desc: 'Hatékony edzések edzőterem nélkül' },
+  { title: 'Kozmetikai Méreg', desc: 'Az egészségre ártalmas termékek azonosítása' },
+  { title: 'Ételeik Ölik', desc: 'Mit kerüljünk el az egészséges táplálkozáshoz' },
+  { title: 'Anti-Aging', desc: 'Stratégiák az öregedés lassítására' },
+  { title: 'Detoxikáció', desc: 'Hatékony tisztítási módszerek' },
+  { title: 'Változókor', desc: 'Táplálkozás és wellness-stratégiák erre az időszakra' },
+  { title: 'Vegán Táplálkozás', desc: 'Hogyan tartsunk fenn kiegyensúlyozott és egészséges vegán étrendet' },
+  { title: 'Motiváció és Személyes Fejlődés', desc: 'Stratégiák a mentális és érzelmi fejlődéshez' },
+  { title: 'Reziliencia és Szokásváltozás', desc: 'Hogyan győzd le az akadályokat és pozitívan alakítsd az életed' }
 ];
 
 const targetAudiences = [
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>',
-    title: 'Gyms', 
-    desc: 'To train your clients' 
+    title: 'Edzőtermek', 
+    desc: 'Az ügyfeleinek edzéséhez' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 5 7 13 17 13 17 5"/></svg>',
-    title: 'Sports Centers', 
-    desc: 'Professional facilities' 
+    title: 'Sportközpontok', 
+    desc: 'Professzionális létesítmények' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v12m0 0l-6-6m6 6l6-6m-6 6v6m0 0H3m12 0h6"/></svg>',
-    title: 'Events', 
-    desc: 'Conferences and meetings' 
+    title: 'Események', 
+    desc: 'Konferenciák és találkozók' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>',
-    title: 'Academies', 
-    desc: 'Educational institutions' 
+    title: 'Akadémiák', 
+    desc: 'Oktatási intézmények' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm0 0c-1.657 0-3 1.343-3 3v6h6v-6c0-1.657-1.343-3-3-3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 21v-2a6 6 0 0 1 12 0v2"/></svg>',
-    title: 'Institutions', 
-    desc: 'Public and private organizations' 
+    title: 'Intézmények', 
+    desc: 'Közszféra és magánszervezetek' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>',
-    title: 'Schools', 
-    desc: 'Youth education' 
+    title: 'Iskolák', 
+    desc: 'Fiatali oktatás' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 11l3 3L15 9"/></svg>',
-    title: 'Prisons', 
-    desc: 'Reintegration and wellness' 
+    title: 'Börtönök', 
+    desc: 'Reintegráció és wellness' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m0 0L4 7m8 4v10m8-17l-8 4m0 0L4 7"/></svg>',
-    title: 'Companies', 
-    desc: 'Corporate wellness' 
+    title: 'Vállalatok', 
+    desc: 'Vállalati wellness' 
   }
 ];
 
 const inPersonSteps = [
   {
     step: '1',
-    title: 'Direct Contact',
-    desc: 'The organizer (gym, center, institution, school, prison or company) contacts me'
+    title: 'Közvetlen Kapcsolat',
+    desc: 'A szervező (edzőterem, központ, intézmény, iskola, börtön vagy vállalat) kapcsolatba lép velem'
   },
   {
     step: '2',
-    title: 'Coordination',
-    desc: 'We agree on the topic, date, time and location of the seminar according to your needs'
+    title: 'Koordináció',
+    desc: 'Megállapodunk a szemináriumok témájáról, dátumáról, időpontjáról és helyéről az Ön igényei szerint'
   },
   {
     step: '3',
-    title: 'Preparation',
-    desc: 'I coordinate all technical details and prepare personalized audiovisual material'
+    title: 'Előkészítés',
+    desc: 'Koordinálom az összes technikai részletet és személyre szabott audiovizuális anyagot készítek'
   },
   {
     step: '4',
-    title: 'Execution',
-    desc: 'Seminar delivery with practical sessions and live interaction'
+    title: 'Végrehajtás',
+    desc: 'Szemináriumok tartása praktikus ülésekkel és élő interakcióval'
   }
 ];
 
 const onlineSteps = [
   {
     step: '1',
-    title: 'Registration',
-    desc: 'You register on the platform and make your seminar payment'
+    title: 'Regisztráció',
+    desc: 'Regisztrálj a platformra és fizess meg a szemináriumodért'
   },
   {
     step: '2',
-    title: 'Confirmation',
-    desc: 'You receive an access link and password to join the session'
+    title: 'Megerősítés',
+    desc: 'Egy hozzáférési linket és jelszót kapsz az üléshez való csatlakozáshoz'
   },
   {
     step: '3',
-    title: 'Connection',
-    desc: 'You connect to the live videoconference from your device'
+    title: 'Csatlakozás',
+    desc: 'Csatlakozz az élő videókonferenciához az eszközödről'
   },
   {
     step: '4',
-    title: 'Recording',
-    desc: 'Unlimited access to the recording after the live session'
+    title: 'Felvétel',
+    desc: 'Korlátlan hozzáférés a felvételhez az élő ülés után'
   }
 ];
 
 const benefits = [
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>', title: 'Deep Knowledge', desc: 'Comprehensive training based on science and real experience' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/></svg>', title: 'Varied Topics', desc: '14 different seminars adapted to your interests' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM3 20a6 6 0 0 1 12 0v1H3v-1z"/></svg>', title: 'Elite Expert', desc: 'Taught by Bernat Scorus, world champion' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c4.97 0 9 4.03 9 9M3 12c0-4.97 4.03-9 9-9m0 18c-4.97 0-9-4.03-9-9m18 0c0 4.97-4.03 9-9 9"/></svg>', title: 'Global Reach', desc: 'Available in 3 languages: Spanish, English and Hungarian' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>', title: 'Immediately Applicable', desc: 'Practical knowledge you can use today' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 0 1-.88-7.903A5 5 0 1 1 15.9 6L16 12m0 0l-4 4m4-4l4 4"/></svg>', title: 'Flexible', desc: 'Choose between in-person or online according to your needs' }
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>', title: 'Mély Tudás', desc: 'Átfogó képzés tudományon és valós tapasztalaton alapulva' },
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/></svg>', title: 'Sokszínű Témák', desc: '14 különböző szemináriumok az Ön érdeklődése szerint' },
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM3 20a6 6 0 0 1 12 0v1H3v-1z"/></svg>', title: 'Elit Szakértő', desc: 'Bernat Scorus-sal tanítva, világbajnok' },
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c4.97 0 9 4.03 9 9M3 12c0-4.97 4.03-9 9-9m0 18c-4.97 0-9-4.03-9-9m18 0c0 4.97-4.03 9-9 9"/></svg>', title: 'Globális Elérés', desc: '3 nyelven elérhető: spanyol, angol és magyar' },
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>', title: 'Azonnal Alkalmazható', desc: 'Gyakorlati tudás, amit ma használhatsz' },
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 0 1-.88-7.903A5 5 0 1 1 15.9 6L16 12m0 0l-4 4m4-4l4 4"/></svg>', title: 'Rugalmas', desc: 'Válassz személyesen vagy online az igényeid szerint' }
 ];
 
 const topicsCovered = [
-  '✓ Nutrition and diet',
-  '✓ Sports supplementation',
-  '✓ Specialized training',
-  '✓ Disease prevention',
-  '✓ Anti-aging and rejuvenation',
-  '✓ Comprehensive healthy living',
-  '✓ Personal motivation'
+  '✓ Táplálkozás és diéta',
+  '✓ Sportétrend-kiegészítés',
+  '✓ Speciális edzés',
+  '✓ Betegségmegelőzés',
+  '✓ Anti-aging és vitalitás',
+  '✓ Komplex egészséges élet',
+  '✓ Személyes motiváció'
 ];
 ---
 
 <Layout
-  title="Seminars | Scorus Fitness - Comprehensive Training and Wellness Education"
-  description="14 specialized in-person and online seminars on nutrition, training, supplementation, anti-aging and wellness. Taught by Bernat Scorus in Spanish, English and Hungarian."
+  title="Szemináriumok | Scorus Fitness - Átfogó Edzés- és Wellness-oktatás"
+  description="14 speciális személyes és online szemináriumok táplálkozásról, edzésről, étrend-kiegészítésről, anti-agingról és wellnessről. Bernat Scorus-sal, spanyol, angol és magyar nyelven."
 >
   <!-- Hero Section -->
   <ServiceDetailHeader
     backLink={{
-      href: `/${currentLang}/academy`,
-      text: "Back to Academy"
+      href: `/${currentLang}/akademia`,
+      text: "Vissza az Akadémiára"
     }}
-    title="SEMINARS"
-    subtitle="14 specialized seminars for comprehensive education. Learn proven strategies about training, nutrition, supplementation, anti-aging and wellness. In-person or online."
+    title="SZEMINÁRIUMOK"
+    subtitle="14 speciális szemináriumok az átfogó oktatáshoz. Tanulj bizonyított stratégiákat az edzésről, táplálkozásról, étrend-kiegészítésről, anti-agingról és wellnessről. Személyesen vagy online."
   />
 
   <!-- Intro Section -->
   <section class="bg-white py-24">
     <div class="container">
       <div class="mx-auto max-w-4xl text-center">
-        <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Transformation through knowledge</p>
+        <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Transzformáció tudáson keresztül</p>
         <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
-          Transform Your <span class="text-red-600">Habits</span> and Transform Your Life
+          Alakítsd át az <span class="text-red-600">Szokásaidat</span> és az Életed
         </h2>
         <p class="mb-8 text-lg leading-relaxed text-gray-700">
-          <strong>Seminars</strong> are a unique opportunity to access in-depth knowledge about training, nutrition, supplementation, anti-aging and healthy living. Designed to improve athletic performance and overall wellness.
+          A <strong>szemináriumok</strong> egyedülálló lehetőség az edzésről, táplálkozásról, étrend-kiegészítésről, anti-agingról és egészséges életről szóló mélyreható tudás eléréséhez. Az atletikus teljesítmény és az általános wellness javítására terveztek.
         </p>
         <p class="text-gray-600">
-          These seminars are <strong>structured to provide you with comprehensive training</strong>, based on science and real experience from a world bodybuilding champion.
+          Ezek a szemináriumok <strong>strukturáltak az átfogó oktatás biztosítására</strong>, tudományon és egy világbajnok testépítő valós tapasztalatán alapulva.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Seminarios Presenciales Section -->
+  <!-- Szemináriumok Személyesen Section -->
   <section class="bg-gradient-to-br from-gray-50 to-white py-24">
     <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">In-person modality</p>
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Személyes modalitás</p>
           <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
-            In-Person <span class="text-red-600">Seminars</span>
+            Személyes <span class="text-red-600">Szemináriumok</span>
           </h2>
-          <p class="text-lg text-gray-600">For gyms, sports centers, events, academies, institutions, schools, prisons and companies</p>
+          <p class="text-lg text-gray-600">Edzőtermek, sportközpontok, események, akadémiák, intézmények, iskolák, börtönök és vállalatok számára</p>
         </div>
 
         <div class="grid gap-12 lg:grid-cols-2">
           {/* Left - Details */}
           <div class="space-y-6">
             <div class="rounded-xl bg-white p-6 border-l-4 border-red-600 shadow-lg">
-              <h3 class="mb-4 text-xl font-black uppercase text-black">Features</h3>
+              <h3 class="mb-4 text-xl font-black uppercase text-black">Jellemzők</h3>
               <ul class="space-y-3">
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Available in 3 languages:</strong> Spanish, English and Hungarian</span>
+                  <span class="text-gray-700"><strong>3 nyelven elérhető:</strong> spanyol, angol és magyar</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Practical sessions</strong> and live interaction</span>
+                  <span class="text-gray-700"><strong>Gyakorlati ülések</strong> és élő interakció</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Audiovisual material</strong> personalized support</span>
+                  <span class="text-gray-700"><strong>Audiovizuális anyag</strong> személyre szabott támogatás</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Variable duration</strong> according to your needs</span>
+                  <span class="text-gray-700"><strong>Változó időtartam</strong> az igényeid szerint</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Spain and abroad</strong> available</span>
+                  <span class="text-gray-700"><strong>Spanyolország és külföld</strong> elérhető</span>
                 </li>
               </ul>
             </div>
 
             <div class="rounded-xl bg-red-50 p-6 border-l-4 border-red-600">
-              <h3 class="mb-4 text-lg font-black uppercase text-black">Topics Covered</h3>
+              <h3 class="mb-4 text-lg font-black uppercase text-black">Tárgyalt Témák</h3>
               <div class="grid grid-cols-2 gap-2">
                 {topicsCovered.map((topic) => (
                   <p class="text-sm font-medium text-gray-700">{topic}</p>
@@ -233,7 +233,7 @@ const topicsCovered = [
 
           {/* Right - Process */}
           <div class="space-y-4">
-            <h3 class="mb-8 text-2xl font-black uppercase text-black">How to Organize a Seminar</h3>
+            <h3 class="mb-8 text-2xl font-black uppercase text-black">Hogyan Szervezz Szemináriumot</h3>
             {inPersonSteps.map((item) => (
               <div class="group relative overflow-hidden rounded-lg border-2 border-gray-200 bg-white p-6 transition-all duration-300 hover:border-red-600 hover:shadow-xl">
                 {/* Number Badge */}
@@ -258,9 +258,9 @@ const topicsCovered = [
     <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Who it's for</p>
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Kinek szól</p>
           <h2 class="text-4xl font-black uppercase tracking-tight md:text-5xl">
-            Aimed at <span class="text-red-600">8 Types of Organizations</span>
+            Célzott <span class="text-red-600">8 Szervezettípus</span>
           </h2>
         </div>
 
@@ -282,22 +282,22 @@ const topicsCovered = [
     </div>
   </section>
 
-  <!-- Seminarios Online Section -->
+  <!-- Szemináriumok Online Section -->
   <section class="bg-white py-24">
     <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Online modality</p>
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Online modalitás</p>
           <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
-            Online <span class="text-red-600">Seminars</span>
+            Online <span class="text-red-600">Szemináriumok</span>
           </h2>
-          <p class="text-lg text-gray-600">Learn from anywhere with live videoconference</p>
+          <p class="text-lg text-gray-600">Tanulj bárhonnan élő videókonferenciával</p>
         </div>
 
         <div class="grid gap-12 lg:grid-cols-2">
           {/* Left - Process */}
           <div class="space-y-4 order-2 lg:order-1">
-            <h3 class="mb-8 text-2xl font-black uppercase text-black">How They Work</h3>
+            <h3 class="mb-8 text-2xl font-black uppercase text-black">Hogyan Működik</h3>
             {onlineSteps.map((item) => (
               <div class="group relative overflow-hidden rounded-lg border-2 border-gray-200 bg-white p-6 transition-all duration-300 hover:border-red-600 hover:shadow-xl">
                 {/* Number Badge */}
@@ -316,47 +316,47 @@ const topicsCovered = [
           {/* Right - Details */}
           <div class="space-y-6 order-1 lg:order-2">
             <div class="rounded-xl bg-white p-6 border-l-4 border-red-600 shadow-lg">
-              <h3 class="mb-4 text-xl font-black uppercase text-black">Features</h3>
+              <h3 class="mb-4 text-xl font-black uppercase text-black">Jellemzők</h3>
               <ul class="space-y-3">
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Live videoconference</strong> HD high quality</span>
+                  <span class="text-gray-700"><strong>Élő videókonferencia</strong> HD magas minőségben</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Complete audiovisual</strong> presentation</span>
+                  <span class="text-gray-700"><strong>Teljes audiovizuális</strong> prezentáció</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Supplementary material:</strong> PDFs, videos, podcasts</span>
+                  <span class="text-gray-700"><strong>Kiegészítő anyag:</strong> PDF-ek, videók, podcastok</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Live interaction</strong> - questions and answers</span>
+                  <span class="text-gray-700"><strong>Élő interakció</strong> - kérdések és válaszok</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Unlimited access</strong> to the recording after the session</span>
+                  <span class="text-gray-700"><strong>Korlátlan hozzáférés</strong> a felvételhez az ülés után</span>
                 </li>
               </ul>
             </div>
 
             <div class="rounded-xl bg-red-50 p-6 border-l-4 border-red-600">
-              <h3 class="mb-4 text-lg font-black uppercase text-black">Technical Requirements</h3>
+              <h3 class="mb-4 text-lg font-black uppercase text-black">Technikai Követelmények</h3>
               <ul class="space-y-2 text-sm text-gray-700">
-                <li>✓ Device with Internet connection (mobile, tablet or computer)</li>
-                <li>✓ Calm and comfortable environment</li>
-                <li>✓ Desire to learn and transform yourself</li>
+                <li>✓ Internetkapcsolattal rendelkező eszköz (mobil, tablet vagy számítógép)</li>
+                <li>✓ Csendes és kényelmes környezet</li>
+                <li>✓ Vágya tanulni és átalakulni</li>
               </ul>
             </div>
           </div>
@@ -365,14 +365,14 @@ const topicsCovered = [
     </div>
   </section>
 
-  <!-- Available Seminars Grid -->
+  <!-- Elérhető Szemináriumok Grid -->
   <section class="bg-gray-50 py-24">
     <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Complete content</p>
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Teljes tartalom</p>
           <h2 class="text-4xl font-black uppercase tracking-tight md:text-5xl">
-            The 14 <span class="text-red-600">Available Seminars</span>
+            Az 14 <span class="text-red-600">Elérhető Szemináriumok</span>
           </h2>
         </div>
 
@@ -392,8 +392,8 @@ const topicsCovered = [
               
               {/* Hover Button */}
               <div class="mt-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <a href={`/${currentLang}/contact`} class="text-xs font-bold uppercase text-red-600 hover:text-red-700">
-                  More information →
+                <a href={`/${currentLang}/kapcsolat`} class="text-xs font-bold uppercase text-red-600 hover:text-red-700">
+                  További információ →
                 </a>
               </div>
             </div>
@@ -403,59 +403,59 @@ const topicsCovered = [
     </div>
   </section>
 
-  <!-- Preguntas Frecuentes / Requirements Section -->
+  <!-- FAQ Section -->
   <section class="bg-white py-24">
     <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
           <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
-            Frequently <span class="text-red-600">Asked Questions</span>
+            Gyakran <span class="text-red-600">Feltett Kérdések</span>
           </h2>
         </div>
 
         <div class="grid gap-8 md:grid-cols-2">
-          <!-- Para Asistentes -->
+          <!-- Résztvevőknek -->
           <div class="rounded-xl bg-gradient-to-br from-gray-50 to-white p-8 border-2 border-gray-200">
-            <h3 class="mb-6 text-2xl font-black uppercase text-black">For Attendees</h3>
+            <h3 class="mb-6 text-2xl font-black uppercase text-black">Résztvevőknek</h3>
             <div class="space-y-4">
               <div>
-                <h4 class="font-bold text-red-600 mb-2">What do I need to attend?</h4>
-                <p class="text-sm text-gray-700">Just time and availability. For online seminars: device with Internet, calm environment and willingness to learn.</p>
+                <h4 class="font-bold text-red-600 mb-2">Mit kell ahhoz, hogy részt vegyek?</h4>
+                <p class="text-sm text-gray-700">Csak idő és rendelkezésre állás. Online szemináriumokhoz: Internet-kapcsolattal rendelkező eszköz, csendes környezet és tanulási hajlandóság.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">How long do they last?</h4>
-                <p class="text-sm text-gray-700">Online seminars last between 60 and 120 minutes. In-person seminars have variable duration according to organizer needs.</p>
+                <h4 class="font-bold text-red-600 mb-2">Meddig tartanak?</h4>
+                <p class="text-sm text-gray-700">Az online szemináriumok 60 és 120 perc között tartanak. A személyes szemináriumok a szervezőigények szerint változó időtartamúak.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">Can I watch the recording afterwards?</h4>
-                <p class="text-sm text-gray-700">Yes, with online seminars you have unlimited access to the recording after the live session.</p>
+                <h4 class="font-bold text-red-600 mb-2">Megnézhetem a felvételt később?</h4>
+                <p class="text-sm text-gray-700">Igen, az online szemináriumokkal korlátlan hozzáférésed van a felvételhez az élő ülés után.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">Will I receive material?</h4>
-                <p class="text-sm text-gray-700">Yes, supplementary material: PDFs, images, videos, podcasts and links of interest.</p>
+                <h4 class="font-bold text-red-600 mb-2">Kapok-e anyagot?</h4>
+                <p class="text-sm text-gray-700">Igen, kiegészítő anyag: PDF-ek, képek, videók, podcastok és hasznos linkek.</p>
               </div>
             </div>
           </div>
 
-          <!-- Para Organizadores -->
+          <!-- Szervezőknek -->
           <div class="rounded-xl bg-gradient-to-br from-red-50 to-white p-8 border-2 border-red-200">
-            <h3 class="mb-6 text-2xl font-black uppercase text-black">For Organizers</h3>
+            <h3 class="mb-6 text-2xl font-black uppercase text-black">Szervezőknek</h3>
             <div class="space-y-4">
               <div>
-                <h4 class="font-bold text-red-600 mb-2">What do you need?</h4>
-                <p class="text-sm text-gray-700">An appropriate room or auditorium, microphone for amplification and screen/projector for audiovisual material.</p>
+                <h4 class="font-bold text-red-600 mb-2">Mit szükség van?</h4>
+                <p class="text-sm text-gray-700">Megfelelő terem vagy auditorium, mikrofon az erősítéshez és képernyő/projektor az audiovizuális anyaghoz.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">What languages are available?</h4>
-                <p class="text-sm text-gray-700">Spanish, English and Hungarian. Also available in Spain and abroad.</p>
+                <h4 class="font-bold text-red-600 mb-2">Milyen nyelvek érhetők el?</h4>
+                <p class="text-sm text-gray-700">Spanyol, angol és magyar. Spanyolország és külföld is elérhető.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">How do I organize a seminar?</h4>
-                <p class="text-sm text-gray-700">Contact directly to coordinate the topic, date, time and location of the event according to your needs.</p>
+                <h4 class="font-bold text-red-600 mb-2">Hogyan szervezek egy szemináriumot?</h4>
+                <p class="text-sm text-gray-700">Közvetlenül lépj kapcsolatba velem a téma, dátum, idő és a hely koordinálásához az igényeid szerint.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">Can I customize the topic?</h4>
-                <p class="text-sm text-gray-700">Yes, all seminars are adapted to each event with personalized audiovisual material.</p>
+                <h4 class="font-bold text-red-600 mb-2">Testre szabhatom a témát?</h4>
+                <p class="text-sm text-gray-700">Igen, az összes szemináriumot személyre szabott audiovizuális anyaggal minden eseményre adaptáljuk.</p>
               </div>
             </div>
           </div>
@@ -469,10 +469,10 @@ const topicsCovered = [
     <div class="container">
       <div class="mx-auto max-w-4xl text-center">
         <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter md:text-6xl">
-          Ready to <span class="text-red-600">Transform</span>?
+          Kész az <span class="text-red-600">Átalakulásra</span>?
         </h2>
         <p class="mb-12 text-lg text-gray-400">
-          Whether in-person or online, our seminars are designed to provide you with practical and applicable knowledge that will transform your health and physical performance.
+          Legyen szó személyesen vagy online, szemináriumaink arra lesznek tervezve, hogy gyakorlati és alkalmazható tudást adnak neked, amely átalakultatja az egészségedet és fizikai teljesítményed.
         </p>
 
         <!-- Contact Info -->
@@ -484,7 +484,7 @@ const topicsCovered = [
             <span class="font-bold">+34 673 97 52 52</span>
           </a>
 
-          <a href={`/${currentLang}/contact`} class="group flex items-center gap-3 transition-all hover:text-red-600">
+          <a href={`/${currentLang}/kapcsolat`} class="group flex items-center gap-3 transition-all hover:text-red-600">
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
@@ -492,24 +492,24 @@ const topicsCovered = [
           </a>
         </div>
 
-        <p class="mb-8 text-sm uppercase tracking-wider text-gray-500">Location</p>
+        <p class="mb-8 text-sm uppercase tracking-wider text-gray-500">Hely</p>
         <p class="mb-12 text-lg font-bold">
-          Av. Conrado Albaladejo, 31 – 03540 Alicante, Spain<br/>
-          <span class="text-sm text-gray-400">Monday - Friday | 07:00 - 10:00</span>
+          Av. Conrado Albaladejo, 31 – 03540 Alicante, Spanyolország<br/>
+          <span class="text-sm text-gray-400">Hétfő - Péntek | 07:00 - 10:00</span>
         </p>
 
         <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
           <ButtonPrimary 
-            href={`/${currentLang}/contact`}
-            text="Book your Seminar"
+            href={`/${currentLang}/kapcsolat`}
+            text="Foglalj Szemináriumot"
             icon="zap"
             size="xl"
             variant="glow"
           />
           
           <ButtonSecondary 
-            href={`/${currentLang}/academy`}
-            text="Back to Academy"
+            href={`/${currentLang}/akademia`}
+            text="Vissza az Akadémiára"
             icon="arrow"
             variant="glass"
             size="xl"

@@ -1,8 +1,8 @@
 ---
 /**
- * Seminars - Comprehensive Training, Nutrition and Wellness Education
- * In-person and online seminars with Bernat Scorus
- * Modern and cutting-edge 2025-26 design
+ * Séminaires - Formation Complète en Entraînement, Nutrition et Bien-être
+ * Séminaires en ligne et en personne avec Bernat Scorus
+ * Design moderne et avant-gardiste 2025-26
  */
 
 import Layout from '@/layouts/Layout.astro';
@@ -10,219 +10,219 @@ import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro'
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 
-const currentLang = 'en';
+const currentLang = 'fr';
 
 const seminars = [
-  { title: 'Overweight and Obesity', desc: 'Strategies for healthy weight loss' },
-  { title: 'Healthy Nutrition', desc: 'How to structure balanced eating' },
-  { title: 'Supplementation', desc: 'Discover which supplements work and how to use them correctly' },
-  { title: 'Fat Loss', desc: 'Effective methods to reduce body fat percentage' },
-  { title: 'Muscle Gain', desc: 'Fundamental principles of muscle development' },
-  { title: 'Home Training', desc: 'Effective routines without needing a gym' },
-  { title: 'Cosmetic Poisons', desc: 'Identifying products harmful to health' },
-  { title: 'Foods That Kill', desc: 'What to avoid for healthy eating' },
-  { title: 'Anti-aging', desc: 'Strategies to slow down aging' },
-  { title: 'Detox', desc: 'Effective detoxification methods' },
-  { title: 'Menopause', desc: 'Nutrition and wellness strategies for this stage' },
-  { title: 'Vegan Nutrition', desc: 'How to maintain a balanced and healthy vegan diet' },
-  { title: 'Motivation and Personal Growth', desc: 'Strategies for mental and emotional development' },
-  { title: 'Resilience and Habit Change', desc: 'How to overcome obstacles and transform your life positively' }
+  { title: 'Surpoids et Obésité', desc: 'Stratégies pour perdre du poids de manière saine' },
+  { title: 'Nutrition Saine', desc: 'Comment structurer une alimentation équilibrée' },
+  { title: 'Supplémentation', desc: 'Découvrez quels suppléments fonctionnent et comment les utiliser correctement' },
+  { title: 'Perte de Graisse', desc: 'Méthodes efficaces pour réduire le pourcentage de graisse corporelle' },
+  { title: 'Gain Musculaire', desc: 'Principes fondamentaux du développement musculaire' },
+  { title: 'Entraînement à Domicile', desc: 'Routines efficaces sans avoir besoin d\'une salle de sport' },
+  { title: 'Poisons Cosmétiques', desc: 'Identifier les produits nuisibles à la santé' },
+  { title: 'Aliments qui Tuent', desc: 'Ce à quoi il faut éviter pour une alimentation saine' },
+  { title: 'Anti-âge', desc: 'Stratégies pour ralentir le vieillissement' },
+  { title: 'Détox', desc: 'Méthodes de détoxification efficaces' },
+  { title: 'Ménopause', desc: 'Nutrition et stratégies de bien-être pour cette étape' },
+  { title: 'Nutrition Végétalienne', desc: 'Comment maintenir un régime végétalien équilibré et sain' },
+  { title: 'Motivation et Croissance Personnelle', desc: 'Stratégies pour le développement mental et émotionnel' },
+  { title: 'Résilience et Changement d\'Habitudes', desc: 'Comment surmonter les obstacles et transformer votre vie positivement' }
 ];
 
 const targetAudiences = [
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>',
-    title: 'Gyms', 
-    desc: 'To train your clients' 
+    title: 'Salles de Sport', 
+    desc: 'Pour former vos clients' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 5 7 13 17 13 17 5"/></svg>',
-    title: 'Sports Centers', 
-    desc: 'Professional facilities' 
+    title: 'Centres Sportifs', 
+    desc: 'Installations professionnelles' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v12m0 0l-6-6m6 6l6-6m-6 6v6m0 0H3m12 0h6"/></svg>',
-    title: 'Events', 
-    desc: 'Conferences and meetings' 
+    title: 'Événements', 
+    desc: 'Conférences et rencontres' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>',
-    title: 'Academies', 
-    desc: 'Educational institutions' 
+    title: 'Académies', 
+    desc: 'Institutions éducatives' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm0 0c-1.657 0-3 1.343-3 3v6h6v-6c0-1.657-1.343-3-3-3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 21v-2a6 6 0 0 1 12 0v2"/></svg>',
     title: 'Institutions', 
-    desc: 'Public and private organizations' 
+    desc: 'Organisations publiques et privées' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>',
-    title: 'Schools', 
-    desc: 'Youth education' 
+    title: 'Écoles', 
+    desc: 'Éducation des jeunes' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 11l3 3L15 9"/></svg>',
     title: 'Prisons', 
-    desc: 'Reintegration and wellness' 
+    desc: 'Réinsertion et bien-être' 
   },
   { 
     icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m0 0L4 7m8 4v10m8-17l-8 4m0 0L4 7"/></svg>',
-    title: 'Companies', 
-    desc: 'Corporate wellness' 
+    title: 'Entreprises', 
+    desc: 'Bien-être corporatif' 
   }
 ];
 
 const inPersonSteps = [
   {
     step: '1',
-    title: 'Direct Contact',
-    desc: 'The organizer (gym, center, institution, school, prison or company) contacts me'
+    title: 'Contact Direct',
+    desc: 'L\'organisateur (salle de sport, centre, institution, école, prison ou entreprise) me contacte'
   },
   {
     step: '2',
     title: 'Coordination',
-    desc: 'We agree on the topic, date, time and location of the seminar according to your needs'
+    desc: 'Nous convenons du thème, de la date, de l\'heure et du lieu du séminaire selon vos besoins'
   },
   {
     step: '3',
-    title: 'Preparation',
-    desc: 'I coordinate all technical details and prepare personalized audiovisual material'
+    title: 'Préparation',
+    desc: 'Je coordonne tous les détails techniques et prépare le matériel audiovisuel personnalisé'
   },
   {
     step: '4',
-    title: 'Execution',
-    desc: 'Seminar delivery with practical sessions and live interaction'
+    title: 'Exécution',
+    desc: 'Livraison du séminaire avec des sessions pratiques et interaction en direct'
   }
 ];
 
 const onlineSteps = [
   {
     step: '1',
-    title: 'Registration',
-    desc: 'You register on the platform and make your seminar payment'
+    title: 'Inscription',
+    desc: 'Vous vous inscrivez sur la plateforme et effectuez le paiement de votre séminaire'
   },
   {
     step: '2',
     title: 'Confirmation',
-    desc: 'You receive an access link and password to join the session'
+    desc: 'Vous recevez un lien d\'accès et un mot de passe pour rejoindre la session'
   },
   {
     step: '3',
-    title: 'Connection',
-    desc: 'You connect to the live videoconference from your device'
+    title: 'Connexion',
+    desc: 'Vous vous connectez à la vidéoconférence en direct depuis votre appareil'
   },
   {
     step: '4',
-    title: 'Recording',
-    desc: 'Unlimited access to the recording after the live session'
+    title: 'Enregistrement',
+    desc: 'Accès illimité à l\'enregistrement après la session en direct'
   }
 ];
 
 const benefits = [
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>', title: 'Deep Knowledge', desc: 'Comprehensive training based on science and real experience' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/></svg>', title: 'Varied Topics', desc: '14 different seminars adapted to your interests' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM3 20a6 6 0 0 1 12 0v1H3v-1z"/></svg>', title: 'Elite Expert', desc: 'Taught by Bernat Scorus, world champion' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c4.97 0 9 4.03 9 9M3 12c0-4.97 4.03-9 9-9m0 18c-4.97 0-9-4.03-9-9m18 0c0 4.97-4.03 9-9 9"/></svg>', title: 'Global Reach', desc: 'Available in 3 languages: Spanish, English and Hungarian' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>', title: 'Immediately Applicable', desc: 'Practical knowledge you can use today' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 0 1-.88-7.903A5 5 0 1 1 15.9 6L16 12m0 0l-4 4m4-4l4 4"/></svg>', title: 'Flexible', desc: 'Choose between in-person or online according to your needs' }
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>', title: 'Connaissance Approfondie', desc: 'Formation complète basée sur la science et l\'expérience réelle' },
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/></svg>', title: 'Thèmes Variés', desc: '14 séminaires différents adaptés à vos intérêts' },
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM3 20a6 6 0 0 1 12 0v1H3v-1z"/></svg>', title: 'Expert d\'Élite', desc: 'Enseigné par Bernat Scorus, champion du monde' },
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c4.97 0 9 4.03 9 9M3 12c0-4.97 4.03-9 9-9m0 18c-4.97 0-9-4.03-9-9m18 0c0 4.97-4.03 9-9 9"/></svg>', title: 'Portée Mondiale', desc: 'Disponible en 3 langues: espagnol, anglais et hongrois' },
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>', title: 'Immédiatement Applicable', desc: 'Connaissances pratiques que vous pouvez utiliser aujourd\'hui' },
+  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 0 1-.88-7.903A5 5 0 1 1 15.9 6L16 12m0 0l-4 4m4-4l4 4"/></svg>', title: 'Flexible', desc: 'Choisissez entre en personne ou en ligne selon vos besoins' }
 ];
 
 const topicsCovered = [
-  '✓ Nutrition and diet',
-  '✓ Sports supplementation',
-  '✓ Specialized training',
-  '✓ Disease prevention',
-  '✓ Anti-aging and rejuvenation',
-  '✓ Comprehensive healthy living',
-  '✓ Personal motivation'
+  '✓ Nutrition et alimentation',
+  '✓ Supplémentation sportive',
+  '✓ Entraînement spécialisé',
+  '✓ Prévention des maladies',
+  '✓ Anti-âge et rajeunissement',
+  '✓ Vie saine intégrale',
+  '✓ Motivation personnelle'
 ];
 ---
 
 <Layout
-  title="Seminars | Scorus Fitness - Comprehensive Training and Wellness Education"
-  description="14 specialized in-person and online seminars on nutrition, training, supplementation, anti-aging and wellness. Taught by Bernat Scorus in Spanish, English and Hungarian."
+  title="Séminaires | Scorus Fitness - Formation Complète en Entraînement et Bien-être"
+  description="14 séminaires spécialisés en personne et en ligne sur la nutrition, l'entraînement, la supplémentation, l'anti-âge et le bien-être. Enseignés par Bernat Scorus en espagnol, anglais et hongrois."
 >
   <!-- Hero Section -->
   <ServiceDetailHeader
     backLink={{
-      href: `/${currentLang}/academy`,
-      text: "Back to Academy"
+      href: `/${currentLang}/academie`,
+      text: "Retour à l'Académie"
     }}
-    title="SEMINARS"
-    subtitle="14 specialized seminars for comprehensive education. Learn proven strategies about training, nutrition, supplementation, anti-aging and wellness. In-person or online."
+    title="SÉMINAIRES"
+    subtitle="14 séminaires spécialisés pour une formation complète. Apprenez des stratégies éprouvées sur l'entraînement, la nutrition, la supplémentation, l'anti-âge et le bien-être. En personne ou en ligne."
   />
 
   <!-- Intro Section -->
   <section class="bg-white py-24">
     <div class="container">
       <div class="mx-auto max-w-4xl text-center">
-        <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Transformation through knowledge</p>
+        <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Transformation par la connaissance</p>
         <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
-          Transform Your <span class="text-red-600">Habits</span> and Transform Your Life
+          Transformez Vos <span class="text-red-600">Habitudes</span> et Transformez Votre Vie
         </h2>
         <p class="mb-8 text-lg leading-relaxed text-gray-700">
-          <strong>Seminars</strong> are a unique opportunity to access in-depth knowledge about training, nutrition, supplementation, anti-aging and healthy living. Designed to improve athletic performance and overall wellness.
+          Les <strong>séminaires</strong> sont une opportunité unique pour accéder à une connaissance approfondie de l'entraînement, de la nutrition, de la supplémentation, de l'anti-âge et de la vie saine. Conçus pour améliorer les performances sportives et le bien-être général.
         </p>
         <p class="text-gray-600">
-          These seminars are <strong>structured to provide you with comprehensive training</strong>, based on science and real experience from a world bodybuilding champion.
+          Ces séminaires sont <strong>structurés pour vous offrir une formation complète</strong>, basée sur la science et l'expérience réelle d'un champion mondial de culturisme.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Seminarios Presenciales Section -->
+  <!-- Séminaires Presenciales Section -->
   <section class="bg-gradient-to-br from-gray-50 to-white py-24">
     <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">In-person modality</p>
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Modalité en personne</p>
           <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
-            In-Person <span class="text-red-600">Seminars</span>
+            Séminaires <span class="text-red-600">En Personne</span>
           </h2>
-          <p class="text-lg text-gray-600">For gyms, sports centers, events, academies, institutions, schools, prisons and companies</p>
+          <p class="text-lg text-gray-600">Pour les salles de sport, centres sportifs, événements, académies, institutions, écoles, prisons et entreprises</p>
         </div>
 
         <div class="grid gap-12 lg:grid-cols-2">
           {/* Left - Details */}
           <div class="space-y-6">
             <div class="rounded-xl bg-white p-6 border-l-4 border-red-600 shadow-lg">
-              <h3 class="mb-4 text-xl font-black uppercase text-black">Features</h3>
+              <h3 class="mb-4 text-xl font-black uppercase text-black">Caractéristiques</h3>
               <ul class="space-y-3">
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Available in 3 languages:</strong> Spanish, English and Hungarian</span>
+                  <span class="text-gray-700"><strong>Disponibles en 3 langues:</strong> espagnol, anglais et hongrois</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Practical sessions</strong> and live interaction</span>
+                  <span class="text-gray-700"><strong>Sessions pratiques</strong> et interaction en direct</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Audiovisual material</strong> personalized support</span>
+                  <span class="text-gray-700"><strong>Matériel audiovisuel</strong> support personnalisé</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Variable duration</strong> according to your needs</span>
+                  <span class="text-gray-700"><strong>Durée variable</strong> selon vos besoins</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Spain and abroad</strong> available</span>
+                  <span class="text-gray-700"><strong>Espagne et étranger</strong> disponibles</span>
                 </li>
               </ul>
             </div>
 
             <div class="rounded-xl bg-red-50 p-6 border-l-4 border-red-600">
-              <h3 class="mb-4 text-lg font-black uppercase text-black">Topics Covered</h3>
+              <h3 class="mb-4 text-lg font-black uppercase text-black">Thèmes Abordés</h3>
               <div class="grid grid-cols-2 gap-2">
                 {topicsCovered.map((topic) => (
                   <p class="text-sm font-medium text-gray-700">{topic}</p>
@@ -233,7 +233,7 @@ const topicsCovered = [
 
           {/* Right - Process */}
           <div class="space-y-4">
-            <h3 class="mb-8 text-2xl font-black uppercase text-black">How to Organize a Seminar</h3>
+            <h3 class="mb-8 text-2xl font-black uppercase text-black">Comment Organiser un Séminaire</h3>
             {inPersonSteps.map((item) => (
               <div class="group relative overflow-hidden rounded-lg border-2 border-gray-200 bg-white p-6 transition-all duration-300 hover:border-red-600 hover:shadow-xl">
                 {/* Number Badge */}
@@ -258,9 +258,9 @@ const topicsCovered = [
     <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Who it's for</p>
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Pour qui c'est</p>
           <h2 class="text-4xl font-black uppercase tracking-tight md:text-5xl">
-            Aimed at <span class="text-red-600">8 Types of Organizations</span>
+            Destiné à <span class="text-red-600">8 Types d'Organisations</span>
           </h2>
         </div>
 
@@ -282,22 +282,22 @@ const topicsCovered = [
     </div>
   </section>
 
-  <!-- Seminarios Online Section -->
+  <!-- Séminaires Online Section -->
   <section class="bg-white py-24">
     <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Online modality</p>
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Modalité en ligne</p>
           <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
-            Online <span class="text-red-600">Seminars</span>
+            Séminaires <span class="text-red-600">En Ligne</span>
           </h2>
-          <p class="text-lg text-gray-600">Learn from anywhere with live videoconference</p>
+          <p class="text-lg text-gray-600">Apprenez de n'importe où avec vidéoconférence en direct</p>
         </div>
 
         <div class="grid gap-12 lg:grid-cols-2">
           {/* Left - Process */}
           <div class="space-y-4 order-2 lg:order-1">
-            <h3 class="mb-8 text-2xl font-black uppercase text-black">How They Work</h3>
+            <h3 class="mb-8 text-2xl font-black uppercase text-black">Comment Ça Marche</h3>
             {onlineSteps.map((item) => (
               <div class="group relative overflow-hidden rounded-lg border-2 border-gray-200 bg-white p-6 transition-all duration-300 hover:border-red-600 hover:shadow-xl">
                 {/* Number Badge */}
@@ -316,47 +316,47 @@ const topicsCovered = [
           {/* Right - Details */}
           <div class="space-y-6 order-1 lg:order-2">
             <div class="rounded-xl bg-white p-6 border-l-4 border-red-600 shadow-lg">
-              <h3 class="mb-4 text-xl font-black uppercase text-black">Features</h3>
+              <h3 class="mb-4 text-xl font-black uppercase text-black">Caractéristiques</h3>
               <ul class="space-y-3">
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Live videoconference</strong> HD high quality</span>
+                  <span class="text-gray-700"><strong>Vidéoconférence en direct</strong> HD haute qualité</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Complete audiovisual</strong> presentation</span>
+                  <span class="text-gray-700"><strong>Présentation audiovisuelle</strong> complète</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Supplementary material:</strong> PDFs, videos, podcasts</span>
+                  <span class="text-gray-700"><strong>Matériel supplémentaire:</strong> PDF, vidéos, podcasts</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Live interaction</strong> - questions and answers</span>
+                  <span class="text-gray-700"><strong>Interaction en direct</strong> - questions et réponses</span>
                 </li>
                 <li class="flex items-start gap-3">
                   <svg class="h-6 w-6 flex-shrink-0 text-red-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                   </svg>
-                  <span class="text-gray-700"><strong>Unlimited access</strong> to the recording after the session</span>
+                  <span class="text-gray-700"><strong>Accès illimité</strong> à l'enregistrement après la session</span>
                 </li>
               </ul>
             </div>
 
             <div class="rounded-xl bg-red-50 p-6 border-l-4 border-red-600">
-              <h3 class="mb-4 text-lg font-black uppercase text-black">Technical Requirements</h3>
+              <h3 class="mb-4 text-lg font-black uppercase text-black">Exigences Techniques</h3>
               <ul class="space-y-2 text-sm text-gray-700">
-                <li>✓ Device with Internet connection (mobile, tablet or computer)</li>
-                <li>✓ Calm and comfortable environment</li>
-                <li>✓ Desire to learn and transform yourself</li>
+                <li>✓ Appareil avec connexion Internet (mobile, tablette ou ordinateur)</li>
+                <li>✓ Environnement calme et confortable</li>
+                <li>✓ Désir d'apprendre et de vous transformer</li>
               </ul>
             </div>
           </div>
@@ -370,9 +370,9 @@ const topicsCovered = [
     <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Complete content</p>
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Contenu complet</p>
           <h2 class="text-4xl font-black uppercase tracking-tight md:text-5xl">
-            The 14 <span class="text-red-600">Available Seminars</span>
+            Les 14 <span class="text-red-600">Séminaires Disponibles</span>
           </h2>
         </div>
 
@@ -393,7 +393,7 @@ const topicsCovered = [
               {/* Hover Button */}
               <div class="mt-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <a href={`/${currentLang}/contact`} class="text-xs font-bold uppercase text-red-600 hover:text-red-700">
-                  More information →
+                  Plus d'informations →
                 </a>
               </div>
             </div>
@@ -403,59 +403,59 @@ const topicsCovered = [
     </div>
   </section>
 
-  <!-- Preguntas Frecuentes / Requirements Section -->
+  <!-- FAQ Section -->
   <section class="bg-white py-24">
     <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
           <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
-            Frequently <span class="text-red-600">Asked Questions</span>
+            Questions <span class="text-red-600">Fréquemment Posées</span>
           </h2>
         </div>
 
         <div class="grid gap-8 md:grid-cols-2">
-          <!-- Para Asistentes -->
+          <!-- Pour Asistentes -->
           <div class="rounded-xl bg-gradient-to-br from-gray-50 to-white p-8 border-2 border-gray-200">
-            <h3 class="mb-6 text-2xl font-black uppercase text-black">For Attendees</h3>
+            <h3 class="mb-6 text-2xl font-black uppercase text-black">Pour les Participants</h3>
             <div class="space-y-4">
               <div>
-                <h4 class="font-bold text-red-600 mb-2">What do I need to attend?</h4>
-                <p class="text-sm text-gray-700">Just time and availability. For online seminars: device with Internet, calm environment and willingness to learn.</p>
+                <h4 class="font-bold text-red-600 mb-2">Qu'ai-je besoin pour assister?</h4>
+                <p class="text-sm text-gray-700">Juste du temps et de la disponibilité. Pour les séminaires en ligne: appareil avec Internet, environnement calme et volonté d'apprendre.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">How long do they last?</h4>
-                <p class="text-sm text-gray-700">Online seminars last between 60 and 120 minutes. In-person seminars have variable duration according to organizer needs.</p>
+                <h4 class="font-bold text-red-600 mb-2">Combien de temps durent-ils?</h4>
+                <p class="text-sm text-gray-700">Les séminaires en ligne durent entre 60 et 120 minutes. Les séminaires en personne ont une durée variable selon les besoins de l'organisateur.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">Can I watch the recording afterwards?</h4>
-                <p class="text-sm text-gray-700">Yes, with online seminars you have unlimited access to the recording after the live session.</p>
+                <h4 class="font-bold text-red-600 mb-2">Puis-je regarder l'enregistrement après?</h4>
+                <p class="text-sm text-gray-700">Oui, avec les séminaires en ligne, vous avez accès illimité à l'enregistrement après la session en direct.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">Will I receive material?</h4>
-                <p class="text-sm text-gray-700">Yes, supplementary material: PDFs, images, videos, podcasts and links of interest.</p>
+                <h4 class="font-bold text-red-600 mb-2">Vais-je recevoir du matériel?</h4>
+                <p class="text-sm text-gray-700">Oui, matériel supplémentaire: PDF, images, vidéos, podcasts et liens d'intérêt.</p>
               </div>
             </div>
           </div>
 
-          <!-- Para Organizadores -->
+          <!-- Pour Organizadores -->
           <div class="rounded-xl bg-gradient-to-br from-red-50 to-white p-8 border-2 border-red-200">
-            <h3 class="mb-6 text-2xl font-black uppercase text-black">For Organizers</h3>
+            <h3 class="mb-6 text-2xl font-black uppercase text-black">Pour les Organisateurs</h3>
             <div class="space-y-4">
               <div>
-                <h4 class="font-bold text-red-600 mb-2">What do you need?</h4>
-                <p class="text-sm text-gray-700">An appropriate room or auditorium, microphone for amplification and screen/projector for audiovisual material.</p>
+                <h4 class="font-bold text-red-600 mb-2">Que vous faut-il?</h4>
+                <p class="text-sm text-gray-700">Une salle ou un auditorium approprié, microphone pour l'amplification et écran/projecteur pour le matériel audiovisuel.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">What languages are available?</h4>
-                <p class="text-sm text-gray-700">Spanish, English and Hungarian. Also available in Spain and abroad.</p>
+                <h4 class="font-bold text-red-600 mb-2">Quelles langues sont disponibles?</h4>
+                <p class="text-sm text-gray-700">Espagnol, anglais et hongrois. Également disponibles en Espagne et à l'étranger.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">How do I organize a seminar?</h4>
-                <p class="text-sm text-gray-700">Contact directly to coordinate the topic, date, time and location of the event according to your needs.</p>
+                <h4 class="font-bold text-red-600 mb-2">Comment organiser un séminaire?</h4>
+                <p class="text-sm text-gray-700">Contactez directement pour coordonner le thème, la date, l'heure et le lieu de l'événement selon vos besoins.</p>
               </div>
               <div>
-                <h4 class="font-bold text-red-600 mb-2">Can I customize the topic?</h4>
-                <p class="text-sm text-gray-700">Yes, all seminars are adapted to each event with personalized audiovisual material.</p>
+                <h4 class="font-bold text-red-600 mb-2">Puis-je personnaliser le thème?</h4>
+                <p class="text-sm text-gray-700">Oui, tous les séminaires sont adaptés à chaque événement avec du matériel audiovisuel personnalisé.</p>
               </div>
             </div>
           </div>
@@ -469,10 +469,10 @@ const topicsCovered = [
     <div class="container">
       <div class="mx-auto max-w-4xl text-center">
         <h2 class="mb-6 text-5xl font-black uppercase tracking-tighter md:text-6xl">
-          Ready to <span class="text-red-600">Transform</span>?
+          Prêt à Vous <span class="text-red-600">Transformer</span>?
         </h2>
         <p class="mb-12 text-lg text-gray-400">
-          Whether in-person or online, our seminars are designed to provide you with practical and applicable knowledge that will transform your health and physical performance.
+          Qu'ce soit en personne ou en ligne, nos séminaires sont conçus pour vous fournir des connaissances pratiques et applicables qui transformeront votre santé et vos performances physiques.
         </p>
 
         <!-- Contact Info -->
@@ -492,24 +492,24 @@ const topicsCovered = [
           </a>
         </div>
 
-        <p class="mb-8 text-sm uppercase tracking-wider text-gray-500">Location</p>
+        <p class="mb-8 text-sm uppercase tracking-wider text-gray-500">Localisation</p>
         <p class="mb-12 text-lg font-bold">
-          Av. Conrado Albaladejo, 31 – 03540 Alicante, Spain<br/>
-          <span class="text-sm text-gray-400">Monday - Friday | 07:00 - 10:00</span>
+          Av. Conrado Albaladejo, 31 – 03540 Alicante, Espagne<br/>
+          <span class="text-sm text-gray-400">Lundi - Vendredi | 07:00 - 10:00</span>
         </p>
 
         <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
           <ButtonPrimary 
             href={`/${currentLang}/contact`}
-            text="Book your Seminar"
+            text="Réservez votre Séminaire"
             icon="zap"
             size="xl"
             variant="glow"
           />
           
           <ButtonSecondary 
-            href={`/${currentLang}/academy`}
-            text="Back to Academy"
+            href={`/${currentLang}/academie`}
+            text="Retour à l'Académie"
             icon="arrow"
             variant="glass"
             size="xl"

@@ -1,0 +1,189 @@
+---
+/**
+ * VideoCourseCarousel - Carrusel tipo Netflix para video cursos
+ * Componente reutilizable para todos los idiomas
+ * 
+ * Features:
+ * - Carrusel horizontal con scroll suave
+ * - Cards con hover effects tipo Netflix
+ * - Controles de navegación
+ * - Responsive design
+ */
+
+interface Course {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  color: string;
+}
+
+interface Props {
+  title: string;
+  titleHighlight: string;
+  courses: Course[];
+  nextLabel: string;
+  prevLabel: string;
+}
+
+const { title, titleHighlight, courses, nextLabel, prevLabel } = Astro.props;
+---
+
+<section class="bg-black py-16 md:py-24">
+  <div class="container">
+    <!-- Section Header -->
+    <div class="mb-12">
+      <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white">
+        {title} <span class="text-red-600">{titleHighlight}</span>
+      </h2>
+    </div>
+
+    <!-- Carousel Container -->
+    <div class="relative group">
+      <!-- Carousel Scroll Container -->
+      <div 
+        id="coursesCarousel"
+        class="flex gap-6 overflow-x-auto scroll-smooth pb-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-900 [&::-webkit-scrollbar-thumb]:bg-red-600 [&::-webkit-scrollbar-thumb]:rounded-full"
+      >
+        {courses.map((course) => (
+          <div 
+            class="flex-shrink-0 w-72 group/card rounded-xl overflow-hidden bg-gradient-to-b from-gray-900 to-black border border-gray-800 transition-all duration-300 hover:border-red-600 hover:shadow-2xl hover:shadow-red-600/30 hover:scale-105"
+          >
+            <!-- Card Header with Icon -->
+            <div class={`h-40 bg-gradient-to-br ${course.color} flex items-center justify-center relative overflow-hidden`}>
+              <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3), transparent 50%)"></div>
+              <svg class="w-20 h-20 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                {course.icon === 'nutrition' && (
+                  <>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3.042.525A9.006 9.006 0 002.5 9c0 5.591 3.824 10.29 9 11.622c5.176-1.332 9-6.03 9-11.622 0-1.042-.18-2.062-.525-3.042A8.968 8.968 0 0018 6.042"/>
+                  </>
+                )}
+                {course.icon === 'supplement' && (
+                  <>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </>
+                )}
+                {course.icon === 'training' && (
+                  <>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 6l4 4m0 0l-4 4m4-4H4m0 0l4-4m-4 4l4 4"/>
+                  </>
+                )}
+                {course.icon === 'antiaging' && (
+                  <>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </>
+                )}
+                {course.icon === 'cardio' && (
+                  <>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364M15.682 6.318a4.5 4.5 0 000 6.364m-9-10.5h.01m4.99 0h.01m4.99 0h.01m-15 5.5h.01m4.99 0h.01m4.99 0h.01"/>
+                  </>
+                )}
+                {course.icon === 'wellness' && (
+                  <>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </>
+                )}
+              </svg>
+            </div>
+
+            <!-- Card Body -->
+            <div class="p-6">
+              <h3 class="text-xl font-black uppercase tracking-tight text-white mb-3 group-hover/card:text-red-600 transition-colors">
+                {course.title}
+              </h3>
+              <p class="text-sm text-gray-400 leading-relaxed mb-6 line-clamp-3">
+                {course.description}
+              </p>
+
+              <!-- Stats -->
+              <div class="flex justify-between items-center mb-6 pb-6 border-b border-gray-800">
+                <div class="text-center flex-1">
+                  <div class="text-lg font-black text-red-600">100%</div>
+                  <div class="text-xs text-gray-500 uppercase">Video</div>
+                </div>
+                <div class="border-l border-gray-800"></div>
+                <div class="text-center flex-1">
+                  <div class="text-lg font-black text-red-600">∞</div>
+                  <div class="text-xs text-gray-500 uppercase">Acceso</div>
+                </div>
+              </div>
+
+              <!-- CTA Button -->
+              <button class="w-full bg-red-600 hover:bg-red-700 text-white font-black uppercase py-3 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95">
+                Explorar Curso
+              </button>
+            </div>
+
+            <!-- Hover Effect Border -->
+            <div class="absolute inset-0 rounded-xl border-2 border-red-600 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Navigation Buttons -->
+      <button 
+        id="carouselPrev"
+        class="absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110 z-10"
+        aria-label={prevLabel}
+      >
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+
+      <button 
+        id="carouselNext"
+        class="absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 hover:scale-110 z-10"
+        aria-label={nextLabel}
+      >
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const carousel = document.getElementById('coursesCarousel');
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+
+  if (carousel && prevBtn && nextBtn) {
+    const scrollAmount = 320; // card width (288px) + gap (24px) + padding
+
+    prevBtn.addEventListener('click', () => {
+      carousel.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+      });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      carousel.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    });
+  }
+</script>
+
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  #coursesCarousel::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  #coursesCarousel::-webkit-scrollbar-track {
+    background: rgb(17, 24, 39);
+  }
+
+  #coursesCarousel::-webkit-scrollbar-thumb {
+    background: rgb(220, 38, 38);
+    border-radius: 10px;
+  }
+
+  #coursesCarousel::-webkit-scrollbar-thumb:hover {
+    background: rgb(185, 28, 28);
+  }
+</style>

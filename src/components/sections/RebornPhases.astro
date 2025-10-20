@@ -1,0 +1,75 @@
+---
+/**
+ * RebornPhases - Muestra las 3 fases de transformación de RE-BORN
+ * Componente reutilizable para todos los idiomas
+ */
+
+interface Phase {
+  number: string;
+  title: string;
+  description: string;
+  items: string[];
+}
+
+interface Props {
+  title: string;
+  titleHighlight: string;
+  phases: Phase[];
+}
+
+const { title, titleHighlight, phases } = Astro.props;
+---
+
+<section class="bg-black py-24 md:py-32">
+  <div class="container">
+    <!-- Header -->
+    <div class="mb-16 text-center">
+      <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white mb-4">
+        {title} <span class="text-red-600">{titleHighlight}</span>
+      </h2>
+    </div>
+
+    <!-- Phases Grid -->
+    <div class="grid md:grid-cols-3 gap-8">
+      {phases.map((phase) => (
+        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 to-black border border-gray-800 transition-all duration-300 hover:border-red-600 hover:shadow-2xl hover:shadow-red-600/30 hover:scale-105">
+          <!-- Phase Number Background -->
+          <div class="absolute top-0 right-0 w-24 h-24 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-all duration-300"></div>
+
+          <!-- Content -->
+          <div class="relative p-8 md:p-10">
+            <!-- Number Circle -->
+            <div class="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-700 text-white font-black text-3xl">
+              {phase.number}
+            </div>
+
+            <!-- Title -->
+            <h3 class="mb-4 text-2xl font-black uppercase tracking-tight text-white group-hover:text-red-600 transition-colors">
+              {phase.title}
+            </h3>
+
+            <!-- Description -->
+            <p class="mb-6 leading-relaxed text-gray-400 text-sm md:text-base">
+              {phase.description}
+            </p>
+
+            <!-- Items List -->
+            <ul class="space-y-3">
+              {phase.items.map((item) => (
+                <li class="flex items-start gap-3 text-gray-300 text-sm">
+                  <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Hover Border Effect -->
+          <div class="absolute inset-0 rounded-xl border-2 border-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
