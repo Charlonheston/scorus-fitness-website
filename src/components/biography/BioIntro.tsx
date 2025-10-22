@@ -784,6 +784,12 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
 
     const tryEnableCanvas2 = async () => {
+      // En móvil, no usar canvas (usar video es más eficiente)
+      if (isMobile) {
+        setUseCanvas2(false);
+        return false;
+      }
+      
       if (!frames2Pattern || !frames2Count) return false;
       try {
         const first = await loadFrame2(1);
@@ -944,6 +950,12 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
 
     const tryEnableCanvas = async () => {
+      // En móvil, no usar canvas (usar video es más eficiente)
+      if (isMobileDevice) {
+        setUseCanvas(false);
+        return false;
+      }
+      
       if (!framesPattern || !framesCount) return false;
       try {
         const first = await loadFrame(1);
