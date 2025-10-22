@@ -1072,43 +1072,43 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         style={{ backgroundImage: `url(${poster})`, filter: 'brightness(0.6)' }}
       />
 
-      {/* Canvas flipbook para primer video */}
+      {/* Canvas flipbook para primer video (desktop) */}
       {(framesPattern && framesCount) && (
-        <canvas ref={canvasRef} className="absolute inset-0 -z-20 w-full h-full" />
+        <canvas ref={canvasRef} className="absolute inset-0 -z-20 w-full h-full" style={{ display: useCanvas ? 'block' : 'none' }} />
       )}
 
-      {/* Video de fondo (fallback) - SOLO si no hay frames del primer video */}
-      {(!framesPattern || !framesCount) && (videoMp4 || videoWebm) && (
+      {/* Video de fondo (fallback para móvil o cuando no hay frames) */}
+      {(videoMp4 || videoWebm) && (
         <video
           ref={videoRef}
           className="absolute inset-0 -z-20 h-full w-full object-cover"
           muted
           playsInline
           preload="auto"
+          style={{ display: useCanvas ? 'none' : 'block' }}
         >
           {videoWebm && <source src={videoWebm} type="video/webm" />}
           {videoMp4 && <source src={videoMp4} type="video/mp4" />}
         </video>
       )}
 
-      {/* Canvas flipbook para segundo video (training) */}
+      {/* Canvas flipbook para segundo video (training - desktop) */}
       {(frames2Pattern && frames2Count) && (
-        <canvas ref={canvas2Ref} className="absolute inset-0 -z-19 w-full h-full" />
+        <canvas ref={canvas2Ref} className="absolute inset-0 -z-19 w-full h-full" style={{ display: useCanvas2 ? 'block' : 'none' }} />
       )}
 
-      {/* Segundo video de fondo (training) - FALLBACK si no hay frames */}
-      {(!frames2Pattern || !frames2Count) && (
-        <video
-          ref={video2Ref}
-          className="absolute inset-0 -z-19 h-full w-full object-cover"
-          muted
-          playsInline
-          preload="auto"
-        >
-          <source src="/videos/biography/bernat-training.webm" type="video/webm" />
-          <source src="/videos/biography/bernat-training.mp4" type="video/mp4" />
-        </video>
-      )}
+      {/* Segundo video de fondo (training) - fallback para móvil */}
+      <video
+        ref={video2Ref}
+        className="absolute inset-0 -z-19 h-full w-full object-cover"
+        muted
+        playsInline
+        preload="auto"
+        style={{ display: useCanvas2 ? 'none' : 'block' }}
+      >
+        <source src="/videos/biography/bernat-training.webm" type="video/webm" />
+        <source src="/videos/biography/bernat-training.mp4" type="video/mp4" />
+      </video>
 
       {/* Overlay oscuro sutil para el segundo video */}
       <div ref={video2OverlayRef} className="absolute inset-0 -z-18 bg-black/40" />
