@@ -9,91 +9,34 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import WorkshopIcon from '@components/ui/WorkshopIcon.astro';
 
 const currentLang = 'de';
 
-const workshops = [
-  {
-    number: '01',
-    title: 'FUNDAMENTALES TRAINING',
-    description: 'Optimieren Sie Ihr Training mit der besten Kombination aus Übungen, Sätzen und Pausen.',
-    icon: '⚡',
-    topics: ['Periodisierung', 'Volumen und Intensität', 'Erholung']
-  },
-  {
-    number: '02',
-    title: 'ERNÄHRUNG FÜR BODYBUILDING',
-    description: 'Lernen Sie, Ihre Ernährung zum Muskelaufbau oder zur Fettverbrennung zu strukturieren.',
-    icon: '🥗',
-    topics: ['Makronährstoffe', 'Ernährungsperiodisierung', 'Kalorienberechnung']
-  },
-  {
-    number: '03',
-    title: 'INTELLIGENTE SUPPLEMENTIERUNG',
-    description: 'Entdecken Sie, welche Nahrungsergänzungsmittel wirken und wie man sie richtig einsetzt.',
-    icon: '💊',
-    topics: ['Proteine', 'Kreatin', 'Vitamine und Mineralien']
-  },
-  {
-    number: '04',
-    title: 'BRUST UND ABS',
-    description: 'Techniken zum Aufbau einer starken Brust und definierten Bauchmuskeln.',
-    icon: '💪',
-    topics: ['Bankdrücken', 'Isolationsübungen', 'Core-Training']
-  },
-  {
-    number: '05',
-    title: 'RÜCKEN UND TRAPEZ',
-    description: 'Bauen Sie einen breiten Rücken auf und schützen Sie Ihre Wirbelsäule.',
-    icon: '🏋️',
-    topics: ['Klimmzüge', 'Ruderungen', 'Rückenbreite']
-  },
-  {
-    number: '06',
-    title: 'STARKE SCHULTERN',
-    description: 'Schlüsselübungen zur Definition und Stärkung der Deltamuskeln.',
-    icon: '🎯',
-    topics: ['Militärpresse', 'Seitenheben', 'Hintere Delts']
-  },
-  {
-    number: '07',
-    title: 'ARME UND UNTERARME',
-    description: 'Strategien zum Aufbau von Größe und Kraft ohne Verletzungen.',
-    icon: '🦾',
-    topics: ['Bizeps', 'Trizeps', 'Unterarme']
-  },
-  {
-    number: '08',
-    title: 'SYMMETRISCHE BEINE',
-    description: 'Ausgewogene Entwicklung von Gesäß, Quadrizeps und Waden.',
-    icon: '🦵',
-    topics: ['Kniebeugen', 'Leg Extensions', 'Waden']
-  },
-  {
-    number: '09',
-    title: 'CARDIO UND FETTVERBRENNUNG',
-    description: 'Maximieren Sie die Fettverbrennung ohne Ihre Muskulatur zu beeinträchtigen.',
-    icon: '🔥',
-    topics: ['HIIT', 'Stationäres Cardio', 'Körperzusammensetzung']
-  },
-  {
-    number: '10',
-    title: 'TRAININGSPLANUNG',
-    description: 'Erstellen Sie effektive Trainingspläne nach Ihrem Niveau und Ihren Zielen.',
-    icon: '📋',
-    topics: ['Periodisierung', 'Jahresplanung', 'Bewertung']
-  }
+type IconType = 'fundamental' | 'nutrition' | 'supplementation' | 'chest' | 'back' | 'shoulders' | 'arms' | 'legs' | 'cardio' | 'planning' | 'building' | 'check' | 'book' | 'profile';
+
+const workshops: Array<{ number: string; title: string; description: string; iconType: IconType; topics: string[] }> = [
+  { number: '01', title: 'FUNDAMENTALES TRAINING', description: 'Optimieren Sie Ihr Training mit der besten Kombination aus Übungen, Sätzen und Pausen.', iconType: 'fundamental', topics: ['Periodisierung', 'Volumen und Intensität', 'Erholung'] },
+  { number: '02', title: 'ERNÄHRUNG FÜR BODYBUILDING', description: 'Lernen Sie, Ihre Ernährung zum Muskelaufbau oder zur Fettverbrennung zu strukturieren.', iconType: 'nutrition', topics: ['Makronährstoffe', 'Ernährungsperiodisierung', 'Kalorienberechnung'] },
+  { number: '03', title: 'INTELLIGENTE SUPPLEMENTIERUNG', description: 'Entdecken Sie, welche Nahrungsergänzungsmittel wirken und wie man sie richtig einsetzt.', iconType: 'supplementation', topics: ['Proteine', 'Kreatin', 'Vitamine und Mineralien'] },
+  { number: '04', title: 'BRUST UND ABS', description: 'Techniken zum Aufbau einer starken Brust und definierten Bauchmuskeln.', iconType: 'chest', topics: ['Bankdrücken', 'Isolationsübungen', 'Core-Training'] },
+  { number: '05', title: 'RÜCKEN UND TRAPEZ', description: 'Bauen Sie einen breiten Rücken auf und schützen Sie Ihre Wirbelsäule.', iconType: 'back', topics: ['Klimmzüge', 'Ruderungen', 'Rückenbreite'] },
+  { number: '06', title: 'STARKE SCHULTERN', description: 'Schlüsselübungen zur Definition und Stärkung der Deltamuskeln.', iconType: 'shoulders', topics: ['Militärpresse', 'Seitenheben', 'Hintere Delts'] },
+  { number: '07', title: 'ARME UND UNTERARME', description: 'Strategien zum Aufbau von Größe und Kraft ohne Verletzungen.', iconType: 'arms', topics: ['Bizeps', 'Trizeps', 'Unterarme'] },
+  { number: '08', title: 'SYMMETRISCHE BEINE', description: 'Ausgewogene Entwicklung von Gesäß, Quadrizeps und Waden.', iconType: 'legs', topics: ['Kniebeugen', 'Leg Extensions', 'Waden'] },
+  { number: '09', title: 'CARDIO UND FETTVERBRENNUNG', description: 'Maximieren Sie die Fettverbrennung ohne Ihre Muskulatur zu beeinträchtigen.', iconType: 'cardio', topics: ['HIIT', 'Stationäres Cardio', 'Körperzusammensetzung'] },
+  { number: '10', title: 'TRAININGSPLANUNG', description: 'Erstellen Sie effektive Trainingspläne nach Ihrem Niveau und Ihren Zielen.', iconType: 'planning', topics: ['Periodisierung', 'Jahresplanung', 'Bewertung'] }
 ];
 
-const modalities = [
+const modalities: Array<{ title: string; subtitle: string; features: Array<{ iconType: IconType; text: string }>; highlight: boolean }> = [
   {
     title: 'PRÄSENZUNTERRICHT',
     subtitle: 'Bei Scorus Gym, Alicante',
     features: [
-      { icon: '🏢', text: 'Privates Fitnessstudio mit professioneller Ausrüstung' },
-      { icon: '✅', text: 'Echtzeit-Korrekturen und Anpassungen' },
-      { icon: '📚', text: 'Integrierte Theorie und Praxis' },
-      { icon: '👤', text: 'Persönliche Betreuung von Bernat Scorus' }
+      { iconType: 'building', text: 'Privates Fitnessstudio mit professioneller Ausrüstung' },
+      { iconType: 'check', text: 'Echtzeit-Korrekturen und Anpassungen' },
+      { iconType: 'book', text: 'Integrierte Theorie und Praxis' },
+      { iconType: 'profile', text: 'Persönliche Betreuung von Bernat Scorus' }
     ],
     highlight: true
   },
@@ -101,10 +44,10 @@ const modalities = [
     title: 'ONLINE-MODUS',
     subtitle: 'Von überall',
     features: [
-      { icon: '🎥', text: 'Direktes Videokonferenzmeeting' },
-      { icon: '♻️', text: 'Unbegrenzter Zugriff auf Aufzeichnungen' },
-      { icon: '💬', text: 'Direkte Interaktion mit Bernat' },
-      { icon: '📄', text: 'Ergänzendes Material (PDFs und Skripte)' }
+      { iconType: 'check', text: 'Direktes Videokonferenzmeeting' },
+      { iconType: 'check', text: 'Unbegrenzter Zugriff auf Aufzeichnungen' },
+      { iconType: 'check', text: 'Direkte Interaktion mit Bernat' },
+      { iconType: 'book', text: 'Ergänzendes Material (PDFs und Skripte)' }
     ],
     highlight: false
   }
@@ -132,6 +75,7 @@ const benefits = [
     }}
     title="SPEZIALISIERTE WORKSHOPS"
     subtitle="10 intensive Workshops zum Beherrschen von Bodybuilding, Ernährung und Training. Präsenz oder Online."
+    backgroundImage="/images/services/workshops-hero.webp"
   />
 
   <!-- Intro Section -->
@@ -149,36 +93,107 @@ const benefits = [
     </div>
   </section>
 
-  <!-- Modalities Section -->
-  <section class="bg-gray-50 py-24">
+  <!-- Modalities Section - Modern & Elegant -->
+  <section class="relative bg-white py-24">
     <div class="container">
       <div class="mx-auto max-w-6xl">
-        <div class="mb-16 text-center">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Wählen Sie Ihr Format</p>
+        <div class="mb-20 text-center">
+          <p class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-red-600">Wählen Sie Ihr Format</p>
           <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
             Zwei <span class="text-red-600">Modalitäten</span>
           </h2>
+          <p class="text-lg text-gray-600">Greifen Sie auf Premium-Inhalte in dem Format zu, das am besten zu Ihnen passt</p>
         </div>
 
         <div class="grid gap-8 md:grid-cols-2">
-          {modalities.map((modality) => (
-            <div class={`rounded-2xl border-2 transition-all duration-300 ${
+          {modalities.map((modality, idx) => (
+            <div class={`group relative overflow-hidden rounded-lg transition-all duration-500 ${
               modality.highlight 
-                ? 'border-red-600 bg-red-50 shadow-lg hover:shadow-xl hover:shadow-red-600/30' 
-                : 'border-gray-200 bg-white hover:border-red-600 hover:shadow-lg'
+                ? 'ring-2 ring-red-600 ring-offset-4' 
+                : 'border border-gray-200'
             }`}>
-              <div class="p-8">
-                <h3 class="mb-2 text-2xl font-black uppercase text-black">{modality.title}</h3>
-                <p class="mb-8 text-sm text-gray-600">{modality.subtitle}</p>
-                
-                <ul class="space-y-4">
+              <!-- Background card -->
+              <div class={`absolute inset-0 transition-colors duration-500 ${
+                modality.highlight
+                  ? 'bg-gradient-to-br from-red-50 via-white to-white'
+                  : 'bg-white group-hover:bg-gray-50'
+              }`}></div>
+
+              <!-- Content -->
+              <div class="relative z-10 p-10 md:p-12">
+                <!-- Top decorative line -->
+                <div class={`mb-8 h-1 w-12 transition-all duration-300 ${
+                  modality.highlight
+                    ? 'bg-red-600'
+                    : 'bg-gray-300 group-hover:bg-red-600'
+                }`}></div>
+
+                <!-- Icon with circle background -->
+                <div class={`mb-8 inline-flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 ${
+                  modality.highlight
+                    ? 'bg-red-100 text-red-600'
+                    : 'bg-gray-100 text-gray-600 group-hover:bg-red-100 group-hover:text-red-600'
+                }`}>
+                  <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+                    {modality.highlight ? (
+                      <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-4h2v18h-2zM2 20h20v2H2z"/>
+                    ) : (
+                      <path d="M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14l4 4V5c0-1.1-.9-2-2-2zm-2 12h-8v-2h8v2zm0-4h-8V9h8v2z"/>
+                    )}
+                  </svg>
+                </div>
+
+                <!-- Title -->
+                <h3 class={`mb-3 text-2xl font-black uppercase tracking-tight transition-colors duration-300 ${
+                  modality.highlight ? 'text-black' : 'text-gray-900'
+                }`}>
+                  {modality.title}
+                </h3>
+
+                <!-- Subtitle -->
+                <p class={`mb-8 text-sm font-medium transition-colors duration-300 ${
+                  modality.highlight ? 'text-gray-700' : 'text-gray-600 group-hover:text-gray-700'
+                }`}>
+                  {modality.subtitle}
+                </p>
+
+                <!-- Divider -->
+                <div class={`mb-8 transition-colors duration-300 ${
+                  modality.highlight ? 'bg-red-200' : 'bg-gray-200 group-hover:bg-gray-300'
+                } h-px`}></div>
+
+                <!-- Features list - Clean & Minimal -->
+                <ul class="mb-8 space-y-4">
                   {modality.features.map((feature) => (
-                    <li class="flex items-start gap-3">
-                      <span class="text-2xl">{feature.icon}</span>
-                      <span class="pt-1 text-sm font-medium text-gray-800">{feature.text}</span>
+                    <li class="flex items-start gap-3 transition-transform duration-300 hover:translate-x-1">
+                      <div class={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                        modality.highlight
+                          ? 'bg-red-100 text-red-600'
+                          : 'bg-gray-100 text-gray-600 group-hover:bg-red-100 group-hover:text-red-600'
+                      }`}>
+                        <WorkshopIcon type={feature.iconType} size="xs" color="currentColor" />
+                      </div>
+                      <span class={`pt-0.5 text-sm font-medium transition-colors duration-300 ${
+                        modality.highlight
+                          ? 'text-gray-700'
+                          : 'text-gray-600 group-hover:text-gray-800'
+                      }`}>
+                        {feature.text}
+                      </span>
                     </li>
                   ))}
                 </ul>
+
+                <!-- CTA Button -->
+                <a
+                  href={`/${currentLang}/kontakt`}
+                  class={`inline-flex w-full items-center justify-center rounded-lg px-6 py-3.5 font-bold uppercase tracking-wider transition-all duration-300 ${
+                    modality.highlight
+                      ? 'bg-red-600 text-white hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/30'
+                      : 'border-2 border-gray-300 text-gray-700 hover:border-red-600 hover:bg-red-50 hover:text-red-600'
+                  }`}>
+                  Informationen Anfordern
+                </a>
               </div>
             </div>
           ))}
@@ -204,9 +219,12 @@ const benefits = [
               <div class="absolute inset-0 bg-gradient-to-br from-red-600/0 to-red-600/0 transition-all duration-300 group-hover:from-red-600/10 group-hover:to-red-600/5"></div>
               
               <div class="relative z-10 p-6">
+                <!-- Number -->
                 <div class="mb-4 flex items-start justify-between">
                   <span class="text-5xl font-black text-red-600/30 group-hover:text-red-600/50">{workshop.number}</span>
-                  <span class="text-3xl">{workshop.icon}</span>
+                  <div class="h-10 w-10 text-white">
+                    <WorkshopIcon type={workshop.iconType} size="lg" color="white" />
+                  </div>
                 </div>
                 
                 <h3 class="mb-3 text-xl font-black uppercase leading-tight">{workshop.title}</h3>

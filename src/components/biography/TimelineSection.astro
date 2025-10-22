@@ -1,0 +1,130 @@
+---
+interface TimelineEvent {
+  year: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  events: TimelineEvent[];
+}
+
+const { events } = Astro.props;
+---
+
+<section class="relative py-24 md:py-32 bg-gradient-to-b from-black to-gray-900">
+  <div class="container relative z-10 px-4 md:px-8">
+    <div class="mb-16 md:mb-24 text-center scroll-title">
+      <p class="mb-4 text-xs md:text-sm font-semibold uppercase tracking-widest text-red-500">
+        Hitos importantes
+      </p>
+      <h2 class="text-3xl md:text-5xl lg:text-6xl font-black uppercase leading-tight tracking-tighter text-white">
+        Mi <span class="text-red-600">Trayectoria</span>
+      </h2>
+    </div>
+
+    <!-- Timeline -->
+    <div class="relative mx-auto max-w-4xl">
+      <!-- Línea central (solo desktop) -->
+      <div class="absolute left-1/2 top-0 hidden h-full w-1 -translate-x-1/2 transform bg-gradient-to-b from-red-600 to-red-600/20 md:block"></div>
+
+      <!-- Timeline Items -->
+      <div class="space-y-8 md:space-y-16">
+        {events.map((event, idx) => (
+          <div class={`timeline-item md:flex ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`} data-timeline-index={idx}>
+            <!-- Content -->
+            <div class={`md:w-1/2 ${idx % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
+              <div class="rounded-lg bg-gray-800/50 p-6 md:p-8 backdrop-blur-sm border border-gray-700/50 transition-all duration-300 hover:bg-gray-800/80 hover:border-red-600/50">
+                <p class="mb-2 text-sm md:text-base font-bold text-red-500 uppercase tracking-wider">
+                  {event.year}
+                </p>
+                <h3 class="mb-3 text-xl md:text-2xl font-black uppercase text-white">
+                  {event.title}
+                </h3>
+                <p class="text-sm md:text-base leading-relaxed text-gray-300">
+                  {event.description}
+                </p>
+              </div>
+            </div>
+
+            <!-- Center Circle (Desktop) -->
+            <div class="hidden md:flex md:w-0 md:items-center md:justify-center">
+              <div class="relative h-6 w-6 rounded-full bg-red-600 ring-4 ring-black"></div>
+            </div>
+
+            <!-- Mobile Indicator -->
+            <div class="md:hidden mb-6 flex items-center gap-3">
+              <div class="h-4 w-4 rounded-full bg-red-600"></div>
+              <div class="flex-1 h-0.5 bg-gradient-to-r from-red-600 to-transparent"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .scroll-title {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .timeline-item {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const title = document.querySelector('.scroll-title');
+    const items = document.querySelectorAll('.timeline-item');
+
+    // Animar título
+    if (title) {
+      gsap.fromTo(
+        title,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: title,
+            start: 'top 80%',
+            end: 'top 50%',
+            scrub: 0.5,
+          },
+        }
+      );
+    }
+
+    // Animar items del timeline
+    items.forEach((item, idx) => {
+      gsap.fromTo(
+        item,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          delay: idx * 0.1,
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 85%',
+            end: 'top 55%',
+            scrub: 0.5,
+          },
+        }
+      );
+    });
+  });
+</script>

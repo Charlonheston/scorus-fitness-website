@@ -3,31 +3,34 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import WorkshopIcon from '@components/ui/WorkshopIcon.astro';
 
 const currentLang = 'hu';
 
-const workshops = [
-  { number: '01', title: 'ALAPVETÕ EDZÉS', description: 'Optimalizálja az edzéseit a legjobb kombinációval.', icon: '⚡', topics: ['Periódusosítás', 'Térfogat és intenzitás', 'Felépülés'] },
-  { number: '02', title: 'TÁPLÁLKOZÁS TESTÉPÍTÉSHEZ', description: 'Ismerje meg az étkezési tervet az izomépítéshez vagy a zsírvesztéshez.', icon: '🥗', topics: ['Makrotápanyagok', 'Táplálkozás periódusosítása', 'Kalóriaszámítás'] },
-  { number: '03', title: 'INTELLIGENS KIEGÉSZÍTÉS', description: 'Fedezzen fel olyan kiegészítéseket, amelyek működnek.', icon: '💊', topics: ['Fehérjék', 'Kreatin', 'Vitaminok és ásványi anyagok'] },
-  { number: '04', title: 'MELLKAS ÉS HASIZMOK', description: 'Technikák az erõs mellkas és definiált hasizomhoz.', icon: '💪', topics: ['Lenyomás', 'Izolálás', 'Core edzés'] },
-  { number: '05', title: 'HÁTIZOM ÉS TRAPÉZ', description: 'Építsen széles hátat és óvja meg a gerincét.', icon: '🏋️', topics: ['Húzódzkodás', 'Evezés', 'Háti szélesség'] },
-  { number: '06', title: 'ERÕS VÁLLON', description: 'Kulcsfontosságú gyakorlatok a deltaizomhoz.', icon: '🎯', topics: ['Katonai lenyomás', 'Oldalsó emelkedés', 'Háti deltoid'] },
-  { number: '07', title: 'KAROK ÉS ALKARORSZÁG', description: 'Stratégiák a méret és erõ növeléséhez.', icon: '🦾', topics: ['Bicepsz', 'Tricepsz', 'Alkar'] },
-  { number: '08', title: 'SZIMMETRIKUS LÁBAK', description: 'Kiegyensúlyozott fejlesztés az izmok között.', icon: '🦵', topics: ['Guggolás', 'Kiterjesztések', 'Lábszárcsont'] },
-  { number: '09', title: 'KARDIÓ ÉS ZSÍRÉGETÉS', description: 'Maximalizálja a zsírvesztést az izmok károsítása nélkül.', icon: '🔥', topics: ['HIIT', 'Állandó kardió', 'Testösszetétel'] },
-  { number: '10', title: 'EDZÉSTERVEZÉS', description: 'Hozzon létre hatékony edzésterveket szintjéhez.', icon: '📋', topics: ['Periódusosítás', 'Éves tervezés', 'Értékelés'] }
+type IconType = 'fundamental' | 'nutrition' | 'supplementation' | 'chest' | 'back' | 'shoulders' | 'arms' | 'legs' | 'cardio' | 'planning' | 'building' | 'check' | 'book' | 'profile';
+
+const workshops: Array<{ number: string; title: string; description: string; iconType: IconType; topics: string[] }> = [
+  { number: '01', title: 'ALAPVETÕ EDZÉS', description: 'Optimalizálja az edzéseit a legjobb kombinációval.', iconType: 'fundamental', topics: ['Periódusosítás', 'Térfogat és intenzitás', 'Felépülés'] },
+  { number: '02', title: 'TÁPLÁLKOZÁS TESTÉPÍTÉSHEZ', description: 'Ismerje meg az étkezési tervet az izomépítéshez vagy a zsírvesztéshez.', iconType: 'nutrition', topics: ['Makrotápanyagok', 'Táplálkozás periódusosítása', 'Kalóriaszámítás'] },
+  { number: '03', title: 'INTELLIGENS KIEGÉSZÍTÉS', description: 'Fedezzen fel olyan kiegészítéseket, amelyek működnek.', iconType: 'supplementation', topics: ['Fehérjék', 'Kreatin', 'Vitaminok és ásványi anyagok'] },
+  { number: '04', title: 'MELLKAS ÉS HASIZMOK', description: 'Technikák az erõs mellkas és definiált hasizomhoz.', iconType: 'chest', topics: ['Lenyomás', 'Izolálás', 'Core edzés'] },
+  { number: '05', title: 'HÁTIZOM ÉS TRAPÉZ', description: 'Építsen széles hátat és óvja meg a gerincét.', iconType: 'back', topics: ['Húzódzkodás', 'Evezés', 'Háti szélesség'] },
+  { number: '06', title: 'ERÕS VÁLLON', description: 'Kulcsfontosságú gyakorlatok a deltaizomhoz.', iconType: 'shoulders', topics: ['Katonai lenyomás', 'Oldalsó emelkedés', 'Háti deltoid'] },
+  { number: '07', title: 'KAROK ÉS ALKARORSZÁG', description: 'Stratégiák a méret és erõ növeléséhez.', iconType: 'arms', topics: ['Bicepsz', 'Tricepsz', 'Alkar'] },
+  { number: '08', title: 'SZIMMETRIKUS LÁBAK', description: 'Kiegyensúlyozott fejlesztés az izmok között.', iconType: 'legs', topics: ['Guggolás', 'Kiterjesztések', 'Lábszárcsont'] },
+  { number: '09', title: 'KARDIÓ ÉS ZSÍRÉGETÉS', description: 'Maximalizálja a zsírvesztést az izmok károsítása nélkül.', iconType: 'cardio', topics: ['HIIT', 'Állandó kardió', 'Testösszetétel'] },
+  { number: '10', title: 'EDZÉSTERVEZÉS', description: 'Hozzon létre hatékony edzésterveket szintjéhez.', iconType: 'planning', topics: ['Periódusosítás', 'Éves tervezés', 'Értékelés'] }
 ];
 
-const modalities = [
+const modalities: Array<{ title: string; subtitle: string; features: Array<{ iconType: IconType; text: string }>; highlight: boolean }> = [
   {
     title: 'SZEMÉLYES OKTATÁS',
     subtitle: 'A Scorus Gym-ben, Alicante',
     features: [
-      { icon: '🏢', text: 'Privát edzõterem professzionális felszereléssel' },
-      { icon: '✅', text: 'Valós idejû korrekciók és beállítások' },
-      { icon: '📚', text: 'Integrált elmélet és gyakorlat' },
-      { icon: '👤', text: 'Bernat Scorus személyes figyelme' }
+      { iconType: 'building', text: 'Privát edzõterem professzionális felszereléssel' },
+      { iconType: 'check', text: 'Valós idejû korrekciók és beállítások' },
+      { iconType: 'book', text: 'Integrált elmélet és gyakorlat' },
+      { iconType: 'profile', text: 'Bernat Scorus személyes figyelme' }
     ],
     highlight: true
   },
@@ -35,10 +38,10 @@ const modalities = [
     title: 'ONLINE MÓD',
     subtitle: 'Mindenhonnan',
     features: [
-      { icon: '🎥', text: 'Élõ videókonferencia' },
-      { icon: '♻️', text: 'Korlátlan hozzáférés felvételekhez' },
-      { icon: '💬', text: 'Közvetlen interakció Bernattal' },
-      { icon: '📄', text: 'Kiegészítõ anyag (PDF-ek és szkriptek)' }
+      { iconType: 'check', text: 'Élõ videókonferencia' },
+      { iconType: 'check', text: 'Korlátlan hozzáférés felvételekhez' },
+      { iconType: 'check', text: 'Közvetlen interakció Bernattal' },
+      { iconType: 'book', text: 'Kiegészítõ anyag (PDF-ek és szkriptek)' }
     ],
     highlight: false
   }
@@ -65,6 +68,7 @@ const benefits = [
     }}
     title="SPECIÁLIS WORKSHOPOK"
     subtitle="10 intenzív workshop a testépítés, táplálkozás és edzés mestereléséhez. Személyes vagy online."
+    backgroundImage="/images/services/workshops-hero.webp"
   />
 
   <section class="bg-white py-24">
@@ -81,36 +85,113 @@ const benefits = [
     </div>
   </section>
 
-  <section class="bg-gray-50 py-24">
-    <div class="container">
+  <!-- Modalities Section - Netflix Style -->
+  <section class="relative bg-black py-32">
+    <!-- Background gradient effect -->
+    <div class="absolute inset-0 bg-gradient-to-b from-red-900/20 to-black opacity-60"></div>
+    
+    <div class="container relative z-10">
       <div class="mx-auto max-w-6xl">
-        <div class="mb-16 text-center">
+        <div class="mb-20 text-center">
           <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Válassza Ki A Formátumot</p>
-          <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
-            Két <span class="text-red-600">Lehetõség</span>
+          <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-white md:text-5xl">
+            Két <span class="text-red-600">Mód</span>
           </h2>
+          <p class="text-lg text-gray-300">Prémium tartalom elérése az Ön igényeihez legjobban megfelelő formátumban</p>
         </div>
 
-        <div class="grid gap-8 md:grid-cols-2">
+        <div class="grid gap-12 md:grid-cols-2">
           {modalities.map((modality) => (
-            <div class={`rounded-2xl border-2 transition-all duration-300 ${
+            <div class={`group relative overflow-hidden rounded-2xl transition-all duration-500 ${
               modality.highlight 
-                ? 'border-red-600 bg-red-50 shadow-lg hover:shadow-xl hover:shadow-red-600/30' 
-                : 'border-gray-200 bg-white hover:border-red-600 hover:shadow-lg'
+                ? 'md:scale-105' 
+                : ''
             }`}>
-              <div class="p-8">
-                <h3 class="mb-2 text-2xl font-black uppercase text-black">{modality.title}</h3>
-                <p class="mb-8 text-sm text-gray-600">{modality.subtitle}</p>
-                
+              <!-- Card background with gradient -->
+              <div class={`absolute inset-0 ${
+                modality.highlight
+                  ? 'bg-gradient-to-br from-red-600 via-red-700 to-black'
+                  : 'bg-gradient-to-br from-gray-900 via-gray-800 to-black'
+              } opacity-90 group-hover:opacity-100 transition-opacity duration-300`}></div>
+
+              <!-- Border glow effect -->
+              <div class={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                modality.highlight
+                  ? 'bg-gradient-to-r from-red-500/50 to-transparent'
+                  : 'bg-gradient-to-r from-red-600/30 to-transparent'
+              }`}></div>
+
+              <!-- Content -->
+              <div class="relative z-10 px-8 py-12">
+                <!-- Icon with circle background -->
+                <div class={`mb-8 inline-flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 ${
+                  modality.highlight
+                    ? 'bg-red-100 text-red-600'
+                    : 'bg-gray-100 text-gray-600 group-hover:bg-red-100 group-hover:text-red-600'
+                }`}>
+                  <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+                    {modality.highlight ? (
+                      <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-4h2v18h-2zM2 20h20v2H2z"/>
+                    ) : (
+                      <path d="M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14l4 4V5c0-1.1-.9-2-2-2zm-2 12h-8v-2h8v2zm0-4h-8V9h8v2z"/>
+                    )}
+                  </svg>
+                </div>
+
+                <!-- Title -->
+                <h3 class={`mb-2 text-2xl font-black uppercase tracking-wider ${
+                  modality.highlight ? 'text-red-100' : 'text-white'
+                }`}>
+                  {modality.title}
+                </h3>
+
+                <!-- Subtitle -->
+                <p class={`mb-8 text-sm font-medium ${
+                  modality.highlight ? 'text-red-200/80' : 'text-gray-300'
+                }`}>
+                  {modality.subtitle}
+                </p>
+
+                <!-- Features list with animation -->
                 <ul class="space-y-4">
-                  {modality.features.map((feature) => (
-                    <li class="flex items-start gap-3">
-                      <span class="text-2xl">{feature.icon}</span>
-                      <span class="pt-1 text-sm font-medium text-gray-800">{feature.text}</span>
+                  {modality.features.map((feature, idx) => (
+                    <li class="group/item flex items-start gap-4 transition-transform duration-300 hover:translate-x-2">
+                      <div class={`mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full ${
+                        modality.highlight
+                          ? 'bg-red-500/30 text-red-300'
+                          : 'bg-red-600/20 text-red-400'
+                      }`}>
+                        <WorkshopIcon type={feature.iconType} size="sm" color="currentColor" />
+                      </div>
+                      <span class={`pt-0.5 text-sm font-medium transition-colors duration-300 ${
+                        modality.highlight
+                          ? 'text-red-100 group-hover/item:text-red-50'
+                          : 'text-gray-200 group-hover/item:text-white'
+                      }`}>
+                        {feature.text}
+                      </span>
                     </li>
                   ))}
                 </ul>
+
+                <!-- CTA Button -->
+                <div class="mt-10">
+                  <button class={`w-full rounded-lg px-6 py-3 font-bold uppercase tracking-wider transition-all duration-300 ${
+                    modality.highlight
+                      ? 'border-2 border-red-400 bg-red-600 text-white hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/50'
+                      : 'border-2 border-red-600/50 text-red-300 hover:border-red-500 hover:bg-red-600/10'
+                  }`}>
+                    Válassz
+                  </button>
+                </div>
               </div>
+
+              <!-- Bottom accent line -->
+              <div class={`absolute bottom-0 left-0 h-1 w-full ${
+                modality.highlight
+                  ? 'bg-gradient-to-r from-red-400 to-red-600'
+                  : 'bg-gradient-to-r from-red-600/30 to-transparent'
+              } group-hover:from-red-300 group-hover:to-red-500 transition-all duration-300`}></div>
             </div>
           ))}
         </div>
@@ -134,9 +215,12 @@ const benefits = [
               <div class="absolute inset-0 bg-gradient-to-br from-red-600/0 to-red-600/0 transition-all duration-300 group-hover:from-red-600/10 group-hover:to-red-600/5"></div>
               
               <div class="relative z-10 p-6">
+                <!-- Number -->
                 <div class="mb-4 flex items-start justify-between">
                   <span class="text-5xl font-black text-red-600/30 group-hover:text-red-600/50">{workshop.number}</span>
-                  <span class="text-3xl">{workshop.icon}</span>
+                  <div class="h-10 w-10 text-white">
+                    <WorkshopIcon type={workshop.iconType} size="lg" color="white" />
+                  </div>
                 </div>
                 
                 <h3 class="mb-3 text-xl font-black uppercase leading-tight">{workshop.title}</h3>

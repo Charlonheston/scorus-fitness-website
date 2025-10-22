@@ -1,0 +1,86 @@
+---
+interface Props {
+  videoMp4: string;
+  videoWebm: string;
+}
+
+const { videoMp4, videoWebm } = Astro.props;
+---
+
+<section class="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
+  <!-- Video Background -->
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    class="absolute inset-0 h-full w-full object-cover z-0"
+  >
+    <source src={videoWebm} type="video/webm" />
+    <source src={videoMp4} type="video/mp4" />
+  </video>
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80 z-10"></div>
+
+  <!-- Content -->
+  <div class="container relative z-20 px-4 md:px-8 text-center">
+    <div class="hero-content space-y-6 md:space-y-8">
+      <p class="text-xs md:text-sm font-semibold uppercase tracking-widest text-red-500 animate-fade-in" style="animation-delay: 0.2s">
+        Más de 25 años de dedicación
+      </p>
+      
+      <h1 class="text-4xl md:text-6xl lg:text-8xl font-black uppercase leading-tight tracking-tighter text-white animate-fade-in" style="animation-delay: 0.4s">
+        Bernat<br /><span class="text-red-600">Scorus</span>
+      </h1>
+      
+      <p class="text-base md:text-xl text-gray-200 max-w-2xl mx-auto animate-fade-in" style="animation-delay: 0.6s">
+        Campeón del Mundo de Culturismo | Transformación Física y Mental
+      </p>
+
+      <!-- Scroll Indicator -->
+      <div class="mt-16 md:mt-24 flex justify-center animate-bounce">
+        <svg class="w-6 h-6 md:w-8 md:h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-bounce {
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .animate-bounce {
+      animation: bounce 1.5s infinite;
+    }
+  }
+</style>

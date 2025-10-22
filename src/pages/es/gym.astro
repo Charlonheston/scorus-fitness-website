@@ -132,22 +132,72 @@ const gymImages = [
         </h2>
         <p class="text-xl text-gray-400">Diseñadas para inspirar y potenciar tu entrenamiento</p>
       </div>
-      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {gymImages.map((image) => (
-          <div class="group relative aspect-[4/3] overflow-hidden rounded-lg bg-gray-900">
-            <div set:html={`
-              <picture>
-                <source srcset="${image.src.replace(/\.(jpg|jpeg|png)$/i, '.webp')}" type="image/webp" sizes="100vw">
-                <img src="${image.src}" alt="${image.alt}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:opacity-80">
-              </picture>
-            `} />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <p class="text-sm font-bold uppercase tracking-wider text-white">{image.alt}</p>
+      
+      <!-- Masonry Gallery - Perfect Square Grid -->
+      <div class="grid gap-4 grid-cols-5 auto-rows-[250px] max-w-4xl mx-auto">
+        {gymImages.map((image, idx) => {
+          let colSpan = 'col-span-1';
+          let rowSpan = 'row-span-1';
+          
+          // Primera imagen (2x2) - superior izquierda
+          if (idx === 0) {
+            colSpan = 'col-span-2';
+            rowSpan = 'row-span-2';
+          } 
+          // Segunda imagen (2x2)
+          else if (idx === 1) {
+            colSpan = 'col-span-1';
+            rowSpan = 'row-span-1';
+          }
+          // Tercera imagen - GRANDE (2 cols)
+          else if (idx === 2) {
+            colSpan = 'col-span-2';
+          }
+          // Cuarta imagen - pequeña
+          else if (idx === 3) {
+            colSpan = 'col-span-1';
+          }
+          // Quinta imagen - pequeña
+          else if (idx === 4) {
+            colSpan = 'col-span-1';
+          }
+          // Sexta imagen - pequeña
+          else if (idx === 5) {
+            colSpan = 'col-span-1';
+          }
+          // Séptima imagen - GRANDE (2 cols)
+          else if (idx === 6) {
+            colSpan = 'col-span-2';
+          }
+          // Octava imagen - pequeña
+          else if (idx === 7) {
+            colSpan = 'col-span-1';
+          }
+          // Novena imagen - pequeña
+          else if (idx === 8) {
+            colSpan = 'col-span-1';
+          }
+          // Décima imagen - pequeña
+          else if (idx === 9) {
+            colSpan = 'col-span-1';
+          }
+          
+          return (
+            <div class={`group relative overflow-hidden rounded-lg bg-gray-900 ${colSpan} ${rowSpan}`}>
+              <div set:html={`
+                <picture>
+                  <source srcset="${image.src.replace(/\.(jpg|jpeg|png)$/i, '.webp')}" type="image/webp" sizes="100vw">
+                  <img src="${image.src}" alt="${image.alt}" loading="lazy" decoding="async" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:opacity-80">
+                </picture>
+              `} />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <div class="absolute bottom-0 left-0 right-0 p-6">
+                  <p class="text-sm font-bold uppercase tracking-wider text-white">{image.alt}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>

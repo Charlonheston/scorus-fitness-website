@@ -9,91 +9,34 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import WorkshopIcon from '@components/ui/WorkshopIcon.astro';
 
 const currentLang = 'fr';
 
-const workshops = [
-  {
-    number: '01',
-    title: 'ENTRAÎNEMENT FONDAMENTAL',
-    description: 'Optimisez votre routine avec la meilleure combinaison d\'exercices, séries et repos.',
-    icon: '⚡',
-    topics: ['Périodisation', 'Volume et intensité', 'Récupération']
-  },
-  {
-    number: '02',
-    title: 'NUTRITION POUR LE CULTURISME',
-    description: 'Apprenez à structurer votre régime pour gagner du muscle ou perdre de la graisse.',
-    icon: '🥗',
-    topics: ['Macronutriments', 'Périodicité nutritionnelle', 'Calcul des calories']
-  },
-  {
-    number: '03',
-    title: 'SUPPLÉMENTATION INTELLIGENTE',
-    description: 'Découvrez quels suppléments fonctionnent et comment les utiliser correctement.',
-    icon: '💊',
-    topics: ['Protéines', 'Créatine', 'Vitamines et minéraux']
-  },
-  {
-    number: '04',
-    title: 'POITRINE ET ABS',
-    description: 'Techniques pour développer une poitrine puissante et des abs définis.',
-    icon: '💪',
-    topics: ['Développé couché', 'Isolation', 'Entraînement du core']
-  },
-  {
-    number: '05',
-    title: 'DOS ET TRAPÈZE',
-    description: 'Construisez un dos large et protégez votre colonne vertébrale.',
-    icon: '🏋️',
-    topics: ['Tractions', 'Rameurs', 'Largeur du dos']
-  },
-  {
-    number: '06',
-    title: 'ÉPAULES FORTES',
-    description: 'Exercices clés pour définir et renforcer les deltoïdes.',
-    icon: '🎯',
-    topics: ['Développé militaire', 'Élévations latérales', 'Delts arrière']
-  },
-  {
-    number: '07',
-    title: 'BRAS ET AVANT-BRAS',
-    description: 'Stratégies pour gagner en taille et en force sans blessure.',
-    icon: '🦾',
-    topics: ['Biceps', 'Triceps', 'Avant-bras']
-  },
-  {
-    number: '08',
-    title: 'JAMBES SYMÉTRIQUES',
-    description: 'Développement équilibré des fessiers, quadriceps et mollets.',
-    icon: '🦵',
-    topics: ['Squats', 'Extensions', 'Mollets']
-  },
-  {
-    number: '09',
-    title: 'CARDIO ET COMBUSTION DE GRAISSE',
-    description: 'Maximisez la perte de graisse sans affecter votre muscle.',
-    icon: '🔥',
-    topics: ['HIIT', 'Cardio stable', 'Composition corporelle']
-  },
-  {
-    number: '10',
-    title: 'PLANIFICATION DE L\'ENTRAÎNEMENT',
-    description: 'Créez des routines efficaces selon votre niveau et vos objectifs.',
-    icon: '📋',
-    topics: ['Périodisation', 'Programmation annuelle', 'Évaluation']
-  }
+type IconType = 'fundamental' | 'nutrition' | 'supplementation' | 'chest' | 'back' | 'shoulders' | 'arms' | 'legs' | 'cardio' | 'planning' | 'building' | 'check' | 'book' | 'profile';
+
+const workshops: Array<{ number: string; title: string; description: string; iconType: IconType; topics: string[] }> = [
+  { number: '01', title: 'ENTRAÎNEMENT FONDAMENTAL', description: 'Optimisez votre routine avec la meilleure combinaison d\'exercices, de séries et de repos.', iconType: 'fundamental', topics: ['Périodisation', 'Volume et intensité', 'Récupération'] },
+  { number: '02', title: 'NUTRITION POUR LE BODYBUILDING', description: 'Apprenez à structurer votre alimentation pour gagner du muscle ou perdre de la graisse.', iconType: 'nutrition', topics: ['Macronutriments', 'Périodisation nutritionnelle', 'Calcul des calories'] },
+  { number: '03', title: 'SUPPLÉMENTATION INTELLIGENTE', description: 'Découvrez quels suppléments fonctionnent et comment les utiliser correctement.', iconType: 'supplementation', topics: ['Protéines', 'Créatine', 'Vitamines et minéraux'] },
+  { number: '04', title: 'POITRINE ET ABS', description: 'Techniques pour développer une poitrine forte et des abdominaux définis.', iconType: 'chest', topics: ['Développé couché', 'Isolement', 'Core training'] },
+  { number: '05', title: 'DOS ET TRAPÈZE', description: 'Construisez un dos large et protégez votre colonne vertébrale.', iconType: 'back', topics: ['Tractions', 'Aviron', 'Largeur du dos'] },
+  { number: '06', title: 'ÉPAULES FORTES', description: 'Exercices clés pour définir et renforcer les deltoïdes.', iconType: 'shoulders', topics: ['Presse militaire', 'Élévations latérales', 'Deltoïdes arrière'] },
+  { number: '07', title: 'BRAS ET AVANT-BRAS', description: 'Stratégies pour gagner en taille et en force sans blessure.', iconType: 'arms', topics: ['Biceps', 'Triceps', 'Avant-bras'] },
+  { number: '08', title: 'JAMBES SYMÉTRIQUES', description: 'Développement équilibré des fessiers, quadriceps et mollets.', iconType: 'legs', topics: ['Squats', 'Leg Extensions', 'Mollets'] },
+  { number: '09', title: 'CARDIO ET COMBUSTION DE GRAISSE', description: 'Maximisez la perte de graisse sans affecter vos muscles.', iconType: 'cardio', topics: ['HIIT', 'Cardio régulier', 'Composition corporelle'] },
+  { number: '10', title: 'PLANIFICATION DE L\'ENTRAÎNEMENT', description: 'Créez des routines efficaces selon votre niveau et vos objectifs.', iconType: 'planning', topics: ['Périodisation', 'Programmation annuelle', 'Évaluation'] }
 ];
 
-const modalities = [
+const modalities: Array<{ title: string; subtitle: string; features: Array<{ iconType: IconType; text: string }>; highlight: boolean }> = [
   {
     title: 'MODALITÉ EN PRÉSENTIEL',
-    subtitle: 'À Scorus Gym, Alicante',
+    subtitle: 'Chez Scorus Gym, Alicante',
     features: [
-      { icon: '🏢', text: 'Salle privée avec équipement professionnel' },
-      { icon: '✅', text: 'Corrections et ajustements en temps réel' },
-      { icon: '📚', text: 'Théorie et pratique intégrées' },
-      { icon: '👤', text: 'Attention personnalisée de Bernat Scorus' }
+      { iconType: 'building', text: 'Salle privée avec équipement professionnel' },
+      { iconType: 'check', text: 'Corrections et ajustements en temps réel' },
+      { iconType: 'book', text: 'Théorie et pratique intégrées' },
+      { iconType: 'profile', text: 'Attention personnalisée de Bernat Scorus' }
     ],
     highlight: true
   },
@@ -101,10 +44,10 @@ const modalities = [
     title: 'MODALITÉ EN LIGNE',
     subtitle: 'De n\'importe où',
     features: [
-      { icon: '🎥', text: 'Vidéoconférence en direct' },
-      { icon: '♻️', text: 'Accès illimité aux enregistrements' },
-      { icon: '💬', text: 'Interaction directe avec Bernat' },
-      { icon: '📄', text: 'Matériel complémentaire (PDF et scripts)' }
+      { iconType: 'check', text: 'Vidéoconférence en direct' },
+      { iconType: 'check', text: 'Accès illimité aux enregistrements' },
+      { iconType: 'check', text: 'Interaction directe avec Bernat' },
+      { iconType: 'book', text: 'Matériel complémentaire (PDFs et scripts)' }
     ],
     highlight: false
   }
@@ -112,11 +55,11 @@ const modalities = [
 
 const benefits = [
   { title: 'FORMATION STRUCTURÉE', description: '10 ateliers progressifs conçus pour un apprentissage complet' },
-  { title: 'EXPERTISE DE CHAMPION', description: 'Enseignement d\'un champion du monde avec 30+ ans d\'expérience' },
+  { title: 'EXPÉRIENCE DE CHAMPION', description: 'Enseignement d\'un champion du monde avec 30+ ans d\'expérience' },
   { title: 'PETITS GROUPES', description: 'Attention personnalisée et approche individualisée' },
-  { title: 'CERTIFICAT INCLUS', description: 'Diplôme officiel après l\'accomplissement du programme' },
+  { title: 'CERTIFICAT INCLUS', description: 'Diplôme officiel après avoir suivi le programme' },
   { title: 'MATÉRIEL EXCLUSIF', description: 'Accès aux ressources, guides et démonstrations' },
-  { title: 'FLEXIBILITÉ', description: 'Choisissez entre la modalité en présentiel ou en ligne' }
+  { title: 'FLEXIBILITÉ', description: 'Choisissez entre un mode en présentiel ou en ligne' }
 ];
 ---
 
@@ -132,6 +75,7 @@ const benefits = [
     }}
     title="ATELIERS SPÉCIALISÉS"
     subtitle="10 ateliers intensifs conçus pour maîtriser le culturisme, la nutrition et l'entraînement. En présentiel ou en ligne."
+    backgroundImage="/images/services/workshops-hero.webp"
   />
 
   <!-- Intro Section -->
@@ -149,37 +93,113 @@ const benefits = [
     </div>
   </section>
 
-  <!-- Modalities Section -->
-  <section class="bg-gray-50 py-24">
-    <div class="container">
+  <!-- Modalities Section - Netflix Style -->
+  <section class="relative bg-black py-32">
+    <!-- Background gradient effect -->
+    <div class="absolute inset-0 bg-gradient-to-b from-red-900/20 to-black opacity-60"></div>
+    
+    <div class="container relative z-10">
       <div class="mx-auto max-w-6xl">
-        <div class="mb-16 text-center">
+        <div class="mb-20 text-center">
           <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Choisissez Votre Format</p>
-          <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
+          <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-white md:text-5xl">
             Deux <span class="text-red-600">Modalités</span>
           </h2>
+          <p class="text-lg text-gray-300">Accédez au contenu premium dans le format qui vous convient le mieux</p>
         </div>
 
-        <div class="grid gap-8 md:grid-cols-2">
+        <div class="grid gap-12 md:grid-cols-2">
           {modalities.map((modality) => (
-            <div class={`rounded-2xl border-2 transition-all duration-300 ${
+            <div class={`group relative overflow-hidden rounded-2xl transition-all duration-500 ${
               modality.highlight 
-                ? 'border-red-600 bg-red-50 shadow-lg hover:shadow-xl hover:shadow-red-600/30' 
-                : 'border-gray-200 bg-white hover:border-red-600 hover:shadow-lg'
+                ? 'md:scale-105' 
+                : ''
             }`}>
-              <div class="p-8">
-                <h3 class="mb-2 text-2xl font-black uppercase text-black">{modality.title}</h3>
-                <p class="mb-8 text-sm text-gray-600">{modality.subtitle}</p>
-                
+              <!-- Card background with gradient -->
+              <div class={`absolute inset-0 ${
+                modality.highlight
+                  ? 'bg-gradient-to-br from-red-600 via-red-700 to-black'
+                  : 'bg-gradient-to-br from-gray-900 via-gray-800 to-black'
+              } opacity-90 group-hover:opacity-100 transition-opacity duration-300`}></div>
+
+              <!-- Border glow effect -->
+              <div class={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                modality.highlight
+                  ? 'bg-gradient-to-r from-red-500/50 to-transparent'
+                  : 'bg-gradient-to-r from-red-600/30 to-transparent'
+              }`}></div>
+
+              <!-- Content -->
+              <div class="relative z-10 px-8 py-12">
+                <!-- Icon with circle background -->
+                <div class={`mb-8 inline-flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 ${
+                  modality.highlight
+                    ? 'bg-red-100 text-red-600'
+                    : 'bg-gray-100 text-gray-600 group-hover:bg-red-100 group-hover:text-red-600'
+                }`}>
+                  <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+                    {modality.highlight ? (
+                      <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-4h2v18h-2zM2 20h20v2H2z"/>
+                    ) : (
+                      <path d="M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14l4 4V5c0-1.1-.9-2-2-2zm-2 12h-8v-2h8v2zm0-4h-8V9h8v2z"/>
+                    )}
+                  </svg>
+                </div>
+
+                <!-- Title -->
+                <h3 class={`mb-2 text-2xl font-black uppercase tracking-wider ${
+                  modality.highlight ? 'text-red-100' : 'text-white'
+                }`}>
+                  {modality.title}
+                </h3>
+
+                <!-- Subtitle -->
+                <p class={`mb-8 text-sm font-medium ${
+                  modality.highlight ? 'text-red-200/80' : 'text-gray-300'
+                }`}>
+                  {modality.subtitle}
+                </p>
+
+                <!-- Features list with animation -->
                 <ul class="space-y-4">
-                  {modality.features.map((feature) => (
-                    <li class="flex items-start gap-3">
-                      <span class="text-2xl">{feature.icon}</span>
-                      <span class="pt-1 text-sm font-medium text-gray-800">{feature.text}</span>
+                  {modality.features.map((feature, idx) => (
+                    <li class="group/item flex items-start gap-4 transition-transform duration-300 hover:translate-x-2">
+                      <div class={`mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full ${
+                        modality.highlight
+                          ? 'bg-red-500/30 text-red-300'
+                          : 'bg-red-600/20 text-red-400'
+                      }`}>
+                        <WorkshopIcon type={feature.iconType} size="sm" color="currentColor" />
+                      </div>
+                      <span class={`pt-0.5 text-sm font-medium transition-colors duration-300 ${
+                        modality.highlight
+                          ? 'text-red-100 group-hover/item:text-red-50'
+                          : 'text-gray-200 group-hover/item:text-white'
+                      }`}>
+                        {feature.text}
+                      </span>
                     </li>
                   ))}
                 </ul>
+
+                <!-- CTA Button -->
+                <div class="mt-10">
+                  <button class={`w-full rounded-lg px-6 py-3 font-bold uppercase tracking-wider transition-all duration-300 ${
+                    modality.highlight
+                      ? 'border-2 border-red-400 bg-red-600 text-white hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/50'
+                      : 'border-2 border-red-600/50 text-red-300 hover:border-red-500 hover:bg-red-600/10'
+                  }`}>
+                    Sélectionner
+                  </button>
+                </div>
               </div>
+
+              <!-- Bottom accent line -->
+              <div class={`absolute bottom-0 left-0 h-1 w-full ${
+                modality.highlight
+                  ? 'bg-gradient-to-r from-red-400 to-red-600'
+                  : 'bg-gradient-to-r from-red-600/30 to-transparent'
+              } group-hover:from-red-300 group-hover:to-red-500 transition-all duration-300`}></div>
             </div>
           ))}
         </div>
@@ -208,7 +228,9 @@ const benefits = [
                 <!-- Number -->
                 <div class="mb-4 flex items-start justify-between">
                   <span class="text-5xl font-black text-red-600/30 group-hover:text-red-600/50">{workshop.number}</span>
-                  <span class="text-3xl">{workshop.icon}</span>
+                  <div class="h-10 w-10 text-white">
+                    <WorkshopIcon type={workshop.iconType} size="lg" color="white" />
+                  </div>
                 </div>
                 
                 <!-- Title -->

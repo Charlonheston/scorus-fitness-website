@@ -1,0 +1,106 @@
+---
+/**
+ * WorkshopIcon Component - Modern monochrome SVG icons for workshops
+ * Professional, minimalist design following current design trends
+ */
+
+interface Props {
+  type: 'fundamental' | 'nutrition' | 'supplementation' | 'chest' | 'back' | 'shoulders' | 'arms' | 'legs' | 'cardio' | 'planning' | 'building' | 'check' | 'book' | 'profile';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  color?: string;
+}
+
+const { type, size = 'md', color = 'currentColor' } = Astro.props;
+
+const sizeMap = {
+  xs: '16',
+  sm: '24',
+  md: '40',
+  lg: '48'
+};
+
+const iconSize = sizeMap[size];
+
+const icons: Record<string, string> = {
+  // Workshop icons
+  fundamental: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M24 8v32M8 24h32M32 16l-16 16M16 16l16 16"/>
+  </svg>`,
+  
+  nutrition: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 20c0-6.627 2.686-12 6-12s6 5.373 6 12-2.686 12-6 12-6-5.373-6-12z"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M30 8c0 0 2 8 2 12s-2 12-2 12M24 32c0 0 0 6 0 8"/>
+  </svg>`,
+  
+  supplementation: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M16 12h16v24H16z"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 18h8M20 26h8M20 34h8"/>
+    <circle cx="24" cy="24" r="3" fill="${color}"/>
+  </svg>`,
+  
+  chest: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 16c0-4 2-8 6-10s8-2 6 2c-2-4 4-4 6-2s6 6 6 10v16c0 4-2 6-6 6s-6-2-6-6-2 6-6 6-6-2-6-6z"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M24 16v16"/>
+  </svg>`,
+  
+  back: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M16 12c-2 0-2 4-2 8v16c0 4 0 8 2 8h16c2 0 2-4 2-8V20c0-4 0-8-2-8"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 16v16M28 16v16M24 12v28"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M10 20h28"/>
+  </svg>`,
+  
+  shoulders: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="16" r="4" fill="none" stroke="${color}" stroke-width="2"/>
+    <circle cx="36" cy="16" r="4" fill="none" stroke="${color}" stroke-width="2"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 20v16c0 2 2 4 6 4h12c4 0 6-2 6-4V20M16 20v12M32 20v12"/>
+  </svg>`,
+  
+  arms: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 18s0-4 4-4 4 4 4 8v14s0 4-4 4-4-4-4-8z"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M40 18s0-4-4-4-4 4-4 8v14s0 4 4 4 4-4 4-8z"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M16 24h16"/>
+  </svg>`,
+  
+  legs: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M16 8c0 0-2 4-2 8s2 8 2 12v12s0 2 2 2 2-2 2-2V14"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M32 8c0 0 2 4 2 8s-2 8-2 12v12s0 2-2 2-2-2-2-2V14"/>
+  </svg>`,
+  
+  cardio: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 24l6-8 6 10 6-6 6 8 10-6"/>
+    <circle cx="12" cy="12" r="2" fill="${color}"/>
+  </svg>`,
+  
+  planning: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="8" width="28" height="32" rx="2" fill="none" stroke="${color}" stroke-width="2"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M14 14h20M14 22h20M14 30h12"/>
+    <rect x="32" y="10" width="6" height="6" fill="none" stroke="${color}" stroke-width="1.5"/>
+  </svg>`,
+  
+  building: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <rect x="8" y="10" width="32" height="30" rx="2" fill="none" stroke="${color}" stroke-width="2"/>
+    <path fill="none" stroke="${color}" stroke-width="1.5" d="M16 16h4v4h-4zM24 16h4v4h-4zM32 16h4v4h-4zM16 24h4v4h-4zM24 24h4v4h-4zM32 24h4v4h-4zM16 32h4v4h-4zM24 32h4v4h-4zM32 32h4v4h-4z"/>
+    <path fill="none" stroke="${color}" stroke-width="2" d="M8 40h32"/>
+  </svg>`,
+  
+  check: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="24" cy="24" r="16" fill="none" stroke="${color}" stroke-width="2"/>
+    <path fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M16 24l4 4 8-8"/>
+  </svg>`,
+  
+  book: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M10 12c0-2 1-3 3-3h22c2 0 3 1 3 3v24c0 2-1 3-3 3H13c-2 0-3-1-3-3z"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M13 12v24M24 12v24"/>
+    <path fill="none" stroke="${color}" stroke-width="1.5" d="M16 18h6M16 24h8M16 30h6"/>
+  </svg>`,
+  
+  profile: `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="24" cy="16" r="6" fill="none" stroke="${color}" stroke-width="2"/>
+    <path fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" d="M10 36c0-6 6-10 14-10s14 4 14 10"/>
+  </svg>`
+};
+
+const iconSvg = icons[type] || icons.fundamental;
+---
+
+<div class="inline-flex items-center justify-center" set:html={iconSvg} />

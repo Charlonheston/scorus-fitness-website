@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "title": "Kapcsolat | Scorus Fitness",
+    "description": "Lépj kapcsolatba velünk. Alicantéban vagyunk"
+  },
+  "hero": {
+    "title": "Kapcsolat",
+    "subtitle": "Kezdd el az átalakulást még ma"
+  },
+  "info": {
+    "title": "Kapcsolati Információk",
+    "address": "Cím",
+    "phone": "Telefon",
+    "email": "Email",
+    "schedule": "Nyitvatartás",
+    "schedule_value": "Hétfő - Péntek: 6:00 - 22:00"
+  },
+  "form": {
+    "title": "Üzenet Küldése",
+    "name": "Név",
+    "name_placeholder": "Teljes neved",
+    "email": "Email",
+    "email_placeholder": "te@email.com",
+    "phone": "Telefon",
+    "phone_placeholder": "+34 XXX XXX XXX",
+    "service": "Szolgáltatás",
+    "service_placeholder": "Válassz szolgáltatást",
+    "service_personal": "Személyi Edzés",
+    "service_online": "Online Tanácsadás",
+    "service_gym": "Scorus GYM",
+    "service_campus": "Scorus Campus",
+    "service_reborn": "RE-BORN",
+    "service_other": "Egyéb",
+    "message": "Üzenet",
+    "message_placeholder": "Írd meg, miben segíthetünk...",
+    "submit": "Üzenet Küldése",
+    "sending": "Küldés...",
+    "success": "Üzenet elküldve! Hamarosan jelentkezünk.",
+    "error": "Hiba történt a küldéskor. Próbáld újra."
+  },
+  "cta": {
+    "title": "Inkább felhívnál?",
+    "description": "Hétfőtől péntekig elérhetőek vagyunk",
+    "button": "Hívj Most"
+  }
+}
+
+
+

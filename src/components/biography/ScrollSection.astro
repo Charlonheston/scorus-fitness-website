@@ -1,0 +1,280 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  content: string;
+  imageUrl?: string;
+  index: number;
+  bgColor?: string;
+  videoMp4?: string;
+  videoWebm?: string;
+}
+
+const { title, subtitle, content, imageUrl, index, bgColor = "bg-black" } = Astro.props;
+---
+
+<section 
+  class={`relative min-h-screen w-full overflow-hidden flex items-center justify-center py-20 md:py-32 ${bgColor}`}
+  data-bio-section={index}
+>
+  <!-- CAPA 0: Fondo decorativo (parallax MUY lento) -->
+  <div class="absolute inset-0 z-0 overflow-hidden">
+    <div class="absolute top-0 left-0 w-96 h-96 bg-red-600/5 rounded-full blur-3xl opacity-0" data-deco="bg-float-1"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-red-600/5 rounded-full blur-3xl opacity-0" data-deco="bg-float-2"></div>
+  </div>
+
+  <!-- CAPA 1: Asteroides/Decorativos (parallax medio + rotación) -->
+  <div class="absolute inset-0 z-5 pointer-events-none">
+    <div class="absolute top-20 left-10 opacity-0" data-deco="asteroid-1">
+      <div class="w-8 h-8 bg-red-600 rounded-full blur-sm"></div>
+    </div>
+    <div class="absolute top-1/3 right-20 opacity-0" data-deco="asteroid-2">
+      <div class="w-12 h-12 border-2 border-red-600/30 rounded-full"></div>
+    </div>
+    <div class="absolute bottom-1/4 left-1/4 opacity-0" data-deco="asteroid-3">
+      <div class="w-6 h-6 bg-red-600/20 rounded-lg"></div>
+    </div>
+  </div>
+
+  <!-- CAPA 2: Contenedor principal (parallax rápido) -->
+  <div class="container relative z-10 px-4 md:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center max-w-6xl">
+      
+      <!-- Contenido de texto -->
+      <div class="space-y-6" data-text-content>
+        {subtitle && (
+          <p class="text-xs md:text-sm font-semibold uppercase tracking-widest text-red-500 opacity-0" data-text="subtitle">
+            {subtitle}
+          </p>
+        )}
+        
+        <h2 class="text-4xl md:text-6xl lg:text-7xl font-black uppercase leading-tight tracking-tighter text-white opacity-0 transform" data-text="title">
+          {title}
+        </h2>
+        
+        <div class="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed text-gray-200 opacity-0" data-text="content">
+          {content.split('\n').map((paragraph, idx) => (
+            <p style={`--stagger-index: ${idx}`} class="opacity-0">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </div>
+
+      <!-- Imagen (parallax con rotación suave) -->
+      <div class="relative h-96 md:h-full rounded-lg overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 opacity-0 transform" data-image-container>
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={title}
+            class="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <div class="flex h-full items-center justify-center">
+            <div class="text-center">
+              <span class="text-6xl md:text-8xl">📷</span>
+              <p class="mt-4 text-sm text-gray-400 uppercase tracking-wider">Imagen próximamente</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-bio-section] {
+    position: relative;
+  }
+  
+  [data-text="title"] {
+    will-change: transform, opacity;
+  }
+  
+  [data-image-container] {
+    will-change: transform, opacity;
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const bioSections = document.querySelectorAll('[data-bio-section]');
+
+    bioSections.forEach((section, idx) => {
+      // Master timeline para esta sección
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top center',
+          end: 'bottom center',
+          scrub: 1,
+          markers: false
+        }
+      });
+
+      // ========================================
+      // CAPA 0: Fondos flotantes (parallax muy lento)
+      // ========================================
+      tl.to(
+        section.querySelector('[data-deco="bg-float-1"]'),
+        {
+          y: -80,
+          opacity: 0.3,
+          ease: 'none'
+        },
+        0
+      );
+
+      tl.to(
+        section.querySelector('[data-deco="bg-float-2"]'),
+        {
+          y: 100,
+          opacity: 0.2,
+          ease: 'none'
+        },
+        0
+      );
+
+      // ========================================
+      // CAPA 1: Asteroides (parallax medio + rotación)
+      // ========================================
+      tl.to(section.querySelector('[data-deco="asteroid-1"]'), {
+        keyframes: [
+          { opacity: 0, scale: 0.8, x: 0, y: 0, duration: 0 },
+          { opacity: 0.8, scale: 1.2, x: 25, y: -60, rotation: 180, ease: 'power1.out', duration: 0.5 },
+          { opacity: 0, scale: 0.8, x: 50, y: -120, rotation: 360, ease: 'power1.in', duration: 0.5 }
+        ]
+      }, 0);
+
+      tl.to(section.querySelector('[data-deco="asteroid-2"]'), {
+        keyframes: [
+          { opacity: 0, scale: 1, x: 0, y: 0, duration: 0 },
+          { opacity: 0.5, scale: 1.3, x: -40, y: 50, rotation: -90, ease: 'back.out(1.2)', duration: 0.5 },
+          { opacity: 0, scale: 0.9, x: -80, y: 100, rotation: -180, ease: 'power1.in', duration: 0.5 }
+        ]
+      }, 0.2);
+
+      tl.to(section.querySelector('[data-deco="asteroid-3"]'), {
+        keyframes: [
+          { opacity: 0, scale: 0.9, x: 0, y: 0, duration: 0 },
+          { opacity: 0.6, scale: 1.1, x: 60, y: -30, rotation: 360, ease: 'power2.out', duration: 0.5 },
+          { opacity: 0, scale: 0.8, x: 120, y: -60, rotation: 720, ease: 'power2.in', duration: 0.5 }
+        ]
+      }, 0.1);
+
+      // ========================================
+      // CAPA 2: Textos (emergen escalonados)
+      // ========================================
+      const textContent = section.querySelector('[data-text-content]');
+      
+      if (textContent) {
+        // Subtitle
+        tl.to(
+          textContent.querySelector('[data-text="subtitle"]'),
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power2.out'
+          },
+          0.1
+        );
+
+        // Title (con movimiento mas dramatico)
+        tl.to(
+          textContent.querySelector('[data-text="title"]'),
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power2.out'
+          },
+          0.2
+        );
+
+        // Párrafos (escalonados con efecto onda)
+        const contentDiv = textContent.querySelector('[data-text="content"]');
+        if (contentDiv) {
+          const paragraphs = contentDiv.querySelectorAll('p');
+          
+          tl.to(
+            paragraphs,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.15,
+              ease: 'power2.out'
+            },
+            0.3
+          );
+        }
+      }
+
+      // ========================================
+      // CAPA 3: Imagen (parallax + rotación suave)
+      // ========================================
+      const imageContainer = section.querySelector('[data-image-container]');
+      
+      if (imageContainer) {
+        tl.to(
+          imageContainer,
+          {
+            opacity: 1,
+            y: -40,
+            rotation: 2,
+            scale: 1.05,
+            duration: 1,
+            ease: 'back.out(1.5)'
+          },
+          0.15
+        );
+
+        // Efecto secundario: rotación continua sutil
+        tl.to(
+          imageContainer,
+          {
+            rotation: -2,
+            y: 20,
+            scale: 0.98,
+            duration: 0.8,
+            ease: 'power1.in'
+          },
+          0.7
+        );
+      }
+
+      // ========================================
+      // EFECTO BONUS: Parallax en Y del contenedor
+      // ========================================
+      ScrollTrigger.create({
+        trigger: section,
+        onUpdate: (self) => {
+          const velocity = self.getVelocity();
+          
+          // Los textos se mueven más rápido que la imagen
+          gsap.to(textContent, {
+            y: velocity * -0.3,
+            overwrite: 'auto',
+            duration: 0.2
+          });
+
+          if (imageContainer) {
+            gsap.to(imageContainer, {
+              y: velocity * 0.15,
+              overwrite: 'auto',
+              duration: 0.2
+            });
+          }
+        }
+      });
+    });
+  });
+</script>

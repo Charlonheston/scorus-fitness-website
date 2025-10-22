@@ -5,18 +5,21 @@
 
 import Layout from '@/layouts/Layout.astro';
 import { CONTACT_INFO } from '@lib/constants';
+import translations from '../../../public/locales/de/contact.json';
+
+const t = translations;
 ---
 
 <Layout
-  title="Kontakt | Scorus Fitness"
-  description="Kontaktiere uns. Wir sind in Alicante"
+  title={t.meta.title}
+  description={t.meta.description}
 >
   <!-- Hero Section -->
   <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
     <div class="container">
       <div class="mx-auto max-w-3xl text-center">
-        <h1 class="mb-6 text-6xl font-bold md:text-7xl">Kontakt</h1>
-        <p class="text-xl text-gray-300">Beginne deine Transformation heute</p>
+        <h1 class="mb-6 text-6xl font-bold md:text-7xl">{t.hero.title}</h1>
+        <p class="text-xl text-gray-300">{t.hero.subtitle}</p>
       </div>
     </div>
   </section>
@@ -28,76 +31,92 @@ import { CONTACT_INFO } from '@lib/constants';
         <div class="grid gap-12 md:grid-cols-2">
           <!-- Contact Information -->
           <div>
-            <h2 class="mb-8 text-4xl font-bold text-gray-900">Kontaktinformationen</h2>
+            <h2 class="mb-8 text-4xl font-bold text-gray-900">{t.info.title}</h2>
             <div class="space-y-6">
               <div>
-                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">Adresse</h3>
+                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">{t.info.address}</h3>
                 <p class="text-lg text-gray-900">{CONTACT_INFO.address}</p>
               </div>
               <div>
-                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">Telefon</h3>
+                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">{t.info.phone}</h3>
                 <a href={`tel:${CONTACT_INFO.phone}`} class="text-lg text-gray-900 hover:text-gray-600">
                   {CONTACT_INFO.phone}
                 </a>
               </div>
               <div>
-                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">Email</h3>
+                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">{t.info.email}</h3>
                 <a href={`mailto:${CONTACT_INFO.email}`} class="text-lg text-gray-900 hover:text-gray-600">
                   {CONTACT_INFO.email}
                 </a>
               </div>
               <div>
-                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">Zeitplan</h3>
-                <p class="text-lg text-gray-900">Montag bis Freitag: 6:00 - 22:00</p>
+                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">{t.info.schedule}</h3>
+                <p class="text-lg text-gray-900">{t.info.schedule_value}</p>
               </div>
             </div>
           </div>
 
           <!-- Contact Form Placeholder -->
           <div class="bg-gray-50 p-8">
-            <h2 class="mb-6 text-2xl font-bold text-gray-900">Sende uns eine Nachricht</h2>
-            <form class="space-y-6">
+            <h2 class="mb-6 text-2xl font-bold text-gray-900">{t.form.title}</h2>
+            <form id="contactForm" class="space-y-6">
               <div>
-                <label for="name" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">
-                  Name
-                </label>
+                <label for="name" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">{t.form.name}</label>
                 <input
                   type="text"
                   id="name"
                   name="name"
                   class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
-                  placeholder="Dein vollständiger Name"
+                  placeholder={t.form.name_placeholder}
                 />
               </div>
               <div>
-                <label for="email" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">
-                  Email
-                </label>
+                <label for="email" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">{t.form.email}</label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
-                  placeholder="deine@email.com"
+                  placeholder={t.form.email_placeholder}
                 />
               </div>
               <div>
-                <label for="message" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">
-                  Nachricht
-                </label>
+                <label for="phone" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">{t.form.phone}</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
+                  placeholder={t.form.phone_placeholder}
+                />
+              </div>
+              <div>
+                <label for="service" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">{t.form.service}</label>
+                <select id="service" name="service" class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none">
+                  <option value="">{t.form.service_placeholder}</option>
+                  <option value="personal">{t.form.service_personal}</option>
+                  <option value="online">{t.form.service_online}</option>
+                  <option value="gym">{t.form.service_gym}</option>
+                  <option value="campus">{t.form.service_campus}</option>
+                  <option value="reborn">{t.form.service_reborn}</option>
+                  <option value="other">{t.form.service_other}</option>
+                </select>
+              </div>
+              <div>
+                <label for="message" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">{t.form.message}</label>
                 <textarea
                   id="message"
                   name="message"
                   rows="5"
                   class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
-                  placeholder="Sag uns, was du brauchst..."
+                  placeholder={t.form.message_placeholder}
                 ></textarea>
               </div>
               <button
                 type="submit"
                 class="w-full border-2 border-black bg-black px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-white hover:text-black"
               >
-                Nachricht Senden
+                {t.form.submit}
               </button>
             </form>
           </div>
@@ -110,16 +129,67 @@ import { CONTACT_INFO } from '@lib/constants';
   <section class="bg-black py-32 text-white">
     <div class="container">
       <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-8 text-4xl font-bold">Lieber Anrufen?</h2>
-        <p class="mb-8 text-lg text-gray-300">Wir sind Montag bis Freitag verfügbar</p>
+        <h2 class="mb-8 text-4xl font-bold">{t.cta.title}</h2>
+        <p class="mb-8 text-lg text-gray-300">{t.cta.description}</p>
         <a
           href={`tel:${CONTACT_INFO.phone}`}
           class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
         >
-          Jetzt Anrufen
+          {t.cta.button}
         </a>
       </div>
     </div>
   </section>
 </Layout>
+
+<script is:inline>
+window.addEventListener('DOMContentLoaded', () => {
+  const el = document.getElementById('contact-translations-de');
+  const translations = el ? JSON.parse(el.textContent || '{}') : {};
+  const formEl = document.getElementById('contactForm');
+  formEl?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const button = form.querySelector('button[type="submit"]');
+    const originalText = button?.textContent;
+    try {
+      if (button) {
+        button.disabled = true;
+        button.textContent = `${translations.form?.sending || 'Senden...'}`;
+      }
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+      const message = `\nNeue Kontaktanfrage\n\n\nName: ${data.name}\n\nEmail: ${data.email}\n\nTelefon: ${data.phone || 'N/A'}\n\nService: ${data.service || 'N/A'}\n\n\nNachricht:\n${data.message}`.trim();
+      const whatsappLink = `https://wa.me/34673975252?text=${encodeURIComponent(message)}`;
+      window.open(whatsappLink, '_blank');
+      if (button) {
+        button.textContent = `${translations.form?.success || 'Gesendet'}`;
+        button.classList.add('!bg-green-600', 'hover:!bg-green-700');
+      }
+      form.reset();
+      setTimeout(() => {
+        if (button) {
+          button.textContent = originalText || `${translations.form?.submit || 'Absenden'}`;
+          button.classList.remove('!bg-green-600', 'hover:!bg-green-700');
+          button.disabled = false;
+        }
+      }, 3000);
+    } catch (error) {
+      console.error('Error:', error);
+      if (button) {
+        button.textContent = `${translations.form?.error || 'Fehler'}`;
+        button.classList.add('!bg-red-800');
+      }
+      setTimeout(() => {
+        if (button) {
+          button.textContent = originalText || `${translations.form?.submit || 'Absenden'}`;
+          button.classList.remove('!bg-red-800');
+          button.disabled = false;
+        }
+      }, 2000);
+    }
+  });
+});
+</script>
+<script type="application/json" id="contact-translations-de">{JSON.stringify(t)}</script>
 

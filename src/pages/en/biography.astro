@@ -1,116 +1,259 @@
 ---
 /**
- * Biography Page - English
+ * Biography Page - Epic Scroll Experience
+ * Mobile First | Videos | Timeline | Scroll Effects
  */
 
 import Layout from '@/layouts/Layout.astro';
+import HeroSection from '@components/biography/HeroSection.astro';
+import ScrollSection from '@components/biography/ScrollSection.astro';
+import TimelineSection from '@components/biography/TimelineSection.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+
+const currentLang = 'en';
+
+const timelineEvents = [
+  {
+    year: '1979',
+    title: 'The Beginning',
+    description: 'I was born in Marosvásárhely, Transylvania. My childhood was surrounded by elite athletes, which awakened my love for sports from a very young age.'
+  },
+  {
+    year: '1994',
+    title: 'The Discovery',
+    description: 'I attended my first bodybuilding event. Seeing legends like Flex Wheeler, Milos Sarcev, and Robby Robinson live was a moment that changed my life forever.'
+  },
+  {
+    year: '2000',
+    title: 'Start of Competition',
+    description: 'I began competing professionally. Despite those who said I didn\'t have the genetics for this, I decided to prove it through work and discipline.'
+  },
+  {
+    year: '2006',
+    title: 'World Champion',
+    description: 'I achieved the title of NABBA World Champion in Heavyweight and Absolute categories. Sacrifice and dedication finally paid off.'
+  },
+  {
+    year: '2012',
+    title: 'The Pause',
+    description: 'I decided to take a break from competitive career to focus on family. Although my pace changed, I never completely abandoned fitness.'
+  },
+  {
+    year: '2018',
+    title: 'The Return',
+    description: 'My son challenged me to compete again. After 6 years away, I returned to the stage with more strength than ever, winning several medals.'
+  }
+];
+
+const sections = [
+  {
+    videoMp4: '/videos/biography/bernat-intro.mp4',
+    videoWebm: '/videos/biography/bernat-intro.webm',
+    title: 'Childhood',
+    subtitle: 'Origins',
+    content: `I was born on July 6, 1979 in Marosvásárhely, Transylvania. My family was a family of elite athletes, where sports was not just an activity, it was a life philosophy.\n\nFrom a very young age I practiced swimming, gymnastics, karate, football, basketball, and athletics. But it was the body, well-defined musculature, that fascinated me. Watching movies with Arnold Schwarzenegger, Sylvester Stallone, and Jean-Claude Van Damme made me dream of building an extraordinary physique.`,
+    index: 0
+  },
+  {
+    videoMp4: '/videos/biography/bernat-training.mp4',
+    videoWebm: '/videos/biography/bernat-training.webm',
+    title: 'Discovery',
+    subtitle: '1994 - A Moment That Changed Everything',
+    content: `That first bodybuilding event was eye-opening. Seeing legends like Flex Wheeler, Milos Sarcev, and Robby Robinson live was not just inspirational, it was transformative.\n\nAt that moment I knew exactly what I wanted to do with my life: dedicate myself completely to bodybuilding and physical development.\n\nMy family and friends told me I didn't have ideal genetics (I weighed only 50kg), but that didn't stop me. I knew that effort, perseverance, and the right mindset could overcome any obstacle.`,
+    index: 1
+  },
+  {
+    videoMp4: '/videos/biography/bernat-competition.mp4',
+    videoWebm: '/videos/biography/bernat-competition.webm',
+    title: 'The Fight',
+    subtitle: '2000-2006 - Years of Extreme Dedication',
+    content: `I began competing professionally in the year 2000. What followed were years of relentless training, strict nutrition, and constant sacrifice.\n\nEach kilogram of muscle gained was a victory. Each competition was a lesson. Each defeat made me stronger.\n\nIn 2006, I achieved what many said was impossible: I became NABBA World Champion in Heavyweight and Absolute categories. That moment validated all the sacrifice, all the pain, all the dedication.`,
+    index: 2
+  },
+  {
+    videoMp4: '/videos/biography/bernat-focus.mp4',
+    videoWebm: '/videos/biography/bernat-focus.webm',
+    title: 'Family',
+    subtitle: '2012 - A New Priority',
+    content: `In 2012, I decided to take a break. Competition had been my life, but family deserved it too.\n\nI became a full-time father. My physique changed, my mindset changed, but something never changed: the competitive fire that burned within me.\n\nFor six years, I kept fitness as part of my life, but it wasn't first. I was building a family, creating memories, being the father my children needed.`,
+    index: 3
+  },
+  {
+    videoMp4: '/videos/biography/bernat-gym.mp4',
+    videoWebm: '/videos/biography/bernat-gym.webm',
+    title: 'The Return',
+    subtitle: '2018 - Stronger Than Ever',
+    content: `In 2018, my son looked at me and asked: "Why don't you compete again, Dad? Compete!"\n\nThose words were the push I needed. I returned to the stages after six years away, and I did it through the front door.\n\nI won medals, was recognized again, but more importantly: I proved that age, time, and obstacles are not limitations when you have discipline and determination.\n\nSince then, I've traveled to India, Dubai, Singapore, sharing my knowledge as a coach and mentor in international academies.`,
+    index: 4
+  }
+];
 ---
 
 <Layout
-  title="Biography | Bernat Scorus"
-  description="Discover the story and experience of Bernat, personal trainer with over 15 years of trajectory"
+  title="Biography - Bernat Scorus | Scorus Fitness"
+  description="The epic story of Bernat Scorus, world bodybuilding champion with over 25 years of experience"
 >
   <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-3xl text-center">
-        <h1 class="mb-6 text-6xl font-bold md:text-7xl">Bernat Scorus</h1>
-        <p class="text-xl text-gray-300">Personal Trainer · Bodybuilder · Coach</p>
+  <HeroSection 
+    videoMp4="/videos/biography/bernat-intro.mp4"
+    videoWebm="/videos/biography/bernat-intro.webm"
+  />
+
+  <!-- Story Sections -->
+  {sections.map((section) => (
+    <ScrollSection
+      videoMp4={section.videoMp4}
+      videoWebm={section.videoWebm}
+      title={section.title}
+      subtitle={section.subtitle}
+      content={section.content}
+      index={section.index}
+    />
+  ))}
+
+  <!-- Timeline -->
+  <TimelineSection events={timelineEvents} />
+
+  <!-- Philosophy Section -->
+  <section class="relative py-24 md:py-32 bg-black">
+    <div class="container relative z-10 px-4 md:px-8">
+      <div class="mb-16 md:mb-24 text-center">
+        <p class="mb-4 text-xs md:text-sm font-semibold uppercase tracking-widest text-red-500">
+          My Philosophy
+        </p>
+        <h2 class="text-3xl md:text-5xl lg:text-6xl font-black uppercase leading-tight tracking-tighter text-white">
+          The <span class="text-red-600">3 Pillars</span>
+        </h2>
+      </div>
+
+      <div class="mx-auto grid max-w-6xl gap-8 md:gap-12 md:grid-cols-3">
+        {[
+          {
+            title: 'Discipline',
+            description: 'Discipline is the act of doing what you don\'t want to do so you can be who you want to be. I train every day, without excuses.',
+            icon: '💪'
+          },
+          {
+            title: 'Total Commitment',
+            description: 'When you commit to me, you get 100% of me. Your transformation is my mission. It\'s not a business, it\'s a calling.',
+            icon: '🎯'
+          },
+          {
+            title: 'Real Results',
+            description: 'I don\'t promise miracles. I promise hard work, proven methodology, and lasting changes that will transform your life.',
+            icon: '🏆'
+          }
+        ].map((pillar) => (
+          <div class="group rounded-lg bg-gray-900/50 p-8 md:p-10 backdrop-blur-sm border border-gray-800 transition-all duration-300 hover:border-red-600/50 hover:bg-gray-900/80">
+            <div class="mb-6 text-5xl md:text-6xl">{pillar.icon}</div>
+            <h3 class="mb-4 text-2xl md:text-3xl font-black uppercase text-white">
+              {pillar.title}
+            </h3>
+            <p class="text-sm md:text-base leading-relaxed text-gray-300">
+              {pillar.description}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Content Section -->
-  <section class="bg-white py-32">
-    <div class="container">
-      <div class="mx-auto max-w-4xl">
-        <div class="mb-16">
-          <h2 class="mb-8 text-5xl font-bold text-gray-900">Over 15 Years Transforming Lives</h2>
-          <p class="text-xl leading-relaxed text-gray-600">
-            My mission is simple: help you reach your best physical and mental version through intelligent training and science-based nutrition.
-          </p>
-        </div>
-
-        <div class="mb-16">
-          <h3 class="mb-6 text-3xl font-bold text-gray-900">Experience and Training</h3>
-          <ul class="space-y-4 text-lg text-gray-600">
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              International Certification in Personal Training
-            </li>
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              Specialist in Bodybuilding and Competition Preparation
-            </li>
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              Certified Sports Nutritionist
-            </li>
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              +15 years of experience in the fitness sector
-            </li>
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-6 w-6 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              Hundreds of successful transformations
-            </li>
-          </ul>
-        </div>
-
-        <div class="mb-16 border-l-4 border-black bg-gray-50 p-8">
-          <p class="mb-4 text-2xl font-bold text-gray-900">
-            "I don't sell promises. I offer knowledge, experience and real results."
-          </p>
-          <p class="text-lg text-gray-600">
-            Every person is unique, and so should their training be. There are no magic formulas, only constant work, discipline and scientific methodology.
-          </p>
-        </div>
-
-        <div>
-          <h3 class="mb-6 text-3xl font-bold text-gray-900">Notable Achievements</h3>
-          <div class="grid gap-6 md:grid-cols-2">
-            <div class="bg-gray-50 p-6">
-              <h4 class="mb-2 text-xl font-bold text-gray-900">Founder of Scorus Fitness</h4>
+  <!-- Stats Section -->
+  <section class="relative py-24 md:py-32 bg-gradient-to-b from-black to-gray-900">
+    <div class="container relative z-10 px-4 md:px-8">
+      <div class="mx-auto grid max-w-5xl gap-8 md:gap-12 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { value: '25+', label: 'Years of Experience' },
+          { value: '500+', label: 'Clients Transformed' },
+          { value: '15+', label: 'Titles Won' },
+          { value: '5', label: 'Continents' }
+        ].map((stat) => (
+          <div class="text-center stat-counter">
+            <div class="mb-4 text-4xl md:text-5xl lg:text-6xl font-black text-red-600">
+              {stat.value}
             </div>
-            <div class="bg-gray-50 p-6">
-              <h4 class="mb-2 text-xl font-bold text-gray-900">Creator of the RE-BORN program</h4>
-            </div>
-            <div class="bg-gray-50 p-6">
-              <h4 class="mb-2 text-xl font-bold text-gray-900">Director of Scorus Campus</h4>
-            </div>
-            <div class="bg-gray-50 p-6">
-              <h4 class="mb-2 text-xl font-bold text-gray-900">Speaker at international seminars</h4>
-            </div>
+            <p class="text-sm md:text-base font-semibold uppercase tracking-widest text-gray-400">
+              {stat.label}
+            </p>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   </section>
 
   <!-- CTA Section -->
-  <section class="bg-black py-32 text-white">
-    <div class="container">
+  <section class="relative py-24 md:py-32 bg-black">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-red-600/10 blur-3xl"></div>
+    </div>
+
+    <div class="container relative z-10 px-4 md:px-8">
       <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-8 text-5xl font-bold md:text-6xl">Ready To Work Together?</h2>
-        <p class="mb-12 text-xl text-gray-300">Start your transformation today</p>
-        <a
-          href="/en/contact"
-          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
-        >
-          Contact
-        </a>
+        <h2 class="mb-6 text-3xl md:text-5xl lg:text-6xl font-black uppercase leading-tight tracking-tighter text-white">
+          Your <span class="text-red-600">Transformation</span> Starts Today
+        </h2>
+        
+        <p class="mb-12 text-base md:text-lg leading-relaxed text-gray-300">
+          I've spent 25 years transforming bodies and minds. Now it's your turn. No matter where you are or what your goals are, I have the knowledge, experience, and passion to guide you to your best version.
+        </p>
+
+        <div class="flex flex-col gap-4 sm:flex-row justify-center">
+          <ButtonPrimary
+            href={`/${currentLang}/contact`}
+            text="Start Now"
+            icon="zap"
+            size="xl"
+            variant="glow"
+          />
+          
+          <ButtonPrimary
+            href={`/${currentLang}/services/personal-training`}
+            text="View Services"
+            icon="arrow"
+            variant="glow"
+            size="xl"
+          />
+        </div>
       </div>
     </div>
   </section>
 </Layout>
+
+<style>
+  .stat-counter {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import ScrollTrigger from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const statCounters = document.querySelectorAll('.stat-counter');
+
+    statCounters.forEach((counter, idx) => {
+      gsap.fromTo(
+        counter,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          delay: idx * 0.1,
+          scrollTrigger: {
+            trigger: counter,
+            start: 'top 80%',
+            end: 'top 50%',
+            scrub: 0.5,
+          },
+        }
+      );
+    });
+  });
+</script>
 
