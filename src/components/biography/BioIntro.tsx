@@ -910,20 +910,25 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     const createParaScrollTrigger = () => ScrollTrigger.create({
       trigger: scrollEl as Element,
       start: `+=${paraTypeStartPx} top`,
-      // Usar un tramo extremadamente largo y mapear desplazamiento por píxeles al movimiento interno
-      end: `+=100000`,
+      // Tramo infinito para siempre tener control
+      end: `+=999999`,
       scrub: true,
       onUpdate: (self) => {
         if (!compParaTextRef.current || !compParaContainerRef.current) return;
-        const inner = compParaContainerRef.current.querySelector('.overflow-hidden') as HTMLElement | null;
-        const containerHeight = inner?.offsetHeight || compParaContainerRef.current.clientHeight || 0;
-        const contentHeight = compParaTextRef.current.scrollHeight || 0;
-        const maxScroll = Math.max(0, contentHeight - containerHeight);
-        // Desplazamiento interno proporcional a píxeles de scroll de página recorridos (aún más rápido)
-        const INTERNAL_SPEED = isMobile ? 30 : 24;
-        const traveled = Math.max(0, self.scroll() - (self.start as number));
-        const desired = traveled * INTERNAL_SPEED;
-        const translateY = -Math.min(maxScroll, desired);
+        
+        // Recalcular dinámicamente altura en cada frame para capturar cambios durante tipeo
+        const container = compParaContainerRef.current.querySelector('.overflow-hidden') as HTMLElement | null;
+        const containerHeight = container?.clientHeight || compParaContainerRef.current.clientHeight || window.innerHeight * 0.75;
+        const contentHeight = compParaTextRef.current.scrollHeight || compParaTextRef.current.offsetHeight || 0;
+        const maxScroll = Math.max(0, contentHeight - containerHeight + 40); // +40 padding extra para asegurar
+        
+        // Desplazamiento proporcional a scroll recorrido, sin límite artificial de velocidad
+        const traveled = Math.max(0, (self.scroll() as number) - (self.start as number));
+        const SPEED = isMobile ? 0.8 : 0.6; // factor más conservador: 1px scroll → 0.6-0.8px desplazamiento interno
+        const desired = traveled * SPEED;
+        
+        // Aplicar desplazamiento sin limitar estrictamente (dejamos margen extra)
+        const translateY = -Math.min(maxScroll * 1.2, desired); // 20% extra por si acaso
         gsap.set(compParaTextRef.current, { y: translateY });
       },
       onLeaveBack: () => {
