@@ -10,11 +10,11 @@ import translations from '../../../public/locales/hu/contact.json';
 const t = translations;
 ---
 
-<Layout 
+<Layout
   title={t.meta.title}
   description={t.meta.description}
 >
-  <!-- Hero Section (Netflix stílus) -->
+  <!-- Hero Section (Netflix Style) -->
   <section class="relative overflow-hidden bg-black py-28 text-white">
     <div class="pointer-events-none absolute inset-0">
       <div class="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-red-600/20 blur-3xl"></div>
@@ -47,97 +47,89 @@ const t = translations;
     </div>
   </section>
 
-  <!-- Cards (Glass) + keep map below -->
-  <section class="relative z-10 -mt-10 bg-gradient-to-b from-black via-black to-gray-950 py-12">
+  <!-- Form Glass + Contact Cards (Dark) -->
+  <section class="relative z-10 -mt-10 bg-gradient-to-b from-black via-black to-gray-950 py-20">
     <div class="container">
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
-          <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.phone}</p>
-          <a href={`tel:${CONTACT_INFO.phone}`} class="text-lg font-semibold text-white hover:text-red-400">{CONTACT_INFO.phone}</a>
+      <div class="grid gap-10 lg:grid-cols-5">
+        <!-- Glass Form Panel -->
+        <div class="lg:col-span-3">
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl md:p-10">
+            <h2 class="mb-6 text-2xl font-black uppercase tracking-tight text-white md:text-3xl">{t.form.title}</h2>
+            <form id="contactForm" class="space-y-5">
+              <div>
+                <label for="name" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.name}</label>
+                <input type="text" id="name" name="name" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition-colors focus:border-red-600" placeholder={t.form.name_placeholder} />
+              </div>
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label for="email" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.email}</label>
+                  <input type="email" id="email" name="email" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition-colors focus:border-red-600" placeholder={t.form.email_placeholder} />
+                </div>
+                <div>
+                  <label for="phone" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.phone}</label>
+                  <input type="tel" id="phone" name="phone" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition-colors focus:border-red-600" placeholder={t.form.phone_placeholder} />
+                </div>
+              </div>
+              <div>
+                <label for="service" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.service}</label>
+                <select id="service" name="service" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-colors focus:border-red-600">
+                  <option value="" class="text-black">{t.form.service_placeholder}</option>
+                  <option value="entrenamiento-personal" class="text-black">{t.form.service_personal}</option>
+                  <option value="consultoria-online" class="text-black">{t.form.service_online}</option>
+                  <option value="gym" class="text-black">{t.form.service_gym}</option>
+                  <option value="scorus-campus" class="text-black">{t.form.service_campus}</option>
+                  <option value="re-born" class="text-black">{t.form.service_reborn}</option>
+                  <option value="otro" class="text-black">{t.form.service_other}</option>
+                </select>
+              </div>
+              <div>
+                <label for="message" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.message}</label>
+                <textarea id="message" name="message" rows="6" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition-colors focus:border-red-600" placeholder={t.form.message_placeholder}></textarea>
+              </div>
+              <button type="submit" class="group inline-flex w-full items-center justify-center rounded-lg bg-red-600 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/30">
+                {t.form.submit}
+              </button>
+            </form>
+          </div>
         </div>
-        <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
-          <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.email}</p>
-          <a href={`mailto:${CONTACT_INFO.email}`} class="break-all text-lg font-semibold text-white hover:text-red-400">{CONTACT_INFO.email}</a>
-        </div>
-        <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
-          <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.address}</p>
-          <p class="text-white/90">{CONTACT_INFO.address}</p>
+
+        <!-- Contact Cards (Glass) -->
+        <div class="lg:col-span-2">
+          <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+            <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
+              <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.phone}</p>
+              <a href={`tel:${CONTACT_INFO.phone}`} class="text-lg font-semibold text-white hover:text-red-400">{CONTACT_INFO.phone}</a>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
+              <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.email}</p>
+              <a href={`mailto:${CONTACT_INFO.email}`} class="break-all text-lg font-semibold text-white hover:text-red-400">{CONTACT_INFO.email}</a>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
+              <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.address}</p>
+              <p class="text-white/90">{CONTACT_INFO.address}</p>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
+              <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.schedule}</p>
+              <p class="text-white/90">{t.info.schedule_value}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Map Section -->
-  <section class="bg-gray-100 py-24">
+  <!-- CTA Section -->
+  <section class="bg-black py-32 text-white">
     <div class="container">
-      <div class="mx-auto max-w-5xl px-4">
-        <h2 class="mb-8 text-3xl sm:text-4xl font-black uppercase text-center text-black">{t.hero.title}</h2>
-        <div class="aspect-video w-full overflow-hidden rounded-lg shadow-2xl">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3134.0573859678823!2d-0.5162!3d38.3825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDIyJzU3LjAiTiAwwrAzMCc1OC4zIlc!5e0!3m2!1sen!2ses!4v1234567890"
-            width="100%"
-            height="100%"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Hours Section -->
-  <section class="bg-black py-24 text-white">
-    <div class="container">
-      <div class="mx-auto max-w-3xl text-center px-4">
-        <h2 class="mb-8 text-3xl sm:text-4xl font-black uppercase">{t.info.schedule}</h2>
-        <div class="space-y-3 text-base sm:text-lg">
-          <p>{t.info.schedule_value}</p>
-        </div>
-        <p class="mt-8 text-gray-400 text-sm sm:text-base">
-          * Előzetes időpont egyeztetés ajánlott
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Form Section -->
-  <section class="bg-white py-24">
-    <div class="container">
-      <div class="mx-auto max-w-3xl px-4">
-        <h2 class="mb-8 text-3xl font-black uppercase text-black">{t.form.title}</h2>
-        <form id="contactForm" class="space-y-6">
-          <div>
-            <label for="name" class="mb-2 block text-sm font-semibold text-gray-900">{t.form.name}</label>
-            <input type="text" id="name" name="name" required class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 transition-colors focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600/20" placeholder={t.form.name_placeholder} />
-          </div>
-          <div>
-            <label for="email" class="mb-2 block text-sm font-semibold text-gray-900">{t.form.email}</label>
-            <input type="email" id="email" name="email" required class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 transition-colors focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600/20" placeholder={t.form.email_placeholder} />
-          </div>
-          <div>
-            <label for="phone" class="mb-2 block text-sm font-semibold text-gray-900">{t.form.phone}</label>
-            <input type="tel" id="phone" name="phone" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 transition-colors focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600/20" placeholder={t.form.phone_placeholder} />
-          </div>
-          <div>
-            <label for="service" class="mb-2 block text-sm font-semibold text-gray-900">{t.form.service}</label>
-            <select id="service" name="service" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600/20">
-              <option value="">{t.form.service_placeholder}</option>
-              <option value="personal">{t.form.service_personal}</option>
-              <option value="online">{t.form.service_online}</option>
-              <option value="gym">{t.form.service_gym}</option>
-              <option value="campus">{t.form.service_campus}</option>
-              <option value="reborn">{t.form.service_reborn}</option>
-              <option value="other">{t.form.service_other}</option>
-            </select>
-          </div>
-          <div>
-            <label for="message" class="mb-2 block text-sm font-semibold text-gray-900">{t.form.message}</label>
-            <textarea id="message" name="message" rows="5" required class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 transition-colors focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600/20" placeholder={t.form.message_placeholder}></textarea>
-          </div>
-          <button type="submit" class="w-full rounded-lg bg-red-600 px-6 py-3 font-bold uppercase text-white transition-all duration-300 hover:bg-red-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-600/50">{t.form.submit}</button>
-        </form>
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-8 text-5xl font-bold md:text-6xl">{t.cta.title}</h2>
+        <p class="mb-8 text-lg text-gray-400">{t.cta.description}</p>
+        <a
+          href={`tel:${CONTACT_INFO.phone}`}
+          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
+        >
+          {t.cta.button}
+        </a>
       </div>
     </div>
   </section>
@@ -145,7 +137,7 @@ const t = translations;
 
 <script is:inline>
 window.addEventListener('DOMContentLoaded', () => {
-  const el = document.getElementById('contact-translations-hu');
+  const el = document.getElementById('contact-translations');
   const translations = el ? JSON.parse(el.textContent || '{}') : {};
   const formEl = document.getElementById('contactForm');
   formEl?.addEventListener('submit', async (e) => {
@@ -160,7 +152,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
       const formData = new FormData(form);
       const data = Object.fromEntries(formData);
-      const message = `\nÚj kapcsolatfelvételi kérés\n\n\nNév: ${data.name}\n\nEmail: ${data.email}\n\nTelefon: ${data.phone || 'N/A'}\n\nSzolgáltatás: ${data.service || 'N/A'}\n\n\nÜzenet:\n${data.message}`.trim();
+      const message = `\n*Új kapcsolatfelvételi kérés*\n\n\n📝 *Név:* ${data.name}\n\n📧 *Email:* ${data.email}\n\n📱 *Telefon:* ${data.phone || 'Nincs megadva'}\n\n🎯 *Szolgáltatás:* ${data.service || 'Nincs megadva'}\n\n\n💬 *Üzenet:*\n${data.message}`.trim();
       const whatsappLink = `https://wa.me/34673975252?text=${encodeURIComponent(message)}`;
       window.open(whatsappLink, '_blank');
       if (button) {
@@ -192,5 +184,4 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-<script type="application/json" id="contact-translations-hu">{JSON.stringify(t)}</script>
-
+<script type="application/json" id="contact-translations">{JSON.stringify(t)}</script>

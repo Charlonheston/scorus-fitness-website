@@ -758,6 +758,11 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, dx, dy, sw, sh);
     };
 
+    // Submuestreo móvil: saltar frames (p. ej., x3)
+    const frameStepMobile2 = 4;
+    const effectiveFrameStep2 = isMobile ? frameStepMobile2 : 1;
+    const effectiveFrames2Count = frames2Count ? Math.floor(((frames2Count - 1) / effectiveFrameStep2)) + 1 : undefined;
+
     const loadFrame2 = (index: number) => new Promise<HTMLImageElement>((resolve, reject) => {
       if (!frames2Pattern || !frames2Count) return reject('no-pattern');
       const cached = imageCache2Ref.current.get(index);
@@ -765,10 +770,12 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const img = new Image();
       img.decoding = 'async';
       img.loading = 'eager';
-      // Convertir índice (1-301) a número de frame DaVinci (108000-108300)
-      const frameNumber = 108000 + (index - 1);
+      // Índice lógico → número de frame real (saltando en móvil)
+      const frameNumber = 108000 + ((index - 1) * effectiveFrameStep2);
       const paddedNumber = String(frameNumber).padStart(8, '0');
-      img.src = `/images/about/biography/training-frames/Timeline 1_${paddedNumber}.jpg`;
+      img.src = isMobile
+        ? `/images/about/biography/training-frames/mobile-webp/Timeline 1_${paddedNumber}.webp`
+        : `/images/about/biography/training-frames/Timeline 1_${paddedNumber}.webp`;
       img.onload = () => { imageCache2Ref.current.set(index, img); resolve(img); };
       img.onerror = (e) => reject(e);
     });
@@ -784,12 +791,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
 
     const tryEnableCanvas2 = async () => {
-      // En móvil, no usar canvas (usar video es más eficiente)
-      if (isMobile) {
-        setUseCanvas2(false);
-        return false;
-      }
-      
       if (!frames2Pattern || !frames2Count) return false;
       try {
         const first = await loadFrame2(1);
@@ -810,7 +811,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     const setupCanvas2Scrub = () => {
       if (!useCanvas2 || !frames2Count) return;
       const onUpdate = (self: ScrollTrigger) => {
-        const idx = Math.max(1, Math.min(frames2Count, Math.round(self.progress * (frames2Count - 1)) + 1));
+        const total2 = effectiveFrames2Count ?? frames2Count;
+        const idx = Math.max(1, Math.min(total2!, Math.round(self.progress * (total2! - 1)) + 1));
         if (idx === currentFrame2Ref.current) return;
         currentFrame2Ref.current = idx;
         if (drawing2Ref.current) return;
@@ -924,6 +926,11 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, dx, dy, sw, sh);
     };
 
+    // Submuestreo móvil: saltar frames (p. ej., x3)
+    const frameStepMobile = 4;
+    const effectiveFrameStep = isMobileDevice ? frameStepMobile : 1;
+    const effectiveFramesCount = framesCount ? Math.floor(((framesCount - 1) / effectiveFrameStep)) + 1 : undefined;
+
     const loadFrame = (index: number) => new Promise<HTMLImageElement>((resolve, reject) => {
       if (!framesPattern || !framesCount) return reject('no-pattern');
       const cached = imageCacheRef.current.get(index);
@@ -931,10 +938,12 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const img = new Image();
       img.decoding = 'async';
       img.loading = 'eager';
-      // Convertir índice (1-242) a número de frame DaVinci (86400-86641)
-      const frameNumber = 86400 + (index - 1);
+      // Índice lógico → número de frame real (saltando en móvil)
+      const frameNumber = 86400 + ((index - 1) * effectiveFrameStep);
       const paddedNumber = String(frameNumber).padStart(8, '0');
-      img.src = `/images/about/biography/frames/Timeline 1_${paddedNumber}.jpg`;
+      img.src = isMobileDevice
+        ? `/images/about/biography/frames/mobile-webp/Timeline 1_${paddedNumber}.webp`
+        : `/images/about/biography/frames/Timeline 1_${paddedNumber}.webp`;
       img.onload = () => { imageCacheRef.current.set(index, img); resolve(img); };
       img.onerror = (e) => reject(e);
     });
@@ -950,12 +959,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
 
     const tryEnableCanvas = async () => {
-      // En móvil, no usar canvas (usar video es más eficiente)
-      if (isMobileDevice) {
-        setUseCanvas(false);
-        return false;
-      }
-      
       if (!framesPattern || !framesCount) return false;
       try {
         const first = await loadFrame(1);
@@ -972,7 +975,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     const setupCanvasScrub = () => {
       if (!useCanvas || !framesCount) return;
       const onUpdate = (self: ScrollTrigger) => {
-        const idx = Math.max(1, Math.min(framesCount, Math.round(self.progress * (framesCount - 1)) + 1));
+        const total = effectiveFramesCount ?? framesCount;
+        const idx = Math.max(1, Math.min(total!, Math.round(self.progress * (total! - 1)) + 1));
         if (idx === currentFrameRef.current) return;
         currentFrameRef.current = idx;
         if (drawingRef.current) return;
@@ -1048,8 +1052,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const handleResize = () => {
       if (useCanvas) {
-        const img = imageCacheRef.current.get(currentFrameRef.current);
-        if (img) drawToCanvas(img);
+      const img = imageCacheRef.current.get(currentFrameRef.current);
+      if (img) drawToCanvas(img);
       }
       if (useCanvas2) {
         const img2 = imageCache2Ref.current.get(currentFrame2Ref.current);

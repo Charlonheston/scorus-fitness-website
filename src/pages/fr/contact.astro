@@ -14,111 +14,104 @@ const t = translations;
   title={t.meta.title}
   description={t.meta.description}
 >
-  <!-- Hero Section -->
-  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-32 text-white">
-    <div class="container">
+  <!-- Hero Section (Netflix Style) -->
+  <section class="relative overflow-hidden bg-black py-28 text-white">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-red-600/20 blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black to-transparent"></div>
+    </div>
+    <div class="container relative">
       <div class="mx-auto max-w-3xl text-center">
-        <h1 class="mb-6 text-6xl font-bold md:text-7xl">{t.hero.title}</h1>
-        <p class="text-xl text-gray-300">{t.hero.subtitle}</p>
+        <h1 class="mb-5 bg-gradient-to-b from-white to-white/70 bg-clip-text text-5xl font-black uppercase tracking-tighter text-transparent md:text-7xl">
+          {t.hero.title}
+        </h1>
+        <p class="mx-auto mb-10 max-w-2xl text-lg text-gray-300 md:text-xl">
+          {t.hero.subtitle}
+        </p>
+
+        <div class="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
+          <a href={`tel:${CONTACT_INFO.phone}`} class="inline-flex items-center justify-center rounded-lg bg-red-600 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/30">
+            {t.cta.button}
+          </a>
+          <a href={`https://wa.me/34673975252`} target="_blank" rel="noopener" class="inline-flex items-center justify-center rounded-lg border-2 border-white/20 bg-white/5 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all hover:border-red-600 hover:bg-red-600/10">
+            WhatsApp
+          </a>
+        </div>
+
+        <div class="mt-8 text-sm text-gray-400">
+          <span class="mr-4">{CONTACT_INFO.phone}</span>
+          <span class="opacity-50">•</span>
+          <span class="ml-4">{CONTACT_INFO.email}</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact Info Section -->
-  <section class="bg-white py-32">
+  <!-- Form Glass + Contact Cards (Dark) -->
+  <section class="relative z-10 -mt-10 bg-gradient-to-b from-black via-black to-gray-950 py-20">
     <div class="container">
-      <div class="mx-auto max-w-5xl">
-        <div class="grid gap-12 md:grid-cols-2">
-          <!-- Contact Information -->
-          <div>
-            <h2 class="mb-8 text-4xl font-bold text-gray-900">{t.info.title}</h2>
-            <div class="space-y-6">
+      <div class="grid gap-10 lg:grid-cols-5">
+        <!-- Glass Form Panel -->
+        <div class="lg:col-span-3">
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl md:p-10">
+            <h2 class="mb-6 text-2xl font-black uppercase tracking-tight text-white md:text-3xl">{t.form.title}</h2>
+            <form id="contactForm" class="space-y-5">
               <div>
-                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">{t.info.address}</h3>
-                <p class="text-lg text-gray-900">{CONTACT_INFO.address}</p>
+                <label for="name" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.name}</label>
+                <input type="text" id="name" name="name" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition-colors focus:border-red-600" placeholder={t.form.name_placeholder} />
+              </div>
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label for="email" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.email}</label>
+                  <input type="email" id="email" name="email" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition-colors focus:border-red-600" placeholder={t.form.email_placeholder} />
+                </div>
+                <div>
+                  <label for="phone" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.phone}</label>
+                  <input type="tel" id="phone" name="phone" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition-colors focus:border-red-600" placeholder={t.form.phone_placeholder} />
+                </div>
               </div>
               <div>
-                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">{t.info.phone}</h3>
-                <a href={`tel:${CONTACT_INFO.phone}`} class="text-lg text-gray-900 hover:text-gray-600">
-                  {CONTACT_INFO.phone}
-                </a>
-              </div>
-              <div>
-                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">{t.info.email}</h3>
-                <a href={`mailto:${CONTACT_INFO.email}`} class="text-lg text-gray-900 hover:text-gray-600">
-                  {CONTACT_INFO.email}
-                </a>
-              </div>
-              <div>
-                <h3 class="mb-2 text-sm font-semibold uppercase tracking-wider text-gray-500">{t.info.schedule}</h3>
-                <p class="text-lg text-gray-900">{t.info.schedule_value}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Contact Form Placeholder -->
-          <div class="bg-gray-50 p-8">
-            <h2 class="mb-6 text-2xl font-bold text-gray-900">{t.form.title}</h2>
-            <form id="contactForm" class="space-y-6">
-              <div>
-                <label for="name" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">{t.form.name}</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
-                  placeholder={t.form.name_placeholder}
-                />
-              </div>
-              <div>
-                <label for="email" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">{t.form.email}</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
-                  placeholder={t.form.email_placeholder}
-                />
-              </div>
-              <div>
-                <label for="phone" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">{t.form.phone}</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
-                  placeholder={t.form.phone_placeholder}
-                />
-              </div>
-              <div>
-                <label for="service" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">{t.form.service}</label>
-                <select id="service" name="service" class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none">
-                  <option value="">{t.form.service_placeholder}</option>
-                  <option value="personal">{t.form.service_personal}</option>
-                  <option value="online">{t.form.service_online}</option>
-                  <option value="gym">{t.form.service_gym}</option>
-                  <option value="campus">{t.form.service_campus}</option>
-                  <option value="reborn">{t.form.service_reborn}</option>
-                  <option value="other">{t.form.service_other}</option>
+                <label for="service" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.service}</label>
+                <select id="service" name="service" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-colors focus:border-red-600">
+                  <option value="" class="text-black">{t.form.service_placeholder}</option>
+                  <option value="entrenamiento-personal" class="text-black">{t.form.service_personal}</option>
+                  <option value="consultoria-online" class="text-black">{t.form.service_online}</option>
+                  <option value="gym" class="text-black">{t.form.service_gym}</option>
+                  <option value="scorus-campus" class="text-black">{t.form.service_campus}</option>
+                  <option value="re-born" class="text-black">{t.form.service_reborn}</option>
+                  <option value="otro" class="text-black">{t.form.service_other}</option>
                 </select>
               </div>
               <div>
-                <label for="message" class="mb-2 block text-sm font-semibold uppercase tracking-wider text-gray-700">{t.form.message}</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="5"
-                  class="w-full border-2 border-gray-300 px-4 py-3 text-gray-900 transition-colors focus:border-black focus:outline-none"
-                  placeholder={t.form.message_placeholder}
-                ></textarea>
+                <label for="message" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.message}</label>
+                <textarea id="message" name="message" rows="6" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition-colors focus:border-red-600" placeholder={t.form.message_placeholder}></textarea>
               </div>
-              <button
-                type="submit"
-                class="w-full border-2 border-black bg-black px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-white hover:text-black"
-              >
+              <button type="submit" class="group inline-flex w-full items-center justify-center rounded-lg bg-red-600 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/30">
                 {t.form.submit}
               </button>
             </form>
+          </div>
+        </div>
+
+        <!-- Contact Cards (Glass) -->
+        <div class="lg:col-span-2">
+          <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+            <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
+              <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.phone}</p>
+              <a href={`tel:${CONTACT_INFO.phone}`} class="text-lg font-semibold text-white hover:text-red-400">{CONTACT_INFO.phone}</a>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
+              <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.email}</p>
+              <a href={`mailto:${CONTACT_INFO.email}`} class="break-all text-lg font-semibold text-white hover:text-red-400">{CONTACT_INFO.email}</a>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
+              <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.address}</p>
+              <p class="text-white/90">{CONTACT_INFO.address}</p>
+            </div>
+            <div class="rounded-xl border border-white/10 bg-white/5 p-6 text-white backdrop-blur-xl">
+              <p class="mb-2 text-xs font-bold uppercase tracking-wider text-white/60">{t.info.schedule}</p>
+              <p class="text-white/90">{t.info.schedule_value}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -129,8 +122,8 @@ const t = translations;
   <section class="bg-black py-32 text-white">
     <div class="container">
       <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-8 text-4xl font-bold">{t.cta.title}</h2>
-        <p class="mb-8 text-lg text-gray-300">{t.cta.description}</p>
+        <h2 class="mb-8 text-5xl font-bold md:text-6xl">{t.cta.title}</h2>
+        <p class="mb-8 text-lg text-gray-400">{t.cta.description}</p>
         <a
           href={`tel:${CONTACT_INFO.phone}`}
           class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
@@ -144,7 +137,7 @@ const t = translations;
 
 <script is:inline>
 window.addEventListener('DOMContentLoaded', () => {
-  const el = document.getElementById('contact-translations-fr');
+  const el = document.getElementById('contact-translations');
   const translations = el ? JSON.parse(el.textContent || '{}') : {};
   const formEl = document.getElementById('contactForm');
   formEl?.addEventListener('submit', async (e) => {
@@ -159,7 +152,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
       const formData = new FormData(form);
       const data = Object.fromEntries(formData);
-      const message = `\nNouvelle demande de contact\n\n\nNom: ${data.name}\n\nEmail: ${data.email}\n\nTéléphone: ${data.phone || 'N/A'}\n\nService: ${data.service || 'N/A'}\n\n\nMessage:\n${data.message}`.trim();
+      const message = `\n*Nouvelle demande de contact*\n\n\n📝 *Nom:* ${data.name}\n\n📧 *Email:* ${data.email}\n\n📱 *Téléphone:* ${data.phone || 'Non fourni'}\n\n🎯 *Service:* ${data.service || 'Non spécifié'}\n\n\n💬 *Message:*\n${data.message}`.trim();
       const whatsappLink = `https://wa.me/34673975252?text=${encodeURIComponent(message)}`;
       window.open(whatsappLink, '_blank');
       if (button) {
@@ -191,5 +184,5 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-<script type="application/json" id="contact-translations-fr">{JSON.stringify(t)}</script>
+<script type="application/json" id="contact-translations">{JSON.stringify(t)}</script>
 
