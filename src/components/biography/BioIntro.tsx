@@ -22,6 +22,18 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const video2Ref = useRef<HTMLVideoElement>(null); // Segundo video (training)
   const video2OverlayRef = useRef<HTMLDivElement>(null); // Overlay del segundo video
   const nextTitleInnerRef = useRef<HTMLDivElement>(null);
+  // H2 posterior a Tabs: "El Sacrificio de la Competición"
+  const compTitleBlockRef = useRef<HTMLDivElement>(null);
+  const compTitleTextRef = useRef<HTMLHeadingElement>(null);
+  const compTopBarRef = useRef<HTMLDivElement>(null);
+  const compBottomBarRef = useRef<HTMLDivElement>(null);
+  // Párrafo posterior (ventana 3:4) que empuja el H2 hacia arriba
+  const compParaBlockRef = useRef<HTMLDivElement>(null);
+  const compParaWrapperRef = useRef<HTMLDivElement>(null);
+  const compParaContainerRef = useRef<HTMLDivElement>(null);
+  const compParaTextRef = useRef<HTMLDivElement>(null);
+  // Target dinámico para mantener el H2 encima del párrafo cuando entra
+  let compLiftTargetPx = 120;
 
   // Canvas flipbook (primer video)
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -669,7 +681,377 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       },
     });
     
+    // Guardar el inicio de Nutrición para calcular el final exacto del typing
+    const nutritionTypingStartPx = currentScrollPx;
     currentScrollPx += TYPING_PX + PAUSE_PX;
+
+    // Desaparición del módulo de Tabs tras terminar de escribir Nutrición + 4 notches
+    // No rompe el recorrido: sólo se activa cuando el texto de Nutrición se ha escrito completo
+    const NOTCH_PX = isMobile ? 75 : 100;
+    const EXIT_AFTER_NOTCHES = 4;
+    const TABS_EXIT_PX = NOTCH_PX * 8; // duración de la salida (más lenta para apreciarse mejor)
+    const tabsExitStartPx = nutritionTypingStartPx + TYPING_PX + (NOTCH_PX * EXIT_AFTER_NOTCHES);
+
+    // Preparación de piezas para la "desintegración" sin usar opacidad
+    let shatterPrepared = false;
+    let textPieces: HTMLElement[] = [];
+    let buttonPieces: HTMLElement[] = [];
+    let vectors: Array<{ el: HTMLElement; vx: number; vy: number; vr: number; scaleEnd: number }>[] = [] as any;
+    
+    // Utilidad: obtener texto plano actual (ignorando spans) y comprobar si está totalmente escrito
+    const getPlainText = (): string => {
+      if (!tabTextRef.current) return '';
+      if (tabTextRef.current.childNodes.length === 0) return tabTextRef.current.textContent || '';
+      let acc = '';
+      tabTextRef.current.childNodes.forEach((n) => { acc += (n.textContent || ''); });
+      return acc;
+    };
+    const isFullyTypedText = (): boolean => getPlainText().length >= text3.length;
+
+    const prepareShatter = () => {
+      if (shatterPrepared) return;
+      shatterPrepared = true;
+      // Restaurar a texto plano antes de fragmentar
+      if (tabTextRef.current) {
+        const plain = getPlainText();
+        tabTextRef.current.textContent = plain || text3;
+      }
+      // Dividir el texto en spans (caracteres) para animar cada pieza (si no hay contenido, usar texto completo de Nutrición)
+      if (tabTextRef.current) {
+        const text = (tabTextRef.current.textContent || text3);
+        tabTextRef.current.textContent = '';
+        const frag = document.createDocumentFragment();
+        text.split('').forEach((ch) => {
+          const span = document.createElement('span');
+          // Preservar espacios visibles con NBSP para evitar colapsos
+          span.textContent = ch === ' ' ? '\u00A0' : ch;
+          span.style.display = 'inline-block';
+          span.style.willChange = 'transform';
+          frag.appendChild(span);
+          textPieces.push(span);
+        });
+        tabTextRef.current.appendChild(frag);
+      }
+      // Piezas de botones: cada botón completo como una pieza
+      if (tabButtonsContainerRef.current) {
+        const btns = Array.from(tabButtonsContainerRef.current.querySelectorAll('button')) as HTMLElement[];
+        buttonPieces = btns;
+        buttonPieces.forEach((b) => {
+          b.style.willChange = 'transform';
+        });
+      }
+    };
+
+    // Generar vectores aleatorios consistentes por pieza (direcciones distintas)
+    const getPieceVectors = () => {
+      const out: Array<{ el: HTMLElement; vx: number; vy: number; vr: number; scaleEnd: number }> = [];
+      const makeVec = (el: HTMLElement, baseAngleDeg?: number) => {
+        const angle = baseAngleDeg != null ? (baseAngleDeg + (Math.random() * 20 - 10)) : Math.random() * 360;
+        const rad = (angle * Math.PI) / 180;
+        const magnitude = isMobile ? 500 + Math.random() * 400 : 700 + Math.random() * 600; // distancia final
+        const vx = Math.cos(rad) * magnitude;
+        const vy = Math.sin(rad) * magnitude;
+        const vr = (Math.random() * 120 - 60); // rotación final
+        const scaleEnd = 1 + Math.random() * 0.25; // leve escala
+        out.push({ el, vx, vy, vr, scaleEnd });
+      };
+      // Direcciones controladas para los 3 botones: izq-arriba, arriba, der-arriba
+      if (buttonPieces.length) {
+        const presets = [-135, -90, -45];
+        buttonPieces.forEach((b, i) => makeVec(b, presets[i % presets.length]));
+      }
+      textPieces.forEach((s) => makeVec(s));
+      return out;
+    };
+
+    let cachedVectors: Array<{ el: HTMLElement; vx: number; vy: number; vr: number; scaleEnd: number }> | null = null;
+
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${tabsExitStartPx} top`,
+      end: `+=${TABS_EXIT_PX}`,
+      scrub: true,
+      onEnterBack: () => {
+        // Al volver desde abajo, mostrar el contenedor para permitir la animación inversa
+        if (tabsContainerRef.current) {
+          gsap.set(tabsContainerRef.current, { visibility: 'visible' });
+        }
+      },
+      onUpdate: (self) => {
+        if (!tabsContainerRef.current || !tabTextRef.current) return;
+        const fullyTyped = isFullyTypedText();
+        if (!fullyTyped) return;
+        if (!shatterPrepared) {
+          prepareShatter();
+          cachedVectors = getPieceVectors();
+        }
+        const p = self.progress; // 0 → 1
+        // Pieza por pieza: mover a lo largo de su vector y rotar sin usar opacidad
+        if (cachedVectors) {
+          cachedVectors.forEach(({ el, vx, vy, vr, scaleEnd }) => {
+            const x = vx * p;
+            const y = vy * p;
+            const rot = vr * p;
+            const sc = 1 + (scaleEnd - 1) * p;
+            (el as HTMLElement).style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg) scale(${sc})`;
+          });
+        }
+        // Botonera: que mantenga el centro mientras sus piezas vuelan
+        if (tabButtonsContainerRef.current) {
+          gsap.set(tabButtonsContainerRef.current, { transform: `translate3d(-50%, -60%, 0)` });
+        }
+      },
+      onLeave: () => {
+        if (tabsContainerRef.current) {
+          gsap.set(tabsContainerRef.current, { visibility: 'hidden' });
+        }
+      },
+      onLeaveBack: () => {
+        if (tabsContainerRef.current) {
+          gsap.set(tabsContainerRef.current, { visibility: 'visible' });
+        }
+        if (tabButtonsContainerRef.current) {
+          gsap.set(tabButtonsContainerRef.current, { clearProps: 'transform' });
+        }
+        // No reseteamos instantáneamente para permitir animación inversa con el scrub
+        // El reset total sólo si regresamos antes del inicio de la animación
+      }
+    });
+
+    // ================= Párrafo posterior: entra empujando al H2 desde abajo =================
+    const COMP_PARA = `Durante más de una década, Bernat vivió por y para el culturismo. Competía, entrenaba, perfeccionaba su técnica y compartía experiencias con algunos de los atletas más importantes del mundo. Pero, como todo en la vida, llegó un momento en el que sintió que necesitaba dar un paso atrás para centrarse en otro aspecto esencial: su familia.\n\nEn 2012, tras muchos años de competición al más alto nivel, decidió alejarse de los escenarios y dedicar su tiempo a construir un futuro junto a su pareja. Dos años después, en 2014, nació su primer hijo, y en 2016, llegó su hija. Fueron años en los que el culturismo pasó a un segundo plano, pues la prioridad absoluta era criar y cuidar de su familia.\n\nDurante más de una década, Bernat vivió por y para el culturismo. Competía, entrenaba, perfeccionaba su técnica y compartía experiencias con algunos de los atletas más importantes del mundo. Pero, como todo en la vida, llegó un momento en el que sintió que necesitaba dar un paso atrás para centrarse en otro aspecto esencial: su familia.\n\nEn 2012, tras muchos años de competición al más alto nivel, decidió alejarse de los escenarios y dedicar su tiempo a construir un futuro junto a su pareja. Dos años después, en 2014, nació su primer hijo, y en 2016, llegó su hija. Fueron años en los que el culturismo pasó a un segundo plano, pues la prioridad absoluta era criar y cuidar de su familia.`;
+
+    const PARA_ENTER_PX = NOTCH_PX * 8; // duración de entrada del párrafo
+    const paraStartPx = tabsExitStartPx + TABS_EXIT_PX; // tras desaparecer tabs y entrar H2
+
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${paraStartPx} top`,
+      end: `+=${PARA_ENTER_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (compParaBlockRef.current) gsap.set(compParaBlockRef.current, { visibility: 'visible' });
+        if (compParaTextRef.current) compParaTextRef.current.textContent = '';
+        if (compParaWrapperRef.current) gsap.set(compParaWrapperRef.current, { y: '100vh' });
+        if (compParaContainerRef.current) gsap.set(compParaContainerRef.current, { y: 0 });
+        // Calcular lift para mantener H2 encima del párrafo centrado
+        try {
+          const rect = compParaContainerRef.current?.getBoundingClientRect();
+          if (rect) {
+            const EXTRA_GAP = isMobile ? 16 : 24; // espacio adicional para separar H2 y div
+            compLiftTargetPx = Math.round(rect.height / 2 + (isMobile ? 24 : 40) + EXTRA_GAP);
+          }
+        } catch {}
+      },
+      onEnterBack: () => {
+        if (compParaBlockRef.current) gsap.set(compParaBlockRef.current, { visibility: 'visible' });
+        if (compParaWrapperRef.current) gsap.set(compParaWrapperRef.current, { y: '100vh' });
+        if (compParaContainerRef.current) gsap.set(compParaContainerRef.current, { y: 0 });
+        if (compParaTextRef.current) compParaTextRef.current.textContent = '';
+        try {
+          const rect = compParaContainerRef.current?.getBoundingClientRect();
+          if (rect) {
+            const EXTRA_GAP = isMobile ? 16 : 24; // espacio adicional para separar H2 y div
+            compLiftTargetPx = Math.round(rect.height / 2 + (isMobile ? 24 : 40) + EXTRA_GAP);
+          }
+        } catch {}
+      },
+      onUpdate: (self) => {
+        const p = self.progress; // 0 → 1
+        // Empujar el H2 y barras hacia arriba para quedar encima del párrafo
+        const lift = -compLiftTargetPx * p;
+        if (compTitleTextRef.current) gsap.set(compTitleTextRef.current, { y: lift });
+        if (compTopBarRef.current) gsap.set(compTopBarRef.current, { y: lift });
+        if (compBottomBarRef.current) gsap.set(compBottomBarRef.current, { y: lift });
+        // Párrafo sube desde abajo hasta centro (wrapper mueve glow y caja juntos)
+        if (compParaWrapperRef.current) {
+          const vh = window.innerHeight;
+          const y = vh * (1 - p);
+          gsap.set(compParaWrapperRef.current, { y });
+        }
+        // Sin texto: mantener vacío el contenido del párrafo
+        if (compParaTextRef.current) compParaTextRef.current.textContent = '';
+      },
+      onLeaveBack: () => {
+        if (compParaBlockRef.current) gsap.set(compParaBlockRef.current, { visibility: 'hidden' });
+        if (compParaWrapperRef.current) gsap.set(compParaWrapperRef.current, { y: '100vh' });
+        if (compTitleTextRef.current) gsap.set(compTitleTextRef.current, { y: 0 });
+        if (compTopBarRef.current) gsap.set(compTopBarRef.current, { y: 0 });
+        if (compBottomBarRef.current) gsap.set(compBottomBarRef.current, { y: 0 });
+        if (compParaTextRef.current) compParaTextRef.current.textContent = '';
+      }
+    });
+
+    // Escritura tipo máquina cuando el div ya está centrado
+    const paraTypeStartPx = paraStartPx + PARA_ENTER_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${paraTypeStartPx} top`,
+      end: `+=${TYPE_SCROLL_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (compParaBlockRef.current) gsap.set(compParaBlockRef.current, { visibility: 'visible' });
+        if (compParaTextRef.current) compParaTextRef.current.textContent = '';
+      },
+      onUpdate: (self) => {
+        if (!compParaTextRef.current) return;
+        const total = COMP_PARA.length;
+        const chars = Math.floor(self.progress * total);
+        compParaTextRef.current.textContent = COMP_PARA.slice(0, chars);
+      },
+      onLeaveBack: () => {
+        if (compParaTextRef.current) compParaTextRef.current.textContent = '';
+      }
+    });
+
+    // Scroll interno del texto dentro de la ventana 3:4 (cuando ya está centrado)
+    // Duración dinámica de scroll interno basada en la altura real del contenido
+    // Eliminado cálculo no usado de duración dinámica (controlamos por píxeles recorridos)
+    const createParaScrollTrigger = () => ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${paraTypeStartPx} top`,
+      // Usar un tramo extremadamente largo y mapear desplazamiento por píxeles al movimiento interno
+      end: `+=100000`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!compParaTextRef.current || !compParaContainerRef.current) return;
+        const inner = compParaContainerRef.current.querySelector('.overflow-hidden') as HTMLElement | null;
+        const containerHeight = inner?.offsetHeight || compParaContainerRef.current.clientHeight || 0;
+        const contentHeight = compParaTextRef.current.scrollHeight || 0;
+        const maxScroll = Math.max(0, contentHeight - containerHeight);
+        // Desplazamiento interno proporcional a píxeles de scroll de página recorridos (aún más rápido)
+        const INTERNAL_SPEED = isMobile ? 30 : 24;
+        const traveled = Math.max(0, self.scroll() - (self.start as number));
+        const desired = traveled * INTERNAL_SPEED;
+        const translateY = -Math.min(maxScroll, desired);
+        gsap.set(compParaTextRef.current, { y: translateY });
+      },
+      onLeaveBack: () => {
+        if (compParaTextRef.current) gsap.set(compParaTextRef.current, { y: 0 });
+      }
+    });
+
+    // Crear trigger y recrearlo si cambia el alto (por ejemplo, cuando termina de escribir)
+    let paraScrollTrigger = createParaScrollTrigger();
+    const recalcAndRefresh = () => {
+      try {
+        paraScrollTrigger.kill();
+      } catch {}
+      paraScrollTrigger = createParaScrollTrigger();
+      ScrollTrigger.refresh();
+    };
+
+    // Recalcular y refrescar varias veces para capturar cambios de altura durante y después del tipeo
+    const timeouts: number[] = [] as any;
+    [50, 300, 800, 1600, 3000, 6000, 9000].forEach((t) => {
+      const id = window.setTimeout(recalcAndRefresh, t);
+      (timeouts as any).push(id);
+    });
+
+    // (El tipeo del párrafo se sincroniza en el onUpdate del trigger de entrada)
+
+    // Reset duro si el scroll vuelve antes del inicio de la animación (evita "salto")
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${tabsExitStartPx - 1} top`,
+      end: `+=1`,
+      onEnterBack: () => {
+        // Estamos antes del inicio: restaurar piezas a su estado base
+        textPieces.forEach((s) => { s.style.transform = ''; });
+        buttonPieces.forEach((b) => { b.style.transform = ''; });
+        if (tabTextRef.current) {
+          // Volver a texto plano para que el typing pueda actuar correctamente
+          tabTextRef.current.textContent = getPlainText();
+        }
+        shatterPrepared = false;
+        textPieces = [];
+        buttonPieces = [];
+        cachedVectors = null;
+      }
+    });
+
+    // ================= H2 "El Sacrificio de la Competición" - ENTRADA ESPECTACULAR =================
+    const COMP_TITLE = 'El Sacrificio de la Competición';
+    let compPrepared = false;
+    let compPieces: HTMLElement[] = [];
+    let compVectors: Array<{ el: HTMLElement; vx: number; vy: number; vr: number; scaleStart: number }>|null = null;
+
+    const prepareCompTitle = () => {
+      if (compPrepared) return;
+      compPrepared = true;
+      if (!compTitleTextRef.current) return;
+      // Fragmentar en spans preservando espacios
+      const frag = document.createDocumentFragment();
+      COMP_TITLE.split('').forEach((ch) => {
+        const span = document.createElement('span');
+        span.textContent = ch === ' ' ? '\u00A0' : ch;
+        span.style.display = 'inline-block';
+        span.style.willChange = 'transform';
+        frag.appendChild(span);
+        compPieces.push(span);
+      });
+      compTitleTextRef.current.innerHTML = '';
+      compTitleTextRef.current.appendChild(frag);
+      // Vectores: desde fuera hacia el centro en distintas direcciones
+      compVectors = compPieces.map((el) => {
+        const angle = Math.random() * 360;
+        const rad = (angle * Math.PI) / 180;
+        const magnitude = isMobile ? 600 + Math.random() * 400 : 900 + Math.random() * 600;
+        const vx = Math.cos(rad) * magnitude;
+        const vy = Math.sin(rad) * magnitude;
+        const vr = (Math.random() * 60 - 30);
+        const scaleStart = 0.8 + Math.random() * 0.2; // 0.8–1.0
+        // Situar piezas fuera inicialmente (hacia su vector)
+        (el as HTMLElement).style.transform = `translate(${vx}px, ${vy}px) rotate(${vr}deg) scale(${scaleStart})`;
+        return { el, vx, vy, vr, scaleStart };
+      });
+    };
+
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${tabsExitStartPx} top`,
+      end: `+=${TABS_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (compTitleBlockRef.current) gsap.set(compTitleBlockRef.current, { visibility: 'visible' });
+        prepareCompTitle();
+        // reset barras
+        if (compTopBarRef.current) gsap.set(compTopBarRef.current, { scaleX: 0 });
+        if (compBottomBarRef.current) gsap.set(compBottomBarRef.current, { scaleX: 0 });
+      },
+      onEnterBack: () => {
+        if (compTitleBlockRef.current) gsap.set(compTitleBlockRef.current, { visibility: 'visible' });
+        prepareCompTitle();
+        if (compTopBarRef.current) gsap.set(compTopBarRef.current, { scaleX: 0 });
+        if (compBottomBarRef.current) gsap.set(compBottomBarRef.current, { scaleX: 0 });
+      },
+      onUpdate: (self) => {
+        if (!compVectors) return;
+        const p = self.progress; // 0 → 1
+        const inv = 1 - p;
+        // Cada pieza viaja desde su vector hasta el centro (0) y endereza rotación
+        compVectors.forEach(({ el, vx, vy, vr, scaleStart }) => {
+          const x = vx * inv;
+          const y = vy * inv;
+          const rot = vr * inv;
+          const sc = scaleStart + (1 - scaleStart) * p;
+          (el as HTMLElement).style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg) scale(${sc})`;
+        });
+        // Barras: la superior crece desde la izquierda, la inferior desde la derecha
+        if (compTopBarRef.current) gsap.set(compTopBarRef.current, { scaleX: p, transformOrigin: 'left center' });
+        if (compBottomBarRef.current) gsap.set(compBottomBarRef.current, { scaleX: p, transformOrigin: 'right center' });
+      },
+      onLeaveBack: () => {
+        // Si subimos del todo, ocultar y resetear para futuras entradas
+        if (compTitleBlockRef.current) gsap.set(compTitleBlockRef.current, { visibility: 'hidden' });
+        compPieces.forEach((s) => { s.style.transform = ''; });
+        compPrepared = false;
+        compPieces = [];
+        compVectors = null;
+        if (compTopBarRef.current) gsap.set(compTopBarRef.current, { scaleX: 0 });
+        if (compBottomBarRef.current) gsap.set(compBottomBarRef.current, { scaleX: 0 });
+      }
+    });
     
     // ============ TRANSICIÓN AL SEGUNDO VIDEO ============
     
@@ -1135,6 +1517,20 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         </div>
       </div>
 
+      {/* Párrafo post-Tabs en ventana 3:4 */}
+      <div ref={compParaBlockRef} className="fixed inset-0 z-[62] flex items-center justify-center pointer-events-none" style={{ visibility: 'hidden' }}>
+        <div ref={compParaWrapperRef} className="relative w-full max-w-sm md:max-w-md aspect-[3/4] will-change-transform">
+          <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[6px] bg-[linear-gradient(135deg,rgba(229,9,20,0.6),rgba(255,255,255,0.08),rgba(229,9,20,0.6))]" />
+          <div ref={compParaContainerRef} className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] h-full overflow-hidden">
+            <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl z-10" />
+            <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/70 via-black/50 to-transparent z-10 pointer-events-none rounded-t-3xl" />
+            <div className="px-6 py-8 md:px-8 md:py-10 h-full overflow-hidden">
+              <div ref={compParaTextRef} className="text-sm md:text-base leading-relaxed text-gray-100 whitespace-pre-wrap will-change-transform"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Segunda cita centrada (Ronnie Coleman) - baja desde arriba con efecto de escritura */}
       <div ref={quote2Ref} className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none will-change-transform">
         <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-3xl will-change-transform">
@@ -1180,6 +1576,26 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           </h2>
           <div className="mt-4 max-w-3xl mx-auto text-base md:text-lg leading-relaxed text-gray-100 text-left">
             <span ref={nextBodyRef}></span>
+          </div>
+        </div>
+      </div>
+
+      {/* H2 Post-Tabs: El Sacrificio de la Competición (estética espectacular) */}
+      <div ref={compTitleBlockRef} className="fixed inset-0 z-[61] flex items-center justify-center pointer-events-none" style={{ visibility: 'hidden' }}>
+        <div className="container max-w-5xl px-4 md:px-8">
+          <div className="relative mx-auto max-w-fit">
+            {/* Glow de fondo radial rojo */}
+            <div className="pointer-events-none absolute -inset-16 -z-10 blur-3xl bg-[radial-gradient(ellipse_at_center,rgba(229,9,20,0.25),transparent_60%)]" />
+            {/* Barra superior acento rojo (crece desde la izquierda) */}
+            <div ref={compTopBarRef} className="pointer-events-none absolute -top-4 left-0 right-0 mx-auto h-1 w-full max-w-5xl origin-left scale-x-0 rounded-full bg-gradient-to-r from-red-600 to-red-400" />
+            {/* Título con gradiente y glow sutil */}
+            <h2
+              ref={compTitleTextRef}
+              className="text-center text-lg sm:text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight whitespace-nowrap will-change-transform text-white drop-shadow-[0_0_30px_rgba(229,9,20,0.35)]"
+            />
+            {/* Subrayado dinámico */}
+            {/* Barra inferior acento rojo (crece desde la derecha) */}
+            <div ref={compBottomBarRef} className="pointer-events-none mx-auto mt-3 h-1 w-full max-w-4xl origin-right scale-x-0 rounded-full bg-gradient-to-r from-red-600 via-red-500 to-red-400" />
           </div>
         </div>
       </div>
