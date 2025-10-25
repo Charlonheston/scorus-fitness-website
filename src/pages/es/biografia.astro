@@ -18,7 +18,25 @@ const videoWebm = '/videos/biography/intro.webm';
     framesCount={242}
     frames2Pattern="/images/about/biography/training-frames/Timeline 1_{i}.jpg"
     frames2Count={301}
+    frames3Pattern="/images/about/biography/challenge-frames/Timeline 1_{index}.webp"
+    frames3Count={242}
+    frames3Start={86400}
+    frames4Pattern="/images/about/biography/final-frames/Timeline 1_{index}.webp"
+    frames4Count={241}
+    frames4Start={86400}
   />
-  <!-- Altura extra para cubrir todo el recorrido del scrubbing - aumentado para móvil -->
-  <div style="height: 2000vh;"></div>
+  <!-- Altura extra responsive para cubrir todo el scrollytelling -->
+  <div id="bio-scroll-spacer"></div>
 </Layout>
+
+<style is:inline>
+  html, body { background-color: #000; }
+  /* Spacer responsive: más alto en móvil con 4 videos + párrafo + NABBA + Mr Universo + Arnold Classic + Ben Weider + párrafo familia + H2 Regreso Triunfal (con salida) + frase motivación (con salida) + medalla de oro (con salida) + medallas plata y bronce (con salida) + tercer mejor culturista (con salida izquierda) */
+  #bio-scroll-spacer { height: 15600vh; }
+  @media (min-width: 768px) {
+    #bio-scroll-spacer { height: 14800vh; }
+  }
+  @media (min-width: 1024px) {
+    #bio-scroll-spacer { height: 14400vh; }
+  }
+</style>
