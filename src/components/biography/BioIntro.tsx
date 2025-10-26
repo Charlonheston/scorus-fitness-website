@@ -18,9 +18,17 @@ interface Props {
   frames4Pattern?: string;
   frames4Count?: number;
   frames4Start?: number;  // Número base del primer frame (p.ej. 86400)
+  // Opcional: permitir proporcionar frames del quinto video (legacy)
+  frames5Pattern?: string;
+  frames5Count?: number;
+  frames5Start?: number;  // Número base del primer frame (p.ej. 86400)
+  // Opcional: permitir proporcionar frames del sexto video (epilogue)
+  frames6Pattern?: string;
+  frames6Count?: number;
+  frames6Start?: number;  // Número base del primer frame (p.ej. 86400)
 }
 
-export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/bernat-hero.webp', framesPattern, framesCount, frames2Pattern, frames2Count, frames3Pattern, frames3Count, frames3Start, frames4Pattern, frames4Count, frames4Start }: Props) {
+export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/bernat-hero.webp', framesPattern, framesCount, frames2Pattern, frames2Count, frames3Pattern, frames3Count, frames3Start, frames4Pattern, frames4Count, frames4Start, frames5Pattern, frames5Count, frames5Start, frames6Pattern, frames6Count, frames6Start }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleLeftRef = useRef<HTMLSpanElement>(null);
   const titleRightRef = useRef<HTMLSpanElement>(null);
@@ -72,6 +80,22 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const currentFrame4Ref = useRef<number>(0);
   const drawing4Ref = useRef<boolean>(false);
   const video4OverlayRef = useRef<HTMLDivElement>(null); // Overlay del cuarto video
+
+  // Canvas flipbook (quinto video - legacy)
+  const canvas5Ref = useRef<HTMLCanvasElement>(null);
+  const [useCanvas5, setUseCanvas5] = useState(false);
+  const imageCache5Ref = useRef<Map<number, HTMLImageElement>>(new Map());
+  const currentFrame5Ref = useRef<number>(0);
+  const drawing5Ref = useRef<boolean>(false);
+  const video5OverlayRef = useRef<HTMLDivElement>(null); // Overlay del quinto video
+
+  // Canvas 6 (epilogue frames)
+  const canvas6Ref = useRef<HTMLCanvasElement>(null);
+  const [useCanvas6, setUseCanvas6] = useState(false);
+  const imageCache6Ref = useRef<Map<number, HTMLImageElement>>(new Map());
+  const currentFrame6Ref = useRef<number>(0);
+  const drawing6Ref = useRef<boolean>(false);
+  const video6OverlayRef = useRef<HTMLDivElement>(null); // Overlay del sexto video
 
   // Citas
   const quoteRef = useRef<HTMLDivElement>(null);
@@ -134,17 +158,22 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const gymTitleText = 'Títulos y Logros Internacionales';
   const gymLinesRef = useRef<HTMLDivElement>(null); // Líneas diagonales de fondo
   const gymIntroParaRef = useRef<HTMLDivElement>(null); // Párrafo introductorio que aparece con zoom out
-  const nabbaChampRef = useRef<HTMLDivElement>(null); // Título NABBA 2006 que aparece con zoom in
-  const mrUniversoRef = useRef<HTMLDivElement>(null); // Título Mr. Universo 2009 que aparece con zoom in
-  const arnoldClassicRef = useRef<HTMLDivElement>(null); // Título Arnold Classic que aparece con zoom in
-  const benWeiderRef = useRef<HTMLDivElement>(null); // Título Ben Weider Classic que aparece con zoom in
-  const familyParaRef = useRef<HTMLDivElement>(null); // Párrafo sobre familia y regreso 2018
-  const triumphTitleRef = useRef<HTMLDivElement>(null); // H2 "El Regreso Triunfal"
-  const triumphTitleTextRef = useRef<HTMLHeadingElement>(null); // Texto del H2 que se fragmenta
-  const motivationPhraseRef = useRef<HTMLDivElement>(null); // Frase de motivación renovada
-  const goldMedalRef = useRef<HTMLDivElement>(null); // Medalla de Oro primera temporada
-  const silverBronzeMedalsRef = useRef<HTMLDivElement>(null); // Medallas de Plata y Bronce
-  const bestBodybuilderRef = useRef<HTMLDivElement>(null); // Tercer Mejor Culturista del Año
+  const nabbaChampRef = useRef<HTMLDivElement>(null); // Campeón NABBA 2006
+  const mrUniversoRef = useRef<HTMLDivElement>(null); // Subcampeón Mister Universo 2009
+  const arnoldClassicRef = useRef<HTMLDivElement>(null); // Arnold Classic
+  const benWeiderRef = useRef<HTMLDivElement>(null); // Ben Weider Classic y Big Man Masters
+  const coachingImageRef = useRef<HTMLDivElement>(null); // Imagen de coaching
+  const experienceRef = useRef<HTMLDivElement>(null); // 25+ Años de experiencia
+  const trophiesRef = useRef<HTMLDivElement>(null); // 40+ Trofeos
+  const triumphTextRef = useRef<HTMLDivElement>(null); // Texto "El Regreso Triunfal"
+  const triumphLinesRef = useRef<HTMLDivElement>(null); // Líneas de fondo para "El Regreso Triunfal"
+  const triumphParaRef = useRef<HTMLDivElement>(null); // Párrafo que aparece mientras el H2 se desfragmenta
+  const triumphTitle1Ref = useRef<HTMLSpanElement>(null); // "El Regreso"
+  const triumphTitle2Ref = useRef<HTMLSpanElement>(null); // "Triunfal:"
+  const triumphTitle3Ref = useRef<HTMLSpanElement>(null); // "Más"
+  const triumphTitle4Ref = useRef<HTMLSpanElement>(null); // "Fuerte"
+  const triumphTitle5Ref = useRef<HTMLSpanElement>(null); // "que"
+  const triumphTitle6Ref = useRef<HTMLSpanElement>(null); // "Nunca"
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -191,6 +220,12 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     // Canvas4 (video final): mantener fuera de pantalla a la IZQUIERDA y oculto inicialmente
     if (canvas4Ref.current) gsap.set(canvas4Ref.current, { x: '-100vw', visibility: 'hidden' });
     if (video4OverlayRef.current) gsap.set(video4OverlayRef.current, { x: '-100vw', visibility: 'hidden' });
+    // Canvas5 (video legacy): mantener fuera de pantalla a la DERECHA y oculto inicialmente
+    if (canvas5Ref.current) gsap.set(canvas5Ref.current, { x: '100vw', visibility: 'hidden' });
+    if (video5OverlayRef.current) gsap.set(video5OverlayRef.current, { x: '100vw', visibility: 'hidden' });
+    // Canvas6 (video epilogue): mantener fuera de pantalla a la IZQUIERDA y oculto inicialmente
+    if (canvas6Ref.current) gsap.set(canvas6Ref.current, { x: '-100vw', visibility: 'hidden' });
+    if (video6OverlayRef.current) gsap.set(video6OverlayRef.current, { x: '-100vw', visibility: 'hidden' });
     
     // Asegurar opacidad completa de los tabs individuales desde el inicio
     if (tab1Ref.current) gsap.set(tab1Ref.current, { opacity: 1 });
@@ -1254,7 +1289,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     const setSonChallengeHTML = () => {
       if (!sonChallengeTextRef.current) return;
       const outlinedHTML = sonChallengeText.replace(/compites|papá|Compite/gi, (m) => (
-        `<span style="color:transparent;-webkit-text-stroke:2px rgb(220,38,38);text-shadow:0 0 20px rgba(220,38,38,0.5)">${m}</span>`
+        `<span style="color:transparent;-webkit-text-stroke:2px rgb(220,38,38)">${m}</span>`
       ));
       sonChallengeTextRef.current.innerHTML = outlinedHTML;
     };
@@ -1288,39 +1323,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     // Hold y salida hacia arriba de la frase del hijo
     const SON_CHALLENGE_HOLD_PX = NOTCH_PX * 3;
-    const SON_CHALLENGE_SLIDE_PX = NOTCH_PX * 5;
     const sonChallengeSlideStartPx = sonChallengeStartPx + SON_CHALLENGE_IN_PX + SON_CHALLENGE_HOLD_PX;
-
-    // Hold (mantener centrado)
-    ScrollTrigger.create({
-      trigger: scrollEl as Element,
-      start: `+=${sonChallengeStartPx + SON_CHALLENGE_IN_PX} top`,
-      end: `+=${SON_CHALLENGE_HOLD_PX}`,
-      scrub: true,
-      onUpdate: () => {
-        if (sonChallengeRef.current) gsap.set(sonChallengeRef.current, { x: 0, y: 0 });
-      },
-      onLeaveBack: () => {
-        if (sonChallengeRef.current) gsap.set(sonChallengeRef.current, { x: 0, y: 0 });
-      }
-    });
-
-    // Salida hacia arriba del viewport
-    ScrollTrigger.create({
-      trigger: scrollEl as Element,
-      start: `+=${sonChallengeSlideStartPx} top`,
-      end: `+=${SON_CHALLENGE_SLIDE_PX}`,
-      scrub: true,
-      onUpdate: (self) => {
-        if (!sonChallengeRef.current) return;
-        const p = self.progress; // 0 → 1
-        const y = -window.innerHeight * p; // 0 → -100vh
-        gsap.set(sonChallengeRef.current, { y });
-      },
-      onLeaveBack: () => {
-        if (sonChallengeRef.current) gsap.set(sonChallengeRef.current, { y: 0 });
-      }
-    });
 
     // ================= PÁRRAFO TRAS LA FRASE - ENTRA DESDE ABAJO =================
     const SON_PARA_ENTER_PX = NOTCH_PX * 4; // entrada desde la derecha
@@ -1379,8 +1382,12 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         const sc = 1 + 0.05 * p; // leve impulso
         gsap.set(sonChallengeRef.current, { y, scale: sc });
       },
+      onLeave: () => {
+        // Ocultar completamente cuando sale
+        if (sonChallengeRef.current) gsap.set(sonChallengeRef.current, { visibility: 'hidden' });
+      },
       onLeaveBack: () => {
-        if (sonChallengeRef.current) gsap.set(sonChallengeRef.current, { y: 0, scale: 1 });
+        if (sonChallengeRef.current) gsap.set(sonChallengeRef.current, { y: 0, scale: 1, visibility: 'visible' });
       }
     });
 
@@ -1508,6 +1515,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         span.textContent = word;
         span.style.display = 'inline-block';
         span.style.willChange = 'transform, opacity';
+        span.style.opacity = '0'; // Iniciar invisible para evitar flash
         frag.appendChild(span);
         gymPieces.push(span);
         
@@ -1721,778 +1729,770 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       }
     });
 
-    // ====== Animación de salida del párrafo introductorio con zoom out ======
-    const PARA_STATIC_PX = NOTCH_PX * 3;  // Párrafo permanece estático
-    const PARA_EXIT_PX = NOTCH_PX * 3;    // Párrafo desaparece con zoom out
-    const PARA_TOTAL_PX = PARA_STATIC_PX + PARA_EXIT_PX; // Total: 6 notchs
-    const gymParaExitStartPx = gymStartPx + GYM_IN_PX; // Empieza después del H2
-
+    // ================= SALIDA DEL PÁRRAFO INTRODUCTORIO HACIA LA IZQUIERDA =================
+    const GYM_PARA_EXIT_PX = NOTCH_PX * 4; // 4 notchs para la salida
+    const gymParaExitStartPx = gymStartPx + GYM_IN_PX;
+    
     ScrollTrigger.create({
       trigger: scrollEl as Element,
       start: `+=${gymParaExitStartPx} top`,
-      end: `+=${PARA_TOTAL_PX}`,
+      end: `+=${GYM_PARA_EXIT_PX}`,
       scrub: true,
       onUpdate: (self) => {
         if (!gymIntroParaRef.current) return;
         const p = self.progress; // 0 → 1
-        
-        // Calcular umbral: primero estático, luego zoom out
-        const staticThreshold = PARA_STATIC_PX / PARA_TOTAL_PX; // 0.5
-        
-        let paraOpacity = 1;
-        let paraScale = 1;
-        
-        if (p <= staticThreshold) {
-          // FASE 1: Estático (párrafo visible completamente)
-          paraOpacity = 1;
-          paraScale = 1;
-        } else {
-          // FASE 2: Zoom out y fade out
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          paraOpacity = 1 - exitProgress; // De 1 a 0
-          paraScale = 1 - (0.5 * exitProgress); // De 1.0 a 0.5 (zoom out)
-        }
-        
-        gymIntroParaRef.current.style.opacity = String(paraOpacity);
-        gymIntroParaRef.current.style.transform = `scale(${paraScale})`;
+        const vw = window.innerWidth;
+        const x = -vw * p; // De 0 a -100vw (hacia la izquierda)
+        gymIntroParaRef.current.style.transform = `translateX(${x}px) scale(1)`;
       },
       onLeave: () => {
-        // Ocultar completamente cuando sale
         if (gymIntroParaRef.current) {
           gymIntroParaRef.current.style.opacity = '0';
-          gymIntroParaRef.current.style.transform = 'scale(0.5)';
+          gymIntroParaRef.current.style.visibility = 'hidden';
+        }
+      },
+      onEnterBack: () => {
+        if (gymIntroParaRef.current) {
+          gymIntroParaRef.current.style.opacity = '1';
+          gymIntroParaRef.current.style.visibility = 'visible';
         }
       },
       onLeaveBack: () => {
-        // Volver al estado final del trigger anterior (scale 1, opacity 1)
         if (gymIntroParaRef.current) {
-          gymIntroParaRef.current.style.opacity = '1';
-          gymIntroParaRef.current.style.transform = 'scale(1)';
+          gymIntroParaRef.current.style.transform = 'translateX(0) scale(1)';
         }
       }
     });
 
-    currentScrollPx += PARA_TOTAL_PX;
-
-    // ====== Título NABBA 2006 - Aparece con zoom in, permanece estático y desaparece con zoom out ======
-    const NABBA_ENTRY_PX = NOTCH_PX * 3;  // Zoom in del título NABBA
-    const NABBA_STATIC_PX = NOTCH_PX * 5; // Título permanece visible (tiempo para leer)
-    const NABBA_EXIT_PX = NOTCH_PX * 3;   // Zoom out del título NABBA
-    const NABBA_TOTAL_PX = NABBA_ENTRY_PX + NABBA_STATIC_PX + NABBA_EXIT_PX; // Total: 11 notchs
-    const nabbaStartPx = gymParaExitStartPx + PARA_STATIC_PX; // Empieza cuando el párrafo comienza a desaparecer
-
-    if (nabbaChampRef.current) {
-      gsap.set(nabbaChampRef.current, { opacity: 0, scale: 2 }); // Empieza grande y oculto
-    }
-
+    // ================= CAMPEÓN NABBA 2006 - ENTRADA DESDE LA DERECHA =================
+    const NABBA_ENTRY_PX = NOTCH_PX * 4; // 4 notchs para la entrada
+    const NABBA_HOLD_PX = NOTCH_PX * 5;  // 5 notchs de lectura
+    const nabbaStartPx = gymParaExitStartPx + GYM_PARA_EXIT_PX;
+    
+    if (nabbaChampRef.current) gsap.set(nabbaChampRef.current, { visibility: 'hidden', x: window.innerWidth });
+    
+    // Entrada desde la derecha
     ScrollTrigger.create({
       trigger: scrollEl as Element,
       start: `+=${nabbaStartPx} top`,
-      end: `+=${NABBA_TOTAL_PX}`,
+      end: `+=${NABBA_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (nabbaChampRef.current) gsap.set(nabbaChampRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (nabbaChampRef.current) gsap.set(nabbaChampRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!nabbaChampRef.current) return;
+        const p = self.progress; // 0 → 1
+        const vw = window.innerWidth;
+        const x = vw * (1 - p); // De 100vw a 0 (desde la derecha)
+        gsap.set(nabbaChampRef.current, { x });
+      },
+      onLeaveBack: () => {
+        if (nabbaChampRef.current) gsap.set(nabbaChampRef.current, { visibility: 'hidden', x: window.innerWidth });
+      }
+    });
+    
+    // Hold (mantener visible para lectura)
+    const nabbaHoldStartPx = nabbaStartPx + NABBA_ENTRY_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${nabbaHoldStartPx} top`,
+      end: `+=${NABBA_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (nabbaChampRef.current) gsap.set(nabbaChampRef.current, { x: 0 });
+      }
+    });
+    
+    // Salida hacia la izquierda
+    const NABBA_EXIT_PX = NOTCH_PX * 4; // 4 notchs para la salida
+    const nabbaExitStartPx = nabbaHoldStartPx + NABBA_HOLD_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${nabbaExitStartPx} top`,
+      end: `+=${NABBA_EXIT_PX}`,
       scrub: true,
       onUpdate: (self) => {
         if (!nabbaChampRef.current) return;
         const p = self.progress; // 0 → 1
-        
-        // Calcular umbrales: entrada, estático, salida
-        const entryThreshold = NABBA_ENTRY_PX / NABBA_TOTAL_PX; // ~0.27
-        const staticThreshold = (NABBA_ENTRY_PX + NABBA_STATIC_PX) / NABBA_TOTAL_PX; // ~0.73
-        
-        let nabbaOpacity = 0;
-        let nabbaScale = 2;
-        
-        if (p <= entryThreshold) {
-          // FASE 1: Zoom in + fade in
-          const entryProgress = p / entryThreshold; // 0 → 1
-          nabbaOpacity = entryProgress; // De 0 a 1
-          nabbaScale = 2 - (1 * entryProgress); // De 2.0 a 1.0 (zoom in)
-        } else if (p <= staticThreshold) {
-          // FASE 2: Estático (título visible completamente)
-          nabbaOpacity = 1;
-          nabbaScale = 1;
-        } else {
-          // FASE 3: Zoom out + fade out
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          nabbaOpacity = 1 - exitProgress; // De 1 a 0
-          nabbaScale = 1 - (0.5 * exitProgress); // De 1.0 a 0.5 (zoom out)
-        }
-        
-        nabbaChampRef.current.style.opacity = String(nabbaOpacity);
-        nabbaChampRef.current.style.transform = `scale(${nabbaScale})`;
+        const vw = window.innerWidth;
+        const x = -vw * p; // De 0 a -100vw (hacia la izquierda)
+        gsap.set(nabbaChampRef.current, { x });
       },
       onLeave: () => {
-        // Ocultar completamente cuando sale hacia adelante
-        if (nabbaChampRef.current) {
-          nabbaChampRef.current.style.opacity = '0';
-          nabbaChampRef.current.style.transform = 'scale(0.5)';
-        }
+        if (nabbaChampRef.current) gsap.set(nabbaChampRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (nabbaChampRef.current) gsap.set(nabbaChampRef.current, { visibility: 'visible' });
       },
       onLeaveBack: () => {
-        // Volver al estado inicial cuando vuelve atrás
-        if (nabbaChampRef.current) {
-          nabbaChampRef.current.style.opacity = '0';
-          nabbaChampRef.current.style.transform = 'scale(2)';
-        }
+        if (nabbaChampRef.current) gsap.set(nabbaChampRef.current, { x: 0 });
       }
     });
 
-    currentScrollPx += NABBA_TOTAL_PX;
-
-    // ====== Título NAC Mister Universo 2009 - Aparece con zoom in, permanece estático y desaparece con zoom out ======
-    const MR_UNIVERSO_ENTRY_PX = NOTCH_PX * 3;  // Zoom in del título Mr. Universo
-    const MR_UNIVERSO_STATIC_PX = NOTCH_PX * 5; // Título permanece visible (tiempo para leer)
-    const MR_UNIVERSO_EXIT_PX = NOTCH_PX * 3;   // Zoom out del título Mr. Universo
-    const MR_UNIVERSO_TOTAL_PX = MR_UNIVERSO_ENTRY_PX + MR_UNIVERSO_STATIC_PX + MR_UNIVERSO_EXIT_PX; // Total: 11 notchs
-    const mrUniversoStartPx = nabbaStartPx + NABBA_ENTRY_PX + NABBA_STATIC_PX; // Empieza cuando NABBA comienza a desaparecer
-
-    if (mrUniversoRef.current) {
-      gsap.set(mrUniversoRef.current, { opacity: 0, scale: 2 }); // Empieza grande y oculto
-    }
-
+    // ================= SUBCAMPEÓN MISTER UNIVERSO 2009 - ENTRADA DESDE LA DERECHA =================
+    const MR_UNIVERSO_ENTRY_PX = NOTCH_PX * 4; // 4 notchs para la entrada
+    const MR_UNIVERSO_HOLD_PX = NOTCH_PX * 5;  // 5 notchs de lectura
+    const mrUniversoStartPx = nabbaExitStartPx + NABBA_EXIT_PX;
+    
+    if (mrUniversoRef.current) gsap.set(mrUniversoRef.current, { visibility: 'hidden', x: window.innerWidth });
+    
+    // Entrada desde la derecha
     ScrollTrigger.create({
       trigger: scrollEl as Element,
       start: `+=${mrUniversoStartPx} top`,
-      end: `+=${MR_UNIVERSO_TOTAL_PX}`,
+      end: `+=${MR_UNIVERSO_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (mrUniversoRef.current) gsap.set(mrUniversoRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (mrUniversoRef.current) gsap.set(mrUniversoRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!mrUniversoRef.current) return;
+        const p = self.progress; // 0 → 1
+        const vw = window.innerWidth;
+        const x = vw * (1 - p); // De 100vw a 0 (desde la derecha)
+        gsap.set(mrUniversoRef.current, { x });
+      },
+      onLeaveBack: () => {
+        if (mrUniversoRef.current) gsap.set(mrUniversoRef.current, { visibility: 'hidden', x: window.innerWidth });
+      }
+    });
+    
+    // Hold (mantener visible para lectura)
+    const mrUniversoHoldStartPx = mrUniversoStartPx + MR_UNIVERSO_ENTRY_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${mrUniversoHoldStartPx} top`,
+      end: `+=${MR_UNIVERSO_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (mrUniversoRef.current) gsap.set(mrUniversoRef.current, { x: 0 });
+      }
+    });
+    
+    // Salida hacia la izquierda
+    const MR_UNIVERSO_EXIT_PX = NOTCH_PX * 4; // 4 notchs para la salida
+    const mrUniversoExitStartPx = mrUniversoHoldStartPx + MR_UNIVERSO_HOLD_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${mrUniversoExitStartPx} top`,
+      end: `+=${MR_UNIVERSO_EXIT_PX}`,
       scrub: true,
       onUpdate: (self) => {
         if (!mrUniversoRef.current) return;
         const p = self.progress; // 0 → 1
-        
-        // Calcular umbrales: entrada, estático, salida
-        const entryThreshold = MR_UNIVERSO_ENTRY_PX / MR_UNIVERSO_TOTAL_PX; // ~0.27
-        const staticThreshold = (MR_UNIVERSO_ENTRY_PX + MR_UNIVERSO_STATIC_PX) / MR_UNIVERSO_TOTAL_PX; // ~0.73
-        
-        let universoOpacity = 0;
-        let universoScale = 2;
-        
-        if (p <= entryThreshold) {
-          // FASE 1: Zoom in + fade in
-          const entryProgress = p / entryThreshold; // 0 → 1
-          universoOpacity = entryProgress; // De 0 a 1
-          universoScale = 2 - (1 * entryProgress); // De 2.0 a 1.0 (zoom in)
-        } else if (p <= staticThreshold) {
-          // FASE 2: Estático (título visible completamente)
-          universoOpacity = 1;
-          universoScale = 1;
-        } else {
-          // FASE 3: Zoom out + fade out
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          universoOpacity = 1 - exitProgress; // De 1 a 0
-          universoScale = 1 - (0.5 * exitProgress); // De 1.0 a 0.5 (zoom out)
-        }
-        
-        mrUniversoRef.current.style.opacity = String(universoOpacity);
-        mrUniversoRef.current.style.transform = `scale(${universoScale})`;
+        const vw = window.innerWidth;
+        const x = -vw * p; // De 0 a -100vw (hacia la izquierda)
+        gsap.set(mrUniversoRef.current, { x });
       },
       onLeave: () => {
-        // Ocultar completamente cuando sale hacia adelante
-        if (mrUniversoRef.current) {
-          mrUniversoRef.current.style.opacity = '0';
-          mrUniversoRef.current.style.transform = 'scale(0.5)';
-        }
+        if (mrUniversoRef.current) gsap.set(mrUniversoRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (mrUniversoRef.current) gsap.set(mrUniversoRef.current, { visibility: 'visible' });
       },
       onLeaveBack: () => {
-        // Volver al estado inicial cuando vuelve atrás
-        if (mrUniversoRef.current) {
-          mrUniversoRef.current.style.opacity = '0';
-          mrUniversoRef.current.style.transform = 'scale(2)';
-        }
+        if (mrUniversoRef.current) gsap.set(mrUniversoRef.current, { x: 0 });
       }
     });
 
-    currentScrollPx += MR_UNIVERSO_TOTAL_PX;
-
-    // ====== Título Arnold Classic - Aparece con zoom in, permanece estático y desaparece con zoom out ======
-    const ARNOLD_ENTRY_PX = NOTCH_PX * 3;  // Zoom in del título Arnold Classic
-    const ARNOLD_STATIC_PX = NOTCH_PX * 5; // Título permanece visible (tiempo para leer)
-    const ARNOLD_EXIT_PX = NOTCH_PX * 3;   // Zoom out del título Arnold Classic
-    const ARNOLD_TOTAL_PX = ARNOLD_ENTRY_PX + ARNOLD_STATIC_PX + ARNOLD_EXIT_PX; // Total: 11 notchs
-    const arnoldStartPx = mrUniversoStartPx + MR_UNIVERSO_ENTRY_PX + MR_UNIVERSO_STATIC_PX; // Empieza cuando Mr. Universo comienza a desaparecer
-
-    if (arnoldClassicRef.current) {
-      gsap.set(arnoldClassicRef.current, { opacity: 0, scale: 2 }); // Empieza grande y oculto
-    }
-
+    // ================= ARNOLD CLASSIC - ENTRADA DESDE LA DERECHA =================
+    const ARNOLD_ENTRY_PX = NOTCH_PX * 4; // 4 notchs para la entrada
+    const ARNOLD_HOLD_PX = NOTCH_PX * 5;  // 5 notchs de lectura
+    const arnoldStartPx = mrUniversoExitStartPx + MR_UNIVERSO_EXIT_PX;
+    
+    if (arnoldClassicRef.current) gsap.set(arnoldClassicRef.current, { visibility: 'hidden', x: window.innerWidth });
+    
+    // Entrada desde la derecha
     ScrollTrigger.create({
       trigger: scrollEl as Element,
       start: `+=${arnoldStartPx} top`,
-      end: `+=${ARNOLD_TOTAL_PX}`,
+      end: `+=${ARNOLD_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (arnoldClassicRef.current) gsap.set(arnoldClassicRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (arnoldClassicRef.current) gsap.set(arnoldClassicRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!arnoldClassicRef.current) return;
+        const p = self.progress; // 0 → 1
+        const vw = window.innerWidth;
+        const x = vw * (1 - p); // De 100vw a 0 (desde la derecha)
+        gsap.set(arnoldClassicRef.current, { x });
+      },
+      onLeaveBack: () => {
+        if (arnoldClassicRef.current) gsap.set(arnoldClassicRef.current, { visibility: 'hidden', x: window.innerWidth });
+      }
+    });
+    
+    // Hold (mantener visible para lectura)
+    const arnoldHoldStartPx = arnoldStartPx + ARNOLD_ENTRY_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${arnoldHoldStartPx} top`,
+      end: `+=${ARNOLD_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (arnoldClassicRef.current) gsap.set(arnoldClassicRef.current, { x: 0 });
+      }
+    });
+    
+    // Salida hacia la izquierda
+    const ARNOLD_EXIT_PX = NOTCH_PX * 4; // 4 notchs para la salida
+    const arnoldExitStartPx = arnoldHoldStartPx + ARNOLD_HOLD_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${arnoldExitStartPx} top`,
+      end: `+=${ARNOLD_EXIT_PX}`,
       scrub: true,
       onUpdate: (self) => {
         if (!arnoldClassicRef.current) return;
         const p = self.progress; // 0 → 1
-        
-        // Calcular umbrales: entrada, estático, salida
-        const entryThreshold = ARNOLD_ENTRY_PX / ARNOLD_TOTAL_PX; // ~0.27
-        const staticThreshold = (ARNOLD_ENTRY_PX + ARNOLD_STATIC_PX) / ARNOLD_TOTAL_PX; // ~0.73
-        
-        let arnoldOpacity = 0;
-        let arnoldScale = 2;
-        
-        if (p <= entryThreshold) {
-          // FASE 1: Zoom in + fade in
-          const entryProgress = p / entryThreshold; // 0 → 1
-          arnoldOpacity = entryProgress; // De 0 a 1
-          arnoldScale = 2 - (1 * entryProgress); // De 2.0 a 1.0 (zoom in)
-        } else if (p <= staticThreshold) {
-          // FASE 2: Estático (título visible completamente)
-          arnoldOpacity = 1;
-          arnoldScale = 1;
-        } else {
-          // FASE 3: Zoom out + fade out
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          arnoldOpacity = 1 - exitProgress; // De 1 a 0
-          arnoldScale = 1 - (0.5 * exitProgress); // De 1.0 a 0.5 (zoom out)
-        }
-        
-        arnoldClassicRef.current.style.opacity = String(arnoldOpacity);
-        arnoldClassicRef.current.style.transform = `scale(${arnoldScale})`;
+        const vw = window.innerWidth;
+        const x = -vw * p; // De 0 a -100vw (hacia la izquierda)
+        gsap.set(arnoldClassicRef.current, { x });
       },
       onLeave: () => {
-        // Ocultar completamente cuando sale hacia adelante
-        if (arnoldClassicRef.current) {
-          arnoldClassicRef.current.style.opacity = '0';
-          arnoldClassicRef.current.style.transform = 'scale(0.5)';
-        }
+        if (arnoldClassicRef.current) gsap.set(arnoldClassicRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (arnoldClassicRef.current) gsap.set(arnoldClassicRef.current, { visibility: 'visible' });
       },
       onLeaveBack: () => {
-        // Volver al estado inicial cuando vuelve atrás
-        if (arnoldClassicRef.current) {
-          arnoldClassicRef.current.style.opacity = '0';
-          arnoldClassicRef.current.style.transform = 'scale(2)';
-        }
+        if (arnoldClassicRef.current) gsap.set(arnoldClassicRef.current, { x: 0 });
       }
     });
 
-    currentScrollPx += ARNOLD_TOTAL_PX;
-
-    // ====== Título Ben Weider Classic - Aparece con zoom in, permanece estático y desaparece con zoom out ======
-    const BEN_WEIDER_ENTRY_PX = NOTCH_PX * 3;  // Zoom in del título Ben Weider
-    const BEN_WEIDER_STATIC_PX = NOTCH_PX * 5; // Título permanece visible (tiempo para leer)
-    const BEN_WEIDER_EXIT_PX = NOTCH_PX * 3;   // Zoom out del título Ben Weider
-    const BEN_WEIDER_TOTAL_PX = BEN_WEIDER_ENTRY_PX + BEN_WEIDER_STATIC_PX + BEN_WEIDER_EXIT_PX; // Total: 11 notchs
-    const benWeiderStartPx = arnoldStartPx + ARNOLD_ENTRY_PX + ARNOLD_STATIC_PX; // Empieza cuando Arnold Classic comienza a desaparecer
-
-    if (benWeiderRef.current) {
-      gsap.set(benWeiderRef.current, { opacity: 0, scale: 2 }); // Empieza grande y oculto
-    }
-
+    // ================= BEN WEIDER CLASSIC & BIG MAN MASTERS - ENTRADA DESDE LA DERECHA =================
+    const BEN_WEIDER_ENTRY_PX = NOTCH_PX * 4; // 4 notchs para la entrada
+    const BEN_WEIDER_HOLD_PX = NOTCH_PX * 5;  // 5 notchs de lectura
+    const benWeiderStartPx = arnoldExitStartPx + ARNOLD_EXIT_PX;
+    
+    if (benWeiderRef.current) gsap.set(benWeiderRef.current, { visibility: 'hidden', x: window.innerWidth });
+    
+    // Entrada desde la derecha
     ScrollTrigger.create({
       trigger: scrollEl as Element,
       start: `+=${benWeiderStartPx} top`,
-      end: `+=${BEN_WEIDER_TOTAL_PX}`,
+      end: `+=${BEN_WEIDER_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (benWeiderRef.current) gsap.set(benWeiderRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (benWeiderRef.current) gsap.set(benWeiderRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!benWeiderRef.current) return;
+        const p = self.progress; // 0 → 1
+        const vw = window.innerWidth;
+        const x = vw * (1 - p); // De 100vw a 0 (desde la derecha)
+        gsap.set(benWeiderRef.current, { x });
+      },
+      onLeaveBack: () => {
+        if (benWeiderRef.current) gsap.set(benWeiderRef.current, { visibility: 'hidden', x: window.innerWidth });
+      }
+    });
+    
+    // Hold (mantener visible para lectura)
+    const benWeiderHoldStartPx = benWeiderStartPx + BEN_WEIDER_ENTRY_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${benWeiderHoldStartPx} top`,
+      end: `+=${BEN_WEIDER_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (benWeiderRef.current) gsap.set(benWeiderRef.current, { x: 0 });
+      }
+    });
+    
+    // Salida con zoom out
+    const BEN_WEIDER_EXIT_PX = NOTCH_PX * 5; // 5 notchs para el zoom out
+    const benWeiderExitStartPx = benWeiderHoldStartPx + BEN_WEIDER_HOLD_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${benWeiderExitStartPx} top`,
+      end: `+=${BEN_WEIDER_EXIT_PX}`,
       scrub: true,
       onUpdate: (self) => {
         if (!benWeiderRef.current) return;
         const p = self.progress; // 0 → 1
-        
-        // Calcular umbrales: entrada, estático, salida
-        const entryThreshold = BEN_WEIDER_ENTRY_PX / BEN_WEIDER_TOTAL_PX; // ~0.27
-        const staticThreshold = (BEN_WEIDER_ENTRY_PX + BEN_WEIDER_STATIC_PX) / BEN_WEIDER_TOTAL_PX; // ~0.73
-        
-        let benOpacity = 0;
-        let benScale = 2;
-        
-        if (p <= entryThreshold) {
-          // FASE 1: Zoom in + fade in
-          const entryProgress = p / entryThreshold; // 0 → 1
-          benOpacity = entryProgress; // De 0 a 1
-          benScale = 2 - (1 * entryProgress); // De 2.0 a 1.0 (zoom in)
-        } else if (p <= staticThreshold) {
-          // FASE 2: Estático (título visible completamente)
-          benOpacity = 1;
-          benScale = 1;
-        } else {
-          // FASE 3: Zoom out + fade out
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          benOpacity = 1 - exitProgress; // De 1 a 0
-          benScale = 1 - (0.5 * exitProgress); // De 1.0 a 0.5 (zoom out)
-        }
-        
-        benWeiderRef.current.style.opacity = String(benOpacity);
-        benWeiderRef.current.style.transform = `scale(${benScale})`;
+        const scale = 1 + (p * 0.5); // De 1.0 a 1.5 (zoom out)
+        const opacity = 1 - p; // De 1 a 0 (fade out)
+        gsap.set(benWeiderRef.current, { scale, opacity, x: 0 });
       },
       onLeave: () => {
-        // Ocultar completamente cuando sale hacia adelante
-        if (benWeiderRef.current) {
-          benWeiderRef.current.style.opacity = '0';
-          benWeiderRef.current.style.transform = 'scale(0.5)';
-        }
+        if (benWeiderRef.current) gsap.set(benWeiderRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (benWeiderRef.current) gsap.set(benWeiderRef.current, { visibility: 'visible' });
       },
       onLeaveBack: () => {
-        // Volver al estado inicial cuando vuelve atrás
-        if (benWeiderRef.current) {
-          benWeiderRef.current.style.opacity = '0';
-          benWeiderRef.current.style.transform = 'scale(2)';
-        }
+        if (benWeiderRef.current) gsap.set(benWeiderRef.current, { scale: 1, opacity: 1, x: 0 });
       }
     });
 
-    currentScrollPx += BEN_WEIDER_TOTAL_PX;
-
-    // ====== Párrafo sobre familia y regreso 2018 - Aparece con zoom in, permanece estático y desaparece con zoom out ======
-    const FAMILY_PARA_ENTRY_PX = NOTCH_PX * 3;  // Zoom in del párrafo
-    const FAMILY_PARA_STATIC_PX = NOTCH_PX * 5; // Párrafo permanece visible (tiempo para leer)
-    const FAMILY_PARA_EXIT_PX = NOTCH_PX * 3;   // Zoom out del párrafo
-    const FAMILY_PARA_TOTAL_PX = FAMILY_PARA_ENTRY_PX + FAMILY_PARA_STATIC_PX + FAMILY_PARA_EXIT_PX; // Total: 11 notchs
-    const familyParaStartPx = benWeiderStartPx + BEN_WEIDER_ENTRY_PX + BEN_WEIDER_STATIC_PX; // Empieza cuando Ben Weider comienza a desaparecer
-
-    if (familyParaRef.current) {
-      gsap.set(familyParaRef.current, { opacity: 0, scale: 2 }); // Empieza grande y oculto
-    }
-
+    // ================= IMAGEN DE COACHING - ENTRADA Y SALIDA CON ZOOM OUT =================
+    const COACHING_IMG_ENTRY_PX = NOTCH_PX * 5; // 5 notchs para zoom out entrada
+    const COACHING_IMG_HOLD_PX = NOTCH_PX * 4;  // 4 notchs para contemplar
+    const COACHING_IMG_EXIT_PX = NOTCH_PX * 5;  // 5 notchs para zoom out salida
+    const coachingImgStartPx = benWeiderExitStartPx + BEN_WEIDER_EXIT_PX;
+    
+    if (coachingImageRef.current) gsap.set(coachingImageRef.current, { visibility: 'hidden', scale: 0.5, opacity: 0 });
+    
+    // Entrada con zoom out
     ScrollTrigger.create({
       trigger: scrollEl as Element,
-      start: `+=${familyParaStartPx} top`,
-      end: `+=${FAMILY_PARA_TOTAL_PX}`,
+      start: `+=${coachingImgStartPx} top`,
+      end: `+=${COACHING_IMG_ENTRY_PX}`,
       scrub: true,
-      onUpdate: (self) => {
-        if (!familyParaRef.current) return;
-        const p = self.progress; // 0 → 1
-        
-        // Calcular umbrales: entrada, estático, salida
-        const entryThreshold = FAMILY_PARA_ENTRY_PX / FAMILY_PARA_TOTAL_PX; // ~0.27
-        const staticThreshold = (FAMILY_PARA_ENTRY_PX + FAMILY_PARA_STATIC_PX) / FAMILY_PARA_TOTAL_PX; // ~0.73
-        
-        let paraOpacity = 0;
-        let paraScale = 2;
-        
-        if (p <= entryThreshold) {
-          // FASE 1: Zoom in + fade in
-          const entryProgress = p / entryThreshold; // 0 → 1
-          paraOpacity = entryProgress; // De 0 a 1
-          paraScale = 2 - (1 * entryProgress); // De 2.0 a 1.0 (zoom in)
-        } else if (p <= staticThreshold) {
-          // FASE 2: Estático (párrafo visible completamente)
-          paraOpacity = 1;
-          paraScale = 1;
-        } else {
-          // FASE 3: Zoom out + fade out
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          paraOpacity = 1 - exitProgress; // De 1 a 0
-          paraScale = 1 - (0.5 * exitProgress); // De 1.0 a 0.5 (zoom out)
-        }
-        
-        familyParaRef.current.style.opacity = String(paraOpacity);
-        familyParaRef.current.style.transform = `scale(${paraScale})`;
+      onEnter: () => {
+        if (coachingImageRef.current) gsap.set(coachingImageRef.current, { visibility: 'visible' });
       },
-      onLeave: () => {
-        // Ocultar completamente cuando sale hacia adelante
-        if (familyParaRef.current) {
-          familyParaRef.current.style.opacity = '0';
-          familyParaRef.current.style.transform = 'scale(0.5)';
-        }
+      onEnterBack: () => {
+        if (coachingImageRef.current) gsap.set(coachingImageRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!coachingImageRef.current) return;
+        const p = self.progress; // 0 → 1
+        const scale = 0.5 + (p * 0.5); // De 0.5 a 1.0 (zoom out)
+        const opacity = p; // De 0 a 1 (fade in)
+        gsap.set(coachingImageRef.current, { scale, opacity });
       },
       onLeaveBack: () => {
-        // Volver al estado inicial cuando vuelve atrás
-        if (familyParaRef.current) {
-          familyParaRef.current.style.opacity = '0';
-          familyParaRef.current.style.transform = 'scale(2)';
-        }
+        if (coachingImageRef.current) gsap.set(coachingImageRef.current, { visibility: 'hidden', scale: 0.5, opacity: 0 });
+      }
+    });
+    
+    // Hold (mantener visible)
+    const coachingImgHoldStartPx = coachingImgStartPx + COACHING_IMG_ENTRY_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${coachingImgHoldStartPx} top`,
+      end: `+=${COACHING_IMG_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (coachingImageRef.current) gsap.set(coachingImageRef.current, { scale: 1, opacity: 1 });
+      }
+    });
+    
+    // Salida con zoom out (continúa alejándose)
+    const coachingImgExitStartPx = coachingImgHoldStartPx + COACHING_IMG_HOLD_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${coachingImgExitStartPx} top`,
+      end: `+=${COACHING_IMG_EXIT_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!coachingImageRef.current) return;
+        const p = self.progress; // 0 → 1
+        const scale = 1 + (p * 1); // De 1.0 a 2.0 (zoom out continuo)
+        const opacity = 1 - p; // De 1 a 0 (fade out)
+        gsap.set(coachingImageRef.current, { scale, opacity });
+      },
+      onLeave: () => {
+        if (coachingImageRef.current) gsap.set(coachingImageRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (coachingImageRef.current) gsap.set(coachingImageRef.current, { visibility: 'visible' });
+      },
+      onLeaveBack: () => {
+        if (coachingImageRef.current) gsap.set(coachingImageRef.current, { scale: 1, opacity: 1 });
       }
     });
 
-    currentScrollPx += FAMILY_PARA_TOTAL_PX;
+    // ================= 25+ AÑOS DE EXPERIENCIA - ENTRADA Y SALIDA CON ZOOM OUT =================
+    const EXPERIENCE_ENTRY_PX = NOTCH_PX * 6; // 6 notchs para el zoom out entrada
+    const EXPERIENCE_HOLD_PX = NOTCH_PX * 4;  // 4 notchs para contemplar
+    const EXPERIENCE_EXIT_PX = NOTCH_PX * 5;  // 5 notchs para el zoom out salida
+    const experienceStartPx = coachingImgExitStartPx + COACHING_IMG_EXIT_PX;
+    
+    if (experienceRef.current) gsap.set(experienceRef.current, { visibility: 'hidden', scale: 0.5, opacity: 0 });
+    
+    // Entrada con zoom out
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${experienceStartPx} top`,
+      end: `+=${EXPERIENCE_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (experienceRef.current) gsap.set(experienceRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (experienceRef.current) gsap.set(experienceRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!experienceRef.current) return;
+        const p = self.progress; // 0 → 1
+        const scale = 0.5 + (p * 0.5); // De 0.5 a 1.0 (zoom out)
+        const opacity = p; // De 0 a 1 (fade in)
+        gsap.set(experienceRef.current, { scale, opacity });
+      },
+      onLeaveBack: () => {
+        if (experienceRef.current) gsap.set(experienceRef.current, { visibility: 'hidden', scale: 0.5, opacity: 0 });
+      }
+    });
+    
+    // Hold (mantener visible)
+    const experienceHoldStartPx = experienceStartPx + EXPERIENCE_ENTRY_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${experienceHoldStartPx} top`,
+      end: `+=${EXPERIENCE_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (experienceRef.current) gsap.set(experienceRef.current, { scale: 1, opacity: 1 });
+      }
+    });
+    
+    // Salida con zoom out
+    const experienceExitStartPx = experienceHoldStartPx + EXPERIENCE_HOLD_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${experienceExitStartPx} top`,
+      end: `+=${EXPERIENCE_EXIT_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!experienceRef.current) return;
+        const p = self.progress; // 0 → 1
+        const scale = 1 + (p * 1); // De 1.0 a 2.0 (zoom out)
+        const opacity = 1 - p; // De 1 a 0 (fade out)
+        gsap.set(experienceRef.current, { scale, opacity });
+      },
+      onLeave: () => {
+        if (experienceRef.current) gsap.set(experienceRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (experienceRef.current) gsap.set(experienceRef.current, { visibility: 'visible' });
+      },
+      onLeaveBack: () => {
+        if (experienceRef.current) gsap.set(experienceRef.current, { scale: 1, opacity: 1 });
+      }
+    });
 
-    // ====== H2 "El Regreso Triunfal" - Aparece fragmentándose mientras el párrafo desaparece ======
-    const TRIUMPH_TITLE_TEXT = 'El Regreso Triunfal: Más Fuerte que Nunca';
-    let triumphPrepared = false;
-    let triumphPieces: HTMLElement[] = [];
-    let triumphVectors: Array<{ el: HTMLElement; x0: number; y0: number; rot0: number }> = [];
+    // ================= 40+ TROFEOS - ENTRADA, HOLD Y SALIDA CON ZOOM OUT =================
+    const TROPHIES_ENTRY_PX = NOTCH_PX * 6; // 6 notchs para el zoom out entrada
+    const TROPHIES_HOLD_PX = NOTCH_PX * 4;  // 4 notchs para contemplar
+    const TROPHIES_EXIT_PX = NOTCH_PX * 5;  // 5 notchs para el zoom out salida
+    const trophiesStartPx = experienceExitStartPx + EXPERIENCE_EXIT_PX;
+    
+    if (trophiesRef.current) gsap.set(trophiesRef.current, { visibility: 'hidden', scale: 0.5, opacity: 0 });
+    
+    // Entrada con zoom out
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${trophiesStartPx} top`,
+      end: `+=${TROPHIES_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (trophiesRef.current) gsap.set(trophiesRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (trophiesRef.current) gsap.set(trophiesRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!trophiesRef.current) return;
+        const p = self.progress; // 0 → 1
+        const scale = 0.5 + (p * 0.5); // De 0.5 a 1.0 (zoom out)
+        const opacity = p; // De 0 a 1 (fade in)
+        gsap.set(trophiesRef.current, { scale, opacity });
+      },
+      onLeaveBack: () => {
+        if (trophiesRef.current) gsap.set(trophiesRef.current, { visibility: 'hidden', scale: 0.5, opacity: 0 });
+      }
+    });
+    
+    // Hold (mantener visible)
+    const trophiesHoldStartPx = trophiesStartPx + TROPHIES_ENTRY_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${trophiesHoldStartPx} top`,
+      end: `+=${TROPHIES_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (trophiesRef.current) gsap.set(trophiesRef.current, { scale: 1, opacity: 1 });
+      }
+    });
 
-    const prepareTriumphTitle = () => {
-      if (triumphPrepared || !triumphTitleTextRef.current) return;
-      
-      const text = TRIUMPH_TITLE_TEXT;
-      const riveteadoWords = ['Regreso', 'Triunfal:', 'Fuerte', 'Nunca']; // Palabras con efecto riveteado
-      triumphTitleTextRef.current.textContent = '';
-      const frag = document.createDocumentFragment();
-      
-      // Fragmentar por palabras
-      text.split(' ').forEach((word, wi) => {
-        // Agregar espacio antes de cada palabra excepto la primera
-        if (wi > 0) {
-          const spaceSpan = document.createElement('span');
-          spaceSpan.textContent = '\u00A0';
-          spaceSpan.style.display = 'inline-block';
-          frag.appendChild(spaceSpan);
-        }
-        
-        const span = document.createElement('span');
-        span.textContent = word;
-        span.style.display = 'inline-block';
-        span.style.willChange = 'transform, opacity';
-        
-        // Aplicar efecto riveteado (outline rojo con fondo transparente, SIN sombras)
-        if (riveteadoWords.includes(word)) {
-          span.style.color = 'transparent';
-          span.style.webkitTextStroke = '2px #E50914'; // Borde rojo
-        }
-        
-        frag.appendChild(span);
-        triumphPieces.push(span);
-      });
-      
-      triumphTitleTextRef.current.appendChild(frag);
-      
-      // Generar vectores aleatorios para dispersión
-      triumphPieces.forEach((el) => {
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 300 + Math.random() * 400;
-        const x0 = Math.cos(angle) * distance;
-        const y0 = Math.sin(angle) * distance;
-        const rot0 = (Math.random() - 0.5) * 90;
-        triumphVectors.push({ el, x0, y0, rot0 });
-      });
-      
-      triumphPrepared = true;
+    // Salida con zoom out
+    const trophiesExitStartPx = trophiesHoldStartPx + TROPHIES_HOLD_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${trophiesExitStartPx} top`,
+      end: `+=${TROPHIES_EXIT_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!trophiesRef.current) return;
+        const p = self.progress; // 0 → 1
+        const scale = 1 + (p * 1); // De 1.0 a 2.0 (zoom out)
+        const opacity = 1 - p; // De 1 a 0 (fade out)
+        gsap.set(trophiesRef.current, { scale, opacity });
+      },
+      onLeave: () => {
+        if (trophiesRef.current) gsap.set(trophiesRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (trophiesRef.current) gsap.set(trophiesRef.current, { visibility: 'visible' });
+      },
+      onLeaveBack: () => {
+        if (trophiesRef.current) gsap.set(trophiesRef.current, { scale: 1, opacity: 1 });
+      }
+    });
+
+    currentScrollPx += TROPHIES_ENTRY_PX + TROPHIES_HOLD_PX + TROPHIES_EXIT_PX;
+
+    // ================= TEXTO "EL REGRESO TRIUNFAL" - ANIMACIÓN ÉPICA =================
+    const TRIUMPH_ENTRY_PX = NOTCH_PX * 6;  // Entrada épica
+    const TRIUMPH_HOLD_PX = NOTCH_PX * 4;   // Mantener visible
+    const TRIUMPH_EXIT_PX = NOTCH_PX * 6;   // Salida épica
+    const triumphStartPx = trophiesExitStartPx + TROPHIES_EXIT_PX;
+    
+    if (triumphTextRef.current) gsap.set(triumphTextRef.current, { visibility: 'hidden' });
+    
+    // Definir vectores dramáticos para cada palabra con rotaciones
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const triumphVectors = [
+      { ref: triumphTitle1Ref, x: -vw * 2.0, y: -vh * 1.2, rot: -180 },  // "El Regreso" - desde muy lejos arriba-izquierda
+      { ref: triumphTitle2Ref, x: vw * 2.2, y: -vh * 1.0, rot: 180 },    // "Triunfal:" - desde muy lejos arriba-derecha
+      { ref: triumphTitle3Ref, x: -vw * 1.8, y: vh * 1.3, rot: -120 },   // "Más" - desde muy lejos abajo-izquierda
+      { ref: triumphTitle4Ref, x: vw * 2.0, y: vh * 1.5, rot: 150 },     // "Fuerte" - desde muy lejos abajo-derecha
+      { ref: triumphTitle5Ref, x: -vw * 2.3, y: -vh * 0.3, rot: -90 },   // "que" - desde muy lejos centro-izquierda
+      { ref: triumphTitle6Ref, x: vw * 2.4, y: vh * 0.8, rot: 120 }      // "Nunca" - desde muy lejos centro-derecha
+    ];
+    
+    // Función de easing para efecto de impacto (ease-out con rebote)
+    const easeOutBack = (t: number): number => {
+      const c1 = 1.70158;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
     };
-
-    const TRIUMPH_ENTRY_PX = NOTCH_PX * 5;  // Entrada con fragmentación
-    const TRIUMPH_STATIC_PX = NOTCH_PX * 5; // Título permanece visible
-    const TRIUMPH_EXIT_PX = NOTCH_PX * 5;   // Salida épica con dispersión
-    const TRIUMPH_TOTAL_PX = TRIUMPH_ENTRY_PX + TRIUMPH_STATIC_PX + TRIUMPH_EXIT_PX; // Total: 15 notchs
-    const triumphStartPx = familyParaStartPx + FAMILY_PARA_ENTRY_PX + FAMILY_PARA_STATIC_PX; // Empieza cuando el párrafo comienza a desaparecer
-
-    if (triumphTitleRef.current) {
-      gsap.set(triumphTitleRef.current, { opacity: 0 });
-    }
-
+    
+    // ENTRADA ÉPICA: Palabras entran con aceleración dramática y rotación + líneas de rayos
     ScrollTrigger.create({
       trigger: scrollEl as Element,
       start: `+=${triumphStartPx} top`,
-      end: `+=${TRIUMPH_TOTAL_PX}`,
-      scrub: true,
+      end: `+=${TRIUMPH_ENTRY_PX}`,
+      scrub: 1, // Scrub más suave para efecto dramático
       onEnter: () => {
-        prepareTriumphTitle();
-        if (triumphTitleRef.current) gsap.set(triumphTitleRef.current, { opacity: 1 });
-      },
-      onUpdate: (self) => {
-        if (!triumphTitleRef.current || triumphVectors.length === 0) return;
-        const p = self.progress; // 0 → 1
-        
-        // Calcular umbrales: entrada, estático, salida
-        const entryThreshold = TRIUMPH_ENTRY_PX / TRIUMPH_TOTAL_PX; // ~0.33
-        const staticThreshold = (TRIUMPH_ENTRY_PX + TRIUMPH_STATIC_PX) / TRIUMPH_TOTAL_PX; // ~0.67
-        
-        if (p <= entryThreshold) {
-          // FASE 1: Entrada con fragmentación (palabras vienen desde fuera hacia el centro)
-          const entryProgress = p / entryThreshold; // 0 → 1
-          
-          triumphVectors.forEach(({ el, x0, y0, rot0 }) => {
-            const x = x0 * (1 - entryProgress); // De posición lejana a 0
-            const y = y0 * (1 - entryProgress);
-            const rot = rot0 * (1 - entryProgress);
-            const opacity = entryProgress;
-            
-            el.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
-            el.style.opacity = String(opacity);
-          });
-        } else if (p <= staticThreshold) {
-          // FASE 2: Estático (título visible completamente en el centro)
-          triumphVectors.forEach(({ el }) => {
-            el.style.transform = 'translate(0px, 0px) rotate(0deg)';
-            el.style.opacity = '1';
-          });
-        } else {
-          // FASE 3: Salida épica con dispersión (palabras salen hacia fuera con rotación)
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          
-          triumphVectors.forEach(({ el, x0, y0, rot0 }) => {
-            const x = x0 * exitProgress; // De 0 a posición lejana
-            const y = y0 * exitProgress;
-            const rot = rot0 * exitProgress;
-            const opacity = 1 - exitProgress;
-            
-            el.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
-            el.style.opacity = String(opacity);
-          });
-        }
-      },
-      onLeave: () => {
-        // Ocultar completamente cuando sale
-        if (triumphTitleRef.current) gsap.set(triumphTitleRef.current, { opacity: 0 });
-        triumphVectors.forEach(({ el, x0, y0, rot0 }) => {
-          el.style.transform = `translate(${x0}px, ${y0}px) rotate(${rot0}deg)`;
-          el.style.opacity = '0';
-        });
+        if (triumphTextRef.current) gsap.set(triumphTextRef.current, { visibility: 'visible' });
       },
       onEnterBack: () => {
-        // Volver a preparar y mostrar cuando vuelve atrás
-        prepareTriumphTitle();
-        if (triumphTitleRef.current) gsap.set(triumphTitleRef.current, { opacity: 1 });
+        if (triumphTextRef.current) gsap.set(triumphTextRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!triumphTextRef.current) return;
+        const p = self.progress; // 0 → 1
+        
+        // Animación de líneas de fondo (rayos que aparecen rápidamente)
+        if (triumphLinesRef.current) {
+          const linesProgress = Math.min(1, p * 2); // Aparecen en la primera mitad
+          const linesScale = 0.5 + (linesProgress * 0.5); // 0.5 → 1.0
+          const linesOpacity = linesProgress * 0.6; // 0 → 0.6
+          triumphLinesRef.current.style.transform = `scale(${linesScale})`;
+          triumphLinesRef.current.style.opacity = String(linesOpacity);
+        }
+        
+        // Movimiento épico con cascada y easing
+        triumphVectors.forEach((vector, i) => {
+          if (!vector.ref.current) return;
+          
+          // Delays escalonados dramáticos
+          const delay = i * 0.12;
+          const localProgress = Math.max(0, Math.min(1, (p - delay) / (1 - delay)));
+          
+          // Aplicar easing para efecto de impacto
+          const easedProgress = easeOutBack(localProgress);
+          
+          // Movimiento desde muy lejos + rotación dramática
+          const x = vector.x * (1 - easedProgress);
+          const y = vector.y * (1 - easedProgress);
+          const rot = vector.rot * (1 - localProgress); // Rotación sin easing
+          const scale = 0.3 + (easedProgress * 0.7); // Zoom in sutil (0.3 → 1.0)
+          
+          // Blur durante el movimiento para efecto de velocidad
+          const blur = (1 - localProgress) * 8; // 8px → 0px
+          
+          vector.ref.current.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg) scale(${scale})`;
+          vector.ref.current.style.filter = `blur(${blur}px)`;
+          vector.ref.current.style.opacity = '1';
+        });
       },
       onLeaveBack: () => {
-        // Ocultar cuando sale completamente hacia atrás
-        if (triumphTitleRef.current) gsap.set(triumphTitleRef.current, { opacity: 0 });
-        triumphVectors.forEach(({ el, x0, y0, rot0 }) => {
-          el.style.transform = `translate(${x0}px, ${y0}px) rotate(${rot0}deg)`;
-          el.style.opacity = '0';
+        if (triumphTextRef.current) gsap.set(triumphTextRef.current, { visibility: 'hidden' });
+        if (triumphLinesRef.current) triumphLinesRef.current.style.opacity = '0';
+      }
+    });
+    
+    // HOLD: Mantener centrado y visible
+    const triumphHoldStartPx = triumphStartPx + TRIUMPH_ENTRY_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${triumphHoldStartPx} top`,
+      end: `+=${TRIUMPH_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        // Mantener líneas visibles
+        if (triumphLinesRef.current) {
+          triumphLinesRef.current.style.transform = 'scale(1)';
+          triumphLinesRef.current.style.opacity = '0.6';
+        }
+        // Mantener palabras centradas
+        triumphVectors.forEach((vector) => {
+          if (!vector.ref.current) return;
+          vector.ref.current.style.transform = 'translate(0, 0) rotate(0deg) scale(1)';
+          vector.ref.current.style.filter = 'blur(0px)';
+          vector.ref.current.style.opacity = '1';
         });
       }
     });
-
-    currentScrollPx += TRIUMPH_TOTAL_PX;
-
-    // ====== Frase de motivación renovada - Aparece con entrada épica mientras el H2 sale ======
-    const MOTIVATION_ENTRY_PX = NOTCH_PX * 5;  // Entrada épica
-    const MOTIVATION_STATIC_PX = NOTCH_PX * 5; // Frase permanece visible
-    const MOTIVATION_EXIT_PX = NOTCH_PX * 5;   // Salida épica
-    const MOTIVATION_TOTAL_PX = MOTIVATION_ENTRY_PX + MOTIVATION_STATIC_PX + MOTIVATION_EXIT_PX; // Total: 15 notchs
-    const motivationStartPx = triumphStartPx + TRIUMPH_ENTRY_PX + TRIUMPH_STATIC_PX; // Empieza cuando el H2 comienza a salir
-
-    if (motivationPhraseRef.current) {
-      gsap.set(motivationPhraseRef.current, { opacity: 0, scale: 0.5 });
-    }
-
+    
+    // Función de easing para explosión (ease-in con aceleración)
+    const easeInCubic = (t: number): number => {
+      return t * t * t;
+    };
+    
+    // SALIDA ÉPICA: Explosión dramática hacia fuera con rotación + líneas desaparecen + párrafo aparece
+    const triumphExitStartPx = triumphHoldStartPx + TRIUMPH_HOLD_PX;
+    
+    if (triumphParaRef.current) gsap.set(triumphParaRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    
     ScrollTrigger.create({
       trigger: scrollEl as Element,
-      start: `+=${motivationStartPx} top`,
-      end: `+=${MOTIVATION_TOTAL_PX}`,
-      scrub: true,
+      start: `+=${triumphExitStartPx} top`,
+      end: `+=${TRIUMPH_EXIT_PX}`,
+      scrub: 1, // Scrub suave para dramatismo
+      onEnter: () => {
+        if (triumphParaRef.current) gsap.set(triumphParaRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (triumphTextRef.current) gsap.set(triumphTextRef.current, { visibility: 'visible' });
+        if (triumphParaRef.current) gsap.set(triumphParaRef.current, { visibility: 'visible' });
+      },
       onUpdate: (self) => {
-        if (!motivationPhraseRef.current) return;
+        if (!triumphTextRef.current) return;
         const p = self.progress; // 0 → 1
         
-        // Calcular umbrales: entrada, estático, salida
-        const entryThreshold = MOTIVATION_ENTRY_PX / MOTIVATION_TOTAL_PX; // ~0.33
-        const staticThreshold = (MOTIVATION_ENTRY_PX + MOTIVATION_STATIC_PX) / MOTIVATION_TOTAL_PX; // ~0.67
-        
-        if (p <= entryThreshold) {
-          // FASE 1: Entrada épica con zoom in explosivo + rotación
-          const entryProgress = p / entryThreshold; // 0 → 1
-          const scale = 0.5 + (0.5 * entryProgress); // De 0.5 a 1.0
-          const rotate = (1 - entryProgress) * 10; // De 10° a 0° (pequeña rotación)
-          const opacity = entryProgress;
-          
-          motivationPhraseRef.current.style.opacity = String(opacity);
-          motivationPhraseRef.current.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
-        } else if (p <= staticThreshold) {
-          // FASE 2: Estático (frase visible completamente)
-          motivationPhraseRef.current.style.opacity = '1';
-          motivationPhraseRef.current.style.transform = 'scale(1) rotate(0deg)';
-        } else {
-          // FASE 3: Salida épica con zoom out + rotación inversa
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          const scale = 1 - (0.5 * exitProgress); // De 1.0 a 0.5
-          const rotate = exitProgress * -10; // De 0° a -10° (rotación inversa)
-          const opacity = 1 - exitProgress;
-          
-          motivationPhraseRef.current.style.opacity = String(opacity);
-          motivationPhraseRef.current.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+        // Párrafo aparece con zoom out por detrás (z-index menor)
+        if (triumphParaRef.current) {
+          const paraScale = 1.5 - (p * 0.5); // 1.5 → 1.0 (zoom out)
+          const paraOpacity = p; // 0 → 1 (fade in)
+          triumphParaRef.current.style.transform = `scale(${paraScale})`;
+          triumphParaRef.current.style.opacity = String(paraOpacity);
         }
+        
+        // Líneas de fondo desaparecen con explosión
+        if (triumphLinesRef.current) {
+          const linesScale = 1 + (p * 2); // 1.0 → 3.0 (zoom out dramático)
+          const linesOpacity = 0.6 * (1 - p); // 0.6 → 0
+          triumphLinesRef.current.style.transform = `scale(${linesScale})`;
+          triumphLinesRef.current.style.opacity = String(linesOpacity);
+        }
+        
+        // Explosión épica con aceleración creciente
+        triumphVectors.forEach((vector, i) => {
+          if (!vector.ref.current) return;
+          
+          // Delays escalonados para efecto cascada
+          const delay = i * 0.08;
+          const localProgress = Math.max(0, Math.min(1, (p - delay) / (1 - delay)));
+          
+          // Aplicar easing cúbico para aceleración explosiva
+          const easedProgress = easeInCubic(localProgress);
+          
+          // Explosión hacia afuera con rotación y zoom out
+          const x = vector.x * easedProgress;
+          const y = vector.y * easedProgress;
+          const rot = vector.rot * localProgress; // Rotación creciente
+          const scale = 1 + (easedProgress * 1.5); // Zoom out explosivo (1.0 → 2.5)
+          
+          // Blur creciente durante la explosión
+          const blur = localProgress * 12; // 0px → 12px
+          
+          vector.ref.current.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg) scale(${scale})`;
+          vector.ref.current.style.filter = `blur(${blur}px)`;
+          vector.ref.current.style.opacity = '1';
+        });
       },
       onLeave: () => {
-        // Ocultar completamente cuando sale
-        if (motivationPhraseRef.current) {
-          motivationPhraseRef.current.style.opacity = '0';
-          motivationPhraseRef.current.style.transform = 'scale(0.5) rotate(-10deg)';
-        }
+        if (triumphTextRef.current) gsap.set(triumphTextRef.current, { visibility: 'hidden' });
+        if (triumphLinesRef.current) triumphLinesRef.current.style.opacity = '0';
       },
       onLeaveBack: () => {
-        // Volver al estado inicial cuando vuelve atrás
-        if (motivationPhraseRef.current) {
-          motivationPhraseRef.current.style.opacity = '0';
-          motivationPhraseRef.current.style.transform = 'scale(0.5) rotate(10deg)';
+        if (triumphParaRef.current) gsap.set(triumphParaRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+        // Resetear todas las palabras
+        triumphVectors.forEach((vector) => {
+          if (!vector.ref.current) return;
+          vector.ref.current.style.transform = 'translate(0, 0) rotate(0deg) scale(1)';
+          vector.ref.current.style.filter = 'blur(0px)';
+          vector.ref.current.style.opacity = '1';
+        });
+        // Resetear líneas
+        if (triumphLinesRef.current) {
+          triumphLinesRef.current.style.transform = 'scale(1)';
+          triumphLinesRef.current.style.opacity = '0.6';
         }
       }
     });
+    
+    currentScrollPx += TRIUMPH_ENTRY_PX + TRIUMPH_HOLD_PX + TRIUMPH_EXIT_PX;
 
-    currentScrollPx += MOTIVATION_TOTAL_PX;
-
-    // ====== Medalla de Oro - Primera temporada tras el regreso ======
-    const GOLD_MEDAL_ENTRY_PX = NOTCH_PX * 5;  // Entrada épica
-    const GOLD_MEDAL_STATIC_PX = NOTCH_PX * 5; // Permanece visible
-    const GOLD_MEDAL_EXIT_PX = NOTCH_PX * 5;   // Salida épica
-    const GOLD_MEDAL_TOTAL_PX = GOLD_MEDAL_ENTRY_PX + GOLD_MEDAL_STATIC_PX + GOLD_MEDAL_EXIT_PX; // Total: 15 notchs
-    const goldMedalStartPx = motivationStartPx + MOTIVATION_ENTRY_PX + MOTIVATION_STATIC_PX; // Empieza cuando la frase de motivación comienza a salir
-
-    if (goldMedalRef.current) {
-      gsap.set(goldMedalRef.current, { opacity: 0, scale: 0.3 });
-    }
-
+    // ================= PÁRRAFO "CON LA MOTIVACIÓN RENOVADA" - HOLD Y SALIDA =================
+    const TRIUMPH_PARA_HOLD_PX = NOTCH_PX * 4; // Mantener visible 4 notchs
+    const TRIUMPH_PARA_EXIT_PX = NOTCH_PX * 4; // Salida hacia la derecha
+    const triumphParaHoldStartPx = triumphExitStartPx + TRIUMPH_EXIT_PX;
+    
+    // Hold: Mantener el párrafo visible y centrado
     ScrollTrigger.create({
       trigger: scrollEl as Element,
-      start: `+=${goldMedalStartPx} top`,
-      end: `+=${GOLD_MEDAL_TOTAL_PX}`,
+      start: `+=${triumphParaHoldStartPx} top`,
+      end: `+=${TRIUMPH_PARA_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!triumphParaRef.current) return;
+        triumphParaRef.current.style.transform = 'scale(1)';
+        triumphParaRef.current.style.opacity = '1';
+      }
+    });
+    
+    // Salida hacia la derecha
+    const triumphParaExitStartPx = triumphParaHoldStartPx + TRIUMPH_PARA_HOLD_PX;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${triumphParaExitStartPx} top`,
+      end: `+=${TRIUMPH_PARA_EXIT_PX}`,
       scrub: true,
       onUpdate: (self) => {
-        if (!goldMedalRef.current) return;
+        if (!triumphParaRef.current) return;
         const p = self.progress; // 0 → 1
-        
-        // Calcular umbrales: entrada, estático, salida
-        const entryThreshold = GOLD_MEDAL_ENTRY_PX / GOLD_MEDAL_TOTAL_PX; // ~0.33
-        const staticThreshold = (GOLD_MEDAL_ENTRY_PX + GOLD_MEDAL_STATIC_PX) / GOLD_MEDAL_TOTAL_PX; // ~0.67
-        
-        if (p <= entryThreshold) {
-          // FASE 1: Entrada épica con zoom explosivo desde pequeño
-          const entryProgress = p / entryThreshold; // 0 → 1
-          const scale = 0.3 + (0.7 * entryProgress); // De 0.3 a 1.0 (zoom muy pronunciado)
-          const opacity = entryProgress;
-          
-          goldMedalRef.current.style.opacity = String(opacity);
-          goldMedalRef.current.style.transform = `scale(${scale})`;
-        } else if (p <= staticThreshold) {
-          // FASE 2: Estático (medalla visible completamente)
-          goldMedalRef.current.style.opacity = '1';
-          goldMedalRef.current.style.transform = 'scale(1)';
-        } else {
-          // FASE 3: Salida épica con zoom out
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          const scale = 1 - (0.7 * exitProgress); // De 1.0 a 0.3
-          const opacity = 1 - exitProgress;
-          
-          goldMedalRef.current.style.opacity = String(opacity);
-          goldMedalRef.current.style.transform = `scale(${scale})`;
-        }
+        const vw = window.innerWidth;
+        const x = vw * p; // De 0 a 100vw (hacia la derecha)
+        triumphParaRef.current.style.transform = `translateX(${x}px) scale(1)`;
+        triumphParaRef.current.style.opacity = '1';
       },
       onLeave: () => {
-        // Ocultar completamente cuando sale
-        if (goldMedalRef.current) {
-          goldMedalRef.current.style.opacity = '0';
-          goldMedalRef.current.style.transform = 'scale(0.3)';
-        }
+        if (triumphParaRef.current) gsap.set(triumphParaRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (triumphParaRef.current) gsap.set(triumphParaRef.current, { visibility: 'visible' });
       },
       onLeaveBack: () => {
-        // Volver al estado inicial cuando vuelve atrás
-        if (goldMedalRef.current) {
-          goldMedalRef.current.style.opacity = '0';
-          goldMedalRef.current.style.transform = 'scale(0.3)';
+        if (triumphParaRef.current) {
+          triumphParaRef.current.style.transform = 'scale(1)';
+          triumphParaRef.current.style.opacity = '1';
         }
       }
     });
-
-    currentScrollPx += GOLD_MEDAL_TOTAL_PX;
-
-    // ====== Medallas de Plata y Bronce ======
-    const SILVER_BRONZE_ENTRY_PX = NOTCH_PX * 5;  // Entrada épica
-    const SILVER_BRONZE_STATIC_PX = NOTCH_PX * 5; // Permanece visible
-    const SILVER_BRONZE_EXIT_PX = NOTCH_PX * 5;   // Salida épica
-    const SILVER_BRONZE_TOTAL_PX = SILVER_BRONZE_ENTRY_PX + SILVER_BRONZE_STATIC_PX + SILVER_BRONZE_EXIT_PX; // Total: 15 notchs
-    const silverBronzeStartPx = goldMedalStartPx + GOLD_MEDAL_ENTRY_PX + GOLD_MEDAL_STATIC_PX; // Empieza cuando la medalla de oro comienza a salir
-
-    if (silverBronzeMedalsRef.current) {
-      gsap.set(silverBronzeMedalsRef.current, { opacity: 0, scale: 0.3 });
-    }
-
-    ScrollTrigger.create({
-      trigger: scrollEl as Element,
-      start: `+=${silverBronzeStartPx} top`,
-      end: `+=${SILVER_BRONZE_TOTAL_PX}`,
-      scrub: true,
-      onUpdate: (self) => {
-        if (!silverBronzeMedalsRef.current) return;
-        const p = self.progress; // 0 → 1
-        
-        // Calcular umbrales: entrada, estático, salida
-        const entryThreshold = SILVER_BRONZE_ENTRY_PX / SILVER_BRONZE_TOTAL_PX; // ~0.33
-        const staticThreshold = (SILVER_BRONZE_ENTRY_PX + SILVER_BRONZE_STATIC_PX) / SILVER_BRONZE_TOTAL_PX; // ~0.67
-        
-        if (p <= entryThreshold) {
-          // FASE 1: Entrada épica con zoom explosivo desde pequeño
-          const entryProgress = p / entryThreshold; // 0 → 1
-          const scale = 0.3 + (0.7 * entryProgress); // De 0.3 a 1.0 (zoom muy pronunciado)
-          const opacity = entryProgress;
-          
-          silverBronzeMedalsRef.current.style.opacity = String(opacity);
-          silverBronzeMedalsRef.current.style.transform = `scale(${scale})`;
-        } else if (p <= staticThreshold) {
-          // FASE 2: Estático (medallas visibles completamente)
-          silverBronzeMedalsRef.current.style.opacity = '1';
-          silverBronzeMedalsRef.current.style.transform = 'scale(1)';
-        } else {
-          // FASE 3: Salida épica con zoom out
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          const scale = 1 - (0.7 * exitProgress); // De 1.0 a 0.3 (zoom out)
-          const opacity = 1 - exitProgress;
-          
-          silverBronzeMedalsRef.current.style.opacity = String(opacity);
-          silverBronzeMedalsRef.current.style.transform = `scale(${scale})`;
-        }
-      },
-      onLeave: () => {
-        // Ocultar completamente cuando sale
-        if (silverBronzeMedalsRef.current) {
-          silverBronzeMedalsRef.current.style.opacity = '0';
-          silverBronzeMedalsRef.current.style.transform = 'scale(0.3)';
-        }
-      },
-      onLeaveBack: () => {
-        // Volver al estado inicial cuando vuelve atrás
-        if (silverBronzeMedalsRef.current) {
-          silverBronzeMedalsRef.current.style.opacity = '0';
-          silverBronzeMedalsRef.current.style.transform = 'scale(0.3)';
-        }
-      }
-    });
-
-    currentScrollPx += SILVER_BRONZE_TOTAL_PX;
-
-    // ====== Tercer Mejor Culturista del Año ======
-    const BEST_BODYBUILDER_ENTRY_PX = NOTCH_PX * 5;  // Entrada épica
-    const BEST_BODYBUILDER_STATIC_PX = NOTCH_PX * 5; // Permanece visible
-    const BEST_BODYBUILDER_EXIT_PX = NOTCH_PX * 5;   // Salida lateral hacia la izquierda
-    const BEST_BODYBUILDER_TOTAL_PX = BEST_BODYBUILDER_ENTRY_PX + BEST_BODYBUILDER_STATIC_PX + BEST_BODYBUILDER_EXIT_PX; // Total: 15 notchs
-    const bestBodybuilderStartPx = silverBronzeStartPx + SILVER_BRONZE_ENTRY_PX + SILVER_BRONZE_STATIC_PX; // Empieza cuando las medallas comienzan a salir
-
-    if (bestBodybuilderRef.current) {
-      gsap.set(bestBodybuilderRef.current, { opacity: 0, scale: 0.3 });
-    }
-
-    ScrollTrigger.create({
-      trigger: scrollEl as Element,
-      start: `+=${bestBodybuilderStartPx} top`,
-      end: `+=${BEST_BODYBUILDER_TOTAL_PX}`,
-      scrub: true,
-      onUpdate: (self) => {
-        if (!bestBodybuilderRef.current) return;
-        const p = self.progress; // 0 → 1
-        
-        // Calcular umbrales: entrada, estático, salida
-        const entryThreshold = BEST_BODYBUILDER_ENTRY_PX / BEST_BODYBUILDER_TOTAL_PX; // ~0.33
-        const staticThreshold = (BEST_BODYBUILDER_ENTRY_PX + BEST_BODYBUILDER_STATIC_PX) / BEST_BODYBUILDER_TOTAL_PX; // ~0.67
-        
-        if (p <= entryThreshold) {
-          // FASE 1: Entrada épica con zoom explosivo desde pequeño
-          const entryProgress = p / entryThreshold; // 0 → 1
-          const scale = 0.3 + (0.7 * entryProgress); // De 0.3 a 1.0 (zoom muy pronunciado)
-          const opacity = entryProgress;
-          
-          bestBodybuilderRef.current.style.opacity = String(opacity);
-          bestBodybuilderRef.current.style.transform = `scale(${scale}) translateX(0)`;
-        } else if (p <= staticThreshold) {
-          // FASE 2: Estático (visible completamente)
-          bestBodybuilderRef.current.style.opacity = '1';
-          bestBodybuilderRef.current.style.transform = 'scale(1) translateX(0)';
-        } else {
-          // FASE 3: Salida lateral hacia la izquierda
-          const exitProgress = (p - staticThreshold) / (1 - staticThreshold); // 0 → 1
-          const vw = window.innerWidth;
-          const translateX = -vw * exitProgress; // De 0 a -100vw (sale por la izquierda)
-          const opacity = 1 - exitProgress; // De 1 a 0 (fade out mientras sale)
-          
-          bestBodybuilderRef.current.style.opacity = String(opacity);
-          bestBodybuilderRef.current.style.transform = `scale(1) translateX(${translateX}px)`;
-        }
-      },
-      onLeave: () => {
-        // Ocultar completamente cuando sale
-        if (bestBodybuilderRef.current) {
-          const vw = window.innerWidth;
-          bestBodybuilderRef.current.style.opacity = '0';
-          bestBodybuilderRef.current.style.transform = `scale(1) translateX(${-vw}px)`;
-        }
-      },
-      onLeaveBack: () => {
-        // Volver al estado inicial cuando vuelve atrás
-        if (bestBodybuilderRef.current) {
-          bestBodybuilderRef.current.style.opacity = '0';
-          bestBodybuilderRef.current.style.transform = 'scale(0.3) translateX(0)';
-        }
-      }
-    });
-
-    currentScrollPx += BEST_BODYBUILDER_TOTAL_PX;
+    
+    currentScrollPx += TRIUMPH_PARA_HOLD_PX + TRIUMPH_PARA_EXIT_PX;
 
     // (El tipeo del párrafo se sincroniza en el onUpdate del trigger de entrada)
 
@@ -2601,9 +2601,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     
     // ============ TRANSICIÓN AL SEGUNDO VIDEO ============
     
-    // Guardar el punto donde termina el primer video (para configurar su scrubbing)
-    const video1EndPx = currentScrollPx;
-    
     const VIDEO_TRANSITION_PX = isMobile ? 800 : 1000; // Duración de la transición entre videos (más lenta = más scroll)
     const VIDEO2_SCRUB_PX = isMobile ? 4000 : 5000;    // Duración del scrubbing del segundo video
     
@@ -2624,20 +2621,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       start: `+=${currentScrollPx} top`,
       end: `+=${VIDEO_TRANSITION_PX}`,
       scrub: true,
-      onEnter: () => {
-        // Forzar al primer video/canvas a mostrar su último frame
-        if (useCanvas && framesCount) {
-          // Si estamos usando canvas, cargar el último frame
-          const lastFrame = framesCount;
-          currentFrameRef.current = lastFrame;
-          loadFrame(lastFrame).then((img) => drawToCanvas(img)).catch(() => {});
-        } else if (videoRef.current) {
-          // Si estamos usando video, ir al final
-          try {
-            videoRef.current.currentTime = videoRef.current.duration - 0.001;
-          } catch (_) {}
-        }
-      },
       onUpdate: (self) => {
         const vh = window.innerHeight;
         
@@ -2908,7 +2891,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
 
     // ============ SCRUBBING DEL TERCER VIDEO ==========
-    const VIDEO3_SCRUB_PX = isMobile ? 3500 : 4500;
+    const VIDEO3_SCRUB_PX = isMobile ? 4000 : 5500; // Extendido para más narrativa
     const video3StartPx = currentScrollPx; // comienza tras el segundo
 
     const setupCanvas3Scrub = () => {
@@ -3062,7 +3045,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
 
     // ============ SCRUBBING DEL CUARTO VIDEO ==========
-    const VIDEO4_SCRUB_PX = isMobile ? 3500 : 4500;
+    const VIDEO4_SCRUB_PX = isMobile ? 4000 : 5500; // Extendido para más narrativa
     const video4StartPx = currentScrollPx; // comienza tras el tercero
 
     const setupCanvas4Scrub = () => {
@@ -3146,6 +3129,310 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     });
 
     currentScrollPx += VIDEO4_PUSH_PX + VIDEO4_SCRUB_PX;
+
+    // ============ FUNCIONES CANVAS 5 (legacy) ============
+
+    const drawToCanvas5 = (img: HTMLImageElement) => {
+      const canvas = canvas5Ref.current;
+      const ctx = canvas?.getContext('2d');
+      if (!canvas || !ctx) return;
+      const cw = (canvas.width = window.innerWidth);
+      const ch = (canvas.height = window.innerHeight);
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);
+      const sw = iw * scale;
+      const sh = ih * scale;
+      const sx = (cw - sw) / 2;
+      const sy = (ch - sh) / 2;
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, 0, 0, iw, ih, sx, sy, sw, sh);
+    };
+
+    const frameStepMobile5 = 6; // salto agresivo en móvil
+    const effectiveFrameStep5 = isMobile ? frameStepMobile5 : 1;
+    const effectiveFrames5Count = frames5Count ? Math.floor(((frames5Count - 1) / effectiveFrameStep5)) + 1 : undefined;
+
+    const loadFrame5 = (index: number) => new Promise<HTMLImageElement>((resolve, reject) => {
+      if (!frames5Pattern || !frames5Count) return reject('no-pattern');
+      const cached = imageCache5Ref.current.get(index);
+      if (cached) return resolve(cached);
+      const img = new Image();
+      img.decoding = 'async';
+      img.loading = 'eager';
+      // Índice lógico → número de frame real (saltando en móvil)
+      const base = typeof frames5Start === 'number' ? frames5Start : 86400;
+      const frameNumber = base + ((index - 1) * effectiveFrameStep5);
+      const padded = String(frameNumber).padStart(8, '0');
+      // Usamos pattern con {index} que se sustituye por el número con padding de 8 dígitos
+      img.src = isMobile
+        ? frames5Pattern.replace('{index}', padded).replace('/legacy-frames/', '/legacy-frames/mobile-webp/')
+        : frames5Pattern.replace('{index}', padded);
+      img.onload = () => { imageCache5Ref.current.set(index, img); resolve(img); };
+      img.onerror = (e) => reject(e);
+    });
+
+    const preloadAround5 = (center: number) => {
+      if (!frames5Count) return;
+      const radius = 8;
+      for (let i = Math.max(1, center - radius); i <= Math.min(frames5Count, center + radius); i++) {
+        if (!imageCache5Ref.current.has(i)) {
+          loadFrame5(i).catch(() => {});
+        }
+      }
+    };
+
+    const tryEnableCanvas5 = async () => {
+      if (!frames5Pattern || !frames5Count) return false;
+      try {
+        const first = await loadFrame5(1);
+        drawToCanvas5(first);
+        preloadAround5(1);
+        setUseCanvas5(true);
+        return true;
+      } catch {
+        setUseCanvas5(false);
+        return false;
+      }
+    };
+
+    // ============ SCRUBBING DEL QUINTO VIDEO ==========
+    const VIDEO5_SCRUB_PX = isMobile ? 4000 : 5500; // Extendido para más narrativa
+    const video5StartPx = currentScrollPx; // comienza tras el cuarto
+
+    const setupCanvas5Scrub = () => {
+      if (!useCanvas5 || !frames5Count) return;
+      const onUpdate = (self: ScrollTrigger) => {
+        const total5 = effectiveFrames5Count ?? frames5Count;
+        const idx = Math.max(1, Math.min(total5!, Math.round(self.progress * (total5! - 1)) + 1));
+        if (idx === currentFrame5Ref.current) return;
+        currentFrame5Ref.current = idx;
+        if (drawing5Ref.current) return;
+        drawing5Ref.current = true;
+        loadFrame5(idx)
+          .then((img) => {
+            drawToCanvas5(img);
+            preloadAround5(idx);
+            drawing5Ref.current = false;
+          })
+          .catch(() => { drawing5Ref.current = false; });
+      };
+
+      ScrollTrigger.create({
+        trigger: scrollEl as Element,
+        start: `+=${video5StartPx} top`,
+        end: `+=${VIDEO5_SCRUB_PX}`,
+        scrub: 0.1,
+        onEnter: () => {
+          // Forzar primer frame exacto al entrar en el rango
+          currentFrame5Ref.current = 1;
+          loadFrame5(1).then((img) => drawToCanvas5(img)).catch(() => {});
+        },
+        onEnterBack: () => {
+          currentFrame5Ref.current = 1;
+          loadFrame5(1).then((img) => drawToCanvas5(img)).catch(() => {});
+        },
+        onUpdate,
+      });
+    };
+
+    (async () => {
+      const enabled5 = await tryEnableCanvas5();
+      if (enabled5) {
+        setupCanvas5Scrub();
+      }
+    })();
+
+    // Transición PUSH: video5 entra por la DERECHA y empuja video4 hacia la IZQUIERDA
+    const VIDEO5_PUSH_PX = isMobile ? 600 : 800;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${video5StartPx} top`,
+      end: `+=${VIDEO5_PUSH_PX}`,
+      scrub: true,
+      onEnter: () => {
+        // Al iniciar el push, garantizar que se vea el PRIMER frame
+        currentFrame5Ref.current = 1;
+        if (canvas5Ref.current) gsap.set(canvas5Ref.current, { visibility: 'visible' });
+        if (video5OverlayRef.current) gsap.set(video5OverlayRef.current, { visibility: 'visible' });
+        loadFrame5(1).then((img) => drawToCanvas5(img)).catch(() => {});
+      },
+      onEnterBack: () => {
+        currentFrame5Ref.current = 1;
+        if (canvas5Ref.current) gsap.set(canvas5Ref.current, { visibility: 'visible' });
+        if (video5OverlayRef.current) gsap.set(video5OverlayRef.current, { visibility: 'visible' });
+        loadFrame5(1).then((img) => drawToCanvas5(img)).catch(() => {});
+      },
+      onUpdate: (self) => {
+        const vw = window.innerWidth;
+        // canvas4 sale a la IZQUIERDA
+        if (canvas4Ref.current) gsap.set(canvas4Ref.current, { x: -vw * self.progress });
+        if (video4OverlayRef.current) gsap.set(video4OverlayRef.current, { x: -vw * self.progress });
+        // canvas5 entra desde la DERECHA
+        if (canvas5Ref.current) gsap.set(canvas5Ref.current, { x: vw * (1 - self.progress), visibility: 'visible' });
+        if (video5OverlayRef.current) gsap.set(video5OverlayRef.current, { x: vw * (1 - self.progress), visibility: 'visible' });
+      },
+      onLeaveBack: () => {
+        if (canvas4Ref.current) gsap.set(canvas4Ref.current, { x: 0 });
+        if (video4OverlayRef.current) gsap.set(video4OverlayRef.current, { x: 0 });
+        if (canvas5Ref.current) gsap.set(canvas5Ref.current, { x: '100vw', visibility: 'hidden' });
+        if (video5OverlayRef.current) gsap.set(video5OverlayRef.current, { x: '100vw', visibility: 'hidden' });
+      }
+    });
+
+    currentScrollPx += VIDEO5_PUSH_PX + VIDEO5_SCRUB_PX;
+
+    // ============ FUNCIONES CANVAS 6 (epilogue) ============
+
+    const drawToCanvas6 = (img: HTMLImageElement) => {
+      const canvas = canvas6Ref.current;
+      const ctx = canvas?.getContext('2d');
+      if (!canvas || !ctx) return;
+      const cw = (canvas.width = window.innerWidth);
+      const ch = (canvas.height = window.innerHeight);
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);
+      const sw = iw * scale;
+      const sh = ih * scale;
+      const sx = (cw - sw) / 2;
+      const sy = (ch - sh) / 2;
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, 0, 0, iw, ih, sx, sy, sw, sh);
+    };
+
+    const frameStepMobile6 = 6; // salto agresivo en móvil
+    const effectiveFrameStep6 = isMobile ? frameStepMobile6 : 1;
+    const effectiveFrames6Count = frames6Count ? Math.floor(((frames6Count - 1) / effectiveFrameStep6)) + 1 : undefined;
+
+    const loadFrame6 = (index: number) => new Promise<HTMLImageElement>((resolve, reject) => {
+      if (!frames6Pattern || !frames6Count) return reject('no-pattern');
+      const cached = imageCache6Ref.current.get(index);
+      if (cached) return resolve(cached);
+      const img = new Image();
+      img.decoding = 'async';
+      img.loading = 'eager';
+      // Índice lógico → número de frame real (saltando en móvil)
+      const base = typeof frames6Start === 'number' ? frames6Start : 86400;
+      const frameNumber = base + ((index - 1) * effectiveFrameStep6);
+      const padded = String(frameNumber).padStart(8, '0');
+      // Usamos pattern con {index} que se sustituye por el número con padding de 8 dígitos
+      img.src = isMobile
+        ? frames6Pattern.replace('{index}', padded).replace('/epilogue-frames/', '/epilogue-frames/mobile-webp/')
+        : frames6Pattern.replace('{index}', padded);
+      img.onload = () => { imageCache6Ref.current.set(index, img); resolve(img); };
+      img.onerror = (e) => reject(e);
+    });
+
+    const preloadAround6 = (center: number) => {
+      if (!frames6Count) return;
+      const radius = 8;
+      for (let i = Math.max(1, center - radius); i <= Math.min(frames6Count, center + radius); i++) {
+        if (!imageCache6Ref.current.has(i)) {
+          loadFrame6(i).catch(() => {});
+        }
+      }
+    };
+
+    const tryEnableCanvas6 = async () => {
+      if (!frames6Pattern || !frames6Count) return false;
+      try {
+        const first = await loadFrame6(1);
+        drawToCanvas6(first);
+        preloadAround6(1);
+        setUseCanvas6(true);
+        return true;
+      } catch {
+        setUseCanvas6(false);
+        return false;
+      }
+    };
+
+    // ============ SCRUBBING DEL SEXTO VIDEO ==========
+    const VIDEO6_SCRUB_PX = isMobile ? 4000 : 5500; // Extendido para más narrativa
+    const video6StartPx = currentScrollPx; // comienza tras el quinto
+
+    const setupCanvas6Scrub = () => {
+      if (!useCanvas6 || !frames6Count) return;
+      const onUpdate = (self: ScrollTrigger) => {
+        const total6 = effectiveFrames6Count ?? frames6Count;
+        const idx = Math.max(1, Math.min(total6!, Math.round(self.progress * (total6! - 1)) + 1));
+        if (idx === currentFrame6Ref.current) return;
+        currentFrame6Ref.current = idx;
+        if (drawing6Ref.current) return;
+        drawing6Ref.current = true;
+        loadFrame6(idx)
+          .then((img) => {
+            drawToCanvas6(img);
+            preloadAround6(idx);
+            drawing6Ref.current = false;
+          })
+          .catch(() => { drawing6Ref.current = false; });
+      };
+
+      ScrollTrigger.create({
+        trigger: scrollEl as Element,
+        start: `+=${video6StartPx} top`,
+        end: `+=${VIDEO6_SCRUB_PX}`,
+        scrub: 0.1,
+        onEnter: () => {
+          // Forzar primer frame exacto al entrar en el rango
+          currentFrame6Ref.current = 1;
+          loadFrame6(1).then((img) => drawToCanvas6(img)).catch(() => {});
+        },
+        onEnterBack: () => {
+          currentFrame6Ref.current = 1;
+          loadFrame6(1).then((img) => drawToCanvas6(img)).catch(() => {});
+        },
+        onUpdate,
+      });
+    };
+
+    (async () => {
+      const enabled6 = await tryEnableCanvas6();
+      if (enabled6) {
+        setupCanvas6Scrub();
+      }
+    })();
+
+    // Transición PUSH: video6 entra por la IZQUIERDA y empuja video5 hacia la DERECHA
+    const VIDEO6_PUSH_PX = isMobile ? 600 : 800;
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${video6StartPx} top`,
+      end: `+=${VIDEO6_PUSH_PX}`,
+      scrub: true,
+      onEnter: () => {
+        // Al iniciar el push, garantizar que se vea el PRIMER frame
+        currentFrame6Ref.current = 1;
+        if (canvas6Ref.current) gsap.set(canvas6Ref.current, { visibility: 'visible' });
+        if (video6OverlayRef.current) gsap.set(video6OverlayRef.current, { visibility: 'visible' });
+        loadFrame6(1).then((img) => drawToCanvas6(img)).catch(() => {});
+      },
+      onEnterBack: () => {
+        currentFrame6Ref.current = 1;
+        if (canvas6Ref.current) gsap.set(canvas6Ref.current, { visibility: 'visible' });
+        if (video6OverlayRef.current) gsap.set(video6OverlayRef.current, { visibility: 'visible' });
+        loadFrame6(1).then((img) => drawToCanvas6(img)).catch(() => {});
+      },
+      onUpdate: (self) => {
+        const vw = window.innerWidth;
+        // canvas5 sale a la DERECHA
+        if (canvas5Ref.current) gsap.set(canvas5Ref.current, { x: vw * self.progress });
+        if (video5OverlayRef.current) gsap.set(video5OverlayRef.current, { x: vw * self.progress });
+        // canvas6 entra desde la IZQUIERDA
+        if (canvas6Ref.current) gsap.set(canvas6Ref.current, { x: -vw * (1 - self.progress), visibility: 'visible' });
+        if (video6OverlayRef.current) gsap.set(video6OverlayRef.current, { x: -vw * (1 - self.progress), visibility: 'visible' });
+      },
+      onLeaveBack: () => {
+        if (canvas5Ref.current) gsap.set(canvas5Ref.current, { x: 0 });
+        if (video5OverlayRef.current) gsap.set(video5OverlayRef.current, { x: 0 });
+        if (canvas6Ref.current) gsap.set(canvas6Ref.current, { x: '-100vw', visibility: 'hidden' });
+        if (video6OverlayRef.current) gsap.set(video6OverlayRef.current, { x: '-100vw', visibility: 'hidden' });
+      }
+    });
+
+    currentScrollPx += VIDEO6_PUSH_PX + VIDEO6_SCRUB_PX;
 
     // En móvil: ocultar antes al hacer scroll hacia arriba (margen de retroceso)
     const BACK_HIDE_MARGIN = isMobile ? 0.8 : 1;
@@ -3246,7 +3533,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ScrollTrigger.create({
         trigger: scrollEl as Element,
         start: 'top top',
-        end: `+=${video1EndPx}`, // Termina justo antes de la transición al segundo video
+        end: `+=${totalScroll}`,
         scrub: true,
         onUpdate,
       });
@@ -3267,7 +3554,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           ScrollTrigger.create({
             trigger: scrollEl as Element,
             start: 'top top',
-            end: `+=${video1EndPx}`, // Termina justo antes de la transición al segundo video
+            end: `+=${totalScroll}`,
             scrub: 0.1,
             onUpdate: (self) => {
               const targetTime = self.progress * video.duration;
@@ -3319,7 +3606,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ScrollTrigger.getAll().forEach((t) => t.kill());
       window.removeEventListener('resize', handleResize);
     };
-  }, [framesPattern, framesCount, frames2Pattern, frames2Count, useCanvas, useCanvas2]);
+  }, [framesPattern, framesCount, frames2Pattern, frames2Count, frames3Pattern, frames3Count, frames4Pattern, frames4Count, frames5Pattern, frames5Count, useCanvas, useCanvas2, useCanvas3, useCanvas4, useCanvas5]);
 
   return (
     <div ref={containerRef} className="fixed inset-0 z-40 flex h-screen w-full items-center justify-center bg-black text-white overflow-hidden transition-[padding] duration-300 ease-out" style={{ backgroundColor: '#000' }}>
@@ -3373,6 +3660,20 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       )}
       {/* Overlay sutil para el cuarto video */}
       <div ref={video4OverlayRef} className="absolute inset-0 -z-15 bg-black/40" style={{ display: useCanvas4 ? 'block' : 'none' }} />
+
+      {/* Canvas flipbook para quinto video (legacy) */}
+      {(frames5Pattern && frames5Count) && (
+        <canvas ref={canvas5Ref} className="absolute inset-0 -z-14 w-full h-full" style={{ display: useCanvas5 ? 'block' : 'none' }} />
+      )}
+      {/* Overlay sutil para el quinto video */}
+      <div ref={video5OverlayRef} className="absolute inset-0 -z-13 bg-black/40" style={{ display: useCanvas5 ? 'block' : 'none' }} />
+
+      {/* Canvas flipbook para sexto video (epilogue) */}
+      {(frames6Pattern && frames6Count) && (
+        <canvas ref={canvas6Ref} className="absolute inset-0 -z-12 w-full h-full" style={{ display: useCanvas6 ? 'block' : 'none' }} />
+      )}
+      {/* Overlay sutil para el sexto video */}
+      <div ref={video6OverlayRef} className="absolute inset-0 -z-11 bg-black/40" style={{ display: useCanvas6 ? 'block' : 'none' }} />
 
       {/* Segundo video de fondo (training) - fallback para móvil */}
       <video
@@ -3466,9 +3767,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       {/* Frase del hijo - Zoom out desde el centro */}
       <div ref={sonChallengeRef} className="fixed inset-0 z-[65] flex items-center justify-center pointer-events-none" style={{ visibility: 'hidden' }}>
         <div className="relative max-w-5xl px-4">
-          {/* Glow rojo sutil de fondo */}
-          <div className="pointer-events-none absolute -inset-24 -z-10 blur-[80px] bg-red-600/20" />
-          
           {/* Texto blanco con palabras clave en rojo sólido */}
           <h2
             ref={sonChallengeTextRef}
@@ -3602,584 +3900,470 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         </div>
       </div>
 
-      {/* NABBA World Champion 2006 - Aparece con zoom in */}
-      <div ref={nabbaChampRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ opacity: 0, transform: 'scale(2)' }}>
-        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-3xl">
-          {/* Glow exterior */}
-          <div className="absolute -inset-1 rounded-3xl opacity-70 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(218,165,32,0.3),rgba(229,9,20,0.7))]" />
+      {/* Campeón NABBA 2006 - Entrada desde la derecha con estilo Netflix */}
+      <div ref={nabbaChampRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-3xl">
+          {/* Glow de fondo rojo */}
+          <div className="absolute -inset-8 bg-red-600/20 blur-[100px] rounded-full" />
           
           {/* Contenedor principal con glassmorphism */}
-          <div className="relative rounded-3xl border-2 border-white/20 bg-gradient-to-br from-black/80 via-black/75 to-black/80 backdrop-blur-xl shadow-[0_40px_120px_rgba(0,0,0,0.8)] px-8 py-12 md:px-16 md:py-16">
-            {/* Barra decorativa superior */}
-            <div className="absolute top-0 left-0 h-2 w-full bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-t-3xl" />
-            
-            {/* Decoración de esquinas */}
-            <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-red-600/50 rounded-tl-lg" />
-            <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-red-600/50 rounded-tr-lg" />
-            <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-red-600/50 rounded-bl-lg" />
-            <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-red-600/50 rounded-br-lg" />
-            
-            {/* Contenido */}
-            <div className="text-center space-y-6 md:space-y-8">
-              {/* Título del campeonato */}
-              <div className="space-y-3">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-none">
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-500 drop-shadow-[0_2px_10px_rgba(229,9,20,0.5)]">
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-2xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(255,255,255,0.1),rgba(229,9,20,0.7))]" />
+            <div className="relative rounded-2xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-6 py-8 md:px-10 md:py-12">
+              {/* Barra roja superior */}
+              <div className="absolute top-0 left-0 h-2 w-32 md:w-48 bg-gradient-to-r from-red-600 to-red-500 rounded-tr-2xl rounded-tl-2xl shadow-[0_0_20px_rgba(220,38,38,0.8)]" />
+              
+              {/* Layout responsive: móvil = columna, desktop = fila con logo a la derecha */}
+              <div className="flex flex-col md:flex-row md:items-start md:gap-8">
+                {/* Contenido principal */}
+                <div className="flex-1">
+                  {/* Subtítulo */}
+                  <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-red-500">
                     Campeón del Mundo
-                  </span>
-                  <span className="block mt-2 text-white/95 text-4xl md:text-6xl lg:text-7xl drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
-                    NABBA 2006
-                  </span>
-                </h2>
-                
-                {/* Categorías */}
-                <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mt-4">
-                  <span className="px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-red-700 rounded-full shadow-[0_4px_20px_rgba(229,9,20,0.4)]">
-                    Peso Pesado
-                  </span>
-                  <span className="text-red-500 text-xl md:text-2xl font-black">+</span>
-                  <span className="px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-red-700 rounded-full shadow-[0_4px_20px_rgba(229,9,20,0.4)]">
-                    Absoluto
-                  </span>
-                </div>
-              </div>
-              
-              {/* Línea divisoria */}
-              <div className="w-32 md:w-48 h-0.5 mx-auto bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-60" />
-              
-              {/* Logo NABBA */}
-              <div className="flex justify-center">
-                <div className="relative">
-                  {/* Glow del logo */}
-                  <div className="absolute inset-0 blur-xl opacity-40 bg-gradient-to-b from-red-600 to-transparent" />
+                  </div>
                   
-                  {/* Logo */}
-                  <img 
-                    src="/images/about/biography/campeon-NABBA.webp" 
-                    alt="NABBA Logo" 
-                    className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
-                  />
+                  {/* Título principal */}
+                  <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
+                      NABBA 2006
+                    </span>
+                  </h3>
+                  
+                  {/* Categoría */}
+                  <div className="border-l-4 border-red-600 pl-4 py-2">
+                    <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
+                      Categoría Peso Pesado<br/>
+                      <span className="text-red-400">y Absoluto</span>
+                    </p>
+                  </div>
+                  
+                  {/* Logo NABBA pequeño - solo visible en móvil */}
+                  <div className="mt-8 mb-6 flex justify-center md:hidden">
+                    <div className="relative w-32">
+                      <img 
+                        src="/images/about/biography/campeon-NABBA.webp" 
+                        alt="Logo NABBA"
+                        className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity duration-300"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Detalle adicional */}
+                  <div className="pt-4 border-t border-white/10 md:mt-6">
+                    <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                      Un hito histórico en la carrera de Bernat, consolidándose como uno de los mejores culturistas del mundo.
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Logo NABBA - solo visible en desktop, a la derecha */}
+                <div className="hidden md:flex md:items-center md:justify-center md:flex-shrink-0">
+                  <div className="relative w-40 lg:w-48">
+                    <img 
+                      src="/images/about/biography/campeon-NABBA.webp" 
+                      alt="Logo NABBA"
+                      className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity duration-300"
+                    />
+                  </div>
                 </div>
               </div>
-              
-              {/* Subtítulo inferior */}
-              <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.3em] text-gray-400/80">
-                National Amateur Bodybuilders Association
-              </p>
             </div>
-            
-            {/* Barra decorativa inferior */}
-            <div className="absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-b-3xl" />
           </div>
         </div>
       </div>
 
-      {/* NAC Mister Universo 2009 - Aparece con zoom in */}
-      <div ref={mrUniversoRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ opacity: 0, transform: 'scale(2)' }}>
-        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-3xl">
-          {/* Glow exterior con tonos plateados para Mr. Universo */}
-          <div className="absolute -inset-1 rounded-3xl opacity-70 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(192,192,192,0.4),rgba(229,9,20,0.7))]" />
+      {/* Subcampeón NAC Mister Universo 2009 - Entrada desde la derecha con estilo Netflix */}
+      <div ref={mrUniversoRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-3xl">
+          {/* Glow de fondo rojo */}
+          <div className="absolute -inset-8 bg-red-600/20 blur-[100px] rounded-full" />
           
           {/* Contenedor principal con glassmorphism */}
-          <div className="relative rounded-3xl border-2 border-white/20 bg-gradient-to-br from-black/80 via-black/75 to-black/80 backdrop-blur-xl shadow-[0_40px_120px_rgba(0,0,0,0.8)] px-8 py-12 md:px-16 md:py-16">
-            {/* Barra decorativa superior */}
-            <div className="absolute top-0 left-0 h-2 w-full bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-t-3xl" />
-            
-            {/* Decoración de esquinas */}
-            <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-red-600/50 rounded-tl-lg" />
-            <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-red-600/50 rounded-tr-lg" />
-            <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-red-600/50 rounded-bl-lg" />
-            <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-red-600/50 rounded-br-lg" />
-            
-            {/* Contenido */}
-            <div className="text-center space-y-6 md:space-y-8">
-              {/* Título del campeonato */}
-              <div className="space-y-3">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-none">
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-500 drop-shadow-[0_2px_10px_rgba(229,9,20,0.5)]">
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-2xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(255,255,255,0.1),rgba(229,9,20,0.7))]" />
+            <div className="relative rounded-2xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-6 py-8 md:px-10 md:py-12">
+              {/* Barra roja superior */}
+              <div className="absolute top-0 left-0 h-2 w-32 md:w-48 bg-gradient-to-r from-red-600 to-red-500 rounded-tr-2xl rounded-tl-2xl shadow-[0_0_20px_rgba(220,38,38,0.8)]" />
+              
+              {/* Layout responsive: móvil = columna, desktop = fila con logo a la derecha */}
+              <div className="flex flex-col md:flex-row md:items-start md:gap-8">
+                {/* Contenido principal */}
+                <div className="flex-1">
+                  {/* Subtítulo */}
+                  <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-red-500">
                     Subcampeón
-                  </span>
-                  <span className="block mt-2 text-white/95 text-3xl md:text-5xl lg:text-6xl drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
-                    NAC Mister Universo
-                  </span>
-                  <span className="block mt-1 text-white/95 text-4xl md:text-6xl lg:text-7xl drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
-                    2009
-                  </span>
-                </h2>
-                
-                {/* Badge de posición */}
-                <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mt-4">
-                  <span className="px-6 py-2.5 md:px-8 md:py-3 text-sm md:text-base font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-red-700 rounded-full shadow-[0_4px_20px_rgba(229,9,20,0.4)]">
-                    2º Lugar Mundial
-                  </span>
-                </div>
-              </div>
-              
-              {/* Línea divisoria */}
-              <div className="w-32 md:w-48 h-0.5 mx-auto bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-60" />
-              
-              {/* Logo Mr. Universo */}
-              <div className="flex justify-center">
-                <div className="relative">
-                  {/* Glow del logo con tono plateado */}
-                  <div className="absolute inset-0 blur-xl opacity-40 bg-gradient-to-b from-gray-300 to-transparent" />
+                  </div>
                   
-                  {/* Logo */}
-                  <img 
-                    src="/images/about/biography/mr universo.webp" 
-                    alt="NAC Mister Universo Logo" 
-                    className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
-                  />
+                  {/* Título principal */}
+                  <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
+                      NAC Mister Universo
+                    </span>
+                  </h3>
+                  
+                  {/* Año */}
+                  <div className="border-l-4 border-red-600 pl-4 py-2">
+                    <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
+                      <span className="text-red-400">2009</span>
+                    </p>
+                  </div>
+                  
+                  {/* Logo Mister Universo pequeño - solo visible en móvil */}
+                  <div className="mt-8 mb-6 flex justify-center md:hidden">
+                    <div className="relative w-32">
+                      <img 
+                        src="/images/about/biography/mr universo.webp" 
+                        alt="Logo NAC Mister Universo"
+                        className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity duration-300"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Detalle adicional */}
+                  <div className="pt-4 border-t border-white/10 md:mt-6">
+                    <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                      Una competición de élite internacional donde Bernat demostró su nivel excepcional, quedando entre los mejores del mundo.
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Logo Mister Universo - solo visible en desktop, a la derecha */}
+                <div className="hidden md:flex md:items-center md:justify-center md:flex-shrink-0">
+                  <div className="relative w-40 lg:w-48">
+                    <img 
+                      src="/images/about/biography/mr universo.webp" 
+                      alt="Logo NAC Mister Universo"
+                      className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity duration-300"
+                    />
+                  </div>
                 </div>
               </div>
-              
-              {/* Subtítulo inferior */}
-              <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.3em] text-gray-400/80">
-                National Athletic Committee
-              </p>
             </div>
-            
-            {/* Barra decorativa inferior */}
-            <div className="absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-b-3xl" />
           </div>
         </div>
       </div>
 
-      {/* Arnold Classic - Aparece con zoom in */}
-      <div ref={arnoldClassicRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ opacity: 0, transform: 'scale(2)' }}>
-        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-4xl">
-          {/* Glow exterior con tonos dorados/bronce para Arnold Classic */}
-          <div className="absolute -inset-1 rounded-3xl opacity-70 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(218,165,32,0.5),rgba(229,9,20,0.7))]" />
+      {/* Arnold Classic Columbus & Madrid - Entrada desde la derecha con estilo Netflix */}
+      <div ref={arnoldClassicRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-3xl">
+          {/* Glow de fondo rojo */}
+          <div className="absolute -inset-8 bg-red-600/20 blur-[100px] rounded-full" />
           
           {/* Contenedor principal con glassmorphism */}
-          <div className="relative rounded-3xl border-2 border-white/20 bg-gradient-to-br from-black/80 via-black/75 to-black/80 backdrop-blur-xl shadow-[0_40px_120px_rgba(0,0,0,0.8)] px-8 py-12 md:px-16 md:py-16">
-            {/* Barra decorativa superior */}
-            <div className="absolute top-0 left-0 h-2 w-full bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-t-3xl" />
-            
-            {/* Decoración de esquinas */}
-            <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-red-600/50 rounded-tl-lg" />
-            <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-red-600/50 rounded-tr-lg" />
-            <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-red-600/50 rounded-bl-lg" />
-            <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-red-600/50 rounded-br-lg" />
-            
-            {/* Contenido */}
-            <div className="text-center space-y-6 md:space-y-8">
-              {/* Título del campeonato */}
-              <div className="space-y-4">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-tight">
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-500 drop-shadow-[0_2px_10px_rgba(229,9,20,0.5)]">
-                    Competidor en
-                  </span>
-                  <span className="block mt-2 text-white/95 text-4xl md:text-6xl lg:text-7xl drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
-                    Arnold Classic
-                  </span>
-                </h2>
-                
-                {/* Badges de localización */}
-                <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mt-4">
-                  <span className="px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-red-700 rounded-full shadow-[0_4px_20px_rgba(229,9,20,0.4)]">
-                    Columbus (EE.UU.)
-                  </span>
-                  <span className="text-red-500 text-xl md:text-2xl font-black">+</span>
-                  <span className="px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-red-700 rounded-full shadow-[0_4px_20px_rgba(229,9,20,0.4)]">
-                    Madrid
-                  </span>
-                </div>
-              </div>
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-2xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(255,255,255,0.1),rgba(229,9,20,0.7))]" />
+            <div className="relative rounded-2xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-6 py-8 md:px-10 md:py-12">
+              {/* Barra roja superior */}
+              <div className="absolute top-0 left-0 h-2 w-32 md:w-48 bg-gradient-to-r from-red-600 to-red-500 rounded-tr-2xl rounded-tl-2xl shadow-[0_0_20px_rgba(220,38,38,0.8)]" />
               
-              {/* Línea divisoria */}
-              <div className="w-32 md:w-48 h-0.5 mx-auto bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-60" />
-              
-              {/* Logo Arnold Classic */}
-              <div className="flex justify-center">
-                <div className="relative">
-                  {/* Glow del logo con tono dorado */}
-                  <div className="absolute inset-0 blur-xl opacity-40 bg-gradient-to-b from-yellow-600 to-transparent" />
+              {/* Layout responsive: móvil = columna, desktop = fila con logo a la derecha */}
+              <div className="flex flex-col md:flex-row md:items-start md:gap-8">
+                {/* Contenido principal */}
+                <div className="flex-1">
+                  {/* Subtítulo */}
+                  <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-red-500">
+                    Competidor Internacional
+                  </div>
                   
-                  {/* Logo */}
-                  <img 
-                    src="/images/about/biography/arnol classic.webp" 
-                    alt="Arnold Classic Logo" 
-                    className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
-                  />
+                  {/* Título principal */}
+                  <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
+                      Arnold Classic
+                    </span>
+                  </h3>
+                  
+                  {/* Ubicaciones */}
+                  <div className="border-l-4 border-red-600 pl-4 py-2">
+                    <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
+                      Columbus <span className="text-red-400">(EE.UU.)</span><br/>
+                      <span className="text-red-400">y</span> Madrid
+                    </p>
+                  </div>
+                  
+                  {/* Logo Arnold Classic pequeño - solo visible en móvil */}
+                  <div className="mt-8 mb-6 flex justify-center md:hidden">
+                    <div className="relative w-32">
+                      <img 
+                        src="/images/about/biography/arnol classic.webp" 
+                        alt="Logo Arnold Classic"
+                        className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity duration-300"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Detalle adicional */}
+                  <div className="pt-4 border-t border-white/10 md:mt-6">
+                    <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                      Participación en una de las competiciones más prestigiosas del culturismo mundial, fundada por Arnold Schwarzenegger.
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Logo Arnold Classic - solo visible en desktop, a la derecha */}
+                <div className="hidden md:flex md:items-center md:justify-center md:flex-shrink-0">
+                  <div className="relative w-40 lg:w-48">
+                    <img 
+                      src="/images/about/biography/arnol classic.webp" 
+                      alt="Logo Arnold Classic"
+                      className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity duration-300"
+                    />
+                  </div>
                 </div>
               </div>
-              
-              {/* Subtítulo inferior */}
-              <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.3em] text-gray-400/80">
-                Competiciones Internacionales de Élite
-              </p>
             </div>
-            
-            {/* Barra decorativa inferior */}
-            <div className="absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-b-3xl" />
           </div>
         </div>
       </div>
 
-      {/* Ben Weider Classic + Big Man Masters - Aparece con zoom in */}
-      <div ref={benWeiderRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ opacity: 0, transform: 'scale(2)' }}>
-        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-4xl">
-          {/* Glow exterior con tonos dorados para medallas de oro */}
-          <div className="absolute -inset-1 rounded-3xl opacity-70 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(255,215,0,0.5),rgba(229,9,20,0.7))]" />
+      {/* Ben Weider Classic & Big Man Masters - Entrada desde la derecha con estilo Netflix */}
+      <div ref={benWeiderRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-3xl">
+          {/* Glow de fondo rojo */}
+          <div className="absolute -inset-8 bg-red-600/20 blur-[100px] rounded-full" />
           
           {/* Contenedor principal con glassmorphism */}
-          <div className="relative rounded-3xl border-2 border-white/20 bg-gradient-to-br from-black/80 via-black/75 to-black/80 backdrop-blur-xl shadow-[0_40px_120px_rgba(0,0,0,0.8)] px-8 py-12 md:px-16 md:py-16">
-            {/* Barra decorativa superior */}
-            <div className="absolute top-0 left-0 h-2 w-full bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-t-3xl" />
-            
-            {/* Decoración de esquinas */}
-            <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-red-600/50 rounded-tl-lg" />
-            <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-red-600/50 rounded-tr-lg" />
-            <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-red-600/50 rounded-bl-lg" />
-            <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-red-600/50 rounded-br-lg" />
-            
-            {/* Contenido */}
-            <div className="text-center space-y-6 md:space-y-8">
-              {/* Título del campeonato */}
-              <div className="space-y-4">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-tight">
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-500 drop-shadow-[0_2px_10px_rgba(255,215,0,0.5)]">
-                    Medallas de Oro en
-                  </span>
-                </h2>
-                
-                {/* Badges de competiciones */}
-                <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mt-4">
-                  <span className="px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-red-700 rounded-full shadow-[0_4px_20px_rgba(229,9,20,0.4)]">
-                    Ben Weider Classic
-                  </span>
-                  <span className="text-red-500 text-xl md:text-2xl font-black">+</span>
-                  <span className="px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-red-700 rounded-full shadow-[0_4px_20px_rgba(229,9,20,0.4)]">
-                    Big Man Masters
-                  </span>
-                </div>
-                
-                {/* Badge de categoría Masters */}
-                <div className="flex justify-center mt-2">
-                  <span className="px-5 py-2 text-xs md:text-sm font-bold uppercase tracking-wider text-yellow-500 border-2 border-yellow-500/50 rounded-full shadow-[0_4px_20px_rgba(255,215,0,0.3)]">
-                    +40 Años (Masters)
-                  </span>
-                </div>
-              </div>
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-2xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(255,255,255,0.1),rgba(229,9,20,0.7))]" />
+            <div className="relative rounded-2xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-6 py-8 md:px-10 md:py-12">
+              {/* Barra roja superior */}
+              <div className="absolute top-0 left-0 h-2 w-32 md:w-48 bg-gradient-to-r from-red-600 to-red-500 rounded-tr-2xl rounded-tl-2xl shadow-[0_0_20px_rgba(220,38,38,0.8)]" />
               
-              {/* Línea divisoria */}
-              <div className="w-32 md:w-48 h-0.5 mx-auto bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-60" />
-              
-              {/* Logo Ben Weider */}
-              <div className="flex justify-center">
-                <div className="relative">
-                  {/* Glow del logo con tono dorado */}
-                  <div className="absolute inset-0 blur-xl opacity-50 bg-gradient-to-b from-yellow-500 to-transparent" />
+              {/* Layout responsive: móvil = columna, desktop = fila con logo a la derecha */}
+              <div className="flex flex-col md:flex-row md:items-start md:gap-8">
+                {/* Contenido principal */}
+                <div className="flex-1">
+                  {/* Subtítulo */}
+                  <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-red-500">
+                    Medallas de Oro
+                  </div>
                   
-                  {/* Logo */}
-                  <img 
-                    src="/images/about/biography/benweider.webp" 
-                    alt="Ben Weider Classic Logo" 
-                    className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
-                  />
+                  {/* Título principal */}
+                  <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
+                      Ben Weider Classic
+                    </span>
+                  </h3>
+                  
+                  {/* Competiciones */}
+                  <div className="border-l-4 border-red-600 pl-4 py-2">
+                    <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
+                      <span className="text-red-400">y</span> Big Man Masters<br/>
+                      <span className="text-gray-400 text-sm">(+40 años)</span>
+                    </p>
+                  </div>
+                  
+                  {/* Logo Ben Weider pequeño - solo visible en móvil */}
+                  <div className="mt-8 mb-6 flex justify-center md:hidden">
+                    <div className="relative w-32">
+                      <img 
+                        src="/images/about/biography/benweider.webp" 
+                        alt="Logo Ben Weider"
+                        className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity duration-300"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Detalle adicional */}
+                  <div className="pt-4 border-t border-white/10 md:mt-6">
+                    <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                      Oro en competiciones de élite Masters, demostrando su excelencia y experiencia en categorías veteranas del culturismo.
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Logo Ben Weider - solo visible en desktop, a la derecha */}
+                <div className="hidden md:flex md:items-center md:justify-center md:flex-shrink-0">
+                  <div className="relative w-40 lg:w-48">
+                    <img 
+                      src="/images/about/biography/benweider.webp" 
+                      alt="Logo Ben Weider"
+                      className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity duration-300"
+                    />
+                  </div>
                 </div>
               </div>
-              
-              {/* Subtítulo inferior */}
-              <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.3em] text-gray-400/80">
-                Categoría Masters - Campeonatos Internacionales
-              </p>
             </div>
-            
-            {/* Barra decorativa inferior */}
-            <div className="absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-b-3xl" />
           </div>
         </div>
       </div>
 
-      {/* Párrafo sobre familia y regreso 2018 - Aparece con zoom in */}
-      <div ref={familyParaRef} className="fixed inset-0 z-[68] flex items-center justify-center pointer-events-none will-change-transform" style={{ opacity: 0, transform: 'scale(2)' }}>
-        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-3xl">
+      {/* Imagen de coaching - Zoom out entrada y salida */}
+      <div ref={coachingImageRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="pointer-events-none relative w-full max-w-md md:max-w-xl px-6 md:px-0">
+          {/* Glow rojo y marco glass */}
+          <div className="absolute -inset-1 rounded-3xl opacity-60 blur-sm bg-[linear-gradient(135deg,rgba(229,9,20,0.5),rgba(255,255,255,0.08),rgba(229,9,20,0.5))]" />
+          <div className="relative rounded-3xl border border-white/15 bg-black/40 backdrop-blur-md overflow-hidden">
+            <div className="absolute top-0 left-0 h-1.5 w-24 md:w-36 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
+            <img src="/images/about/entrenadores lau-ber-88.jpg" alt="Bernat coaching" className="w-full h-auto object-contain" />
+          </div>
+        </div>
+      </div>
+
+      {/* 25+ Años de experiencia - Entrada y salida con zoom out estilo glassmorphism */}
+      <div ref={experienceRef} className="fixed inset-0 z-[70] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="relative mx-4 md:mx-8">
+          
+          {/* Contenedor circular glassmorphism */}
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-full opacity-60 blur-[6px] bg-[linear-gradient(135deg,rgba(229,9,20,0.6),rgba(255,255,255,0.08),rgba(229,9,20,0.6))]" />
+            <div className="relative rounded-full border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] w-80 h-80 md:w-96 md:h-96 flex items-center justify-center">
+              
+              {/* Layout centrado */}
+              <div className="flex flex-col items-center text-center px-8">
+                
+                {/* Icono de trofeo/estrella monocolor */}
+                <div className="mb-6">
+                  <svg className="w-16 h-16 md:w-20 md:h-20 text-red-600 opacity-80" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </div>
+                
+                {/* Número 25+ */}
+                <div className="mb-4">
+                  <div className="text-6xl md:text-7xl font-black leading-none tracking-tighter">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-gray-100 to-red-500">
+                      25<span className="text-red-500">+</span>
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Texto de experiencia */}
+                <div className="space-y-1">
+                  <p className="text-xl md:text-2xl font-bold uppercase tracking-tight text-white">
+                    Años de
+                  </p>
+                  <p className="text-xl md:text-2xl font-bold uppercase tracking-tight text-red-500">
+                    Experiencia
+                  </p>
+                </div>
+                
+                {/* Separador sutil */}
+                <div className="mt-4 mb-3 w-16 h-px bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+                
+                {/* Subtexto */}
+                <p className="text-xs md:text-sm text-gray-400 font-medium">
+                  Desde el año 2000
+                </p>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 40+ Trofeos - Entrada con zoom out estilo glassmorphism */}
+      <div ref={trophiesRef} className="fixed inset-0 z-[70] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="relative mx-4 md:mx-8">
+          
+          {/* Contenedor circular glassmorphism */}
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-full opacity-60 blur-[6px] bg-[linear-gradient(135deg,rgba(229,9,20,0.6),rgba(255,255,255,0.08),rgba(229,9,20,0.6))]" />
+            <div className="relative rounded-full border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] w-80 h-80 md:w-96 md:h-96 flex items-center justify-center">
+              
+              {/* Layout centrado */}
+              <div className="flex flex-col items-center text-center px-8">
+                
+                {/* Icono de trofeo monocolor */}
+                <div className="mb-6">
+                  <svg className="w-16 h-16 md:w-20 md:h-20 text-red-600 opacity-80" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M5 3v18a1 1 0 0 0 1 1h1.293L12 17.293 16.707 22H18a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1zm5 6a2 2 0 1 1 4 0v.989c.917.507 2 1.476 2 2.511 0 1.657-1.343 3-3 3H11c-1.657 0-3-1.343-3-3 0-1.035 1.083-2.004 2-2.511V9z"/>
+                  </svg>
+                </div>
+                
+                {/* Número 40+ */}
+                <div className="mb-4">
+                  <div className="text-6xl md:text-7xl font-black leading-none tracking-tighter">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-gray-100 to-red-500">
+                      40<span className="text-red-500">+</span>
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Texto de trofeos */}
+                <div className="space-y-1">
+                  <p className="text-xl md:text-2xl font-bold uppercase tracking-tight text-red-500">
+                    Trofeos
+                  </p>
+                  <p className="text-xl md:text-2xl font-bold uppercase tracking-tight text-white">
+                    Internacionales
+                  </p>
+                </div>
+                
+                {/* Separador sutil */}
+                <div className="mt-4 mb-3 w-16 h-px bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+                
+                {/* Subtexto */}
+                <p className="text-xs md:text-sm text-gray-400 font-medium">
+                  En competiciones élite
+                </p>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Párrafo "Con la motivación renovada..." - Aparece mientras H2 se desfragmenta (z-index menor) */}
+      <div ref={triumphParaRef} className="fixed inset-0 z-[70] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-2xl">
           <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[6px] bg-[linear-gradient(135deg,rgba(229,9,20,0.6),rgba(255,255,255,0.08),rgba(229,9,20,0.6))]" />
           <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
             <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
             <p className="text-base md:text-lg leading-relaxed text-gray-100">
-              En 2012, decidió dar un parón en su carrera para formar una familia. Pero su pasión por el deporte nunca desapareció. En 2018, tras una pausa de seis años, regresó a la competición con más fuerza que nunca, consiguiendo varias medallas y consolidando su trayectoria como uno de los culturistas más destacados de Europa.
+              Con la motivación renovada, Bernat regresó a la competición en 2018, y lo hizo por la puerta grande:
             </p>
           </div>
         </div>
       </div>
 
-      {/* H2 "El Regreso Triunfal" - Aparece fragmentándose */}
-      <div ref={triumphTitleRef} className="fixed inset-0 z-[67] flex items-center justify-center pointer-events-none" style={{ opacity: 0 }}>
-        <div className="container max-w-6xl px-4 md:px-8 will-change-transform">
-          <div className="relative mx-auto max-w-fit">
-            {/* Glow de fondo radial rojo */}
-            <div className="pointer-events-none absolute -inset-20 -z-10 blur-3xl bg-[radial-gradient(ellipse_at_center,rgba(229,9,20,0.3),transparent_70%)]" />
-            
-            {/* Barra decorativa izquierda */}
-            <div className="absolute -left-6 top-1/2 -translate-y-1/2 h-32 w-1.5 bg-red-600 rounded-full" />
-            
-            {/* Título con fragmentación */}
-            <h2
-              ref={triumphTitleTextRef}
-              className="text-center text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-tight will-change-transform text-white"
-            />
-            
-            {/* Barra decorativa derecha */}
-            <div className="absolute -right-6 top-1/2 -translate-y-1/2 h-32 w-1.5 bg-red-600 rounded-full" />
+      {/* Texto "El Regreso Triunfal" - Estilo similar a "Títulos y Logros Internacionales" */}
+      <div ref={triumphTextRef} className="fixed inset-0 z-[71] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="relative w-full max-w-6xl px-6 md:px-12">
+          
+          {/* Líneas diagonales de fondo (efecto épico con animación) */}
+          <div ref={triumphLinesRef} className="absolute inset-0 pointer-events-none overflow-hidden will-change-transform" style={{ opacity: 0, transform: 'scale(0.5)' }}>
+            {/* Línea 1 */}
+            <div className="absolute" style={{ left: '15%', top: '10%' }}>
+              <div className="h-[120px] w-[8px] bg-gradient-to-b from-red-500 via-red-600 to-transparent rotate-[135deg] origin-top shadow-[0_0_24px_rgba(239,68,68,0.9)]" />
+            </div>
+            {/* Línea 2 */}
+            <div className="absolute" style={{ left: '35%', top: '5%' }}>
+              <div className="h-[90px] w-[6px] bg-gradient-to-b from-pink-500 via-red-500 to-transparent rotate-[135deg] origin-top shadow-[0_0_18px_rgba(236,72,153,0.8)]" />
+            </div>
+            {/* Línea 3 */}
+            <div className="absolute" style={{ right: '25%', bottom: '15%' }}>
+              <div className="h-[110px] w-[7px] bg-gradient-to-b from-red-600 via-red-700 to-transparent rotate-[135deg] origin-top shadow-[0_0_22px_rgba(220,38,38,0.9)]" />
+            </div>
+            {/* Línea 4 */}
+            <div className="absolute" style={{ right: '45%', bottom: '10%' }}>
+              <div className="h-[85px] w-[5px] bg-gradient-to-b from-red-500 via-pink-600 to-transparent rotate-[135deg] origin-top shadow-[0_0_16px_rgba(239,68,68,0.75)]" />
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* Frase de motivación renovada - Entrada épica - ESTILO PLANO */}
-      <div ref={motivationPhraseRef} className="fixed inset-0 z-[66] flex items-center justify-center pointer-events-none will-change-transform" style={{ opacity: 0, transform: 'scale(0.5) rotate(10deg)' }}>
-        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-5xl">
-          {/* Contenedor principal con estilo plano y limpio */}
-          <div className="relative rounded-2xl border-2 border-red-600 bg-black backdrop-blur-xl px-10 py-14 md:px-20 md:py-20">
-            {/* Barra superior roja plana */}
-            <div className="absolute top-0 left-0 right-0 h-2 bg-red-600 rounded-t-2xl" />
-            
-            {/* Decoración de esquinas minimalistas */}
-            <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-white/30" />
-            <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-white/30" />
-            <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-white/30" />
-            <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-white/30" />
-            
-            {/* Contenido de la frase */}
-            <div className="relative text-center space-y-6">
-              {/* Frase principal con juego tipográfico */}
-              <p className="leading-tight">
-                <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-white/90">
-                  Con la motivación renovada,
-                </span>
-                <span className="block mt-4 text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-red-600">
-                  Bernat regresó a la competición en 2018,
-                </span>
-                <span className="block mt-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-white/90">
-                  y lo hizo
-                </span>
-                <span className="block mt-2 text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase text-white">
-                  por la puerta grande:
-                </span>
-              </p>
-              
-              {/* Línea divisoria simple */}
-              <div className="flex items-center justify-center gap-3 mt-8">
-                <div className="w-24 h-0.5 bg-white/20" />
-                <div className="w-2 h-2 bg-red-600" />
-                <div className="w-24 h-0.5 bg-white/20" />
-              </div>
-            </div>
-            
-            {/* Barra inferior roja plana */}
-            <div className="absolute bottom-0 left-0 right-0 h-2 bg-red-600 rounded-b-2xl" />
+          {/* Subtítulo pequeño arriba */}
+          <div className="mb-4 text-center">
+            <p className="text-xs md:text-sm font-bold uppercase tracking-[0.3em] text-white opacity-70">
+              Scorus GYM
+            </p>
           </div>
-        </div>
-      </div>
-
-      {/* 🏅 Medalla de Oro - Primera temporada tras el regreso - ESTILO PLANO ÉPICO */}
-      <div ref={goldMedalRef} className="fixed inset-0 z-[65] flex items-center justify-center pointer-events-none will-change-transform" style={{ opacity: 0, transform: 'scale(0.3)' }}>
-        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-4xl">
-          {/* Contenedor principal plano y épico */}
-          <div className="relative rounded-3xl border-4 border-yellow-500 bg-black px-12 py-16 md:px-24 md:py-24">
-            {/* Decoración superior con líneas geométricas */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2">
-              <div className="w-16 h-1 bg-yellow-500" />
-              <div className="w-4 h-4 bg-yellow-500 rotate-45" />
-              <div className="w-16 h-1 bg-yellow-500" />
-            </div>
-            
-            {/* Esquinas decorativas geométricas */}
-            <div className="absolute top-6 left-6 w-20 h-20 border-t-4 border-l-4 border-yellow-500/50" />
-            <div className="absolute top-6 right-6 w-20 h-20 border-t-4 border-r-4 border-yellow-500/50" />
-            <div className="absolute bottom-6 left-6 w-20 h-20 border-b-4 border-l-4 border-yellow-500/50" />
-            <div className="absolute bottom-6 right-6 w-20 h-20 border-b-4 border-r-4 border-yellow-500/50" />
-            
-            {/* Contenido */}
-            <div className="relative text-center space-y-8">
-              {/* Emoji de medalla gigante */}
-              <div className="text-8xl md:text-9xl">
-                🏅
-              </div>
-              
-              {/* Título principal con juego tipográfico extremo */}
-              <div className="space-y-4">
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-medium uppercase tracking-wide text-yellow-500">
-                  Medalla de Oro
-                </h3>
-                <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-white/80 leading-relaxed px-4">
-                  en su primera temporada
-                </p>
-                <p className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase text-white leading-none mt-6">
-                  tras el regreso
-                </p>
-              </div>
-              
-              {/* Año destacado */}
-              <div className="inline-block px-8 py-3 border-2 border-yellow-500 rounded-lg">
-                <span className="text-4xl md:text-5xl font-black text-yellow-500">2018</span>
-              </div>
-              
-              {/* Líneas decorativas inferiores */}
-              <div className="flex items-center justify-center gap-4 mt-10">
-                <div className="w-2 h-2 bg-yellow-500" />
-                <div className="w-32 h-0.5 bg-yellow-500/50" />
-                <div className="w-2 h-2 bg-yellow-500" />
-                <div className="w-32 h-0.5 bg-yellow-500/50" />
-                <div className="w-2 h-2 bg-yellow-500" />
-              </div>
-            </div>
-            
-            {/* Decoración inferior con líneas geométricas */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex items-center gap-2">
-              <div className="w-16 h-1 bg-yellow-500" />
-              <div className="w-4 h-4 bg-yellow-500 rotate-45" />
-              <div className="w-16 h-1 bg-yellow-500" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 🥈 Dos medallas de Plata y una de Bronce - ESTILO PLANO ÉPICO */}
-      <div ref={silverBronzeMedalsRef} className="fixed inset-0 z-[64] flex items-center justify-center pointer-events-none will-change-transform" style={{ opacity: 0, transform: 'scale(0.3)' }}>
-        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-5xl">
-          {/* Contenedor principal plano y épico */}
-          <div className="relative rounded-3xl border-4 border-gray-400 bg-black px-12 py-16 md:px-24 md:py-24">
-            {/* Decoración superior con líneas geométricas */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2">
-              <div className="w-16 h-1 bg-gray-400" />
-              <div className="w-4 h-4 bg-gray-400 rotate-45" />
-              <div className="w-16 h-1 bg-gray-400" />
-            </div>
-            
-            {/* Esquinas decorativas geométricas */}
-            <div className="absolute top-6 left-6 w-20 h-20 border-t-4 border-l-4 border-gray-400/50" />
-            <div className="absolute top-6 right-6 w-20 h-20 border-t-4 border-r-4 border-gray-400/50" />
-            <div className="absolute bottom-6 left-6 w-20 h-20 border-b-4 border-l-4 border-gray-400/50" />
-            <div className="absolute bottom-6 right-6 w-20 h-20 border-b-4 border-r-4 border-gray-400/50" />
-            
-            {/* Contenido */}
-            <div className="relative text-center space-y-8">
-              {/* Emojis de medallas en línea */}
-              <div className="flex items-center justify-center gap-4 text-6xl sm:text-7xl md:text-8xl">
-                <span>🥈</span>
-                <span>🥈</span>
-                <span>🥉</span>
-              </div>
-              
-              {/* Título principal con juego tipográfico extremo */}
-              <div className="space-y-4">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-light uppercase tracking-wide text-gray-400">
-                  Múltiples Medallas
-                </h3>
-                <p className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase text-white leading-none">
-                  Dos de Plata
-                </p>
-                <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-white/70 leading-relaxed">
-                  y
-                </p>
-                <p className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase text-white leading-none">
-                  Una de Bronce
-                </p>
-              </div>
-              
-              {/* Competiciones en cajas */}
-              <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
-                <div className="px-5 py-2 border-2 border-gray-400 rounded-lg">
-                  <span className="text-base md:text-lg font-bold text-gray-400">Ben Weider</span>
-                </div>
-                <div className="px-5 py-2 border-2 border-gray-400 rounded-lg">
-                  <span className="text-base md:text-lg font-bold text-gray-400">IFBB Miami</span>
-                </div>
-                <div className="px-5 py-2 border-2 border-gray-400 rounded-lg">
-                  <span className="text-base md:text-lg font-bold text-gray-400">Big Man</span>
-                </div>
-              </div>
-              
-              {/* Líneas decorativas inferiores */}
-              <div className="flex items-center justify-center gap-4 mt-10">
-                <div className="w-2 h-2 bg-gray-400" />
-                <div className="w-32 h-0.5 bg-gray-400/50" />
-                <div className="w-2 h-2 bg-gray-400" />
-                <div className="w-32 h-0.5 bg-gray-400/50" />
-                <div className="w-2 h-2 bg-gray-400" />
-              </div>
-            </div>
-            
-            {/* Decoración inferior con líneas geométricas */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex items-center gap-2">
-              <div className="w-16 h-1 bg-gray-400" />
-              <div className="w-4 h-4 bg-gray-400 rotate-45" />
-              <div className="w-16 h-1 bg-gray-400" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 🥉 Tercer Mejor Culturista del Año - ESTILO PLANO ÉPICO */}
-      <div ref={bestBodybuilderRef} className="fixed inset-0 z-[63] flex items-center justify-center pointer-events-none will-change-transform" style={{ opacity: 0, transform: 'scale(0.3)' }}>
-        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-4xl">
-          {/* Contenedor principal plano y épico con tonos bronce */}
-          <div className="relative rounded-3xl border-4 border-amber-700 bg-black px-12 py-16 md:px-24 md:py-24">
-            {/* Decoración superior con líneas geométricas */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2">
-              <div className="w-16 h-1 bg-amber-700" />
-              <div className="w-4 h-4 bg-amber-700 rotate-45" />
-              <div className="w-16 h-1 bg-amber-700" />
-            </div>
-            
-            {/* Esquinas decorativas geométricas */}
-            <div className="absolute top-6 left-6 w-20 h-20 border-t-4 border-l-4 border-amber-700/50" />
-            <div className="absolute top-6 right-6 w-20 h-20 border-t-4 border-r-4 border-amber-700/50" />
-            <div className="absolute bottom-6 left-6 w-20 h-20 border-b-4 border-l-4 border-amber-700/50" />
-            <div className="absolute bottom-6 right-6 w-20 h-20 border-b-4 border-r-4 border-amber-700/50" />
-            
-            {/* Contenido */}
-            <div className="relative text-center space-y-8">
-              {/* Emoji de medalla de bronce gigante */}
-              <div className="text-8xl md:text-9xl">
-                🥉
-              </div>
-              
-              {/* Título principal con juego tipográfico extremo */}
-              <div className="space-y-4">
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-medium uppercase tracking-wide text-amber-700">
-                  Reconocimiento Oficial
-                </h3>
-                <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-white/80 leading-relaxed px-4">
-                  Nombrado
-                </p>
-                <p className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase text-white leading-none mt-6">
-                  el Tercer Mejor
-                </p>
-                <p className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black uppercase text-white leading-none">
-                  Culturista del Año
-                </p>
-              </div>
-              
-              {/* Badge de posición */}
-              <div className="inline-block px-10 py-4 border-2 border-amber-700 rounded-lg">
-                <div className="flex items-center gap-4">
-                  <span className="text-5xl md:text-6xl font-black text-amber-700">3º</span>
-                  <div className="h-12 w-0.5 bg-amber-700/30" />
-                  <span className="text-xl md:text-2xl font-bold text-white/80 uppercase tracking-wider">Puesto</span>
-                </div>
-              </div>
-              
-              {/* Líneas decorativas inferiores */}
-              <div className="flex items-center justify-center gap-4 mt-10">
-                <div className="w-2 h-2 bg-amber-700" />
-                <div className="w-32 h-0.5 bg-amber-700/50" />
-                <div className="w-2 h-2 bg-amber-700" />
-                <div className="w-32 h-0.5 bg-amber-700/50" />
-                <div className="w-2 h-2 bg-amber-700" />
-              </div>
-            </div>
-            
-            {/* Decoración inferior con líneas geométricas */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex items-center gap-2">
-              <div className="w-16 h-1 bg-amber-700" />
-              <div className="w-4 h-4 bg-amber-700 rotate-45" />
-              <div className="w-16 h-1 bg-amber-700" />
-            </div>
-          </div>
+          
+          {/* Título principal - cada palabra es fragmentable */}
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black uppercase leading-tight tracking-tight text-center">
+            <span className="block">
+              <span ref={triumphTitle1Ref} className="inline-block text-red-600 will-change-transform" style={{ opacity: 1 }}>El Regreso</span>
+              <span className="inline-block"> </span>
+              <span ref={triumphTitle2Ref} className="inline-block text-white will-change-transform" style={{ opacity: 1 }}>Triunfal:</span>
+            </span>
+            <span className="block text-white">
+              <span ref={triumphTitle3Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>Más</span>
+              <span className="inline-block"> </span>
+              <span ref={triumphTitle4Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>Fuerte</span>
+              <span className="inline-block"> </span>
+              <span ref={triumphTitle5Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>que</span>
+              <span className="inline-block"> </span>
+              <span ref={triumphTitle6Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>Nunca</span>
+            </span>
+          </h2>
         </div>
       </div>
 
