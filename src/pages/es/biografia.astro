@@ -33,16 +33,36 @@ const videoWebm = '/videos/biography/intro.webm';
   />
   <!-- Altura extra responsive para cubrir todo el scrollytelling -->
   <div id="bio-scroll-spacer"></div>
+  <!-- Espacio para el CTA fijo, permite que el footer aparezca debajo -->
+  <div id="bio-cta-spacer" class="relative bg-black"></div>
 </Layout>
 
 <style is:inline>
   html, body { background-color: #000; }
-  /* Spacer responsive: más alto en móvil con 6 videos + módulos experiencia y trofeos */
-  #bio-scroll-spacer { height: 5800vh; }
+  /* Spacer responsive: Incluye fade out final de 2 notches */
+  #bio-scroll-spacer { height: 6200vh; }
   @media (min-width: 768px) {
-    #bio-scroll-spacer { height: 4700vh; }
+    #bio-scroll-spacer { height: 5030vh; }
   }
   @media (min-width: 1024px) {
-    #bio-scroll-spacer { height: 4200vh; }
+    #bio-scroll-spacer { height: 4570vh; }
+  }
+  
+  /* Espacio para el CTA fijo - permite que el footer sea visible */
+  #bio-cta-spacer { 
+    height: 100vh; 
+    min-height: 600px;
+  }
+  @media (min-width: 768px) {
+    #bio-cta-spacer { 
+      height: 90vh;
+      min-height: 550px;
+    }
+  }
+  @media (min-width: 1024px) {
+    #bio-cta-spacer { 
+      height: 80vh;
+      min-height: 500px;
+    }
   }
 </style>

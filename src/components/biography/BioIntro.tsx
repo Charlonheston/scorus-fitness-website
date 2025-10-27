@@ -38,6 +38,11 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const video2Ref = useRef<HTMLVideoElement>(null); // Segundo video (training)
   const video2OverlayRef = useRef<HTMLDivElement>(null); // Overlay del segundo video
   const nextTitleInnerRef = useRef<HTMLDivElement>(null);
+  // Nuevo H2: "Entrenador Personal en Alicante y Campeón del Mundo de Culturismo"
+  const newH2Ref = useRef<HTMLDivElement>(null);
+  // Nuevo párrafo tras el H2: Experiencia de 25 años
+  const experienceParaRef = useRef<HTMLDivElement>(null);
+  const experienceParaTextRef = useRef<HTMLParagraphElement>(null);
   // H2 posterior a Tabs: "El Sacrificio de la Competición"
   const compTitleBlockRef = useRef<HTMLDivElement>(null);
   const compTitleTextRef = useRef<HTMLHeadingElement>(null);
@@ -168,6 +173,30 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const triumphTextRef = useRef<HTMLDivElement>(null); // Texto "El Regreso Triunfal"
   const triumphLinesRef = useRef<HTMLDivElement>(null); // Líneas de fondo para "El Regreso Triunfal"
   const triumphParaRef = useRef<HTMLDivElement>(null); // Párrafo que aparece mientras el H2 se desfragmenta
+  const goldMedalRef = useRef<HTMLDivElement>(null); // Frase "Medalla de Oro en su primera temporada"
+  const silverBronzeRef = useRef<HTMLDivElement>(null); // Frase "Dos medallas de Plata y una de Bronce"
+  const bestBodybuilderRef = useRef<HTMLDivElement>(null); // Frase "Tercer Mejor Culturista del Año"
+  const newMeaningParaRef = useRef<HTMLDivElement>(null); // Párrafo "Pero esta vez, la competición..."
+  const indiaParaRef = useRef<HTMLDivElement>(null); // Párrafo "Ese mismo año, fue invitado a la India..."
+  const stageImageRef = useRef<HTMLDivElement>(null); // Imagen bernat-stage.webp
+  const familyImageRef = useRef<HTMLDivElement>(null); // Imagen bernat-family.webp
+  const philosophyTextRef = useRef<HTMLDivElement>(null); // H2 "Mi Filosofía: Más Allá del Fitness"
+  const philosophyWord1Ref = useRef<HTMLSpanElement>(null); // "Mi"
+  const philosophyWord2Ref = useRef<HTMLSpanElement>(null); // "Filosofía:"
+  const philosophyWord3Ref = useRef<HTMLSpanElement>(null); // "Más"
+  const philosophyWord4Ref = useRef<HTMLSpanElement>(null); // "Allá"
+  const philosophyWord5Ref = useRef<HTMLSpanElement>(null); // "del"
+  const philosophyWord6Ref = useRef<HTMLSpanElement>(null); // "Fitness"
+  const scorusParaRef = useRef<HTMLDivElement>(null); // Párrafo "Tras su exitosa carrera..."
+  const trainingModuleRef = useRef<HTMLDivElement>(null); // Módulo "Entrenamiento"
+  const nutritionModuleRef = useRef<HTMLDivElement>(null); // Módulo "Nutrición"
+  const trackingModuleRef = useRef<HTMLDivElement>(null); // Módulo "Seguimiento"
+  const rebornModuleRef = useRef<HTMLDivElement>(null); // Módulo "REBORN y Scorus Campus"
+  const scorusGymModuleRef = useRef<HTMLDivElement>(null); // Módulo "ScorusGYM"
+  const holisticParaRef = useRef<HTMLDivElement>(null); // Párrafo "Su enfoque es holístico..."
+  const finalCtaRef = useRef<HTMLDivElement>(null); // CTA Final "Transforma tu Vida" - PERMANECE FIJO
+  const geometricClosureRef = useRef<HTMLDivElement>(null); // Animación geométrica de cierre
+  const finalBlackBgRef = useRef<HTMLDivElement>(null); // Fondo negro final
   const triumphTitle1Ref = useRef<HTMLSpanElement>(null); // "El Regreso"
   const triumphTitle2Ref = useRef<HTMLSpanElement>(null); // "Triunfal:"
   const triumphTitle3Ref = useRef<HTMLSpanElement>(null); // "Más"
@@ -214,6 +243,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     if (quote2Ref.current) gsap.set(quote2Ref.current, { y: '-120vh', opacity: 1 });
     if (quote2TextRef.current) quote2TextRef.current.textContent = '';
     if (tabsContainerRef.current) gsap.set(tabsContainerRef.current, { scale: 0.1, opacity: 0 });
+    // Inicializar el contenedor principal con opacidad completa y pointer-events activos
+    if (containerRef.current) gsap.set(containerRef.current, { opacity: 1, pointerEvents: 'auto' });
+    
     // Canvas3 (video challenge): mantener fuera de pantalla y oculto inicialmente
     if (canvas3Ref.current) gsap.set(canvas3Ref.current, { x: '100vw', visibility: 'hidden' });
     if (video3OverlayRef.current) gsap.set(video3OverlayRef.current, { x: '100vw', visibility: 'hidden' });
@@ -249,8 +281,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     );
 
     // Recorrido para scrubbing
-    const scrollScreens = 12;
-    const totalScroll = window.innerHeight * scrollScreens;
+    const scrollScreensForVideo1 = 12; // Duración del primer video (mantener original)
+    const totalScroll = window.innerHeight * scrollScreensForVideo1;
     const scrollEl = document.scrollingElement || document.documentElement;
 
     // Intro sale rápido 0–20%
@@ -314,8 +346,194 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       .to(quoteRef.current, { y: 0, ease: 'power3.out', duration: 0.5 })
       .to(quoteRef.current, { y: '-120vh', ease: 'power3.in', duration: 0.5 });
 
-    // Parámetros del flip del H2
-    const TITLE_FLIP_START = quoteEndFactor + (isMobile ? 0.1 : 0.11 - 0.02);  // móvil un poco más tarde
+    // ================= NUEVO H2: "Entrenador Personal en Alicante y Campeón del Mundo" =================
+    // Aparece justo después de que la cita de Arnold desaparece
+    const quoteEndPx = totalScroll * (0.12 + quoteEndFactor); // Punto donde termina la cita
+    const NOTCH_SIZE_PX = isMobile ? 75 : 100; // Tamaño de un notch (igual que NOTCH_PX definido más adelante)
+    const NEW_H2_ENTRY_PX = NOTCH_SIZE_PX * 5; // Entrada con zoom out
+    const NEW_H2_HOLD_PX = NOTCH_SIZE_PX * 6; // Hold para lectura
+    const NEW_H2_EXIT_PX = NOTCH_SIZE_PX * 5; // Salida con zoom out
+    const newH2StartPx = quoteEndPx; // Justo después de la cita de Arnold
+
+    // Estado inicial: oculto, escalado grande
+    if (newH2Ref.current) {
+      gsap.set(newH2Ref.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    }
+
+    // Entry: Aparición con zoom out
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${newH2StartPx} top`,
+      end: `+=${NEW_H2_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (newH2Ref.current) gsap.set(newH2Ref.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!newH2Ref.current) return;
+        const scale = 1.5 - (self.progress * 0.5); // 1.5 → 1.0
+        const opacity = self.progress; // 0 → 1
+        gsap.set(newH2Ref.current, { scale, opacity });
+      },
+      onLeaveBack: () => {
+        if (newH2Ref.current) {
+          gsap.set(newH2Ref.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+        }
+      }
+    });
+
+    const newH2HoldStartPx = newH2StartPx + NEW_H2_ENTRY_PX;
+
+    // Hold: mantener visible
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${newH2HoldStartPx} top`,
+      end: `+=${NEW_H2_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!newH2Ref.current) return;
+        gsap.set(newH2Ref.current, { scale: 1.0, opacity: 1 });
+      }
+    });
+
+    const newH2ExitStartPx = newH2HoldStartPx + NEW_H2_HOLD_PX;
+
+    // Exit: Desaparición con zoom out para dar paso al siguiente H2
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${newH2ExitStartPx} top`,
+      end: `+=${NEW_H2_EXIT_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!newH2Ref.current) return;
+        const scale = 1.0 + (self.progress * 1.5); // 1.0 → 2.5
+        const opacity = 1 - self.progress; // 1 → 0
+        gsap.set(newH2Ref.current, { scale, opacity });
+      },
+      onLeave: () => {
+        if (newH2Ref.current) {
+          gsap.set(newH2Ref.current, { visibility: 'hidden' });
+        }
+      },
+      onEnterBack: () => {
+        if (newH2Ref.current) {
+          gsap.set(newH2Ref.current, { visibility: 'visible' });
+        }
+      }
+    });
+
+    // ================= NUEVO PÁRRAFO: Experiencia de 25 años (con efecto de escritura) =================
+    const experienceParaFullText = `Con más de 25 años de experiencia, Bernat Scorus ha construido una trayectoria en el mundo del culturismo y el fitness que pocos pueden igualar. Ha convertido su pasión en una filosofía de vida, ayudando a miles de personas a alcanzar su mejor versión a través del entrenamiento y la nutrición personalizada.\n\nActualmente, lidera Scorus Fitness, un centro que ofrece entrenamiento personal en Alicante, programas de coaching online y transformación física integral. Su enfoque se basa en la experiencia real, el conocimiento adquirido en años de competición y el compromiso con sus clientes.`;
+    
+    const EXPERIENCE_PARA_ENTRY_PX = NOTCH_SIZE_PX * 3; // Entrada del párrafo
+    const EXPERIENCE_PARA_TYPE_PX = NOTCH_SIZE_PX * 8; // Efecto de escritura
+    const EXPERIENCE_PARA_HOLD_PX = NOTCH_SIZE_PX * 4; // Hold para lectura
+    const EXPERIENCE_PARA_EXIT_PX = NOTCH_SIZE_PX * 3; // Salida
+    const experienceParaStartPx = newH2ExitStartPx + NEW_H2_EXIT_PX; // Justo después del nuevo H2
+
+    // Estado inicial: oculto
+    if (experienceParaRef.current) {
+      gsap.set(experienceParaRef.current, { visibility: 'hidden', opacity: 0, y: 50 });
+    }
+    if (experienceParaTextRef.current) {
+      experienceParaTextRef.current.textContent = '';
+    }
+
+    // Entry: Aparición desde abajo con fade in
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${experienceParaStartPx} top`,
+      end: `+=${EXPERIENCE_PARA_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (experienceParaRef.current) gsap.set(experienceParaRef.current, { visibility: 'visible' });
+        if (experienceParaTextRef.current) experienceParaTextRef.current.textContent = '';
+      },
+      onUpdate: (self) => {
+        if (!experienceParaRef.current) return;
+        const opacity = self.progress; // 0 → 1
+        const y = 50 - (self.progress * 50); // 50px → 0px
+        gsap.set(experienceParaRef.current, { opacity, y });
+      },
+      onLeaveBack: () => {
+        if (experienceParaRef.current) {
+          gsap.set(experienceParaRef.current, { visibility: 'hidden', opacity: 0, y: 50 });
+        }
+        if (experienceParaTextRef.current) experienceParaTextRef.current.textContent = '';
+      }
+    });
+
+    const experienceParaTypeStartPx = experienceParaStartPx + EXPERIENCE_PARA_ENTRY_PX;
+
+    // Typing effect: Escribir el texto carácter por carácter
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${experienceParaTypeStartPx} top`,
+      end: `+=${EXPERIENCE_PARA_TYPE_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!experienceParaTextRef.current) return;
+        const charCount = Math.floor(experienceParaFullText.length * self.progress);
+        experienceParaTextRef.current.textContent = experienceParaFullText.substring(0, charCount);
+      },
+      onEnterBack: () => {
+        if (experienceParaTextRef.current) experienceParaTextRef.current.textContent = '';
+      },
+      onLeave: () => {
+        // Asegurar que el texto completo queda establecido cuando se avanza
+        if (experienceParaTextRef.current) {
+          experienceParaTextRef.current.textContent = experienceParaFullText;
+        }
+      },
+    });
+
+    const experienceParaHoldStartPx = experienceParaTypeStartPx + EXPERIENCE_PARA_TYPE_PX;
+
+    // Hold: Mantener visible con el texto completo
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${experienceParaHoldStartPx} top`,
+      end: `+=${EXPERIENCE_PARA_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!experienceParaRef.current) return;
+        gsap.set(experienceParaRef.current, { opacity: 1, y: 0 });
+        if (experienceParaTextRef.current && experienceParaTextRef.current.textContent.length < experienceParaFullText.length) {
+          experienceParaTextRef.current.textContent = experienceParaFullText;
+        }
+      }
+    });
+
+    const experienceParaExitStartPx = experienceParaHoldStartPx + EXPERIENCE_PARA_HOLD_PX;
+
+    // Exit: Desaparición con fade out hacia arriba
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${experienceParaExitStartPx} top`,
+      end: `+=${EXPERIENCE_PARA_EXIT_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!experienceParaRef.current) return;
+        const opacity = 1 - self.progress; // 1 → 0
+        const y = -(self.progress * 50); // 0px → -50px
+        gsap.set(experienceParaRef.current, { opacity, y });
+      },
+      onLeave: () => {
+        if (experienceParaRef.current) {
+          gsap.set(experienceParaRef.current, { visibility: 'hidden' });
+        }
+      },
+      onEnterBack: () => {
+        if (experienceParaRef.current) {
+          gsap.set(experienceParaRef.current, { visibility: 'visible' });
+        }
+      }
+    });
+
+    // Parámetros del flip del H2 - AJUSTADO para empezar después del nuevo párrafo
+    const experienceParaEndPx = experienceParaExitStartPx + EXPERIENCE_PARA_EXIT_PX; // Fin del párrafo
+    const SPACING_AFTER_PARA = NOTCH_SIZE_PX * 3; // Espacio de separación (3 notches)
+    const TITLE_FLIP_START = (experienceParaEndPx + SPACING_AFTER_PARA) / totalScroll; // Convertir a factor (porcentaje del totalScroll)
     const TITLE_FLIP_DISTANCE_PX = isMobile ? 240 : 300;                   // móvil ~2.4 notches, desktop ~3
     const TITLE_FLIP_ANGLE = 90;                                                          // flip marcado
 
@@ -342,6 +560,14 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         gsap.to(spansUp, { rotateX: gsap.utils.mapRange(0, 1, TITLE_FLIP_ANGLE, 0)(p), ease: 'none', overwrite: 'auto' });
         gsap.to(spansDown, { rotateX: gsap.utils.mapRange(0, 1, -TITLE_FLIP_ANGLE, 0)(p), ease: 'none', overwrite: 'auto' });
       },
+      onLeaveBack: () => {
+        // Resetear el flip cuando se hace scroll hacia atrás
+        if (!nextTitleBlockRef.current) return;
+        const spansUp = nextTitleBlockRef.current.querySelectorAll('.flip-up');
+        const spansDown = nextTitleBlockRef.current.querySelectorAll('.flip-down');
+        gsap.set(spansUp, { rotateX: TITLE_FLIP_ANGLE });
+        gsap.set(spansDown, { rotateX: -TITLE_FLIP_ANGLE });
+      },
     });
 
     // Desplazamiento del H2 tras terminar el flip: subir SOLO ~100px y quedarse fijo
@@ -357,6 +583,10 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         if (!nextTitleInnerRef.current) return;
         const y = -LIFT_MAX_PX * self.progress; // desde 0px hasta -100px y se queda ahí
         gsap.set(nextTitleInnerRef.current, { y });
+      },
+      onLeaveBack: () => {
+        // Resetear posición Y cuando se hace scroll hacia atrás
+        if (nextTitleInnerRef.current) gsap.set(nextTitleInnerRef.current, { y: 0 });
       },
     });
 
@@ -375,6 +605,18 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       },
       onLeaveBack: () => {
         if (nextBodyRef.current) nextBodyRef.current.textContent = '';
+      },
+      onEnter: () => {
+        // Asegurar que el texto esté vacío al entrar por primera vez
+        if (nextBodyRef.current && nextBodyRef.current.textContent.length === nextBodyFullText.length) {
+          nextBodyRef.current.textContent = '';
+        }
+      },
+      onLeave: () => {
+        // Asegurar que el texto completo queda establecido cuando se avanza
+        if (nextBodyRef.current) {
+          nextBodyRef.current.textContent = nextBodyFullText;
+        }
       },
     });
 
@@ -398,8 +640,18 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         }
       },
       onLeaveBack: () => {
+        // Resetear posición X cuando se hace scroll hacia atrás
         if (nextTitleInnerRef.current) gsap.set(nextTitleInnerRef.current, { x: 0 });
         if (nextImageRef.current) gsap.set(nextImageRef.current, { x: '100vw' });
+      },
+      onEnter: () => {
+        // Asegurar que Y esté en su posición correcta al entrar en esta fase
+        if (nextTitleInnerRef.current) {
+          const currentTransform = gsap.getProperty(nextTitleInnerRef.current, 'y') as number;
+          if (currentTransform !== -LIFT_MAX_PX) {
+            gsap.set(nextTitleInnerRef.current, { y: -LIFT_MAX_PX });
+          }
+        }
       },
     });
 
@@ -455,6 +707,12 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         if (nextParagraphsRef.current) {
           nextParagraphsRef.current.textContent = '';
           gsap.set(nextParagraphsRef.current, { y: 0 });
+        }
+      },
+      onLeave: () => {
+        // Asegurar que el texto completo queda establecido cuando se avanza
+        if (nextParagraphsRef.current) {
+          nextParagraphsRef.current.textContent = paragraphsFullText;
         }
       },
     });
@@ -516,6 +774,10 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       },
       onLeaveBack: () => {
         if (quote2TextRef.current) quote2TextRef.current.textContent = '';
+      },
+      onLeave: () => {
+        // Asegurar que el texto completo queda establecido cuando se avanza
+        if (quote2TextRef.current) quote2TextRef.current.textContent = quote2FullText;
       },
     });
 
@@ -1254,7 +1516,11 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       onLeaveBack: () => {
         if (fatherParaRef.current) gsap.set(fatherParaRef.current, { visibility: 'hidden', opacity: 0, scale: 0.9 });
         if (fatherParaTextRef.current) fatherParaTextRef.current.textContent = '';
-      }
+      },
+      onLeave: () => {
+        // Asegurar que el texto completo queda establecido cuando se avanza
+        if (fatherParaTextRef.current) fatherParaTextRef.current.textContent = fatherParaFullText;
+      },
     });
 
     // Desplazar párrafo "Durante este periodo" hacia la izquierda tras terminar de escribir
@@ -1365,7 +1631,11 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         if (sonParaRef.current) gsap.set(sonParaRef.current, { visibility: 'hidden', y: window.innerHeight });
         if (compImageRef.current) gsap.set(compImageRef.current, { visibility: 'hidden', y: window.innerHeight });
         if (sonParaTextRef.current) sonParaTextRef.current.textContent = '';
-      }
+      },
+      onLeave: () => {
+        // Asegurar que el texto completo queda establecido cuando se avanza
+        if (sonParaTextRef.current) sonParaTextRef.current.textContent = sonParaFullText;
+      },
     });
 
     // BLAST del H2 (frase del hijo): cuando empieza el párrafo, disparar hacia arriba rápido
@@ -2463,36 +2733,1355 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       }
     });
     
-    // Salida hacia la derecha
+    // Salida hacia la derecha + entrada de "Medalla de Oro" desde la izquierda
     const triumphParaExitStartPx = triumphParaHoldStartPx + TRIUMPH_PARA_HOLD_PX;
+    
+    if (goldMedalRef.current) gsap.set(goldMedalRef.current, { visibility: 'hidden', x: -window.innerWidth });
+    
     ScrollTrigger.create({
       trigger: scrollEl as Element,
       start: `+=${triumphParaExitStartPx} top`,
       end: `+=${TRIUMPH_PARA_EXIT_PX}`,
       scrub: true,
-      onUpdate: (self) => {
-        if (!triumphParaRef.current) return;
-        const p = self.progress; // 0 → 1
-        const vw = window.innerWidth;
-        const x = vw * p; // De 0 a 100vw (hacia la derecha)
-        triumphParaRef.current.style.transform = `translateX(${x}px) scale(1)`;
-        triumphParaRef.current.style.opacity = '1';
-      },
-      onLeave: () => {
-        if (triumphParaRef.current) gsap.set(triumphParaRef.current, { visibility: 'hidden' });
+      onEnter: () => {
+        if (goldMedalRef.current) gsap.set(goldMedalRef.current, { visibility: 'visible' });
       },
       onEnterBack: () => {
         if (triumphParaRef.current) gsap.set(triumphParaRef.current, { visibility: 'visible' });
+        if (goldMedalRef.current) gsap.set(goldMedalRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress; // 0 → 1
+        const vw = window.innerWidth;
+        
+        // Párrafo anterior sale hacia la derecha
+        if (triumphParaRef.current) {
+          const x = vw * p; // De 0 a 100vw (hacia la derecha)
+          triumphParaRef.current.style.transform = `translateX(${x}px) scale(1)`;
+          triumphParaRef.current.style.opacity = '1';
+        }
+        
+        // Nueva frase entra desde la izquierda
+        if (goldMedalRef.current) {
+          const x = -vw * (1 - p); // De -100vw a 0 (desde la izquierda)
+          gsap.set(goldMedalRef.current, { x });
+        }
+      },
+      onLeave: () => {
+        if (triumphParaRef.current) gsap.set(triumphParaRef.current, { visibility: 'hidden' });
       },
       onLeaveBack: () => {
         if (triumphParaRef.current) {
           triumphParaRef.current.style.transform = 'scale(1)';
           triumphParaRef.current.style.opacity = '1';
         }
+        if (goldMedalRef.current) gsap.set(goldMedalRef.current, { visibility: 'hidden', x: -window.innerWidth });
       }
     });
     
     currentScrollPx += TRIUMPH_PARA_HOLD_PX + TRIUMPH_PARA_EXIT_PX;
+
+    // ================= MÓDULO MEDALLA DE ORO - HOLD Y SALIDA =================
+    const GOLD_MEDAL_HOLD_PX = NOTCH_PX * 4; // Mantener visible 4 notchs
+    const GOLD_MEDAL_EXIT_PX = NOTCH_PX * 4; // Transición: oro sale izquierda, plata/bronce entra derecha
+    const goldMedalHoldStartPx = triumphParaExitStartPx + TRIUMPH_PARA_EXIT_PX;
+    
+    // Hold: Mantener el módulo de oro visible y centrado
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${goldMedalHoldStartPx} top`,
+      end: `+=${GOLD_MEDAL_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!goldMedalRef.current) return;
+        gsap.set(goldMedalRef.current, { x: 0 });
+      }
+    });
+    
+    // Transición: Oro sale izquierda + Plata/Bronce entra derecha
+    const goldMedalExitStartPx = goldMedalHoldStartPx + GOLD_MEDAL_HOLD_PX;
+    
+    if (silverBronzeRef.current) gsap.set(silverBronzeRef.current, { visibility: 'hidden', x: window.innerWidth });
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${goldMedalExitStartPx} top`,
+      end: `+=${GOLD_MEDAL_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (silverBronzeRef.current) gsap.set(silverBronzeRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (goldMedalRef.current) gsap.set(goldMedalRef.current, { visibility: 'visible' });
+        if (silverBronzeRef.current) gsap.set(silverBronzeRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress; // 0 → 1
+        const vw = window.innerWidth;
+        
+        // Módulo de oro sale hacia la izquierda
+        if (goldMedalRef.current) {
+          const x = -vw * p; // De 0 a -100vw (hacia la izquierda)
+          gsap.set(goldMedalRef.current, { x });
+        }
+        
+        // Módulo de plata/bronce entra desde la derecha
+        if (silverBronzeRef.current) {
+          const x = vw * (1 - p); // De 100vw a 0 (desde la derecha)
+          gsap.set(silverBronzeRef.current, { x });
+        }
+      },
+      onLeave: () => {
+        if (goldMedalRef.current) gsap.set(goldMedalRef.current, { visibility: 'hidden' });
+      },
+      onLeaveBack: () => {
+        if (goldMedalRef.current) gsap.set(goldMedalRef.current, { x: 0 });
+        if (silverBronzeRef.current) gsap.set(silverBronzeRef.current, { visibility: 'hidden', x: window.innerWidth });
+      }
+    });
+    
+    currentScrollPx += GOLD_MEDAL_HOLD_PX + GOLD_MEDAL_EXIT_PX;
+
+    // ================= MÓDULO PLATA/BRONCE - HOLD Y SALIDA =================
+    const SILVER_BRONZE_HOLD_PX = NOTCH_PX * 4; // Mantener visible 4 notchs
+    const SILVER_BRONZE_EXIT_PX = NOTCH_PX * 4; // Transición: plata/bronce sale derecha, tercer mejor entra izquierda
+    const silverBronzeHoldStartPx = goldMedalExitStartPx + GOLD_MEDAL_EXIT_PX;
+    
+    // Hold: Mantener el módulo plata/bronce visible y centrado
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${silverBronzeHoldStartPx} top`,
+      end: `+=${SILVER_BRONZE_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!silverBronzeRef.current) return;
+        gsap.set(silverBronzeRef.current, { x: 0 });
+      }
+    });
+    
+    // Transición: Plata/Bronce sale derecha + Tercer Mejor entra izquierda
+    const silverBronzeExitStartPx = silverBronzeHoldStartPx + SILVER_BRONZE_HOLD_PX;
+    
+    if (bestBodybuilderRef.current) gsap.set(bestBodybuilderRef.current, { visibility: 'hidden', x: -window.innerWidth });
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${silverBronzeExitStartPx} top`,
+      end: `+=${SILVER_BRONZE_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (bestBodybuilderRef.current) gsap.set(bestBodybuilderRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (silverBronzeRef.current) gsap.set(silverBronzeRef.current, { visibility: 'visible' });
+        if (bestBodybuilderRef.current) gsap.set(bestBodybuilderRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress; // 0 → 1
+        const vw = window.innerWidth;
+        
+        // Módulo de plata/bronce sale hacia la derecha
+        if (silverBronzeRef.current) {
+          const x = vw * p; // De 0 a 100vw (hacia la derecha)
+          gsap.set(silverBronzeRef.current, { x });
+        }
+        
+        // Módulo de tercer mejor entra desde la izquierda
+        if (bestBodybuilderRef.current) {
+          const x = -vw * (1 - p); // De -100vw a 0 (desde la izquierda)
+          gsap.set(bestBodybuilderRef.current, { x });
+        }
+      },
+      onLeave: () => {
+        if (silverBronzeRef.current) gsap.set(silverBronzeRef.current, { visibility: 'hidden' });
+      },
+      onLeaveBack: () => {
+        if (silverBronzeRef.current) gsap.set(silverBronzeRef.current, { x: 0 });
+        if (bestBodybuilderRef.current) gsap.set(bestBodybuilderRef.current, { visibility: 'hidden', x: -window.innerWidth });
+      }
+    });
+    
+    currentScrollPx += SILVER_BRONZE_HOLD_PX + SILVER_BRONZE_EXIT_PX;
+
+    // ================= MÓDULO TERCER MEJOR CULTURISTA - HOLD Y ZOOM OUT =================
+    const BEST_BODYBUILDER_HOLD_PX = NOTCH_PX * 4; // Mantener visible 4 notchs
+    const BEST_BODYBUILDER_EXIT_PX = NOTCH_PX * 5; // Salida con zoom out
+    const bestBodybuilderHoldStartPx = silverBronzeExitStartPx + SILVER_BRONZE_EXIT_PX;
+    
+    // Hold: Mantener el módulo visible y centrado
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${bestBodybuilderHoldStartPx} top`,
+      end: `+=${BEST_BODYBUILDER_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!bestBodybuilderRef.current) return;
+        gsap.set(bestBodybuilderRef.current, { x: 0, scale: 1, opacity: 1 });
+      }
+    });
+    
+    // Salida con zoom out + aparición del nuevo párrafo
+    const bestBodybuilderExitStartPx = bestBodybuilderHoldStartPx + BEST_BODYBUILDER_HOLD_PX;
+    
+    if (newMeaningParaRef.current) gsap.set(newMeaningParaRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${bestBodybuilderExitStartPx} top`,
+      end: `+=${BEST_BODYBUILDER_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (newMeaningParaRef.current) gsap.set(newMeaningParaRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (bestBodybuilderRef.current) gsap.set(bestBodybuilderRef.current, { visibility: 'visible' });
+        if (newMeaningParaRef.current) gsap.set(newMeaningParaRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress; // 0 → 1
+        
+        // Módulo del tercer mejor: zoom out y fade out
+        if (bestBodybuilderRef.current) {
+          const scale = 1 + (p * 1.5); // 1.0 → 2.5 (zoom out)
+          const opacity = 1 - p; // 1 → 0 (fade out)
+          gsap.set(bestBodybuilderRef.current, { x: 0, scale, opacity });
+        }
+        
+        // Nuevo párrafo: aparece con zoom out (z-index menor, por detrás)
+        if (newMeaningParaRef.current) {
+          const paraScale = 1.5 - (p * 0.5); // 1.5 → 1.0 (zoom out)
+          const paraOpacity = p; // 0 → 1 (fade in)
+          gsap.set(newMeaningParaRef.current, { scale: paraScale, opacity: paraOpacity });
+        }
+      },
+      onLeave: () => {
+        if (bestBodybuilderRef.current) gsap.set(bestBodybuilderRef.current, { visibility: 'hidden' });
+      },
+      onLeaveBack: () => {
+        if (bestBodybuilderRef.current) gsap.set(bestBodybuilderRef.current, { x: 0, scale: 1, opacity: 1 });
+        if (newMeaningParaRef.current) gsap.set(newMeaningParaRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+      }
+    });
+    
+    currentScrollPx += BEST_BODYBUILDER_HOLD_PX + BEST_BODYBUILDER_EXIT_PX;
+
+    // ================= PÁRRAFO "PERO ESTA VEZ..." - HOLD Y SALIDA DERECHA =================
+    const NEW_MEANING_HOLD_PX = NOTCH_PX * 4; // Mantener visible 4 notchs
+    const NEW_MEANING_EXIT_PX = NOTCH_PX * 4; // Salida hacia la derecha
+    const newMeaningHoldStartPx = bestBodybuilderExitStartPx + BEST_BODYBUILDER_EXIT_PX;
+    
+    // Hold: Mantener el párrafo visible y centrado
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${newMeaningHoldStartPx} top`,
+      end: `+=${NEW_MEANING_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!newMeaningParaRef.current) return;
+        gsap.set(newMeaningParaRef.current, { x: 0, scale: 1, opacity: 1 });
+      }
+    });
+    
+    // Salida hacia la derecha
+    const newMeaningExitStartPx = newMeaningHoldStartPx + NEW_MEANING_HOLD_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${newMeaningExitStartPx} top`,
+      end: `+=${NEW_MEANING_EXIT_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!newMeaningParaRef.current) return;
+        const p = self.progress; // 0 → 1
+        
+        // Desplazamiento hacia la derecha
+        const xOffset = p * window.innerWidth; // 0 → +100vw (sale por la derecha)
+        
+        gsap.set(newMeaningParaRef.current, { x: xOffset, scale: 1, opacity: 1 });
+      },
+      onLeave: () => {
+        if (newMeaningParaRef.current) gsap.set(newMeaningParaRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (newMeaningParaRef.current) gsap.set(newMeaningParaRef.current, { visibility: 'visible' });
+      },
+      onLeaveBack: () => {
+        if (newMeaningParaRef.current) gsap.set(newMeaningParaRef.current, { x: 0, scale: 1, opacity: 1 });
+      }
+    });
+    
+    currentScrollPx += NEW_MEANING_HOLD_PX + NEW_MEANING_EXIT_PX;
+
+    // ================= PÁRRAFO "ESE MISMO AÑO, FUE INVITADO A LA INDIA..." - ENTRADA DESDE DERECHA CON TYPEWRITER =================
+    const indiaParaText = "Ese mismo año, fue invitado a la India para formar parte de una academia de entrenadores personales, donde impartió cursos sobre nutrición, suplementación, entrenamiento y preparación para competiciones. Esta oportunidad le abrió nuevas puertas y le permitió expandir su conocimiento a nivel internacional, impartiendo seminarios en Dubái, Singapur y diversas ciudades de la India.";
+    const INDIA_PARA_ENTRY_PX = NOTCH_PX * 4; // Entrada desde la derecha
+    const INDIA_PARA_TYPE_PX = NOTCH_PX * 8; // Efecto de escritura
+    const indiaParaEntryStartPx = newMeaningExitStartPx + NEW_MEANING_EXIT_PX;
+    
+    if (indiaParaRef.current) gsap.set(indiaParaRef.current, { visibility: 'hidden', x: window.innerWidth });
+    
+    // Entrada desde la derecha
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${indiaParaEntryStartPx} top`,
+      end: `+=${INDIA_PARA_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (indiaParaRef.current) gsap.set(indiaParaRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!indiaParaRef.current) return;
+        const p = self.progress; // 0 → 1
+        
+        // Entrada desde la derecha
+        const xOffset = (1 - p) * window.innerWidth; // 100vw → 0 (entra desde la derecha)
+        
+        gsap.set(indiaParaRef.current, { x: xOffset });
+      },
+      onLeaveBack: () => {
+        if (indiaParaRef.current) {
+          gsap.set(indiaParaRef.current, { visibility: 'hidden', x: window.innerWidth });
+          const textEl = indiaParaRef.current.querySelector('p');
+          if (textEl) textEl.textContent = '';
+        }
+      }
+    });
+    
+    // Efecto typewriter sincronizado con el scroll
+    const indiaParaTypeStartPx = indiaParaEntryStartPx + INDIA_PARA_ENTRY_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${indiaParaTypeStartPx} top`,
+      end: `+=${INDIA_PARA_TYPE_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!indiaParaRef.current) return;
+        const p = self.progress; // 0 → 1
+        
+        // Mantener centrado
+        gsap.set(indiaParaRef.current, { x: 0 });
+        
+        // Efecto typewriter
+        const textEl = indiaParaRef.current.querySelector('p');
+        if (textEl) {
+          const charsToShow = Math.floor(p * indiaParaText.length);
+          textEl.textContent = indiaParaText.substring(0, charsToShow);
+        }
+      },
+      onLeaveBack: () => {
+        if (indiaParaRef.current) {
+          const textEl = indiaParaRef.current.querySelector('p');
+          if (textEl) textEl.textContent = '';
+          gsap.set(indiaParaRef.current, { x: 0 });
+        }
+      }
+    });
+    
+    currentScrollPx += INDIA_PARA_ENTRY_PX + INDIA_PARA_TYPE_PX;
+
+    // ================= PÁRRAFO INDIA - HOLD Y SALIDA IZQUIERDA =================
+    const INDIA_PARA_HOLD_PX = NOTCH_PX * 4; // Mantener visible 4 notchs
+    const INDIA_PARA_EXIT_PX = NOTCH_PX * 4; // Salida hacia la izquierda
+    const indiaParaHoldStartPx = indiaParaTypeStartPx + INDIA_PARA_TYPE_PX;
+    
+    // Hold: Mantener el párrafo visible y centrado con el texto completo
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${indiaParaHoldStartPx} top`,
+      end: `+=${INDIA_PARA_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!indiaParaRef.current) return;
+        gsap.set(indiaParaRef.current, { x: 0 });
+        const textEl = indiaParaRef.current.querySelector('p');
+        if (textEl && textEl.textContent !== indiaParaText) {
+          textEl.textContent = indiaParaText;
+        }
+      }
+    });
+    
+    // Salida hacia la izquierda
+    const indiaParaExitStartPx = indiaParaHoldStartPx + INDIA_PARA_HOLD_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${indiaParaExitStartPx} top`,
+      end: `+=${INDIA_PARA_EXIT_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!indiaParaRef.current) return;
+        const p = self.progress; // 0 → 1
+        
+        // Desplazamiento hacia la izquierda
+        const xOffset = -p * window.innerWidth; // 0 → -100vw (sale por la izquierda)
+        
+        gsap.set(indiaParaRef.current, { x: xOffset });
+        
+        // Mantener el texto completo
+        const textEl = indiaParaRef.current.querySelector('p');
+        if (textEl && textEl.textContent !== indiaParaText) {
+          textEl.textContent = indiaParaText;
+        }
+      },
+      onLeave: () => {
+        if (indiaParaRef.current) gsap.set(indiaParaRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (indiaParaRef.current) gsap.set(indiaParaRef.current, { visibility: 'visible' });
+      },
+      onLeaveBack: () => {
+        if (indiaParaRef.current) {
+          gsap.set(indiaParaRef.current, { x: 0 });
+          const textEl = indiaParaRef.current.querySelector('p');
+          if (textEl) textEl.textContent = indiaParaText;
+        }
+      }
+    });
+    
+    currentScrollPx += INDIA_PARA_HOLD_PX + INDIA_PARA_EXIT_PX;
+
+    // ================= IMAGEN BERNAT-STAGE - ENTRADA DESDE IZQUIERDA =================
+    const STAGE_IMAGE_ENTRY_PX = NOTCH_PX * 4; // Entrada desde la izquierda
+    const STAGE_IMAGE_HOLD_PX = NOTCH_PX * 4; // Mantener visible
+    const stageImageEntryStartPx = indiaParaExitStartPx + INDIA_PARA_EXIT_PX;
+    
+    if (stageImageRef.current) gsap.set(stageImageRef.current, { visibility: 'hidden', x: -window.innerWidth });
+    
+    // Entrada desde la izquierda
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${stageImageEntryStartPx} top`,
+      end: `+=${STAGE_IMAGE_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (stageImageRef.current) gsap.set(stageImageRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!stageImageRef.current) return;
+        const p = self.progress; // 0 → 1
+        
+        // Entrada desde la izquierda
+        const xOffset = (-1 + p) * window.innerWidth; // -100vw → 0 (entra desde la izquierda)
+        
+        gsap.set(stageImageRef.current, { x: xOffset });
+      },
+      onLeaveBack: () => {
+        if (stageImageRef.current) gsap.set(stageImageRef.current, { visibility: 'hidden', x: -window.innerWidth });
+      }
+    });
+    
+    // Hold: Mantener la imagen visible y centrada
+    const stageImageHoldStartPx = stageImageEntryStartPx + STAGE_IMAGE_ENTRY_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${stageImageHoldStartPx} top`,
+      end: `+=${STAGE_IMAGE_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!stageImageRef.current) return;
+        gsap.set(stageImageRef.current, { x: 0 });
+      }
+    });
+    
+    // Salida hacia la izquierda
+    const STAGE_IMAGE_EXIT_PX = NOTCH_PX * 4; // Salida hacia la izquierda
+    const stageImageExitStartPx = stageImageHoldStartPx + STAGE_IMAGE_HOLD_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${stageImageExitStartPx} top`,
+      end: `+=${STAGE_IMAGE_EXIT_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!stageImageRef.current) return;
+        const p = self.progress; // 0 → 1
+        
+        // Desplazamiento hacia la izquierda
+        const xOffset = -p * window.innerWidth; // 0 → -100vw (sale por la izquierda)
+        
+        gsap.set(stageImageRef.current, { x: xOffset });
+      },
+      onLeave: () => {
+        if (stageImageRef.current) gsap.set(stageImageRef.current, { visibility: 'hidden' });
+      },
+      onEnterBack: () => {
+        if (stageImageRef.current) gsap.set(stageImageRef.current, { visibility: 'visible' });
+      },
+      onLeaveBack: () => {
+        if (stageImageRef.current) gsap.set(stageImageRef.current, { x: 0 });
+      }
+    });
+    
+    currentScrollPx += STAGE_IMAGE_ENTRY_PX + STAGE_IMAGE_HOLD_PX + STAGE_IMAGE_EXIT_PX;
+
+    // ================= IMAGEN BERNAT-FAMILY - ENTRADA DESDE DERECHA =================
+    const FAMILY_IMAGE_ENTRY_PX = NOTCH_PX * 4; // Entrada desde la derecha
+    const FAMILY_IMAGE_HOLD_PX = NOTCH_PX * 4; // Mantener visible
+    const familyImageEntryStartPx = stageImageExitStartPx + STAGE_IMAGE_EXIT_PX;
+    
+    if (familyImageRef.current) gsap.set(familyImageRef.current, { visibility: 'hidden', x: window.innerWidth });
+    
+    // Entrada desde la derecha
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${familyImageEntryStartPx} top`,
+      end: `+=${FAMILY_IMAGE_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (familyImageRef.current) gsap.set(familyImageRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!familyImageRef.current) return;
+        const p = self.progress; // 0 → 1
+        
+        // Entrada desde la derecha
+        const xOffset = (1 - p) * window.innerWidth; // 100vw → 0 (entra desde la derecha)
+        
+        gsap.set(familyImageRef.current, { x: xOffset });
+      },
+      onLeaveBack: () => {
+        if (familyImageRef.current) gsap.set(familyImageRef.current, { visibility: 'hidden', x: window.innerWidth });
+      }
+    });
+    
+    // Hold: Mantener la imagen visible y centrada
+    const familyImageHoldStartPx = familyImageEntryStartPx + FAMILY_IMAGE_ENTRY_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${familyImageHoldStartPx} top`,
+      end: `+=${FAMILY_IMAGE_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!familyImageRef.current) return;
+        gsap.set(familyImageRef.current, { x: 0 });
+      }
+    });
+    
+    // Salida hacia la derecha + aparición del H2 "Mi Filosofía"
+    const FAMILY_IMAGE_EXIT_PX = NOTCH_PX * 4; // Salida hacia la derecha
+    const familyImageExitStartPx = familyImageHoldStartPx + FAMILY_IMAGE_HOLD_PX;
+    
+    if (philosophyTextRef.current) gsap.set(philosophyTextRef.current, { visibility: 'hidden', scale: 1.8, opacity: 0 });
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${familyImageExitStartPx} top`,
+      end: `+=${FAMILY_IMAGE_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (philosophyTextRef.current) gsap.set(philosophyTextRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (familyImageRef.current) gsap.set(familyImageRef.current, { visibility: 'visible' });
+        if (philosophyTextRef.current) gsap.set(philosophyTextRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress; // 0 → 1
+        
+        // Imagen sale hacia la derecha
+        if (familyImageRef.current) {
+          const xOffset = p * window.innerWidth; // 0 → +100vw (sale por la derecha)
+          gsap.set(familyImageRef.current, { x: xOffset });
+        }
+        
+        // H2 "Mi Filosofía" aparece con zoom out épico desde el centro (z-index menor, por detrás)
+        if (philosophyTextRef.current) {
+          const scale = 1.8 - (p * 0.8); // 1.8 → 1.0 (zoom out)
+          const opacity = p; // 0 → 1 (fade in)
+          const blur = 12 - (p * 12); // 12px → 0px (desenfoque a enfoque)
+          
+          gsap.set(philosophyTextRef.current, { 
+            scale, 
+            opacity,
+            filter: `blur(${blur}px)`
+          });
+        }
+      },
+      onLeave: () => {
+        if (familyImageRef.current) gsap.set(familyImageRef.current, { visibility: 'hidden' });
+      },
+      onLeaveBack: () => {
+        if (familyImageRef.current) gsap.set(familyImageRef.current, { x: 0 });
+        if (philosophyTextRef.current) gsap.set(philosophyTextRef.current, { visibility: 'hidden', scale: 1.8, opacity: 0 });
+      }
+    });
+    
+    currentScrollPx += FAMILY_IMAGE_ENTRY_PX + FAMILY_IMAGE_HOLD_PX + FAMILY_IMAGE_EXIT_PX;
+
+    // ================= H2 "MI FILOSOFÍA" - HOLD =================
+    const PHILOSOPHY_HOLD_PX = NOTCH_PX * 5; // Mantener visible 5 notchs
+    const philosophyHoldStartPx = familyImageExitStartPx + FAMILY_IMAGE_EXIT_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${philosophyHoldStartPx} top`,
+      end: `+=${PHILOSOPHY_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!philosophyTextRef.current) return;
+        gsap.set(philosophyTextRef.current, { scale: 1.0, opacity: 1, filter: 'blur(0px)' });
+      }
+    });
+    
+    currentScrollPx += PHILOSOPHY_HOLD_PX;
+
+    // ================= H2 "MI FILOSOFÍA" - SALIDA DESFRAGMENTADA + ENTRADA PÁRRAFO SCORUS =================
+    const PHILOSOPHY_EXIT_PX = NOTCH_PX * 5; // Salida desfragmentada
+    const philosophyExitStartPx = philosophyHoldStartPx + PHILOSOPHY_HOLD_PX;
+    
+    // Vectores de dispersión para cada palabra (posiciones extremas fuera del viewport)
+    const philosophyVectors = [
+      { x: -2000, y: -1500, rot: -180 }, // "Mi" - arriba izquierda
+      { x: 2000, y: -1200, rot: 220 },   // "Filosofía:" - arriba derecha
+      { x: -1800, y: 800, rot: -140 },   // "Más" - abajo izquierda
+      { x: 2200, y: 1000, rot: 160 },    // "Allá" - abajo derecha
+      { x: -2100, y: 0, rot: -190 },     // "del" - izquierda centro
+      { x: 2300, y: 500, rot: 200 }      // "Fitness" - derecha centro abajo
+    ];
+    
+    if (scorusParaRef.current) gsap.set(scorusParaRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${philosophyExitStartPx} top`,
+      end: `+=${PHILOSOPHY_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (scorusParaRef.current) gsap.set(scorusParaRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (philosophyTextRef.current) gsap.set(philosophyTextRef.current, { visibility: 'visible' });
+        if (scorusParaRef.current) gsap.set(scorusParaRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress; // 0 → 1
+        
+        // Desfragmentación de palabras (dispersión radial)
+        const wordRefs = [
+          philosophyWord1Ref,
+          philosophyWord2Ref,
+          philosophyWord3Ref,
+          philosophyWord4Ref,
+          philosophyWord5Ref,
+          philosophyWord6Ref
+        ];
+        
+        wordRefs.forEach((ref, index) => {
+          if (ref.current) {
+            const vector = philosophyVectors[index];
+            const x = p * vector.x; // 0 → posición extrema
+            const y = p * vector.y;
+            const rot = p * vector.rot; // 0 → rotación extrema
+            const scale = 1 - (p * 0.5); // 1.0 → 0.5 (se encoge)
+            const opacity = 1 - p; // 1 → 0 (fade out)
+            
+            gsap.set(ref.current, {
+              x,
+              y,
+              rotation: rot,
+              scale,
+              opacity
+            });
+          }
+        });
+        
+        // Nuevo párrafo aparece con zoom in por detrás (z-index menor)
+        if (scorusParaRef.current) {
+          const paraScale = 1.5 - (p * 0.5); // 1.5 → 1.0 (zoom in)
+          const paraOpacity = p; // 0 → 1 (fade in)
+          
+          gsap.set(scorusParaRef.current, {
+            scale: paraScale,
+            opacity: paraOpacity
+          });
+        }
+      },
+      onLeave: () => {
+        if (philosophyTextRef.current) gsap.set(philosophyTextRef.current, { visibility: 'hidden' });
+      },
+      onLeaveBack: () => {
+        if (philosophyTextRef.current) gsap.set(philosophyTextRef.current, { scale: 1.0, opacity: 1, filter: 'blur(0px)' });
+        if (scorusParaRef.current) gsap.set(scorusParaRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+        
+        // Reset de palabras
+        const wordRefs = [
+          philosophyWord1Ref,
+          philosophyWord2Ref,
+          philosophyWord3Ref,
+          philosophyWord4Ref,
+          philosophyWord5Ref,
+          philosophyWord6Ref
+        ];
+        
+        wordRefs.forEach((ref) => {
+          if (ref.current) {
+            gsap.set(ref.current, { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 });
+          }
+        });
+      }
+    });
+    
+    currentScrollPx += PHILOSOPHY_EXIT_PX;
+
+    // ================= PÁRRAFO SCORUS - HOLD Y SALIDA ZOOM OUT + ENTRADA MÓDULO ENTRENAMIENTO =================
+    const SCORUS_PARA_HOLD_PX = NOTCH_PX * 4; // Mantener visible 4 notchs
+    const SCORUS_PARA_EXIT_PX = NOTCH_PX * 4; // Salida con zoom out
+    const scorusParaHoldStartPx = philosophyExitStartPx + PHILOSOPHY_EXIT_PX;
+    
+    // Hold: Mantener el párrafo visible
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${scorusParaHoldStartPx} top`,
+      end: `+=${SCORUS_PARA_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!scorusParaRef.current) return;
+        gsap.set(scorusParaRef.current, { scale: 1.0, opacity: 1 });
+      }
+    });
+    
+    // Salida con zoom out + entrada del módulo de entrenamiento
+    const scorusParaExitStartPx = scorusParaHoldStartPx + SCORUS_PARA_HOLD_PX;
+    
+    if (trainingModuleRef.current) gsap.set(trainingModuleRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${scorusParaExitStartPx} top`,
+      end: `+=${SCORUS_PARA_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (trainingModuleRef.current) gsap.set(trainingModuleRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (scorusParaRef.current) gsap.set(scorusParaRef.current, { visibility: 'visible' });
+        if (trainingModuleRef.current) gsap.set(trainingModuleRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress; // 0 → 1
+        
+        // Párrafo Scorus: zoom out y fade out
+        if (scorusParaRef.current) {
+          const scale = 1 + (p * 1.5); // 1.0 → 2.5 (zoom out)
+          const opacity = 1 - p; // 1 → 0 (fade out)
+          gsap.set(scorusParaRef.current, { scale, opacity });
+        }
+        
+        // Módulo entrenamiento: aparece con zoom out (z-index menor, por detrás)
+        if (trainingModuleRef.current) {
+          const moduleScale = 1.5 - (p * 0.5); // 1.5 → 1.0 (zoom out)
+          const moduleOpacity = p; // 0 → 1 (fade in)
+          gsap.set(trainingModuleRef.current, { scale: moduleScale, opacity: moduleOpacity });
+        }
+      },
+      onLeave: () => {
+        if (scorusParaRef.current) gsap.set(scorusParaRef.current, { visibility: 'hidden' });
+      },
+      onLeaveBack: () => {
+        if (scorusParaRef.current) gsap.set(scorusParaRef.current, { scale: 1.0, opacity: 1 });
+        if (trainingModuleRef.current) gsap.set(trainingModuleRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+      }
+    });
+    
+    currentScrollPx += SCORUS_PARA_HOLD_PX + SCORUS_PARA_EXIT_PX;
+
+    // ================= MÓDULO ENTRENAMIENTO - HOLD Y TRANSICIÓN A NUTRICIÓN =================
+    const TRAINING_HOLD_PX = NOTCH_PX * 4;
+    const TRAINING_EXIT_PX = NOTCH_PX * 4;
+    const trainingHoldStartPx = scorusParaExitStartPx + SCORUS_PARA_EXIT_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${trainingHoldStartPx} top`,
+      end: `+=${TRAINING_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!trainingModuleRef.current) return;
+        gsap.set(trainingModuleRef.current, { scale: 1.0, opacity: 1 });
+      }
+    });
+    
+    const trainingExitStartPx = trainingHoldStartPx + TRAINING_HOLD_PX;
+    if (nutritionModuleRef.current) gsap.set(nutritionModuleRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${trainingExitStartPx} top`,
+      end: `+=${TRAINING_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (nutritionModuleRef.current) gsap.set(nutritionModuleRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (trainingModuleRef.current) gsap.set(trainingModuleRef.current, { visibility: 'visible' });
+        if (nutritionModuleRef.current) gsap.set(nutritionModuleRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress;
+        if (trainingModuleRef.current) {
+          const scale = 1 + (p * 1.5);
+          const opacity = 1 - p;
+          gsap.set(trainingModuleRef.current, { scale, opacity });
+        }
+        if (nutritionModuleRef.current) {
+          const scale = 1.5 - (p * 0.5);
+          const opacity = p;
+          gsap.set(nutritionModuleRef.current, { scale, opacity });
+        }
+      },
+      onLeave: () => {
+        if (trainingModuleRef.current) gsap.set(trainingModuleRef.current, { visibility: 'hidden' });
+      },
+      onLeaveBack: () => {
+        if (trainingModuleRef.current) gsap.set(trainingModuleRef.current, { scale: 1.0, opacity: 1 });
+        if (nutritionModuleRef.current) gsap.set(nutritionModuleRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+      }
+    });
+    
+    currentScrollPx += TRAINING_HOLD_PX + TRAINING_EXIT_PX;
+
+    // ================= MÓDULO NUTRICIÓN - HOLD Y TRANSICIÓN A SEGUIMIENTO =================
+    const NUTRITION_HOLD_PX = NOTCH_PX * 4;
+    const NUTRITION_EXIT_PX = NOTCH_PX * 4;
+    const nutritionHoldStartPx = trainingExitStartPx + TRAINING_EXIT_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${nutritionHoldStartPx} top`,
+      end: `+=${NUTRITION_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!nutritionModuleRef.current) return;
+        gsap.set(nutritionModuleRef.current, { scale: 1.0, opacity: 1 });
+      }
+    });
+    
+    const nutritionExitStartPx = nutritionHoldStartPx + NUTRITION_HOLD_PX;
+    if (trackingModuleRef.current) gsap.set(trackingModuleRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${nutritionExitStartPx} top`,
+      end: `+=${NUTRITION_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (trackingModuleRef.current) gsap.set(trackingModuleRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (nutritionModuleRef.current) gsap.set(nutritionModuleRef.current, { visibility: 'visible' });
+        if (trackingModuleRef.current) gsap.set(trackingModuleRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress;
+        if (nutritionModuleRef.current) {
+          const scale = 1 + (p * 1.5);
+          const opacity = 1 - p;
+          gsap.set(nutritionModuleRef.current, { scale, opacity });
+        }
+        if (trackingModuleRef.current) {
+          const scale = 1.5 - (p * 0.5);
+          const opacity = p;
+          gsap.set(trackingModuleRef.current, { scale, opacity });
+        }
+      },
+      onLeave: () => {
+        if (nutritionModuleRef.current) gsap.set(nutritionModuleRef.current, { visibility: 'hidden' });
+      },
+      onLeaveBack: () => {
+        if (nutritionModuleRef.current) gsap.set(nutritionModuleRef.current, { scale: 1.0, opacity: 1 });
+        if (trackingModuleRef.current) gsap.set(trackingModuleRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+      }
+    });
+    
+    currentScrollPx += NUTRITION_HOLD_PX + NUTRITION_EXIT_PX;
+
+    // ================= MÓDULO SEGUIMIENTO - HOLD Y TRANSICIÓN A REBORN =================
+    const TRACKING_HOLD_PX = NOTCH_PX * 4;
+    const TRACKING_EXIT_PX = NOTCH_PX * 4;
+    const trackingHoldStartPx = nutritionExitStartPx + NUTRITION_EXIT_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${trackingHoldStartPx} top`,
+      end: `+=${TRACKING_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!trackingModuleRef.current) return;
+        gsap.set(trackingModuleRef.current, { scale: 1.0, opacity: 1 });
+      }
+    });
+    
+    const trackingExitStartPx = trackingHoldStartPx + TRACKING_HOLD_PX;
+    if (rebornModuleRef.current) gsap.set(rebornModuleRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${trackingExitStartPx} top`,
+      end: `+=${TRACKING_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (rebornModuleRef.current) gsap.set(rebornModuleRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (trackingModuleRef.current) gsap.set(trackingModuleRef.current, { visibility: 'visible' });
+        if (rebornModuleRef.current) gsap.set(rebornModuleRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress;
+        if (trackingModuleRef.current) {
+          const scale = 1 + (p * 1.5);
+          const opacity = 1 - p;
+          gsap.set(trackingModuleRef.current, { scale, opacity });
+        }
+        if (rebornModuleRef.current) {
+          const scale = 1.5 - (p * 0.5);
+          const opacity = p;
+          gsap.set(rebornModuleRef.current, { scale, opacity });
+        }
+      },
+      onLeave: () => {
+        if (trackingModuleRef.current) gsap.set(trackingModuleRef.current, { visibility: 'hidden' });
+      },
+      onLeaveBack: () => {
+        if (trackingModuleRef.current) gsap.set(trackingModuleRef.current, { scale: 1.0, opacity: 1 });
+        if (rebornModuleRef.current) gsap.set(rebornModuleRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+      }
+    });
+    
+    currentScrollPx += TRACKING_HOLD_PX + TRACKING_EXIT_PX;
+
+    // ================= MÓDULO REBORN - HOLD Y TRANSICIÓN A SCORUS GYM =================
+    const REBORN_HOLD_PX = NOTCH_PX * 4;
+    const REBORN_EXIT_PX = NOTCH_PX * 4;
+    const rebornHoldStartPx = trackingExitStartPx + TRACKING_EXIT_PX;
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${rebornHoldStartPx} top`,
+      end: `+=${REBORN_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!rebornModuleRef.current) return;
+        gsap.set(rebornModuleRef.current, { scale: 1.0, opacity: 1 });
+      }
+    });
+    
+    const rebornExitStartPx = rebornHoldStartPx + REBORN_HOLD_PX;
+    if (scorusGymModuleRef.current) gsap.set(scorusGymModuleRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${rebornExitStartPx} top`,
+      end: `+=${REBORN_EXIT_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (scorusGymModuleRef.current) gsap.set(scorusGymModuleRef.current, { visibility: 'visible' });
+      },
+      onEnterBack: () => {
+        if (rebornModuleRef.current) gsap.set(rebornModuleRef.current, { visibility: 'visible' });
+        if (scorusGymModuleRef.current) gsap.set(scorusGymModuleRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        const p = self.progress;
+        if (rebornModuleRef.current) {
+          const scale = 1 + (p * 1.5);
+          const opacity = 1 - p;
+          gsap.set(rebornModuleRef.current, { scale, opacity });
+        }
+        if (scorusGymModuleRef.current) {
+          const scale = 1.5 - (p * 0.5);
+          const opacity = p;
+          gsap.set(scorusGymModuleRef.current, { scale, opacity });
+        }
+      },
+      onLeave: () => {
+        if (rebornModuleRef.current) gsap.set(rebornModuleRef.current, { visibility: 'hidden' });
+      },
+      onLeaveBack: () => {
+        if (rebornModuleRef.current) gsap.set(rebornModuleRef.current, { scale: 1.0, opacity: 1 });
+        if (scorusGymModuleRef.current) gsap.set(scorusGymModuleRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+      }
+    });
+    
+    currentScrollPx += REBORN_HOLD_PX + REBORN_EXIT_PX;
+
+    // ================= MÓDULO SCORUS GYM - HOLD Y EXIT =================
+    const SCORUS_GYM_HOLD_PX = NOTCH_PX * 5;
+    const SCORUS_GYM_EXIT_PX = NOTCH_PX * 5; // Duración del zoom out de salida
+    const scorusGymHoldStartPx = rebornExitStartPx + REBORN_EXIT_PX;
+    
+    // Hold: mantener visible
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${scorusGymHoldStartPx} top`,
+      end: `+=${SCORUS_GYM_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!scorusGymModuleRef.current) return;
+        gsap.set(scorusGymModuleRef.current, { scale: 1.0, opacity: 1 });
+      }
+    });
+    
+    const scorusGymExitStartPx = scorusGymHoldStartPx + SCORUS_GYM_HOLD_PX;
+    
+    // Exit: zoom out épico
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${scorusGymExitStartPx} top`,
+      end: `+=${SCORUS_GYM_EXIT_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!scorusGymModuleRef.current) return;
+        // Zoom out: escala de 1.0 a 2.5, opacidad de 1 a 0
+        const scale = 1.0 + (self.progress * 1.5); // 1.0 → 2.5
+        const opacity = 1 - self.progress; // 1 → 0
+        gsap.set(scorusGymModuleRef.current, { scale, opacity });
+      },
+      onLeaveBack: () => {
+        if (scorusGymModuleRef.current) {
+          gsap.set(scorusGymModuleRef.current, { scale: 1.0, opacity: 1 });
+        }
+      },
+      onLeave: () => {
+        if (scorusGymModuleRef.current) {
+          gsap.set(scorusGymModuleRef.current, { visibility: 'hidden' });
+        }
+      }
+    });
+    
+    currentScrollPx += SCORUS_GYM_HOLD_PX + SCORUS_GYM_EXIT_PX;
+
+    // ================= PÁRRAFO HOLÍSTICO - APARECE CON ZOOM OUT =================
+    const HOLISTIC_ENTRY_PX = NOTCH_PX * 5; // Duración del zoom out de entrada
+    const HOLISTIC_HOLD_PX = NOTCH_PX * 4; // Mantener visible
+    const holisticEntryStartPx = scorusGymExitStartPx + SCORUS_GYM_EXIT_PX;
+    
+    // Estado inicial: oculto, escalado grande
+    if (holisticParaRef.current) {
+      gsap.set(holisticParaRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    }
+    
+    // Entry: zoom out (aparece detrás del módulo ScorusGYM que sale)
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${holisticEntryStartPx} top`,
+      end: `+=${HOLISTIC_ENTRY_PX}`,
+      scrub: true,
+      onEnter: () => {
+        if (holisticParaRef.current) gsap.set(holisticParaRef.current, { visibility: 'visible' });
+      },
+      onUpdate: (self) => {
+        if (!holisticParaRef.current) return;
+        // Zoom out: escala de 1.5 a 1.0, opacidad de 0 a 1
+        const scale = 1.5 - (self.progress * 0.5); // 1.5 → 1.0
+        const opacity = self.progress; // 0 → 1
+        gsap.set(holisticParaRef.current, { scale, opacity });
+      },
+      onLeaveBack: () => {
+        if (holisticParaRef.current) {
+          gsap.set(holisticParaRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+        }
+      }
+    });
+    
+    const holisticHoldStartPx = holisticEntryStartPx + HOLISTIC_ENTRY_PX;
+    
+    // Hold: mantener visible
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${holisticHoldStartPx} top`,
+      end: `+=${HOLISTIC_HOLD_PX}`,
+      scrub: true,
+      onUpdate: () => {
+        if (!holisticParaRef.current) return;
+        gsap.set(holisticParaRef.current, { scale: 1.0, opacity: 1 });
+      }
+    });
+    
+    const holisticExitStartPx = holisticHoldStartPx + HOLISTIC_HOLD_PX;
+    const HOLISTIC_EXIT_PX = NOTCH_PX * 5; // Duración del zoom out de salida
+    
+    // Exit: zoom out épico
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${holisticExitStartPx} top`,
+      end: `+=${HOLISTIC_EXIT_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        if (!holisticParaRef.current) return;
+        // Zoom out: escala de 1.0 a 2.5, opacidad de 1 a 0
+        const scale = 1.0 + (self.progress * 1.5); // 1.0 → 2.5
+        const opacity = 1 - self.progress; // 1 → 0
+        gsap.set(holisticParaRef.current, { scale, opacity });
+      },
+      onLeaveBack: () => {
+        if (holisticParaRef.current) {
+          gsap.set(holisticParaRef.current, { scale: 1.0, opacity: 1 });
+        }
+      },
+      onLeave: () => {
+        if (holisticParaRef.current) {
+          gsap.set(holisticParaRef.current, { visibility: 'hidden' });
+        }
+      }
+    });
+    
+    currentScrollPx += HOLISTIC_ENTRY_PX + HOLISTIC_HOLD_PX + HOLISTIC_EXIT_PX;
+
+    // ================= ANIMACIÓN GEOMÉTRICA DE CIERRE ÉPICA =================
+    const GEOMETRIC_CLOSURE_PX = NOTCH_PX * 20; // Animación larga y épica (20 notches)
+    const geometricClosureStartPx = holisticExitStartPx + HOLISTIC_EXIT_PX;
+    
+    // Estado inicial: piezas geométricas invisibles, fondo negro invisible, CTA invisible
+    if (geometricClosureRef.current) {
+      gsap.set(geometricClosureRef.current, { visibility: 'hidden' });
+    }
+    if (finalBlackBgRef.current) {
+      gsap.set(finalBlackBgRef.current, { visibility: 'hidden', opacity: 0 });
+    }
+    if (finalCtaRef.current) {
+      gsap.set(finalCtaRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+    }
+    
+    // Animación de cierre geométrico (épica y progresiva)
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${geometricClosureStartPx} top`,
+      end: `+=${GEOMETRIC_CLOSURE_PX}`,
+      scrub: 0.5, // Scrub más rápido para efecto épico
+      onEnter: () => {
+        if (geometricClosureRef.current) {
+          gsap.set(geometricClosureRef.current, { visibility: 'visible' });
+        }
+        if (finalBlackBgRef.current) {
+          gsap.set(finalBlackBgRef.current, { visibility: 'visible' });
+        }
+        if (finalCtaRef.current) {
+          gsap.set(finalCtaRef.current, { visibility: 'visible' });
+        }
+      },
+      onUpdate: (self) => {
+        if (!geometricClosureRef.current) return;
+        
+        // El fondo negro aparece gradualmente detrás de las piezas
+        if (finalBlackBgRef.current) {
+          const bgOpacity = self.progress; // 0 → 1
+          gsap.set(finalBlackBgRef.current, { opacity: bgOpacity });
+        }
+        
+        // El CTA aparece en la segunda mitad y PERMANECE VISIBLE
+        if (finalCtaRef.current) {
+          if (self.progress < 0.5) {
+            // Primera mitad: oculto
+            gsap.set(finalCtaRef.current, { scale: 1.5, opacity: 0 });
+          } else {
+            // Segunda mitad: aparece con zoom out
+            const ctaProgress = (self.progress - 0.5) / 0.5; // 0 → 1
+            const scale = 1.5 - (ctaProgress * 0.5); // 1.5 → 1.0
+            const opacity = ctaProgress; // 0 → 1
+            gsap.set(finalCtaRef.current, { scale, opacity });
+          }
+        }
+        
+        // Seleccionar todas las piezas geométricas
+        const pieces = geometricClosureRef.current.querySelectorAll('.geo-piece');
+        
+        pieces.forEach((piece, index) => {
+          const totalPieces = pieces.length;
+          
+          // Determinar dirección de entrada de la pieza
+          const direction = piece.getAttribute('data-direction');
+          
+          // Progreso individual escalonado para efecto dramático
+          const pieceDelay = (index / totalPieces) * 0.25; // 25% de delay máximo
+          const adjustedProgress = Math.max(0, Math.min(1, (self.progress - pieceDelay) / (1 - pieceDelay)));
+          
+          // Ease dramático (ease-out-cubic para entrada suave pero impactante)
+          const easedProgress = 1 - Math.pow(1 - adjustedProgress, 3);
+          
+          // Calcular posición según dirección
+          let translateX = 0;
+          let translateY = 0;
+          
+          if (direction === 'top') {
+            translateY = -100 + (easedProgress * 100); // -100% → 0%
+          } else if (direction === 'bottom') {
+            translateY = 100 - (easedProgress * 100); // 100% → 0%
+          } else if (direction === 'left') {
+            translateX = -100 + (easedProgress * 100); // -100% → 0%
+          } else if (direction === 'right') {
+            translateX = 100 - (easedProgress * 100); // 100% → 0%
+          } else if (direction === 'top-left') {
+            translateX = -100 + (easedProgress * 100);
+            translateY = -100 + (easedProgress * 100);
+          } else if (direction === 'top-right') {
+            translateX = 100 - (easedProgress * 100);
+            translateY = -100 + (easedProgress * 100);
+          } else if (direction === 'bottom-left') {
+            translateX = -100 + (easedProgress * 100);
+            translateY = 100 - (easedProgress * 100);
+          } else if (direction === 'bottom-right') {
+            translateX = 100 - (easedProgress * 100);
+            translateY = 100 - (easedProgress * 100);
+          }
+          
+          // Aplicar transformación con rotación sutil para efecto más dinámico
+          const rotation = (1 - easedProgress) * 5 * (index % 2 === 0 ? 1 : -1); // Rotación sutil
+          gsap.set(piece, {
+            x: `${translateX}%`,
+            y: `${translateY}%`,
+            rotation: rotation,
+            opacity: 1
+          });
+        });
+      },
+      onLeaveBack: () => {
+        if (geometricClosureRef.current) {
+          gsap.set(geometricClosureRef.current, { visibility: 'hidden' });
+        }
+        if (finalBlackBgRef.current) {
+          gsap.set(finalBlackBgRef.current, { visibility: 'hidden', opacity: 0 });
+        }
+        if (finalCtaRef.current) {
+          gsap.set(finalCtaRef.current, { visibility: 'hidden', scale: 1.5, opacity: 0 });
+        }
+      },
+      onLeave: () => {
+        // Al salir, el CTA PERMANECE VISIBLE para siempre
+        if (finalCtaRef.current) {
+          gsap.set(finalCtaRef.current, { scale: 1.0, opacity: 1, visibility: 'visible' });
+        }
+      }
+    });
+    
+    currentScrollPx += GEOMETRIC_CLOSURE_PX;
+
+    // ================= OCULTAR CONTAINERREF PARA MOSTRAR FOOTER =================
+    // Después de la animación geométrica, ocultamos el containerRef para que el footer sea visible
+    // EL CTA PERMANECE VISIBLE durante todo este proceso
+    const FINAL_HIDE_PX = NOTCH_PX * 2; // Solo 2 notches para transición rápida
+    
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${geometricClosureStartPx + GEOMETRIC_CLOSURE_PX} top`,
+      end: `+=${FINAL_HIDE_PX}`,
+      scrub: true,
+      onUpdate: (self) => {
+        // Desvanecer el containerRef gradualmente
+        if (containerRef.current) {
+          const opacity = 1 - self.progress; // 1 → 0
+          gsap.set(containerRef.current, { opacity });
+        }
+        // EL CTA PERMANECE VISIBLE - NO SE DESVANECE
+        if (finalCtaRef.current) {
+          gsap.set(finalCtaRef.current, { 
+            scale: 1.0, 
+            opacity: 1, 
+            visibility: 'visible',
+            pointerEvents: 'auto'
+          });
+        }
+      },
+      onLeave: () => {
+        // Al salir, ocultar completamente el containerRef para que no bloquee el footer
+        if (containerRef.current) {
+          gsap.set(containerRef.current, { 
+            opacity: 0, 
+            visibility: 'hidden',
+            pointerEvents: 'none',
+            display: 'none' 
+          });
+        }
+        // El CTA con position sticky ya se comporta correctamente y se detiene antes del footer
+      },
+      onEnterBack: () => {
+        // Al volver, mostrar el containerRef
+        if (containerRef.current) {
+          gsap.set(containerRef.current, { 
+            opacity: 1, 
+            visibility: 'visible',
+            pointerEvents: 'auto',
+            display: 'flex'
+          });
+        }
+        // El CTA con position sticky permanece sin cambios
+        if (finalCtaRef.current) {
+          gsap.set(finalCtaRef.current, { 
+            scale: 1.0, 
+            opacity: 1, 
+            visibility: 'visible',
+            pointerEvents: 'auto'
+          });
+        }
+      }
+    });
+    
+    currentScrollPx += FINAL_HIDE_PX;
+
+    // ================= CTA SEGUIR EL SCROLL NATURALMENTE =================
+    // Después de que el CTA aparece, esperamos 6 notchs antes de moverlo hacia el footer
+    const CTA_STATIC_WAIT = NOTCH_PX * 6; // 6 notchs de espera estática
+    currentScrollPx += CTA_STATIC_WAIT; // Añadir el espacio de espera al scroll total
+    const ctaMoveStartPx = geometricClosureStartPx + GEOMETRIC_CLOSURE_PX + CTA_STATIC_WAIT;
+    
+    // ScrollTrigger para mover el CTA hacia arriba después de la espera
+    ScrollTrigger.create({
+      trigger: scrollEl as Element,
+      start: `+=${ctaMoveStartPx} top`,
+      end: 'bottom bottom',
+      scrub: 1, // Scrub más lento para transición más suave
+      onUpdate: (self) => {
+        if (!finalCtaRef.current) return;
+        
+        // Verificar si el CTA está visible
+        const ctaVisibility = window.getComputedStyle(finalCtaRef.current).visibility;
+        if (ctaVisibility === 'hidden') return;
+        
+        const footer = document.querySelector('footer');
+        if (!footer) return;
+        
+        const footerRect = footer.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const ctaHeight = finalCtaRef.current.offsetHeight;
+        const margin = 40;
+        
+        // Si el footer está subiendo y va a chocar con el CTA, desplazar el CTA hacia arriba
+        if (footerRect.top < windowHeight) {
+          // Calcular cuánto necesita subir el CTA para evitar el footer
+          const overlap = windowHeight - footerRect.top + margin;
+          if (overlap > 0) {
+            // Usar gsap.to para transición suave (no gsap.set que es instantáneo)
+            gsap.to(finalCtaRef.current, { 
+              y: -overlap, 
+              duration: 0.3,
+              ease: 'power2.out',
+              overwrite: true
+            });
+          }
+        } else {
+          // Footer no visible, posición normal con transición suave
+          gsap.to(finalCtaRef.current, { 
+            y: 0, 
+            duration: 0.3,
+            ease: 'power2.out',
+            overwrite: true
+          });
+        }
+      },
+      onLeaveBack: () => {
+        // Al volver atrás, resetear posición con transición
+        if (finalCtaRef.current) {
+          gsap.to(finalCtaRef.current, { 
+            y: 0, 
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        }
+      }
+    });
 
     // (El tipeo del párrafo se sincroniza en el onUpdate del trigger de entrada)
 
@@ -2604,6 +4193,10 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     const VIDEO_TRANSITION_PX = isMobile ? 800 : 1000; // Duración de la transición entre videos (más lenta = más scroll)
     const VIDEO2_SCRUB_PX = isMobile ? 4000 : 5000;    // Duración del scrubbing del segundo video
     
+    // Calcular el punto de inicio de la transición: 95% del totalScroll del primer video
+    // para que el segundo video entre cuando el primero está en sus últimos frames
+    const video1TransitionStartPx = totalScroll * 0.95;
+    
     // Inicializar segundo video, canvas2 y overlay abajo (fuera del viewport)
     if (video2Ref.current) {
       gsap.set(video2Ref.current, { y: '100vh' }); // Empieza abajo
@@ -2618,7 +4211,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     // Transición PUSH: segundo video empuja al primero hacia arriba
     ScrollTrigger.create({
       trigger: scrollEl as Element,
-      start: `+=${currentScrollPx} top`,
+      start: `+=${video1TransitionStartPx} top`,
       end: `+=${VIDEO_TRANSITION_PX}`,
       scrub: true,
       onUpdate: (self) => {
@@ -2663,7 +4256,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       },
     });
     
-    currentScrollPx += VIDEO_TRANSITION_PX;
+    // Actualizar currentScrollPx para reflejar el nuevo punto después de la transición
+    currentScrollPx = video1TransitionStartPx + VIDEO_TRANSITION_PX;
     
     // ============ FUNCIONES CANVAS 2 (definidas primero) ============
 
@@ -3349,7 +4943,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
 
     // ============ SCRUBBING DEL SEXTO VIDEO ==========
-    const VIDEO6_SCRUB_PX = isMobile ? 4000 : 5500; // Extendido para más narrativa
+    const VIDEO6_SCRUB_PX = isMobile ? 2500 : 3500; // Reducido para que no se congele tanto
     const video6StartPx = currentScrollPx; // comienza tras el quinto
 
     const setupCanvas6Scrub = () => {
@@ -3434,6 +5028,11 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     currentScrollPx += VIDEO6_PUSH_PX + VIDEO6_SCRUB_PX;
 
+    // Añadir espacio adicional al final para permitir scroll completo hasta el footer
+    // Solo lo suficiente para que el footer sea visible
+    const EXTRA_FINAL_SCROLL = isMobile ? window.innerHeight * 1.5 : window.innerHeight * 1;
+    currentScrollPx += EXTRA_FINAL_SCROLL;
+
     // En móvil: ocultar antes al hacer scroll hacia arriba (margen de retroceso)
     const BACK_HIDE_MARGIN = isMobile ? 0.8 : 1;
     ScrollTrigger.create({
@@ -3442,6 +5041,29 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       end: `+=${totalScroll}`,
       onEnterBack: () => {
         if (nextTitleBlockRef.current) gsap.set(nextTitleBlockRef.current, { opacity: 0 });
+      },
+      onLeave: () => {
+        // Resetear completamente el H2 cuando se pasa de largo hacia adelante
+        if (nextTitleInnerRef.current) {
+          gsap.set(nextTitleInnerRef.current, { x: -window.innerWidth, y: -LIFT_MAX_PX });
+        }
+      },
+      onLeaveBack: () => {
+        // Resetear completamente el H2 cuando se vuelve hacia atrás más allá del inicio
+        if (nextTitleBlockRef.current) {
+          gsap.set(nextTitleBlockRef.current, { opacity: 1 });
+          const spansUp = nextTitleBlockRef.current.querySelectorAll('.flip-up');
+          const spansDown = nextTitleBlockRef.current.querySelectorAll('.flip-down');
+          gsap.set(spansUp, { rotateX: TITLE_FLIP_ANGLE });
+          gsap.set(spansDown, { rotateX: -TITLE_FLIP_ANGLE });
+        }
+        if (nextTitleInnerRef.current) {
+          gsap.set(nextTitleInnerRef.current, { x: 0, y: 0 });
+        }
+        // Resetear también el párrafo
+        if (nextBodyRef.current) {
+          nextBodyRef.current.textContent = '';
+        }
       },
     });
 
@@ -3608,7 +5230,21 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
   }, [framesPattern, framesCount, frames2Pattern, frames2Count, frames3Pattern, frames3Count, frames4Pattern, frames4Count, frames5Pattern, frames5Count, useCanvas, useCanvas2, useCanvas3, useCanvas4, useCanvas5]);
 
+  // Calcular altura total necesaria para el scroll de forma aproximada pero precisa
+  // Basado en el contenido real de animaciones (1 notch = 800px)
+  const isMobileDevice = typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false;
+  const estimatedScrollHeight = typeof window !== 'undefined' 
+    ? (isMobileDevice 
+        ? 800 * 3  // ~50 notchs para móvil = 40,000px
+        : 800 * 3  // ~40 notchs para desktop = 32,000px
+      )
+    : 10000;
+
   return (
+    <>
+    {/* Spacer invisible que genera la altura del documento para el scroll */}
+    <div style={{ height: `${estimatedScrollHeight}px`, width: '1px' }} aria-hidden="true"></div>
+    
     <div ref={containerRef} className="fixed inset-0 z-40 flex h-screen w-full items-center justify-center bg-black text-white overflow-hidden transition-[padding] duration-300 ease-out" style={{ backgroundColor: '#000' }}>
       {/* Fondo de respaldo para evitar flash blanco inicial */}
       <div
@@ -4316,6 +5952,603 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         </div>
       </div>
 
+      {/* Medalla de Oro 2018 - Entrada desde la izquierda con estilo Netflix */}
+      <div ref={goldMedalRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-3xl">
+          {/* Glow de fondo dorado */}
+          <div className="absolute -inset-8 bg-yellow-500/20 blur-[100px] rounded-full" />
+          
+          {/* Contenedor principal con glassmorphism */}
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-2xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(234,179,8,0.7),rgba(255,255,255,0.1),rgba(234,179,8,0.7))]" />
+            <div className="relative rounded-2xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-6 py-8 md:px-10 md:py-12">
+              {/* Barra dorada superior */}
+              <div className="absolute top-0 left-0 h-2 w-32 md:w-48 bg-gradient-to-r from-yellow-500 to-yellow-400 rounded-tr-2xl rounded-tl-2xl shadow-[0_0_20px_rgba(234,179,8,0.8)]" />
+              
+              {/* Layout responsive: móvil = columna, desktop = fila con icono a la izquierda */}
+              <div className="flex flex-col md:flex-row md:items-center md:gap-8">
+                
+                {/* Icono de medalla SVG - solo visible en desktop */}
+                <div className="hidden md:flex md:items-center md:justify-center md:flex-shrink-0">
+                  <svg className="w-24 h-24 lg:w-28 lg:h-28 text-yellow-500 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    {/* Cinta superior */}
+                    <path d="M12 2L10 8L8 2L6 8L4 2" strokeLinecap="round" strokeLinejoin="round"/>
+                    {/* Círculo de la medalla */}
+                    <circle cx="12" cy="15" r="7" strokeWidth="2"/>
+                    {/* Estrella interior */}
+                    <path d="M12 11L12.5 13L14.5 13.5L12.5 14L12 16L11.5 14L9.5 13.5L11.5 13L12 11Z" fill="currentColor" strokeWidth="0"/>
+                  </svg>
+                </div>
+                
+                {/* Contenido principal */}
+                <div className="flex-1">
+                  {/* Subtítulo */}
+                  <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-yellow-500">
+                    El Regreso
+                  </div>
+                  
+                  {/* Título principal */}
+                  <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
+                      MEDALLA DE ORO
+                    </span>
+                  </h3>
+                  
+                  {/* Información */}
+                  <div className="border-l-4 border-yellow-500 pl-4 py-2">
+                    <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
+                      Primera temporada<br/>
+                      <span className="text-yellow-400">tras el regreso</span>
+                    </p>
+                  </div>
+                  
+                  {/* Icono pequeño - solo visible en móvil */}
+                  <div className="mt-8 mb-6 flex justify-center md:hidden">
+                    <svg className="w-20 h-20 text-yellow-500 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      {/* Cinta superior */}
+                      <path d="M12 2L10 8L8 2L6 8L4 2" strokeLinecap="round" strokeLinejoin="round"/>
+                      {/* Círculo de la medalla */}
+                      <circle cx="12" cy="15" r="7" strokeWidth="2"/>
+                      {/* Estrella interior */}
+                      <path d="M12 11L12.5 13L14.5 13.5L12.5 14L12 16L11.5 14L9.5 13.5L11.5 13L12 11Z" fill="currentColor" strokeWidth="0"/>
+                    </svg>
+                  </div>
+                  
+                  {/* Detalle adicional */}
+                  <div className="pt-4 border-t border-white/10 md:mt-6">
+                    <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                      Un regreso triunfal que marcó el inicio de una nueva era de éxitos en la carrera de Bernat.
+                    </p>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Medallas de Plata y Bronce - Entrada desde la derecha con estilo Netflix */}
+      <div ref={silverBronzeRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-3xl">
+          {/* Glow de fondo plateado */}
+          <div className="absolute -inset-8 bg-gray-400/20 blur-[100px] rounded-full" />
+          
+          {/* Contenedor principal con glassmorphism */}
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-2xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(156,163,175,0.7),rgba(255,255,255,0.1),rgba(156,163,175,0.7))]" />
+            <div className="relative rounded-2xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-6 py-8 md:px-10 md:py-12">
+              {/* Barra plateada superior con toque bronce */}
+              <div className="absolute top-0 left-0 h-2 w-32 md:w-48 bg-gradient-to-r from-gray-400 via-gray-300 to-amber-600 rounded-tr-2xl rounded-tl-2xl shadow-[0_0_20px_rgba(156,163,175,0.8)]" />
+              
+              {/* Layout responsive: móvil = columna, desktop = fila con iconos a la izquierda */}
+              <div className="flex flex-col md:flex-row md:items-center md:gap-8">
+                
+                {/* Iconos de medallas SVG - solo visible en desktop */}
+                <div className="hidden md:flex md:items-center md:justify-center md:gap-3 md:flex-shrink-0">
+                  {/* Medalla de plata */}
+                  <svg className="w-16 h-16 lg:w-20 lg:h-20 text-gray-400 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M12 2L10 8L8 2L6 8L4 2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="12" cy="15" r="7" strokeWidth="2"/>
+                    <path d="M12 11L12.5 13L14.5 13.5L12.5 14L12 16L11.5 14L9.5 13.5L11.5 13L12 11Z" fill="currentColor" strokeWidth="0"/>
+                  </svg>
+                  {/* Medalla de bronce */}
+                  <svg className="w-14 h-14 lg:w-16 lg:h-16 text-amber-600 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M12 2L10 8L8 2L6 8L4 2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="12" cy="15" r="7" strokeWidth="2"/>
+                    <path d="M12 11L12.5 13L14.5 13.5L12.5 14L12 16L11.5 14L9.5 13.5L11.5 13L12 11Z" fill="currentColor" strokeWidth="0"/>
+                  </svg>
+                </div>
+                
+                {/* Contenido principal */}
+                <div className="flex-1">
+                  {/* Subtítulo */}
+                  <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-gray-400">
+                    Más podios en 2018
+                  </div>
+                  
+                  {/* Título principal */}
+                  <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
+                      2 PLATA + 1 BRONCE
+                    </span>
+                  </h3>
+                  
+                  {/* Información */}
+                  <div className="border-l-4 border-gray-400 pl-4 py-2">
+                    <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
+                      Dos medallas de <span className="text-gray-300">Plata</span><br/>
+                      <span className="text-amber-500">y una de Bronce</span>
+                    </p>
+                  </div>
+                  
+                  {/* Iconos pequeños - solo visible en móvil */}
+                  <div className="mt-8 mb-6 flex justify-center gap-3 md:hidden">
+                    <svg className="w-16 h-16 text-gray-400 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M12 2L10 8L8 2L6 8L4 2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="12" cy="15" r="7" strokeWidth="2"/>
+                      <path d="M12 11L12.5 13L14.5 13.5L12.5 14L12 16L11.5 14L9.5 13.5L11.5 13L12 11Z" fill="currentColor" strokeWidth="0"/>
+                    </svg>
+                    <svg className="w-14 h-14 text-amber-600 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M12 2L10 8L8 2L6 8L4 2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="12" cy="15" r="7" strokeWidth="2"/>
+                      <path d="M12 11L12.5 13L14.5 13.5L12.5 14L12 16L11.5 14L9.5 13.5L11.5 13L12 11Z" fill="currentColor" strokeWidth="0"/>
+                    </svg>
+                  </div>
+                  
+                  {/* Detalle adicional */}
+                  <div className="pt-4 border-t border-white/10 md:mt-6">
+                    <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                      Un año excepcional con múltiples podios que consolidaron su regreso al culturismo de élite.
+                    </p>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tercer Mejor Culturista del Año - Entrada desde la izquierda con estilo Netflix */}
+      <div ref={bestBodybuilderRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-3xl">
+          {/* Glow de fondo bronce */}
+          <div className="absolute -inset-8 bg-amber-600/20 blur-[100px] rounded-full" />
+          
+          {/* Contenedor principal con glassmorphism */}
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-2xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(217,119,6,0.7),rgba(255,255,255,0.1),rgba(217,119,6,0.7))]" />
+            <div className="relative rounded-2xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-6 py-8 md:px-10 md:py-12">
+              {/* Barra bronce superior */}
+              <div className="absolute top-0 left-0 h-2 w-32 md:w-48 bg-gradient-to-r from-amber-700 to-amber-500 rounded-tr-2xl rounded-tl-2xl shadow-[0_0_20px_rgba(217,119,6,0.8)]" />
+              
+              {/* Layout responsive: móvil = columna, desktop = fila con icono a la izquierda */}
+              <div className="flex flex-col md:flex-row md:items-center md:gap-8">
+                
+                {/* Icono de trofeo SVG - solo visible en desktop */}
+                <div className="hidden md:flex md:items-center md:justify-center md:flex-shrink-0">
+                  <svg className="w-24 h-24 lg:w-28 lg:h-28 text-amber-600 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    {/* Copa */}
+                    <path d="M6 9H3C3 11.5 4 13 6 13" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M18 9H21C21 11.5 20 13 18 13" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M6 9V6C6 5.5 6.5 5 7 5H17C17.5 5 18 5.5 18 6V9" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M6 13V14C6 15.5 7 17 9 17.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M18 13V14C18 15.5 17 17 15 17.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    {/* Base */}
+                    <path d="M10 17.5V19H14V17.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M8 19H16V21H8V19Z" strokeLinecap="round" strokeLinejoin="round"/>
+                    {/* Número 3 en el centro */}
+                    <text x="12" y="11" fontSize="6" fill="currentColor" textAnchor="middle" fontWeight="bold">3</text>
+                  </svg>
+                </div>
+                
+                {/* Contenido principal */}
+                <div className="flex-1">
+                  {/* Subtítulo */}
+                  <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-amber-600">
+                    Reconocimiento Internacional
+                  </div>
+                  
+                  {/* Título principal */}
+                  <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
+                      3º MEJOR CULTURISTA
+                    </span>
+                  </h3>
+                  
+                  {/* Información */}
+                  <div className="border-l-4 border-amber-600 pl-4 py-2">
+                    <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
+                      Nombrado el <span className="text-amber-500">Tercer</span><br/>
+                      <span className="text-amber-400">Mejor Culturista del Año</span>
+                    </p>
+                  </div>
+                  
+                  {/* Icono pequeño - solo visible en móvil */}
+                  <div className="mt-8 mb-6 flex justify-center md:hidden">
+                    <svg className="w-20 h-20 text-amber-600 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M6 9H3C3 11.5 4 13 6 13" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M18 9H21C21 11.5 20 13 18 13" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M6 9V6C6 5.5 6.5 5 7 5H17C17.5 5 18 5.5 18 6V9" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M6 13V14C6 15.5 7 17 9 17.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M18 13V14C18 15.5 17 17 15 17.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M10 17.5V19H14V17.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M8 19H16V21H8V19Z" strokeLinecap="round" strokeLinejoin="round"/>
+                      <text x="12" y="11" fontSize="6" fill="currentColor" textAnchor="middle" fontWeight="bold">3</text>
+                    </svg>
+                  </div>
+                  
+                  {/* Detalle adicional */}
+                  <div className="pt-4 border-t border-white/10 md:mt-6">
+                    <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                      Un reconocimiento internacional que posicionó a Bernat entre los mejores culturistas del mundo.
+                    </p>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Párrafo "Pero esta vez..." - Aparece con zoom out detrás del módulo anterior (z-index menor) */}
+      <div ref={newMeaningParaRef} className="fixed inset-0 z-[68] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-3xl">
+          <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[6px] bg-[linear-gradient(135deg,rgba(229,9,20,0.6),rgba(255,255,255,0.08),rgba(229,9,20,0.6))]" />
+          <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
+            <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
+            <p className="text-base md:text-lg leading-relaxed text-gray-100">
+              Pero esta vez, la competición tenía un nuevo significado para él. No solo se trataba de ganar, sino de mostrar que la constancia, la disciplina y la determinación pueden superar cualquier obstáculo, incluso una pausa de seis años.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Párrafo "Ese mismo año, fue invitado a la India..." - Entrada desde derecha con efecto typewriter */}
+      <div ref={indiaParaRef} className="fixed inset-0 z-[68] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-3xl">
+          <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[6px] bg-[linear-gradient(135deg,rgba(229,9,20,0.6),rgba(255,255,255,0.08),rgba(229,9,20,0.6))]" />
+          <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
+            <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
+            <p className="text-base md:text-lg leading-relaxed text-gray-100">
+              {/* El texto se llenará dinámicamente con el efecto typewriter */}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Imagen bernat-stage - Entrada desde izquierda con estética glassmorphism */}
+      <div ref={stageImageRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="pointer-events-none relative w-full max-w-2xl md:max-w-3xl px-6 md:px-0">
+          {/* Glow rojo y marco glass */}
+          <div className="absolute -inset-1 rounded-3xl opacity-60 blur-sm bg-[linear-gradient(135deg,rgba(229,9,20,0.5),rgba(255,255,255,0.08),rgba(229,9,20,0.5))]" />
+          <div className="relative rounded-3xl border border-white/15 bg-black/40 backdrop-blur-md overflow-hidden">
+            <div className="absolute top-0 left-0 h-1.5 w-24 md:w-36 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
+            <img src="/images/about/biography/bernat-stage.webp" alt="Bernat on stage" className="w-full h-auto object-contain" />
+          </div>
+        </div>
+      </div>
+
+      {/* Imagen bernat-family - Entrada desde derecha con estética glassmorphism */}
+      <div ref={familyImageRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        <div className="pointer-events-none relative w-full max-w-2xl md:max-w-3xl px-6 md:px-0">
+          {/* Glow rojo y marco glass */}
+          <div className="absolute -inset-1 rounded-3xl opacity-60 blur-sm bg-[linear-gradient(135deg,rgba(229,9,20,0.5),rgba(255,255,255,0.08),rgba(229,9,20,0.5))]" />
+          <div className="relative rounded-3xl border border-white/15 bg-black/40 backdrop-blur-md overflow-hidden">
+            <div className="absolute top-0 left-0 h-1.5 w-24 md:w-36 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
+            <img src="/images/about/biography/bernat-family.webp" alt="Bernat with students in India" className="w-full h-auto object-contain" />
+          </div>
+        </div>
+      </div>
+
+      {/* H2 "Mi Filosofía: Más Allá del Fitness" - Aparece desde el centro con zoom out épico */}
+      <div ref={philosophyTextRef} className="fixed inset-0 z-[68] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.8)' }}>
+        <div className="relative w-full max-w-6xl px-6 md:px-12">
+          
+          {/* Líneas decorativas de fondo */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
+            {/* Línea horizontal superior */}
+            <div className="absolute left-0 top-1/3 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+            {/* Línea horizontal inferior */}
+            <div className="absolute left-0 bottom-1/3 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+          </div>
+
+          {/* Subtítulo pequeño arriba */}
+          <div className="mb-4 text-center">
+            <p className="text-xs md:text-sm font-bold uppercase tracking-[0.4em] text-red-600 opacity-80">
+              Scorus GYM
+            </p>
+          </div>
+          
+          {/* Título principal - cada palabra es fragmentable */}
+          <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-tight tracking-tight text-center">
+            <span className="block mb-2">
+              <span ref={philosophyWord1Ref} className="inline-block text-white will-change-transform mr-3">Mi</span>
+              <span ref={philosophyWord2Ref} className="inline-block text-red-600 will-change-transform">Filosofía:</span>
+            </span>
+            <span className="block">
+              <span ref={philosophyWord3Ref} className="inline-block text-white will-change-transform mr-3">Más</span>
+              <span ref={philosophyWord4Ref} className="inline-block text-white will-change-transform mr-3">Allá</span>
+              <span ref={philosophyWord5Ref} className="inline-block text-white will-change-transform mr-3">del</span>
+              <span ref={philosophyWord6Ref} className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 will-change-transform">Fitness</span>
+            </span>
+          </h2>
+
+          {/* Línea decorativa inferior */}
+          <div className="mt-6 flex justify-center">
+            <div className="w-32 md:w-48 h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-full" />
+          </div>
+        </div>
+      </div>
+
+      {/* Párrafo "Tras su exitosa carrera..." - Aparece con zoom in detrás del H2 (z-index menor) */}
+      <div ref={scorusParaRef} className="fixed inset-0 z-[67] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-3xl">
+          <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[6px] bg-[linear-gradient(135deg,rgba(229,9,20,0.6),rgba(255,255,255,0.08),rgba(229,9,20,0.6))]" />
+          <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
+            <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
+            <p className="text-base md:text-lg leading-relaxed text-gray-100">
+              Tras su exitosa carrera en el culturismo, Bernat fundó Scorus Fitness, un centro de entrenamiento diseñado para ofrecer:
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Módulo "Entrenamiento" - Aparece con zoom out (z-index menor, por detrás del párrafo) */}
+      <div ref={trainingModuleRef} className="fixed inset-0 z-[66] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-md">
+          <div className="absolute -inset-6 bg-red-600/20 blur-[80px] rounded-full" />
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(255,255,255,0.1),rgba(229,9,20,0.7))]" />
+            <div className="relative rounded-3xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-8 py-12">
+              <div className="flex flex-col items-center text-center">
+                <div className="mb-6">
+                  <svg className="w-16 h-16 md:w-20 md:h-20 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/>
+                  </svg>
+                </div>
+                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">Entrenamiento</h3>
+                <div className="mb-4 w-16 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+                <p className="text-sm md:text-base text-gray-300 leading-relaxed">Planes de entrenamiento<br/>personalizados</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Módulo "Nutrición" */}
+      <div ref={nutritionModuleRef} className="fixed inset-0 z-[66] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-md">
+          <div className="absolute -inset-6 bg-red-600/20 blur-[80px] rounded-full" />
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(255,255,255,0.1),rgba(229,9,20,0.7))]" />
+            <div className="relative rounded-3xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-8 py-12">
+              <div className="flex flex-col items-center text-center">
+                <div className="mb-6">
+                  <svg className="w-16 h-16 md:w-20 md:h-20 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C17.52 2 22 6.48 22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2ZM12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20ZM13 7H11V11H7V13H11V17H13V13H17V11H13V7Z"/>
+                  </svg>
+                </div>
+                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">Nutrición</h3>
+                <div className="mb-4 w-16 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+                <p className="text-sm md:text-base text-gray-300 leading-relaxed">Nutrición enfocada en el<br/>rendimiento y la salud</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Módulo "Seguimiento" */}
+      <div ref={trackingModuleRef} className="fixed inset-0 z-[66] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-md">
+          <div className="absolute -inset-6 bg-red-600/20 blur-[80px] rounded-full" />
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(255,255,255,0.1),rgba(229,9,20,0.7))]" />
+            <div className="relative rounded-3xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-8 py-12">
+              <div className="flex flex-col items-center text-center">
+                <div className="mb-6">
+                  <svg className="w-16 h-16 md:w-20 md:h-20 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 11C17.66 11 18.99 9.66 18.99 8C18.99 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM8 11C9.66 11 10.99 9.66 10.99 8C10.99 6.34 9.66 5 8 5C6.34 5 5 6.34 5 8C5 9.66 6.34 11 8 11ZM8 13C5.67 13 1 14.17 1 16.5V19H15V16.5C15 14.17 10.33 13 8 13ZM16 13C15.71 13 15.38 13.02 15.03 13.05C16.19 13.89 17 15.02 17 16.5V19H23V16.5C23 14.17 18.33 13 16 13Z"/>
+                  </svg>
+                </div>
+                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">Seguimiento</h3>
+                <div className="mb-4 w-16 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+                <p className="text-sm md:text-base text-gray-300 leading-relaxed">Acompañamiento real para<br/>lograr cambios duraderos</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Módulo "REBORN y Scorus Campus" */}
+      <div ref={rebornModuleRef} className="fixed inset-0 z-[66] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-md">
+          <div className="absolute -inset-6 bg-red-600/20 blur-[80px] rounded-full" />
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(255,255,255,0.1),rgba(229,9,20,0.7))]" />
+            <div className="relative rounded-3xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-8 py-12">
+              <div className="flex flex-col items-center text-center">
+                <div className="mb-6">
+                  <svg className="w-16 h-16 md:w-20 md:h-20 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L4 5V11C4 16.55 7.84 21.74 13 23C18.16 21.74 22 16.55 22 11V5L14 2L12 2ZM12 4.18L20 7V11C20 15.52 17.02 19.69 13 20.93C8.98 19.69 6 15.52 6 11V7L12 4.18ZM10.59 13.41L8.83 11.66L7.41 13.07L10.59 16.24L16.59 10.24L15.17 8.83L10.59 13.41Z"/>
+                  </svg>
+                </div>
+                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">REBORN y Scorus<br/>Campus</h3>
+                <div className="mb-4 w-16 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+                <p className="text-sm md:text-base text-gray-300 leading-relaxed">Programas premium de<br/>transformación</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Módulo "ScorusGYM" */}
+      <div ref={scorusGymModuleRef} className="fixed inset-0 z-[66] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+        <div className="relative mx-4 md:mx-8 w-full max-w-md">
+          <div className="absolute -inset-6 bg-red-600/20 blur-[80px] rounded-full" />
+          <div className="relative">
+            <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[8px] bg-[linear-gradient(135deg,rgba(229,9,20,0.7),rgba(255,255,255,0.1),rgba(229,9,20,0.7))]" />
+            <div className="relative rounded-3xl border border-white/20 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.7)] px-8 py-12">
+              <div className="flex flex-col items-center text-center">
+                <div className="mb-6">
+                  <svg className="w-16 h-16 md:w-20 md:h-20 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M13.5 5.5C14.59 5.5 15.5 4.58 15.5 3.5C15.5 2.38 14.59 1.5 13.5 1.5C12.39 1.5 11.5 2.38 11.5 3.5C11.5 4.58 12.39 5.5 13.5 5.5ZM9.89 19.38L10.89 15L13 17V23H15V15.5L12.89 13.5L13.5 10.5C14.79 12 16.79 13 19 13V11C17.09 11 15.5 10 14.69 8.58L13.69 7C13.29 6.4 12.69 6 12 6C11.69 6 11.5 6.08 11.19 6.08L6 8.28V13H8V9.58L9.79 8.88L8.19 17L3.29 16L2.89 18L9.89 19.38Z"/>
+                  </svg>
+                </div>
+                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">ScorusGYM</h3>
+                <div className="mb-4 w-16 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+                <p className="text-sm md:text-base text-gray-300 leading-relaxed">Un gimnasio privado con un<br/>enfoque exclusivo y sin distracciones</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Párrafo "Su enfoque es holístico..." - Aparece con zoom out después de ScorusGYM */}
+      <div ref={holisticParaRef} className="fixed inset-0 z-[66] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-3xl">
+          <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[6px] bg-[linear-gradient(135deg,rgba(229,9,20,0.6),rgba(255,255,255,0.08),rgba(229,9,20,0.6))]" />
+          <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
+            <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
+            <p className="text-base md:text-lg leading-relaxed text-gray-100">
+              Su enfoque es holístico, abarcando tanto el desarrollo físico como la mentalidad necesaria para mantener un estilo de vida saludable y sostenible.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Fondo negro final (aparece detrás de las piezas geométricas) */}
+      <div ref={finalBlackBgRef} className="fixed inset-0 z-[5] will-change-transform" style={{ visibility: 'hidden', opacity: 0 }}>
+        <div className="absolute inset-0 bg-black" />
+      </div>
+
+      {/* Animación geométrica de cierre épica */}
+      <div ref={geometricClosureRef} className="fixed inset-0 z-[67] pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
+        
+        {/* Pieza SUPERIOR IZQUIERDA - Grande e irregular */}
+        <div className="geo-piece absolute top-0 left-0 w-[45%] h-[40%] will-change-transform" data-direction="top-left" style={{ transform: 'translate(-100%, -100%)' }}>
+          <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0,0 L100,0 L85,45 Q70,55 55,60 L40,70 Q25,80 15,90 L0,100 Z" fill="url(#gradTopLeft)" />
+            <defs>
+              <linearGradient id="gradTopLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+                <stop offset="50%" style={{ stopColor: '#0a0a0a', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Pieza SUPERIOR DERECHA - Grande e irregular */}
+        <div className="geo-piece absolute top-0 right-0 w-[45%] h-[40%] will-change-transform" data-direction="top-right" style={{ transform: 'translate(100%, -100%)' }}>
+          <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M100,0 L0,0 L15,45 Q30,55 45,60 L60,70 Q75,80 85,90 L100,100 Z" fill="url(#gradTopRight)" />
+            <defs>
+              <linearGradient id="gradTopRight" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+                <stop offset="50%" style={{ stopColor: '#0a0a0a', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Pieza INFERIOR IZQUIERDA - Grande e irregular */}
+        <div className="geo-piece absolute bottom-0 left-0 w-[45%] h-[40%] will-change-transform" data-direction="bottom-left" style={{ transform: 'translate(-100%, 100%)' }}>
+          <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0,100 L0,0 L15,10 Q30,20 40,30 L55,40 Q70,45 85,55 L100,100 Z" fill="url(#gradBottomLeft)" />
+            <defs>
+              <linearGradient id="gradBottomLeft" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+                <stop offset="50%" style={{ stopColor: '#0a0a0a', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Pieza INFERIOR DERECHA - Grande e irregular */}
+        <div className="geo-piece absolute bottom-0 right-0 w-[45%] h-[40%] will-change-transform" data-direction="bottom-right" style={{ transform: 'translate(100%, 100%)' }}>
+          <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M100,100 L100,0 L85,10 Q70,20 60,30 L45,40 Q30,45 15,55 L0,100 Z" fill="url(#gradBottomRight)" />
+            <defs>
+              <linearGradient id="gradBottomRight" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+                <stop offset="50%" style={{ stopColor: '#0a0a0a', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Pieza SUPERIOR CENTRAL - Conecta las superiores */}
+        <div className="geo-piece absolute top-0 left-[40%] w-[20%] h-[25%] will-change-transform" data-direction="top" style={{ transform: 'translateY(-100%)' }}>
+          <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0,0 L100,0 L90,50 Q50,70 10,50 Z" fill="url(#gradTop)" />
+            <defs>
+              <linearGradient id="gradTop" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#0a0a0a', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Pieza INFERIOR CENTRAL - Conecta las inferiores */}
+        <div className="geo-piece absolute bottom-0 left-[40%] w-[20%] h-[25%] will-change-transform" data-direction="bottom" style={{ transform: 'translateY(100%)' }}>
+          <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0,100 L10,50 Q50,30 90,50 L100,100 Z" fill="url(#gradBottom)" />
+            <defs>
+              <linearGradient id="gradBottom" x1="50%" y1="100%" x2="50%" y2="0%">
+                <stop offset="0%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#0a0a0a', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Pieza IZQUIERDA CENTRAL - Conecta las izquierdas */}
+        <div className="geo-piece absolute top-[35%] left-0 w-[15%] h-[30%] will-change-transform" data-direction="left" style={{ transform: 'translateX(-100%)' }}>
+          <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M0,0 L50,10 Q70,50 50,90 L0,100 Z" fill="url(#gradLeft)" />
+            <defs>
+              <linearGradient id="gradLeft" x1="0%" y1="50%" x2="100%" y2="50%">
+                <stop offset="0%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#0a0a0a', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Pieza DERECHA CENTRAL - Conecta las derechas */}
+        <div className="geo-piece absolute top-[35%] right-0 w-[15%] h-[30%] will-change-transform" data-direction="right" style={{ transform: 'translateX(100%)' }}>
+          <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
+            <path d="M100,0 L50,10 Q30,50 50,90 L100,100 Z" fill="url(#gradRight)" />
+            <defs>
+              <linearGradient id="gradRight" x1="100%" y1="50%" x2="0%" y2="50%">
+                <stop offset="0%" style={{ stopColor: '#000', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#0a0a0a', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Líneas geométricas con efecto glow rojo */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Línea diagonal principal (top-left a bottom-right) */}
+          <div className="absolute top-[15%] left-[20%] w-[60%] h-[2px] bg-gradient-to-r from-transparent via-red-600/80 to-transparent rotate-[-45deg] origin-left shadow-[0_0_10px_rgba(229,9,20,0.8)]" style={{ transformOrigin: '0% 50%' }} />
+          
+          {/* Línea diagonal secundaria (top-right a bottom-left) */}
+          <div className="absolute top-[20%] right-[15%] w-[55%] h-[2px] bg-gradient-to-r from-transparent via-red-600/70 to-transparent rotate-[45deg] origin-right shadow-[0_0_10px_rgba(229,9,20,0.7)]" style={{ transformOrigin: '100% 50%' }} />
+          
+          {/* Líneas más pequeñas */}
+          <div className="absolute top-[40%] left-[10%] w-[30%] h-[1px] bg-gradient-to-r from-transparent via-red-500/60 to-transparent rotate-[20deg] shadow-[0_0_8px_rgba(229,9,20,0.6)]" />
+          <div className="absolute bottom-[35%] right-[20%] w-[35%] h-[1px] bg-gradient-to-r from-transparent via-red-500/60 to-transparent rotate-[-30deg] shadow-[0_0_8px_rgba(229,9,20,0.6)]" />
+        </div>
+      </div>
+
       {/* Texto "El Regreso Triunfal" - Estilo similar a "Títulos y Logros Internacionales" */}
       <div ref={triumphTextRef} className="fixed inset-0 z-[71] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden' }}>
         <div className="relative w-full max-w-6xl px-6 md:px-12">
@@ -4350,17 +6583,13 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           {/* Título principal - cada palabra es fragmentable */}
           <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black uppercase leading-tight tracking-tight text-center">
             <span className="block">
-              <span ref={triumphTitle1Ref} className="inline-block text-red-600 will-change-transform" style={{ opacity: 1 }}>El Regreso</span>
-              <span className="inline-block"> </span>
+              <span ref={triumphTitle1Ref} className="inline-block text-red-600 will-change-transform mr-3" style={{ opacity: 1 }}>El Regreso</span>
               <span ref={triumphTitle2Ref} className="inline-block text-white will-change-transform" style={{ opacity: 1 }}>Triunfal:</span>
             </span>
             <span className="block text-white">
-              <span ref={triumphTitle3Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>Más</span>
-              <span className="inline-block"> </span>
-              <span ref={triumphTitle4Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>Fuerte</span>
-              <span className="inline-block"> </span>
-              <span ref={triumphTitle5Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>que</span>
-              <span className="inline-block"> </span>
+              <span ref={triumphTitle3Ref} className="inline-block will-change-transform mr-3" style={{ opacity: 1 }}>Más</span>
+              <span ref={triumphTitle4Ref} className="inline-block will-change-transform mr-3" style={{ opacity: 1 }}>Fuerte</span>
+              <span ref={triumphTitle5Ref} className="inline-block will-change-transform mr-3" style={{ opacity: 1 }}>que</span>
               <span ref={triumphTitle6Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>Nunca</span>
             </span>
           </h2>
@@ -4397,6 +6626,59 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           </h2>
           <div className="mt-4 max-w-3xl mx-auto text-base md:text-lg leading-relaxed text-gray-100 text-left">
             <span ref={nextBodyRef}></span>
+          </div>
+        </div>
+      </div>
+
+      {/* NUEVO H2: Entrenador Personal en Alicante y Campeón del Mundo */}
+      <div ref={newH2Ref} className="fixed inset-0 z-[70] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+        <div className="relative w-full max-w-6xl px-6 md:px-12">
+          
+          {/* Líneas decorativas de fondo sutiles */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
+            <div className="absolute left-0 top-1/3 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+            <div className="absolute left-0 bottom-1/3 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+          </div>
+
+          {/* Subtítulo pequeño */}
+          <div className="mb-4 text-center">
+            <p className="text-xs md:text-sm font-bold uppercase tracking-[0.4em] text-red-600 opacity-80">
+              Bernat Scorus
+            </p>
+          </div>
+          
+          {/* Título principal */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-tight tracking-tight text-center">
+            <span className="block mb-2">
+              <span className="text-red-600">Entrenador Personal</span>
+            </span>
+            <span className="block mb-2">
+              <span className="text-white">en Alicante</span>
+            </span>
+            <span className="block">
+              <span className="text-white">y </span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600">Campeón del Mundo</span>
+            </span>
+            <span className="block">
+              <span className="text-white">de </span>
+              <span className="text-red-600">Culturismo</span>
+            </span>
+          </h2>
+
+          {/* Línea decorativa inferior */}
+          <div className="mt-6 flex justify-center">
+            <div className="w-32 md:w-48 h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-full" />
+          </div>
+        </div>
+      </div>
+
+      {/* NUEVO PÁRRAFO: Experiencia de 25 años (con efecto de escritura) */}
+      <div ref={experienceParaRef} className="fixed inset-0 z-[69] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0 }}>
+        <div className="pointer-events-none relative mx-4 md:mx-0 w-full max-w-3xl">
+          <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[6px] bg-[linear-gradient(135deg,rgba(229,9,20,0.6),rgba(255,255,255,0.08),rgba(229,9,20,0.6))]" />
+          <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
+            <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
+            <p ref={experienceParaTextRef} className="text-base md:text-lg leading-relaxed text-gray-100 whitespace-pre-wrap will-change-transform"></p>
           </div>
         </div>
       </div>
@@ -4528,5 +6810,58 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         </div>
       </div>
     </div>
+
+    {/* CTA FINAL - FUERA del containerRef para que NO desaparezca */}
+    <div ref={finalCtaRef} className="fixed inset-0 z-[45] flex items-center justify-center pointer-events-none will-change-transform" style={{ visibility: 'hidden', opacity: 0, transform: 'scale(1.5)' }}>
+      <div className="relative mx-4 md:mx-8 w-full max-w-5xl">
+        <div className="relative">
+          <div className="absolute -inset-0.5 rounded-3xl opacity-60 blur-[6px] bg-[linear-gradient(135deg,rgba(229,9,20,0.6),rgba(255,255,255,0.08),rgba(229,9,20,0.6))]" />
+          <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-4 py-6 md:px-16 md:py-16">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 h-1.5 w-20 md:w-48 bg-red-600 rounded-bl-3xl rounded-br-3xl" />
+            <div className="absolute top-1/2 -translate-y-1/2 left-0 w-1 h-20 md:h-48 bg-gradient-to-b from-transparent via-red-600 to-transparent" />
+            <div className="absolute top-1/2 -translate-y-1/2 right-0 w-1 h-20 md:h-48 bg-gradient-to-b from-transparent via-red-600 to-transparent" />
+            <h2 className="mb-3 md:mb-6 text-center text-2xl md:text-5xl lg:text-6xl font-black uppercase leading-tight tracking-tight">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-red-500 to-white">
+                Transforma tu Vida
+              </span>
+              <span className="block mt-1 md:mt-2 text-red-600">
+                con Scorus Fitness
+              </span>
+            </h2>
+            <div className="mb-4 md:mb-8 flex justify-center">
+              <div className="w-20 md:w-48 h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-full" />
+            </div>
+            <div className="mb-4 md:mb-10 max-w-3xl mx-auto">
+              <p className="text-sm md:text-xl lg:text-2xl text-center leading-relaxed text-gray-100 font-medium">
+                Si buscas un <span className="text-red-500 font-bold">cambio real</span>, estoy aquí para guiarte. Ya sea que quieras <span className="text-white font-semibold">perder grasa</span>, <span className="text-white font-semibold">ganar músculo</span> o <span className="text-white font-semibold">prepararte para una competición</span>, en Scorus Fitness encontrarás las herramientas y el apoyo que necesitas.
+              </p>
+            </div>
+            <div className="flex flex-col items-center gap-3 md:gap-4">
+              <p className="text-base md:text-2xl text-white font-bold text-center px-2">
+                Empieza hoy. <span className="text-red-500">Contacta conmigo</span> y transforma tu cuerpo y tu mente.
+              </p>
+              <a 
+                href="/es/contacto" 
+                className="pointer-events-auto group relative inline-flex items-center justify-center px-6 py-3 md:px-14 md:py-6 text-base md:text-2xl font-black uppercase tracking-wider text-white transition-all duration-300 hover:scale-105"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 rounded-xl transition-all duration-300" />
+                <div className="absolute inset-0 rounded-xl border-2 border-red-500/50 group-hover:border-red-400 transition-all duration-300" />
+                <span className="relative z-10 flex items-center gap-2 md:gap-3">
+                  ¡Contáctame Ahora!
+                  <svg className="w-5 h-5 md:w-7 md:h-7 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
+              </a>
+            </div>
+            <div className="mt-4 md:mt-10 flex justify-center">
+              <div className="w-16 md:w-40 h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent rounded-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </>
   );
 }
