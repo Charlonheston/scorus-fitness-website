@@ -56,6 +56,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   // Target dinámico para mantener el H2 encima del párrafo cuando entra
   let compLiftTargetPx = 120;
 
+  // Detección de móvil (TEST: Desactivar canvas en móvil para mejorar rendimiento)
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+
   // Canvas flipbook (primer video)
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [useCanvas, setUseCanvas] = useState(false);
@@ -63,14 +66,14 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const currentFrameRef = useRef<number>(0);
   const drawingRef = useRef<boolean>(false);
 
-  // Canvas flipbook (segundo video - training)
+  // Canvas flipbook (segundo video - training) - DESACTIVADO EN MÓVIL
   const canvas2Ref = useRef<HTMLCanvasElement>(null);
   const [useCanvas2, setUseCanvas2] = useState(false);
   const imageCache2Ref = useRef<Map<number, HTMLImageElement>>(new Map());
   const currentFrame2Ref = useRef<number>(0);
   const drawing2Ref = useRef<boolean>(false);
 
-  // Canvas flipbook (tercer video - challenge)
+  // Canvas flipbook (tercer video - challenge) - DESACTIVADO EN MÓVIL
   const canvas3Ref = useRef<HTMLCanvasElement>(null);
   const [useCanvas3, setUseCanvas3] = useState(false);
   const imageCache3Ref = useRef<Map<number, HTMLImageElement>>(new Map());
@@ -78,7 +81,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const drawing3Ref = useRef<boolean>(false);
   const video3OverlayRef = useRef<HTMLDivElement>(null); // Overlay del tercer video
 
-  // Canvas flipbook (cuarto video - final)
+  // Canvas flipbook (cuarto video - final) - DESACTIVADO EN MÓVIL
   const canvas4Ref = useRef<HTMLCanvasElement>(null);
   const [useCanvas4, setUseCanvas4] = useState(false);
   const imageCache4Ref = useRef<Map<number, HTMLImageElement>>(new Map());
@@ -86,7 +89,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const drawing4Ref = useRef<boolean>(false);
   const video4OverlayRef = useRef<HTMLDivElement>(null); // Overlay del cuarto video
 
-  // Canvas flipbook (quinto video - legacy)
+  // Canvas flipbook (quinto video - legacy) - DESACTIVADO EN MÓVIL
   const canvas5Ref = useRef<HTMLCanvasElement>(null);
   const [useCanvas5, setUseCanvas5] = useState(false);
   const imageCache5Ref = useRef<Map<number, HTMLImageElement>>(new Map());
@@ -94,7 +97,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const drawing5Ref = useRef<boolean>(false);
   const video5OverlayRef = useRef<HTMLDivElement>(null); // Overlay del quinto video
 
-  // Canvas 6 (epilogue frames)
+  // Canvas 6 (epilogue frames) - DESACTIVADO EN MÓVIL
   const canvas6Ref = useRef<HTMLCanvasElement>(null);
   const [useCanvas6, setUseCanvas6] = useState(false);
   const imageCache6Ref = useRef<Map<number, HTMLImageElement>>(new Map());
@@ -211,6 +214,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     // En mobile: añadir padding-top cuando el header se fija (scroll > 50px)
     const isMobileDevice = window.matchMedia('(max-width: 767px)').matches;
+    
+    // Actualizar estado de detección de móvil
+    setIsMobileDevice(isMobileDevice);
     if (isMobileDevice) {
       const handleHeaderOffset = () => {
         const scrollY = window.scrollY || window.pageYOffset;
@@ -4324,8 +4330,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     // Actualizar currentScrollPx para reflejar el nuevo punto después de la transición
     currentScrollPx = video1TransitionStartPx + VIDEO_TRANSITION_PX;
     
-    // ============ FUNCIONES CANVAS 2 (definidas primero) ============
+    // ============ FUNCIONES CANVAS 2 (DESACTIVADO EN MÓVIL PARA TESTING) ============
 
+    /* COMENTADO PARA TESTING EN MÓVIL - INICIO
     const drawToCanvas2 = (img: HTMLImageElement) => {
       const canvas = canvas2Ref.current;
       const ctx = canvas?.getContext('2d');
@@ -4345,8 +4352,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, dx, dy, sw, sh);
     };
 
-    // Submuestreo móvil: saltar frames más agresivamente
-    const frameStepMobile2 = 10;
+    // Submuestreo móvil: saltar frames (p. ej., x3)
+    const frameStepMobile2 = 4;
     const effectiveFrameStep2 = isMobile ? frameStepMobile2 : 1;
     const effectiveFrames2Count = frames2Count ? Math.floor(((frames2Count - 1) / effectiveFrameStep2)) + 1 : undefined;
 
@@ -4369,7 +4376,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround2 = (center: number) => {
       if (!frames2Count) return;
-      const radius = isMobile ? 3 : 8; // Reducir precarga en móvil
+      const radius = 8;
       for (let i = Math.max(1, center - radius); i <= Math.min(frames2Count, center + radius); i++) {
         if (!imageCache2Ref.current.has(i)) {
           loadFrame2(i).catch(() => {});
@@ -4423,61 +4430,20 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
 
     // Intentar habilitar canvas2, si falla usar video fallback
-    (async () => {
-      const enabled2 = await tryEnableCanvas2();
-      if (enabled2) {
-        setupCanvas2Scrub();
-      } else {
-        // FALLBACK: Video scrubbing suavizado
-        const targetTimeRef2 = { t: 0 } as { t: number };
-        const currentTimeRef2 = { t: 0 } as { t: number };
-        
-        const setupVideo2Scrub = () => {
-          const video = video2Ref.current;
-          if (!video || isNaN(video.duration) || !isFinite(video.duration) || video.duration === 0) return;
-          
-          video.pause();
-          targetTimeRef2.t = 0;
-          currentTimeRef2.t = 0;
-          video.currentTime = 0;
-          
-          ScrollTrigger.create({
-            trigger: scrollEl as Element,
-            start: `+=${video2StartPx} top`,
-            end: `+=${VIDEO2_SCRUB_PX}`,
-            scrub: 0.1,
-            onUpdate: (self) => {
-              targetTimeRef2.t = self.progress * video.duration;
-            },
-          });
-          
-          const LERP_FACTOR = 0.15;
-          const FRAME_TIME = 1 / 30;
-          
-          gsap.ticker.add(() => {
-            if (!video2Ref.current) return;
-            currentTimeRef2.t += (targetTimeRef2.t - currentTimeRef2.t) * LERP_FACTOR;
-            const diff = Math.abs(currentTimeRef2.t - video.currentTime);
-            if (diff > FRAME_TIME) {
-              const step = Math.min(diff, FRAME_TIME);
-              const direction = currentTimeRef2.t > video.currentTime ? 1 : -1;
-              video.currentTime += step * direction;
-            } else if (diff > 0.001) {
-              video.currentTime = currentTimeRef2.t;
-            }
-          });
-        };
-        
-        if (video2Ref.current) {
-          const onLoadedMeta2 = () => setupVideo2Scrub();
-          if (video2Ref.current.readyState >= 1) {
-            setupVideo2Scrub();
-          } else {
-            video2Ref.current.addEventListener('loadedmetadata', onLoadedMeta2);
-          }
+    // COMENTADO TEMPORALMENTE PARA TESTING EN MÓVIL */
+    
+    // En móvil, NO usamos canvas (para testing de rendimiento)
+    if (!isMobileDevice) {
+      // Desktop: Intentar usar canvas, si falla usar video fallback
+      (async () => {
+        /* TEMPORALMENTE DESACTIVADO - las funciones canvas2 están comentadas arriba
+        const enabled2 = await tryEnableCanvas2();
+        if (enabled2) {
+          setupCanvas2Scrub();
         }
-      }
-    })();
+        */
+      })();
+    }
     
     currentScrollPx += VIDEO2_SCRUB_PX;
 
@@ -4502,8 +4468,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, dx, dy, sw, sh);
     };
 
-    // Mobile-webp de challenge-frames están cada 3 frames, usamos step 12 (múltiplo de 3)
-    const frameStepMobile3 = 12; // salto agresivo en móvil optimizado para mobile-webp
+    const frameStepMobile3 = 6; // salto agresivo en móvil
     const effectiveFrameStep3 = isMobile ? frameStepMobile3 : 1;
     const effectiveFrames3Count = frames3Count ? Math.floor(((frames3Count - 1) / effectiveFrameStep3)) + 1 : undefined;
 
@@ -4528,7 +4493,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround3 = (center: number) => {
       if (!frames3Count) return;
-      const radius = isMobile ? 3 : 8; // Reducir precarga en móvil
+      const radius = 8;
       for (let i = Math.max(1, center - radius); i <= Math.min(frames3Count, center + radius); i++) {
         if (!imageCache3Ref.current.has(i)) {
           loadFrame3(i).catch(() => {});
@@ -4594,13 +4559,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const enabled3 = await tryEnableCanvas3();
       if (enabled3) {
         setupCanvas3Scrub();
-        // Liberar memoria de canvas anteriores en móvil
-        if (isMobile) {
-          setTimeout(() => {
-            imageCacheRef.current.clear();
-            imageCache2Ref.current.clear();
-          }, 2000);
-        }
       }
     })();
 
@@ -4664,8 +4622,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, 0, 0, iw, ih, sx, sy, sw, sh);
     };
 
-    // Mobile-webp de final-frames están cada 6 frames, usamos step 12 (múltiplo de 6)
-    const frameStepMobile4 = 12; // salto agresivo en móvil optimizado para mobile-webp
+    const frameStepMobile4 = 6; // salto agresivo en móvil
     const effectiveFrameStep4 = isMobile ? frameStepMobile4 : 1;
     const effectiveFrames4Count = frames4Count ? Math.floor(((frames4Count - 1) / effectiveFrameStep4)) + 1 : undefined;
 
@@ -4690,7 +4647,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround4 = (center: number) => {
       if (!frames4Count) return;
-      const radius = isMobile ? 3 : 8; // Reducir precarga en móvil
+      const radius = 8;
       for (let i = Math.max(1, center - radius); i <= Math.min(frames4Count, center + radius); i++) {
         if (!imageCache4Ref.current.has(i)) {
           loadFrame4(i).catch(() => {});
@@ -4756,13 +4713,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const enabled4 = await tryEnableCanvas4();
       if (enabled4) {
         setupCanvas4Scrub();
-        // Liberar memoria de canvas anteriores en móvil
-        if (isMobile) {
-          setTimeout(() => {
-            imageCache2Ref.current.clear();
-            imageCache3Ref.current.clear();
-          }, 2000);
-        }
       }
     })();
 
@@ -4824,8 +4774,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, 0, 0, iw, ih, sx, sy, sw, sh);
     };
 
-    // Mobile-webp de legacy-frames están cada 6 frames, usamos step 12 (múltiplo de 6)
-    const frameStepMobile5 = 12; // salto agresivo en móvil optimizado para mobile-webp
+    const frameStepMobile5 = 6; // salto agresivo en móvil
     const effectiveFrameStep5 = isMobile ? frameStepMobile5 : 1;
     const effectiveFrames5Count = frames5Count ? Math.floor(((frames5Count - 1) / effectiveFrameStep5)) + 1 : undefined;
 
@@ -4850,7 +4799,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround5 = (center: number) => {
       if (!frames5Count) return;
-      const radius = isMobile ? 3 : 8; // Reducir precarga en móvil
+      const radius = 8;
       for (let i = Math.max(1, center - radius); i <= Math.min(frames5Count, center + radius); i++) {
         if (!imageCache5Ref.current.has(i)) {
           loadFrame5(i).catch(() => {});
@@ -4916,13 +4865,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const enabled5 = await tryEnableCanvas5();
       if (enabled5) {
         setupCanvas5Scrub();
-        // Liberar memoria de canvas anteriores en móvil
-        if (isMobile) {
-          setTimeout(() => {
-            imageCache3Ref.current.clear();
-            imageCache4Ref.current.clear();
-          }, 2000);
-        }
       }
     })();
 
@@ -4984,8 +4926,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, 0, 0, iw, ih, sx, sy, sw, sh);
     };
 
-    // Mobile-webp de epilogue-frames están cada 6 frames, usamos step 12 (múltiplo de 6)
-    const frameStepMobile6 = 12; // salto agresivo en móvil optimizado para mobile-webp
+    const frameStepMobile6 = 6; // salto agresivo en móvil
     const effectiveFrameStep6 = isMobile ? frameStepMobile6 : 1;
     const effectiveFrames6Count = frames6Count ? Math.floor(((frames6Count - 1) / effectiveFrameStep6)) + 1 : undefined;
 
@@ -5010,7 +4951,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround6 = (center: number) => {
       if (!frames6Count) return;
-      const radius = isMobile ? 3 : 8; // Reducir precarga en móvil
+      const radius = 8;
       for (let i = Math.max(1, center - radius); i <= Math.min(frames6Count, center + radius); i++) {
         if (!imageCache6Ref.current.has(i)) {
           loadFrame6(i).catch(() => {});
@@ -5076,13 +5017,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const enabled6 = await tryEnableCanvas6();
       if (enabled6) {
         setupCanvas6Scrub();
-        // Liberar memoria de canvas anteriores en móvil
-        if (isMobile) {
-          setTimeout(() => {
-            imageCache4Ref.current.clear();
-            imageCache5Ref.current.clear();
-          }, 2000);
-        }
       }
     })();
 
@@ -5185,8 +5119,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, dx, dy, sw, sh);
     };
 
-    // Submuestreo móvil: saltar frames más agresivamente
-    const frameStepMobile = 10;
+    // Submuestreo móvil: saltar frames (p. ej., x3)
+    const frameStepMobile = 4;
     const effectiveFrameStep = isMobileDevice ? frameStepMobile : 1;
     const effectiveFramesCount = framesCount ? Math.floor(((framesCount - 1) / effectiveFrameStep)) + 1 : undefined;
 
@@ -5209,7 +5143,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround = (center: number) => {
       if (!framesCount) return;
-      const radius = isMobileDevice ? 3 : 8; // Reducir precarga en móvil
+      const radius = 8;
       for (let i = Math.max(1, center - radius); i <= Math.min(framesCount, center + radius); i++) {
         if (!imageCacheRef.current.has(i)) {
           loadFrame(i).catch(() => {});
@@ -5314,10 +5248,11 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const img = imageCacheRef.current.get(currentFrameRef.current);
       if (img) drawToCanvas(img);
       }
-      if (useCanvas2) {
+      // COMENTADO PARA TESTING EN MÓVIL
+      /* if (useCanvas2) {
         const img2 = imageCache2Ref.current.get(currentFrame2Ref.current);
         if (img2) drawToCanvas2(img2);
-      }
+      } */
     };
     window.addEventListener('resize', handleResize);
 
@@ -5329,7 +5264,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
   // Calcular altura total necesaria para el scroll de forma aproximada pero precisa
   // Basado en el contenido real de animaciones (1 notch = 800px)
-  const isMobileDevice = typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false;
+  // Usar el estado isMobileDevice ya definido arriba
   const estimatedScrollHeight = typeof window !== 'undefined' 
     ? (isMobileDevice 
         ? 800 * 3  // ~50 notchs para móvil = 40,000px
@@ -5355,10 +5290,10 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         style={{ backgroundImage: `url(${poster})`, filter: 'brightness(0.6)' }}
       />
 
-      {/* Canvas flipbook para primer video (desktop) */}
-      {(framesPattern && framesCount) && (
+      {/* Canvas flipbook para primer video (desktop) - COMENTADO PARA TESTING EN MÓVIL */}
+      {/* {(framesPattern && framesCount) && (
         <canvas ref={canvasRef} className="absolute inset-0 -z-20 w-full h-full" style={{ display: useCanvas ? 'block' : 'none' }} />
-      )}
+      )} */}
 
       {/* Video de fondo (fallback para móvil o cuando no hay frames) */}
       {(videoMp4 || videoWebm) && (
@@ -5375,38 +5310,38 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         </video>
       )}
 
-      {/* Canvas flipbook para segundo video (training - desktop) */}
-      {(frames2Pattern && frames2Count) && (
+      {/* Canvas flipbook para segundo video (training - desktop) - COMENTADO PARA TESTING EN MÓVIL */}
+      {/* {(frames2Pattern && frames2Count) && (
         <canvas ref={canvas2Ref} className="absolute inset-0 -z-19 w-full h-full" style={{ display: useCanvas2 ? 'block' : 'none' }} />
-      )}
+      )} */}
 
-      {/* Canvas flipbook para tercer video (challenge) */}
-      {(frames3Pattern && frames3Count) && (
+      {/* Canvas flipbook para tercer video (challenge) - COMENTADO PARA TESTING EN MÓVIL */}
+      {/* {(frames3Pattern && frames3Count) && (
         <canvas ref={canvas3Ref} className="absolute inset-0 -z-18 w-full h-full" style={{ display: useCanvas3 ? 'block' : 'none' }} />
-      )}
-      {/* Overlay sutil para el tercer video */}
-      <div ref={video3OverlayRef} className="absolute inset-0 -z-17 bg-black/40" style={{ display: useCanvas3 ? 'block' : 'none' }} />
+      )} */}
+      {/* Overlay sutil para el tercer video - COMENTADO PARA TESTING EN MÓVIL */}
+      {/* <div ref={video3OverlayRef} className="absolute inset-0 -z-17 bg-black/40" style={{ display: useCanvas3 ? 'block' : 'none' }} /> */}
 
-      {/* Canvas flipbook para cuarto video (final) */}
-      {(frames4Pattern && frames4Count) && (
+      {/* Canvas flipbook para cuarto video (final) - COMENTADO PARA TESTING EN MÓVIL */}
+      {/* {(frames4Pattern && frames4Count) && (
         <canvas ref={canvas4Ref} className="absolute inset-0 -z-16 w-full h-full" style={{ display: useCanvas4 ? 'block' : 'none' }} />
-      )}
-      {/* Overlay sutil para el cuarto video */}
-      <div ref={video4OverlayRef} className="absolute inset-0 -z-15 bg-black/40" style={{ display: useCanvas4 ? 'block' : 'none' }} />
+      )} */}
+      {/* Overlay sutil para el cuarto video - COMENTADO PARA TESTING EN MÓVIL */}
+      {/* <div ref={video4OverlayRef} className="absolute inset-0 -z-15 bg-black/40" style={{ display: useCanvas4 ? 'block' : 'none' }} /> */}
 
-      {/* Canvas flipbook para quinto video (legacy) */}
-      {(frames5Pattern && frames5Count) && (
+      {/* Canvas flipbook para quinto video (legacy) - COMENTADO PARA TESTING EN MÓVIL */}
+      {/* {(frames5Pattern && frames5Count) && (
         <canvas ref={canvas5Ref} className="absolute inset-0 -z-14 w-full h-full" style={{ display: useCanvas5 ? 'block' : 'none' }} />
-      )}
-      {/* Overlay sutil para el quinto video */}
-      <div ref={video5OverlayRef} className="absolute inset-0 -z-13 bg-black/40" style={{ display: useCanvas5 ? 'block' : 'none' }} />
+      )} */}
+      {/* Overlay sutil para el quinto video - COMENTADO PARA TESTING EN MÓVIL */}
+      {/* <div ref={video5OverlayRef} className="absolute inset-0 -z-13 bg-black/40" style={{ display: useCanvas5 ? 'block' : 'none' }} /> */}
 
-      {/* Canvas flipbook para sexto video (epilogue) */}
-      {(frames6Pattern && frames6Count) && (
+      {/* Canvas flipbook para sexto video (epilogue) - COMENTADO PARA TESTING EN MÓVIL */}
+      {/* {(frames6Pattern && frames6Count) && (
         <canvas ref={canvas6Ref} className="absolute inset-0 -z-12 w-full h-full" style={{ display: useCanvas6 ? 'block' : 'none' }} />
-      )}
-      {/* Overlay sutil para el sexto video */}
-      <div ref={video6OverlayRef} className="absolute inset-0 -z-11 bg-black/40" style={{ display: useCanvas6 ? 'block' : 'none' }} />
+      )} */}
+      {/* Overlay sutil para el sexto video - COMENTADO PARA TESTING EN MÓVIL */}
+      {/* <div ref={video6OverlayRef} className="absolute inset-0 -z-11 bg-black/40" style={{ display: useCanvas6 ? 'block' : 'none' }} /> */}
 
       {/* Segundo video de fondo (training) - fallback para móvil */}
       <video
