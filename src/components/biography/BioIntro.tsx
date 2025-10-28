@@ -655,6 +655,68 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     // Valor de scrub: true = instantáneo sin delay en móvil
     const scrubValue = isMobile ? true : 0.3; // Scroll nativo instantáneo en móvil
 
+    // ===== PREVENIR OVERSCROLL EN MÓVIL (excepto en el top) =====
+    // Esto evita que la barra de URL aparezca al hacer scroll en medio de la página
+    let preventOverscrollHandler: ((e: TouchEvent) => void) | null = null;
+    let preventPullToRefreshHandler: ((e: TouchEvent) => void) | null = null;
+    let touchStartHandler: ((e: TouchEvent) => void) | null = null;
+    
+    if (isMobile) {
+      let lastScrollY = 0;
+      
+      preventOverscrollHandler = (e: TouchEvent) => {
+        const currentScrollY = window.scrollY || window.pageYOffset;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        
+        // Solo permitir overscroll si estamos exactamente en el top (scrollY <= 1)
+        // o en el bottom (para poder refrescar)
+        const isAtTop = currentScrollY <= 1;
+        const isAtBottom = currentScrollY >= maxScroll - 1;
+        
+        // Si no estamos en el top ni en el bottom, prevenir el bounce
+        if (!isAtTop && !isAtBottom) {
+          const target = e.target as HTMLElement;
+          // Permitir scroll dentro de elementos scrollables (como el footer)
+          if (!target.closest('.overflow-auto') && !target.closest('[style*="overflow"]')) {
+            // No prevenir por defecto aquí, solo controlar los límites
+            const touch = e.touches[0];
+            const deltaY = lastScrollY - touch.clientY;
+            
+            // Si intenta hacer scroll más allá de los límites, prevenir
+            if ((currentScrollY <= 0 && deltaY < 0) || (currentScrollY >= maxScroll && deltaY > 0)) {
+              e.preventDefault();
+            }
+          }
+        }
+        
+        lastScrollY = e.touches[0].clientY;
+      };
+      
+      // Agregar event listener con passive: false para poder usar preventDefault
+      document.addEventListener('touchmove', preventOverscrollHandler, { passive: false });
+      
+      // También prevenir el pull-to-refresh en el top (cuando scrollY > 10)
+      preventPullToRefreshHandler = (e: TouchEvent) => {
+        const currentScrollY = window.scrollY || window.pageYOffset;
+        if (currentScrollY > 10) {
+          const target = e.target as HTMLElement;
+          if (!target.closest('.overflow-auto') && !target.closest('[style*="overflow"]')) {
+            // Solo prevenir si estamos arrastrando hacia abajo
+            const touch = e.touches[0];
+            if (touch.clientY > lastScrollY) {
+              e.preventDefault();
+            }
+          }
+        }
+      };
+      
+      touchStartHandler = (e: TouchEvent) => {
+        lastScrollY = e.touches[0].clientY;
+      };
+      
+      document.addEventListener('touchstart', touchStartHandler, { passive: true });
+    }
+
     // En mobile: añadir padding-top cuando el header se fija (scroll > 50px)
     const isMobileDevice = window.matchMedia('(max-width: 767px)').matches;
     if (isMobileDevice) {
@@ -5746,6 +5808,17 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
       window.removeEventListener('resize', handleResize);
+      
+      // Cleanup para event listeners de móvil
+      if (preventOverscrollHandler) {
+        document.removeEventListener('touchmove', preventOverscrollHandler);
+      }
+      if (preventPullToRefreshHandler) {
+        document.removeEventListener('touchmove', preventPullToRefreshHandler);
+      }
+      if (touchStartHandler) {
+        document.removeEventListener('touchstart', touchStartHandler);
+      }
     };
   }, [framesPattern, framesCount, frames2Pattern, frames2Count, frames3Pattern, frames3Count, frames4Pattern, frames4Count, frames5Pattern, frames5Count, useCanvas, useCanvas2, useCanvas3, useCanvas4, useCanvas5]);
 
