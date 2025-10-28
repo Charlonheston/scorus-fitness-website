@@ -56,9 +56,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   // Target dinámico para mantener el H2 encima del párrafo cuando entra
   let compLiftTargetPx = 120;
 
-  // Detección de móvil (TEST: Desactivar canvas en móvil para mejorar rendimiento)
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
-
   // Canvas flipbook (primer video)
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [useCanvas, setUseCanvas] = useState(false);
@@ -66,14 +63,14 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const currentFrameRef = useRef<number>(0);
   const drawingRef = useRef<boolean>(false);
 
-  // Canvas flipbook (segundo video - training) - DESACTIVADO EN MÓVIL
+  // Canvas flipbook (segundo video - training)
   const canvas2Ref = useRef<HTMLCanvasElement>(null);
   const [useCanvas2, setUseCanvas2] = useState(false);
   const imageCache2Ref = useRef<Map<number, HTMLImageElement>>(new Map());
   const currentFrame2Ref = useRef<number>(0);
   const drawing2Ref = useRef<boolean>(false);
 
-  // Canvas flipbook (tercer video - challenge) - DESACTIVADO EN MÓVIL
+  // Canvas flipbook (tercer video - challenge)
   const canvas3Ref = useRef<HTMLCanvasElement>(null);
   const [useCanvas3, setUseCanvas3] = useState(false);
   const imageCache3Ref = useRef<Map<number, HTMLImageElement>>(new Map());
@@ -81,7 +78,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const drawing3Ref = useRef<boolean>(false);
   const video3OverlayRef = useRef<HTMLDivElement>(null); // Overlay del tercer video
 
-  // Canvas flipbook (cuarto video - final) - DESACTIVADO EN MÓVIL
+  // Canvas flipbook (cuarto video - final)
   const canvas4Ref = useRef<HTMLCanvasElement>(null);
   const [useCanvas4, setUseCanvas4] = useState(false);
   const imageCache4Ref = useRef<Map<number, HTMLImageElement>>(new Map());
@@ -89,7 +86,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const drawing4Ref = useRef<boolean>(false);
   const video4OverlayRef = useRef<HTMLDivElement>(null); // Overlay del cuarto video
 
-  // Canvas flipbook (quinto video - legacy) - DESACTIVADO EN MÓVIL
+  // Canvas flipbook (quinto video - legacy)
   const canvas5Ref = useRef<HTMLCanvasElement>(null);
   const [useCanvas5, setUseCanvas5] = useState(false);
   const imageCache5Ref = useRef<Map<number, HTMLImageElement>>(new Map());
@@ -97,7 +94,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const drawing5Ref = useRef<boolean>(false);
   const video5OverlayRef = useRef<HTMLDivElement>(null); // Overlay del quinto video
 
-  // Canvas 6 (epilogue frames) - DESACTIVADO EN MÓVIL
+  // Canvas 6 (epilogue frames)
   const canvas6Ref = useRef<HTMLCanvasElement>(null);
   const [useCanvas6, setUseCanvas6] = useState(false);
   const imageCache6Ref = useRef<Map<number, HTMLImageElement>>(new Map());
@@ -212,11 +209,31 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     if (!containerRef.current) return;
 
+    // ===== OPTIMIZACIONES PARA SCROLL TÁCTIL EN MÓVIL =====
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    
+    // Configuración global de ScrollTrigger para mejorar rendimiento en móvil
+    ScrollTrigger.config({
+      limitCallbacks: true, // Reduce callbacks durante scroll rápido
+      syncInterval: isMobile ? 16 : 0, // ~60fps en móvil, instant en desktop
+      ignoreMobileResize: true, // Evita recalcular en cada cambio de orientación
+    });
+
+    // Normalizar scroll para dispositivos táctiles - hace el scroll más suave y coherente
+    if (isMobile) {
+      ScrollTrigger.normalizeScroll({
+        allowNestedScroll: true,
+        lockAxis: true, // Evita scroll diagonal accidental
+        momentum: (self: any) => Math.min(3, self.velocityY / 1000), // Limita momentum en táctil
+        type: "touch,wheel,pointer",
+      });
+    }
+
+    // Valor de scrub optimizado para móvil vs desktop
+    const scrubValue = isMobile ? 0.8 : 0.3; // Más suavizado en móvil
+
     // En mobile: añadir padding-top cuando el header se fija (scroll > 50px)
     const isMobileDevice = window.matchMedia('(max-width: 767px)').matches;
-    
-    // Actualizar estado de detección de móvil
-    setIsMobileDevice(isMobileDevice);
     if (isMobileDevice) {
       const handleHeaderOffset = () => {
         const scrollY = window.scrollY || window.pageYOffset;
@@ -299,7 +316,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         trigger: scrollEl as Element,
         start: 'top top',
         end: `+=${totalScroll * 0.2}`,
-        scrub: true,
+        scrub: scrubValue,
       },
     });
 
@@ -310,7 +327,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         trigger: scrollEl as Element,
         start: 'top top',
         end: `+=${totalScroll * 0.2}`,
-        scrub: true,
+        scrub: scrubValue,
       },
     });
 
@@ -321,7 +338,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         trigger: scrollEl as Element,
         start: `+=${totalScroll * 0.02} top`,
         end: `+=${totalScroll * 0.2}`,
-        scrub: true,
+        scrub: scrubValue,
       },
     });
 
@@ -332,16 +349,17 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         trigger: scrollEl as Element,
         start: `+=${totalScroll * 0.05} top`,
         end: `+=${totalScroll * 0.2}`,
-        scrub: true,
+        scrub: scrubValue,
       },
     });
 
-    // Cita: una sola timeline 10–16% (entra y sale) en desktop; en móvil la extendemos unos “snaps” más
+    // Cita: una sola timeline 10–16% (entra y sale) en desktop; en móvil la extendemos unos "snaps" más
     if (quoteRef.current) gsap.set(quoteRef.current, { y: '-120vh', opacity: 1 });
-    const isMobile = window.matchMedia('(max-width: 767px)').matches;
     
     // ================= LIMITADOR DE VELOCIDAD DE SCROLL EN MÓVIL =================
-    // Previene el "derrape" cuando se hace scroll rápido en móvil
+    // DESACTIVADO: ScrollTrigger.normalizeScroll() ya maneja esto de forma más optimizada
+    // El antiguo sistema de fricción puede interferir con la normalización de GSAP
+    /*
     if (isMobile) {
       let isScrolling = false;
       let scrollVelocity = 0;
@@ -403,6 +421,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       // Guardar cleanup para el return final
       window.addEventListener('beforeunload', cleanupScrollLimiter);
     }
+    */
     
     const quoteEndFactor = isMobile ? 0.20 : 0.16; // valores más conservadores
     const quoteTl = gsap.timeline({
@@ -410,7 +429,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         trigger: scrollEl as Element,
         start: `+=${totalScroll * 0.12} top`,
         end: `+=${totalScroll * quoteEndFactor}`,
-        scrub: true,
+        scrub: scrubValue,
       },
     });
     quoteTl
@@ -436,7 +455,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${newH2StartPx} top`,
       end: `+=${NEW_H2_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (newH2Ref.current) gsap.set(newH2Ref.current, { visibility: 'visible' });
       },
@@ -460,7 +479,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${newH2HoldStartPx} top`,
       end: `+=${NEW_H2_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!newH2Ref.current) return;
         gsap.set(newH2Ref.current, { scale: 1.0, opacity: 1 });
@@ -474,7 +493,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${newH2ExitStartPx} top`,
       end: `+=${NEW_H2_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!newH2Ref.current) return;
         const scale = 1.0 + (self.progress * 1.5); // 1.0 → 2.5
@@ -515,7 +534,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${experienceParaStartPx} top`,
       end: `+=${EXPERIENCE_PARA_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (experienceParaRef.current) gsap.set(experienceParaRef.current, { visibility: 'visible' });
         if (experienceParaTextRef.current) experienceParaTextRef.current.textContent = '';
@@ -541,7 +560,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${experienceParaTypeStartPx} top`,
       end: `+=${EXPERIENCE_PARA_TYPE_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!experienceParaTextRef.current) return;
         const charCount = Math.floor(experienceParaFullText.length * self.progress);
@@ -565,7 +584,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${experienceParaHoldStartPx} top`,
       end: `+=${EXPERIENCE_PARA_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!experienceParaRef.current) return;
         gsap.set(experienceParaRef.current, { opacity: 1, y: 0 });
@@ -582,7 +601,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${experienceParaExitStartPx} top`,
       end: `+=${EXPERIENCE_PARA_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!experienceParaRef.current) return;
         const opacity = 1 - self.progress; // 1 → 0
@@ -622,7 +641,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${totalScroll * TITLE_FLIP_START} top`,
       end: `+=${TITLE_FLIP_DISTANCE_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!nextTitleBlockRef.current) return;
         const spansUp = nextTitleBlockRef.current.querySelectorAll('.flip-up');
@@ -649,7 +668,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${moveStartPx} top`,
       end: `+=${LIFT_SCROLL_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!nextTitleInnerRef.current) return;
         const y = -LIFT_MAX_PX * self.progress; // desde 0px hasta -100px y se queda ahí
@@ -667,7 +686,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${moveStartPx} top`,
       end: `+=${TYPE_SCROLL_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!nextBodyRef.current) return;
         const total = nextBodyFullText.length;
@@ -699,7 +718,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${slideOutStartPx} top`,
       end: `+=${SLIDE_OUT_SCROLL_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!nextTitleInnerRef.current) return;
         const x = -window.innerWidth * self.progress; // desplazar desde 0 hasta -100vw
@@ -734,7 +753,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${imageSlideOutStartPx} top`,
       end: `+=${IMAGE_SLIDE_OUT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!nextImageRef.current) return;
         const x = -window.innerWidth * self.progress; // desde 0 hasta -100vw
@@ -758,7 +777,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${paragraphsScrollStartPx} top`,
       end: `+=${PARAGRAPHS_TYPE_SCROLL_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!nextParagraphsRef.current || !nextParagraphsContainerRef.current) return;
         const total = paragraphsFullText.length;
@@ -796,7 +815,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${paragraphsSlideDownStartPx} top`,
       end: `+=${PARAGRAPHS_SLIDE_DOWN_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!nextParagraphsContainerRef.current) return;
         const y = window.innerHeight * self.progress; // desde 0 hasta +100vh (hacia abajo)
@@ -818,7 +837,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${quote2StartPx} top`,
       end: `+=${QUOTE2_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!quote2Ref.current) return;
         const q2Y = -window.innerHeight * 1.2 * (1 - self.progress); // desde -120vh hasta 0
@@ -836,7 +855,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${quote2TypeStartPx} top`,
       end: `+=${QUOTE2_TYPE_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!quote2TextRef.current) return;
         const total = quote2FullText.length;
@@ -862,7 +881,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${quote2ExitStartPx} top`,
       end: `+=${QUOTE2_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!quote2Ref.current || !quote2TextRef.current) return;
         // Contenedor completo va a la derecha
@@ -930,7 +949,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${tabsZoomStartPx} top`,
       end: `+=${TABS_ZOOM_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!tabsContainerRef.current) return;
         const scale = 0.1 + (0.9 * self.progress);
@@ -966,7 +985,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${currentScrollPx} top`,
       end: `+=${TYPING_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!tabTextRef.current) return;
         const chars = Math.floor(self.progress * text1.length);
@@ -984,7 +1003,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${currentScrollPx} top`,
       end: `+=${TAB_TRANSITION_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!tab1Ref.current || !tab2Ref.current || !tab3Ref.current || !tabTextRef.current) return;
         
@@ -1038,7 +1057,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${currentScrollPx} top`,
       end: `+=${TYPING_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!tabTextRef.current) return;
         const chars = Math.floor(self.progress * text2.length);
@@ -1056,7 +1075,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${currentScrollPx} top`,
       end: `+=${TAB_TRANSITION_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!tab1Ref.current || !tab2Ref.current || !tab3Ref.current || !tabTextRef.current) return;
         
@@ -1109,7 +1128,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${currentScrollPx} top`,
       end: `+=${TYPING_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!tabTextRef.current) return;
         const chars = Math.floor(self.progress * text3.length);
@@ -1209,7 +1228,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${tabsExitStartPx} top`,
       end: `+=${TABS_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnterBack: () => {
         // Al volver desde abajo, mostrar el contenedor para permitir la animación inversa
         if (tabsContainerRef.current) {
@@ -1267,7 +1286,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${paraStartPx} top`,
       end: `+=${PARA_ENTER_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (compParaBlockRef.current) gsap.set(compParaBlockRef.current, { visibility: 'visible' });
         if (compParaTextRef.current) compParaTextRef.current.textContent = '';
@@ -1327,7 +1346,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${paraTypeStartPx} top`,
       end: `+=${TYPE_SCROLL_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (compParaBlockRef.current) gsap.set(compParaBlockRef.current, { visibility: 'visible' });
         if (compParaTextRef.current) compParaTextRef.current.textContent = '';
@@ -1351,7 +1370,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       start: `+=${paraTypeStartPx} top`,
       // Tramo infinito para siempre tener control
       end: `+=999999`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!compParaTextRef.current || !compParaContainerRef.current) return;
         
@@ -1484,7 +1503,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${compExitStartPx} top`,
       end: `+=${COMP_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         prepareCompExplosion();
         compExitVectors = getCompExitVectors();
@@ -1545,7 +1564,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${quote3SlideStartPx} top`,
       end: `+=${QUOTE3_SLIDE_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!quote3Ref.current) return;
         const p = self.progress; // 0 → 1
@@ -1569,7 +1588,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${fatherParaStartPx} top`,
       end: `+=${FATHER_PARA_TYPE_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (fatherParaRef.current) gsap.set(fatherParaRef.current, { visibility: 'visible', opacity: 1, scale: 1 });
         if (fatherParaTextRef.current) fatherParaTextRef.current.textContent = '';
@@ -1601,7 +1620,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${fatherParaSlideStartPx} top`,
       end: `+=${FATHER_PARA_SLIDE_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!fatherParaRef.current) return;
         const p = self.progress; // 0 → 1
@@ -1637,7 +1656,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${sonChallengeStartPx} top`,
       end: `+=${SON_CHALLENGE_IN_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (sonChallengeRef.current) gsap.set(sonChallengeRef.current, { visibility: 'visible' });
         setSonChallengeHTML();
@@ -1678,7 +1697,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${sonParaStartPx} top`,
       end: `+=${SON_PARA_ENTER_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (sonParaRef.current) gsap.set(sonParaRef.current, { visibility: 'visible' });
         if (compImageRef.current) gsap.set(compImageRef.current, { visibility: 'hidden' });
@@ -1715,7 +1734,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${sonParaStartPx} top`,
       end: `+=${SON_BLAST_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!sonChallengeRef.current) return;
         const p = self.progress; // 0 → 1
@@ -1738,7 +1757,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${sonParaHoldStartPx} top`,
       end: `+=${SON_PARA_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (sonParaRef.current) gsap.set(sonParaRef.current, { x: 0, y: 0 });
       },
@@ -1753,7 +1772,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${sonParaSlideStartPx} top`,
       end: `+=${SON_PARA_SLIDE_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         const p = self.progress; // 0 → 1
         const vw = window.innerWidth;
@@ -1778,7 +1797,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${imgStartPx} top`,
       end: `+=${IMG_ENTER_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => { if (compImageRef.current) gsap.set(compImageRef.current, { visibility: 'visible' }); },
       onEnterBack: () => { if (compImageRef.current) gsap.set(compImageRef.current, { visibility: 'visible' }); },
       onUpdate: (self) => {
@@ -1797,7 +1816,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${imgHoldStartPx} top`,
       end: `+=${IMG_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => { if (compImageRef.current) gsap.set(compImageRef.current, { x: 0, y: 0 }); },
       onLeaveBack: () => { if (compImageRef.current) gsap.set(compImageRef.current, { x: 0, y: 0 }); }
     });
@@ -1809,7 +1828,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${imgCollapseStartPx} top`,
       end: `+=${IMG_COLLAPSE_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!compImageRef.current) return;
         const p = self.progress; // 0 → 1
@@ -1893,7 +1912,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${gymStartPx} top`,
       end: `+=${GYM_IN_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (gymTitleRef.current) gsap.set(gymTitleRef.current, { visibility: 'visible' });
         if (gymLinesRef.current) gymLinesRef.current.style.opacity = '1';
@@ -2078,7 +2097,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${gymParaExitStartPx} top`,
       end: `+=${GYM_PARA_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!gymIntroParaRef.current) return;
         const p = self.progress; // 0 → 1
@@ -2117,7 +2136,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${nabbaStartPx} top`,
       end: `+=${NABBA_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (nabbaChampRef.current) gsap.set(nabbaChampRef.current, { visibility: 'visible' });
       },
@@ -2142,7 +2161,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${nabbaHoldStartPx} top`,
       end: `+=${NABBA_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (nabbaChampRef.current) gsap.set(nabbaChampRef.current, { x: 0 });
       }
@@ -2155,7 +2174,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${nabbaExitStartPx} top`,
       end: `+=${NABBA_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!nabbaChampRef.current) return;
         const p = self.progress; // 0 → 1
@@ -2186,7 +2205,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${mrUniversoStartPx} top`,
       end: `+=${MR_UNIVERSO_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (mrUniversoRef.current) gsap.set(mrUniversoRef.current, { visibility: 'visible' });
       },
@@ -2211,7 +2230,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${mrUniversoHoldStartPx} top`,
       end: `+=${MR_UNIVERSO_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (mrUniversoRef.current) gsap.set(mrUniversoRef.current, { x: 0 });
       }
@@ -2224,7 +2243,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${mrUniversoExitStartPx} top`,
       end: `+=${MR_UNIVERSO_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!mrUniversoRef.current) return;
         const p = self.progress; // 0 → 1
@@ -2255,7 +2274,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${arnoldStartPx} top`,
       end: `+=${ARNOLD_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (arnoldClassicRef.current) gsap.set(arnoldClassicRef.current, { visibility: 'visible' });
       },
@@ -2280,7 +2299,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${arnoldHoldStartPx} top`,
       end: `+=${ARNOLD_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (arnoldClassicRef.current) gsap.set(arnoldClassicRef.current, { x: 0 });
       }
@@ -2293,7 +2312,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${arnoldExitStartPx} top`,
       end: `+=${ARNOLD_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!arnoldClassicRef.current) return;
         const p = self.progress; // 0 → 1
@@ -2324,7 +2343,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${benWeiderStartPx} top`,
       end: `+=${BEN_WEIDER_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (benWeiderRef.current) gsap.set(benWeiderRef.current, { visibility: 'visible' });
       },
@@ -2349,7 +2368,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${benWeiderHoldStartPx} top`,
       end: `+=${BEN_WEIDER_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (benWeiderRef.current) gsap.set(benWeiderRef.current, { x: 0 });
       }
@@ -2362,7 +2381,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${benWeiderExitStartPx} top`,
       end: `+=${BEN_WEIDER_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!benWeiderRef.current) return;
         const p = self.progress; // 0 → 1
@@ -2394,7 +2413,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${coachingImgStartPx} top`,
       end: `+=${COACHING_IMG_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (coachingImageRef.current) gsap.set(coachingImageRef.current, { visibility: 'visible' });
       },
@@ -2419,7 +2438,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${coachingImgHoldStartPx} top`,
       end: `+=${COACHING_IMG_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (coachingImageRef.current) gsap.set(coachingImageRef.current, { scale: 1, opacity: 1 });
       }
@@ -2431,7 +2450,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${coachingImgExitStartPx} top`,
       end: `+=${COACHING_IMG_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!coachingImageRef.current) return;
         const p = self.progress; // 0 → 1
@@ -2463,7 +2482,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${experienceStartPx} top`,
       end: `+=${EXPERIENCE_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (experienceRef.current) gsap.set(experienceRef.current, { visibility: 'visible' });
       },
@@ -2488,7 +2507,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${experienceHoldStartPx} top`,
       end: `+=${EXPERIENCE_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (experienceRef.current) gsap.set(experienceRef.current, { scale: 1, opacity: 1 });
       }
@@ -2500,7 +2519,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${experienceExitStartPx} top`,
       end: `+=${EXPERIENCE_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!experienceRef.current) return;
         const p = self.progress; // 0 → 1
@@ -2532,7 +2551,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${trophiesStartPx} top`,
       end: `+=${TROPHIES_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (trophiesRef.current) gsap.set(trophiesRef.current, { visibility: 'visible' });
       },
@@ -2557,7 +2576,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${trophiesHoldStartPx} top`,
       end: `+=${TROPHIES_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (trophiesRef.current) gsap.set(trophiesRef.current, { scale: 1, opacity: 1 });
       }
@@ -2569,7 +2588,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${trophiesExitStartPx} top`,
       end: `+=${TROPHIES_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!trophiesRef.current) return;
         const p = self.progress; // 0 → 1
@@ -2679,7 +2698,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${triumphHoldStartPx} top`,
       end: `+=${TRIUMPH_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         // Mantener líneas visibles
         if (triumphLinesRef.current) {
@@ -2796,7 +2815,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${triumphParaHoldStartPx} top`,
       end: `+=${TRIUMPH_PARA_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!triumphParaRef.current) return;
         triumphParaRef.current.style.transform = 'scale(1)';
@@ -2813,7 +2832,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${triumphParaExitStartPx} top`,
       end: `+=${TRIUMPH_PARA_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (goldMedalRef.current) gsap.set(goldMedalRef.current, { visibility: 'visible' });
       },
@@ -2862,7 +2881,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${goldMedalHoldStartPx} top`,
       end: `+=${GOLD_MEDAL_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!goldMedalRef.current) return;
         gsap.set(goldMedalRef.current, { x: 0 });
@@ -2878,7 +2897,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${goldMedalExitStartPx} top`,
       end: `+=${GOLD_MEDAL_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (silverBronzeRef.current) gsap.set(silverBronzeRef.current, { visibility: 'visible' });
       },
@@ -2923,7 +2942,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${silverBronzeHoldStartPx} top`,
       end: `+=${SILVER_BRONZE_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!silverBronzeRef.current) return;
         gsap.set(silverBronzeRef.current, { x: 0 });
@@ -2939,7 +2958,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${silverBronzeExitStartPx} top`,
       end: `+=${SILVER_BRONZE_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (bestBodybuilderRef.current) gsap.set(bestBodybuilderRef.current, { visibility: 'visible' });
       },
@@ -2984,7 +3003,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${bestBodybuilderHoldStartPx} top`,
       end: `+=${BEST_BODYBUILDER_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!bestBodybuilderRef.current) return;
         gsap.set(bestBodybuilderRef.current, { x: 0, scale: 1, opacity: 1 });
@@ -3000,7 +3019,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${bestBodybuilderExitStartPx} top`,
       end: `+=${BEST_BODYBUILDER_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (newMeaningParaRef.current) gsap.set(newMeaningParaRef.current, { visibility: 'visible' });
       },
@@ -3046,7 +3065,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${newMeaningHoldStartPx} top`,
       end: `+=${NEW_MEANING_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!newMeaningParaRef.current) return;
         gsap.set(newMeaningParaRef.current, { x: 0, scale: 1, opacity: 1 });
@@ -3060,7 +3079,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${newMeaningExitStartPx} top`,
       end: `+=${NEW_MEANING_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!newMeaningParaRef.current) return;
         const p = self.progress; // 0 → 1
@@ -3096,7 +3115,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${indiaParaEntryStartPx} top`,
       end: `+=${INDIA_PARA_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (indiaParaRef.current) gsap.set(indiaParaRef.current, { visibility: 'visible' });
       },
@@ -3125,7 +3144,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${indiaParaTypeStartPx} top`,
       end: `+=${INDIA_PARA_TYPE_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!indiaParaRef.current) return;
         const p = self.progress; // 0 → 1
@@ -3161,7 +3180,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${indiaParaHoldStartPx} top`,
       end: `+=${INDIA_PARA_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!indiaParaRef.current) return;
         gsap.set(indiaParaRef.current, { x: 0 });
@@ -3179,7 +3198,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${indiaParaExitStartPx} top`,
       end: `+=${INDIA_PARA_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!indiaParaRef.current) return;
         const p = self.progress; // 0 → 1
@@ -3224,7 +3243,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${stageImageEntryStartPx} top`,
       end: `+=${STAGE_IMAGE_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (stageImageRef.current) gsap.set(stageImageRef.current, { visibility: 'visible' });
       },
@@ -3249,7 +3268,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${stageImageHoldStartPx} top`,
       end: `+=${STAGE_IMAGE_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!stageImageRef.current) return;
         gsap.set(stageImageRef.current, { x: 0 });
@@ -3264,7 +3283,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${stageImageExitStartPx} top`,
       end: `+=${STAGE_IMAGE_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!stageImageRef.current) return;
         const p = self.progress; // 0 → 1
@@ -3299,7 +3318,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${familyImageEntryStartPx} top`,
       end: `+=${FAMILY_IMAGE_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (familyImageRef.current) gsap.set(familyImageRef.current, { visibility: 'visible' });
       },
@@ -3324,7 +3343,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${familyImageHoldStartPx} top`,
       end: `+=${FAMILY_IMAGE_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!familyImageRef.current) return;
         gsap.set(familyImageRef.current, { x: 0 });
@@ -3341,7 +3360,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${familyImageExitStartPx} top`,
       end: `+=${FAMILY_IMAGE_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (philosophyTextRef.current) gsap.set(philosophyTextRef.current, { visibility: 'visible' });
       },
@@ -3390,7 +3409,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${philosophyHoldStartPx} top`,
       end: `+=${PHILOSOPHY_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!philosophyTextRef.current) return;
         gsap.set(philosophyTextRef.current, { scale: 1.0, opacity: 1, filter: 'blur(0px)' });
@@ -3419,7 +3438,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${philosophyExitStartPx} top`,
       end: `+=${PHILOSOPHY_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (scorusParaRef.current) gsap.set(scorusParaRef.current, { visibility: 'visible' });
       },
@@ -3507,7 +3526,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${scorusParaHoldStartPx} top`,
       end: `+=${SCORUS_PARA_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!scorusParaRef.current) return;
         gsap.set(scorusParaRef.current, { scale: 1.0, opacity: 1 });
@@ -3523,7 +3542,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${scorusParaExitStartPx} top`,
       end: `+=${SCORUS_PARA_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (trainingModuleRef.current) gsap.set(trainingModuleRef.current, { visibility: 'visible' });
       },
@@ -3568,7 +3587,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${trainingHoldStartPx} top`,
       end: `+=${TRAINING_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!trainingModuleRef.current) return;
         gsap.set(trainingModuleRef.current, { scale: 1.0, opacity: 1 });
@@ -3582,7 +3601,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${trainingExitStartPx} top`,
       end: `+=${TRAINING_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (nutritionModuleRef.current) gsap.set(nutritionModuleRef.current, { visibility: 'visible' });
       },
@@ -3623,7 +3642,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${nutritionHoldStartPx} top`,
       end: `+=${NUTRITION_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!nutritionModuleRef.current) return;
         gsap.set(nutritionModuleRef.current, { scale: 1.0, opacity: 1 });
@@ -3637,7 +3656,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${nutritionExitStartPx} top`,
       end: `+=${NUTRITION_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (trackingModuleRef.current) gsap.set(trackingModuleRef.current, { visibility: 'visible' });
       },
@@ -3678,7 +3697,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${trackingHoldStartPx} top`,
       end: `+=${TRACKING_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!trackingModuleRef.current) return;
         gsap.set(trackingModuleRef.current, { scale: 1.0, opacity: 1 });
@@ -3692,7 +3711,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${trackingExitStartPx} top`,
       end: `+=${TRACKING_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (rebornModuleRef.current) gsap.set(rebornModuleRef.current, { visibility: 'visible' });
       },
@@ -3733,7 +3752,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${rebornHoldStartPx} top`,
       end: `+=${REBORN_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!rebornModuleRef.current) return;
         gsap.set(rebornModuleRef.current, { scale: 1.0, opacity: 1 });
@@ -3747,7 +3766,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${rebornExitStartPx} top`,
       end: `+=${REBORN_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (scorusGymModuleRef.current) gsap.set(scorusGymModuleRef.current, { visibility: 'visible' });
       },
@@ -3789,7 +3808,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${scorusGymHoldStartPx} top`,
       end: `+=${SCORUS_GYM_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!scorusGymModuleRef.current) return;
         gsap.set(scorusGymModuleRef.current, { scale: 1.0, opacity: 1 });
@@ -3803,7 +3822,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${scorusGymExitStartPx} top`,
       end: `+=${SCORUS_GYM_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!scorusGymModuleRef.current) return;
         // Zoom out: escala de 1.0 a 2.5, opacidad de 1 a 0
@@ -3840,7 +3859,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${holisticEntryStartPx} top`,
       end: `+=${HOLISTIC_ENTRY_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (holisticParaRef.current) gsap.set(holisticParaRef.current, { visibility: 'visible' });
       },
@@ -3865,7 +3884,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${holisticHoldStartPx} top`,
       end: `+=${HOLISTIC_HOLD_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: () => {
         if (!holisticParaRef.current) return;
         gsap.set(holisticParaRef.current, { scale: 1.0, opacity: 1 });
@@ -3880,7 +3899,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${holisticExitStartPx} top`,
       end: `+=${HOLISTIC_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         if (!holisticParaRef.current) return;
         // Zoom out: escala de 1.0 a 2.5, opacidad de 1 a 0
@@ -4039,7 +4058,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${geometricClosureStartPx + GEOMETRIC_CLOSURE_PX} top`,
       end: `+=${FINAL_HIDE_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         // Desvanecer el containerRef gradualmente
         if (containerRef.current) {
@@ -4217,7 +4236,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${tabsExitStartPx} top`,
       end: `+=${TABS_EXIT_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         if (compTitleBlockRef.current) gsap.set(compTitleBlockRef.current, { visibility: 'visible' });
         prepareCompTitle();
@@ -4284,7 +4303,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${video1TransitionStartPx} top`,
       end: `+=${VIDEO_TRANSITION_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onUpdate: (self) => {
         const vh = window.innerHeight;
         
@@ -4330,9 +4349,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     // Actualizar currentScrollPx para reflejar el nuevo punto después de la transición
     currentScrollPx = video1TransitionStartPx + VIDEO_TRANSITION_PX;
     
-    // ============ FUNCIONES CANVAS 2 (DESACTIVADO EN MÓVIL PARA TESTING) ============
+    // ============ FUNCIONES CANVAS 2 (definidas primero) ============
 
-    /* COMENTADO PARA TESTING EN MÓVIL - INICIO
     const drawToCanvas2 = (img: HTMLImageElement) => {
       const canvas = canvas2Ref.current;
       const ctx = canvas?.getContext('2d');
@@ -4430,20 +4448,61 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
 
     // Intentar habilitar canvas2, si falla usar video fallback
-    // COMENTADO TEMPORALMENTE PARA TESTING EN MÓVIL */
-    
-    // En móvil, NO usamos canvas (para testing de rendimiento)
-    if (!isMobileDevice) {
-      // Desktop: Intentar usar canvas, si falla usar video fallback
-      (async () => {
-        /* TEMPORALMENTE DESACTIVADO - las funciones canvas2 están comentadas arriba
-        const enabled2 = await tryEnableCanvas2();
-        if (enabled2) {
-          setupCanvas2Scrub();
+    (async () => {
+      const enabled2 = await tryEnableCanvas2();
+      if (enabled2) {
+        setupCanvas2Scrub();
+      } else {
+        // FALLBACK: Video scrubbing suavizado
+        const targetTimeRef2 = { t: 0 } as { t: number };
+        const currentTimeRef2 = { t: 0 } as { t: number };
+        
+        const setupVideo2Scrub = () => {
+          const video = video2Ref.current;
+          if (!video || isNaN(video.duration) || !isFinite(video.duration) || video.duration === 0) return;
+          
+          video.pause();
+          targetTimeRef2.t = 0;
+          currentTimeRef2.t = 0;
+          video.currentTime = 0;
+          
+          ScrollTrigger.create({
+            trigger: scrollEl as Element,
+            start: `+=${video2StartPx} top`,
+            end: `+=${VIDEO2_SCRUB_PX}`,
+            scrub: 0.1,
+            onUpdate: (self) => {
+              targetTimeRef2.t = self.progress * video.duration;
+            },
+          });
+          
+          const LERP_FACTOR = 0.15;
+          const FRAME_TIME = 1 / 30;
+          
+          gsap.ticker.add(() => {
+            if (!video2Ref.current) return;
+            currentTimeRef2.t += (targetTimeRef2.t - currentTimeRef2.t) * LERP_FACTOR;
+            const diff = Math.abs(currentTimeRef2.t - video.currentTime);
+            if (diff > FRAME_TIME) {
+              const step = Math.min(diff, FRAME_TIME);
+              const direction = currentTimeRef2.t > video.currentTime ? 1 : -1;
+              video.currentTime += step * direction;
+            } else if (diff > 0.001) {
+              video.currentTime = currentTimeRef2.t;
+            }
+          });
+        };
+        
+        if (video2Ref.current) {
+          const onLoadedMeta2 = () => setupVideo2Scrub();
+          if (video2Ref.current.readyState >= 1) {
+            setupVideo2Scrub();
+          } else {
+            video2Ref.current.addEventListener('loadedmetadata', onLoadedMeta2);
+          }
         }
-        */
-      })();
-    }
+      }
+    })();
     
     currentScrollPx += VIDEO2_SCRUB_PX;
 
@@ -4568,7 +4627,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${video3StartPx} top`,
       end: `+=${VIDEO3_PUSH_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         // Al iniciar el push, garantizar que se vea el PRIMER frame
         currentFrame3Ref.current = 1;
@@ -4722,7 +4781,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${video4StartPx} top`,
       end: `+=${VIDEO4_PUSH_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         // Al iniciar el push, garantizar que se vea el PRIMER frame
         currentFrame4Ref.current = 1;
@@ -4874,7 +4933,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${video5StartPx} top`,
       end: `+=${VIDEO5_PUSH_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         // Al iniciar el push, garantizar que se vea el PRIMER frame
         currentFrame5Ref.current = 1;
@@ -5026,7 +5085,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       trigger: scrollEl as Element,
       start: `+=${video6StartPx} top`,
       end: `+=${VIDEO6_PUSH_PX}`,
-      scrub: true,
+      scrub: scrubValue,
       onEnter: () => {
         // Al iniciar el push, garantizar que se vea el PRIMER frame
         currentFrame6Ref.current = 1;
@@ -5187,7 +5246,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         trigger: scrollEl as Element,
         start: 'top top',
         end: `+=${totalScroll}`,
-        scrub: true,
+        scrub: scrubValue,
         onUpdate,
       });
     };
@@ -5248,11 +5307,10 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const img = imageCacheRef.current.get(currentFrameRef.current);
       if (img) drawToCanvas(img);
       }
-      // COMENTADO PARA TESTING EN MÓVIL
-      /* if (useCanvas2) {
+      if (useCanvas2) {
         const img2 = imageCache2Ref.current.get(currentFrame2Ref.current);
         if (img2) drawToCanvas2(img2);
-      } */
+      }
     };
     window.addEventListener('resize', handleResize);
 
@@ -5264,7 +5322,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
   // Calcular altura total necesaria para el scroll de forma aproximada pero precisa
   // Basado en el contenido real de animaciones (1 notch = 800px)
-  // Usar el estado isMobileDevice ya definido arriba
+  const isMobileDevice = typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false;
   const estimatedScrollHeight = typeof window !== 'undefined' 
     ? (isMobileDevice 
         ? 800 * 3  // ~50 notchs para móvil = 40,000px
@@ -5290,10 +5348,10 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         style={{ backgroundImage: `url(${poster})`, filter: 'brightness(0.6)' }}
       />
 
-      {/* Canvas flipbook para primer video (desktop) - COMENTADO PARA TESTING EN MÓVIL */}
-      {/* {(framesPattern && framesCount) && (
-        <canvas ref={canvasRef} className="absolute inset-0 -z-20 w-full h-full" style={{ display: useCanvas ? 'block' : 'none' }} />
-      )} */}
+      {/* Canvas flipbook para primer video (desktop) */}
+      {(framesPattern && framesCount) && (
+        <canvas ref={canvasRef} className="absolute inset-0 -z-20 w-full h-full will-change-transform" style={{ display: useCanvas ? 'block' : 'none', transform: 'translateZ(0)' }} />
+      )}
 
       {/* Video de fondo (fallback para móvil o cuando no hay frames) */}
       {(videoMp4 || videoWebm) && (
@@ -5310,38 +5368,38 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         </video>
       )}
 
-      {/* Canvas flipbook para segundo video (training - desktop) - COMENTADO PARA TESTING EN MÓVIL */}
-      {/* {(frames2Pattern && frames2Count) && (
-        <canvas ref={canvas2Ref} className="absolute inset-0 -z-19 w-full h-full" style={{ display: useCanvas2 ? 'block' : 'none' }} />
-      )} */}
+      {/* Canvas flipbook para segundo video (training - desktop) */}
+      {(frames2Pattern && frames2Count) && (
+        <canvas ref={canvas2Ref} className="absolute inset-0 -z-19 w-full h-full will-change-transform" style={{ display: useCanvas2 ? 'block' : 'none', transform: 'translateZ(0)' }} />
+      )}
 
-      {/* Canvas flipbook para tercer video (challenge) - COMENTADO PARA TESTING EN MÓVIL */}
-      {/* {(frames3Pattern && frames3Count) && (
-        <canvas ref={canvas3Ref} className="absolute inset-0 -z-18 w-full h-full" style={{ display: useCanvas3 ? 'block' : 'none' }} />
-      )} */}
-      {/* Overlay sutil para el tercer video - COMENTADO PARA TESTING EN MÓVIL */}
-      {/* <div ref={video3OverlayRef} className="absolute inset-0 -z-17 bg-black/40" style={{ display: useCanvas3 ? 'block' : 'none' }} /> */}
+      {/* Canvas flipbook para tercer video (challenge) */}
+      {(frames3Pattern && frames3Count) && (
+        <canvas ref={canvas3Ref} className="absolute inset-0 -z-18 w-full h-full will-change-transform" style={{ display: useCanvas3 ? 'block' : 'none', transform: 'translateZ(0)' }} />
+      )}
+      {/* Overlay sutil para el tercer video */}
+      <div ref={video3OverlayRef} className="absolute inset-0 -z-17 bg-black/40" style={{ display: useCanvas3 ? 'block' : 'none' }} />
 
-      {/* Canvas flipbook para cuarto video (final) - COMENTADO PARA TESTING EN MÓVIL */}
-      {/* {(frames4Pattern && frames4Count) && (
-        <canvas ref={canvas4Ref} className="absolute inset-0 -z-16 w-full h-full" style={{ display: useCanvas4 ? 'block' : 'none' }} />
-      )} */}
-      {/* Overlay sutil para el cuarto video - COMENTADO PARA TESTING EN MÓVIL */}
-      {/* <div ref={video4OverlayRef} className="absolute inset-0 -z-15 bg-black/40" style={{ display: useCanvas4 ? 'block' : 'none' }} /> */}
+      {/* Canvas flipbook para cuarto video (final) */}
+      {(frames4Pattern && frames4Count) && (
+        <canvas ref={canvas4Ref} className="absolute inset-0 -z-16 w-full h-full will-change-transform" style={{ display: useCanvas4 ? 'block' : 'none', transform: 'translateZ(0)' }} />
+      )}
+      {/* Overlay sutil para el cuarto video */}
+      <div ref={video4OverlayRef} className="absolute inset-0 -z-15 bg-black/40" style={{ display: useCanvas4 ? 'block' : 'none' }} />
 
-      {/* Canvas flipbook para quinto video (legacy) - COMENTADO PARA TESTING EN MÓVIL */}
-      {/* {(frames5Pattern && frames5Count) && (
-        <canvas ref={canvas5Ref} className="absolute inset-0 -z-14 w-full h-full" style={{ display: useCanvas5 ? 'block' : 'none' }} />
-      )} */}
-      {/* Overlay sutil para el quinto video - COMENTADO PARA TESTING EN MÓVIL */}
-      {/* <div ref={video5OverlayRef} className="absolute inset-0 -z-13 bg-black/40" style={{ display: useCanvas5 ? 'block' : 'none' }} /> */}
+      {/* Canvas flipbook para quinto video (legacy) */}
+      {(frames5Pattern && frames5Count) && (
+        <canvas ref={canvas5Ref} className="absolute inset-0 -z-14 w-full h-full will-change-transform" style={{ display: useCanvas5 ? 'block' : 'none', transform: 'translateZ(0)' }} />
+      )}
+      {/* Overlay sutil para el quinto video */}
+      <div ref={video5OverlayRef} className="absolute inset-0 -z-13 bg-black/40" style={{ display: useCanvas5 ? 'block' : 'none' }} />
 
-      {/* Canvas flipbook para sexto video (epilogue) - COMENTADO PARA TESTING EN MÓVIL */}
-      {/* {(frames6Pattern && frames6Count) && (
-        <canvas ref={canvas6Ref} className="absolute inset-0 -z-12 w-full h-full" style={{ display: useCanvas6 ? 'block' : 'none' }} />
-      )} */}
-      {/* Overlay sutil para el sexto video - COMENTADO PARA TESTING EN MÓVIL */}
-      {/* <div ref={video6OverlayRef} className="absolute inset-0 -z-11 bg-black/40" style={{ display: useCanvas6 ? 'block' : 'none' }} /> */}
+      {/* Canvas flipbook para sexto video (epilogue) */}
+      {(frames6Pattern && frames6Count) && (
+        <canvas ref={canvas6Ref} className="absolute inset-0 -z-12 w-full h-full will-change-transform" style={{ display: useCanvas6 ? 'block' : 'none', transform: 'translateZ(0)' }} />
+      )}
+      {/* Overlay sutil para el sexto video */}
+      <div ref={video6OverlayRef} className="absolute inset-0 -z-11 bg-black/40" style={{ display: useCanvas6 ? 'block' : 'none' }} />
 
       {/* Segundo video de fondo (training) - fallback para móvil */}
       <video
