@@ -214,8 +214,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     
     // Configuración global de ScrollTrigger para mejorar rendimiento en móvil
     ScrollTrigger.config({
-      limitCallbacks: true, // Reduce callbacks durante scroll rápido
-      syncInterval: isMobile ? 4 : 0, // Muy responsivo en móvil (4ms ≈ 240fps)
+      limitCallbacks: false, // Permitir todos los callbacks para mayor fluidez
+      syncInterval: isMobile ? 1 : 0, // Extremadamente responsivo en móvil (1ms ≈ 1000fps)
       ignoreMobileResize: true, // Evita recalcular en cada cambio de orientación
     });
 
@@ -224,13 +224,13 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ScrollTrigger.normalizeScroll({
         allowNestedScroll: true,
         lockAxis: true, // Evita scroll diagonal accidental
-        momentum: (self: any) => Math.min(8, self.velocityY / 600), // Mayor momentum para más agilidad
+        momentum: (self: any) => Math.min(12, self.velocityY / 400), // Máximo momentum para máxima agilidad
         type: "touch,wheel,pointer",
       });
     }
 
     // Valor de scrub optimizado para móvil vs desktop
-    const scrubValue = isMobile ? 0.15 : 0.3; // Muy rápido en móvil para scroll táctil ágil
+    const scrubValue = isMobile ? 0.05 : 0.3; // Casi instantáneo en móvil pero con mínimo suavizado
 
     // En mobile: añadir padding-top cuando el header se fija (scroll > 50px)
     const isMobileDevice = window.matchMedia('(max-width: 767px)').matches;
