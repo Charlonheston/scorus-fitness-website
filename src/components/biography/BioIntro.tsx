@@ -26,9 +26,429 @@ interface Props {
   frames6Pattern?: string;
   frames6Count?: number;
   frames6Start?: number;  // Número base del primer frame (p.ej. 86400)
+  lang?: 'es' | 'en' | 'fr'; // Idioma para las traducciones
 }
 
-export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/bernat-hero.webp', framesPattern, framesCount, frames2Pattern, frames2Count, frames3Pattern, frames3Count, frames3Start, frames4Pattern, frames4Count, frames4Start, frames5Pattern, frames5Count, frames5Start, frames6Pattern, frames6Count, frames6Start }: Props) {
+export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/bernat-hero.webp', framesPattern, framesCount, frames2Pattern, frames2Count, frames3Pattern, frames3Count, frames3Start, frames4Pattern, frames4Count, frames4Start, frames5Pattern, frames5Count, frames5Start, frames6Pattern, frames6Count, frames6Start, lang = 'es' }: Props) {
+  
+  // ===== SISTEMA DE TRADUCCIONES =====
+  const translations = {
+    es: {
+      // Intro
+      introName: 'Bernat Scorus',
+      introSubtitle: 'De la Superación Personal a la Excelencia en el Fitness',
+      introBody: 'Mi nombre es Bernat Richard Scorus y llevo más de 25 años ayudando a personas a transformar sus cuerpos y mejorar su rendimiento físico. Desde muy joven supe que el culturismo y el fitness eran mi verdadera pasión, y a lo largo de mi carrera he logrado convertirme en Campeón del Mundo de Culturismo, Subcampeón de Mister Universo y Subcampeón de Mr. Olympia Masters Amateur.',
+      
+      // Citas
+      quote1: '«El éxito no es un accidente. Es trabajo duro, perseverancia, aprendizaje, sacrificio y, sobre todo, amor por lo que haces.»',
+      quote2: 'El cuerpo logra lo que la mente cree.',
+      quote3: 'Ser padre me enseñó que el mayor desafío no siempre está en el gimnasio, sino en ser el mejor ejemplo para mis hijos.',
+      
+      // Tabs
+      tabProgresionLabel: 'Progresión',
+      tabWorkoutLabel: 'Workout',
+      tabNutricionLabel: 'Nutrición',
+      tabProgresion: 'Desde mis inicios en el culturismo, supe que la clave del éxito es la disciplina y el esfuerzo constante. Con una metodología basada en la experiencia y el aprendizaje, mi misión es ayudarte a conseguir resultados reales.',
+      tabWorkout: 'Con una carrera marcada por la superación y el rendimiento, mis programas están diseñados para que alcances tu máximo potencial con un enfoque personalizado y estructurado.',
+      tabNutricion: 'El fitness es mucho más que levantar pesas. La alimentación es la base de una transformación duradera y en Scorus Fitness ofrecemos planes nutricionales adaptados a cada persona.',
+      
+      // Título "Infancia y primeros pasos"
+      titleChildhood: 'El Sacrificio Infancia y Primeros Pasos en el Deporte',
+      
+      // Párrafos largos
+      nextBodyText: 'Bernat nació el 6 de julio de 1979 en Marosvásárhely, Transilvania, pero desde muy pequeño se trasladó con su familia a Budapest, Hungría, donde pasó la mayor parte de su infancia. Su entorno familiar estaba lleno de deportistas de élite: su abuelo y sus tíos fueron campeones en diversas disciplinas, por lo que el deporte siempre estuvo presente en su vida. Desde los 6 años, practicó diversas actividades físicas como natación, gimnasia, karate, fútbol, baloncesto y atletismo, pero ninguno de estos deportes despertó en él una verdadera vocación. Sin embargo, su atracción por los cuerpos musculosos y bien desarrollados crecía con cada película de acción que veía. Arnold Schwarzenegger, Sylvester Stallone y Jean-Claude Van Damme eran sus ídolos, y soñaba con construir un físico impresionante como el de ellos.',
+      
+      paragraphsText: 'Desde los 6 años, practicó diversas actividades físicas como natación, gimnasia, karate, fútbol, baloncesto y atletismo, pero ninguno de estos deportes despertó en él una verdadera vocación. Sin embargo, su atracción por los cuerpos musculosos y bien desarrollados crecía con cada película de acción que veía. Arnold Schwarzenegger, Sylvester Stallone y Jean-Claude Van Damme eran sus ídolos, y soñaba con construir un físico impresionante como el de ellos.\n\nEl punto de inflexión llegó en 1994, cuando asistió a su primer evento de culturismo. Ver en directo a leyendas como Flex Wheeler, Milos Sarcev y Robby Robinson lo impactó profundamente. En ese momento, supo que quería dedicar su vida al entrenamiento y al desarrollo físico.\n\nSin embargo, había un problema: su genética no parecía la ideal para este deporte. Con solo 50 kg de peso, un diámetro de brazo de 28 cm y un pecho de 80 cm, su familia y amigos le decían que no tenía la estructura necesaria para el culturismo. Pero él no se dejó desanimar. Su determinación y su visión estaban claras: iba a demostrar que el esfuerzo y la constancia podían superar cualquier obstáculo.',
+      
+      experienceParagraph: 'Con más de 25 años de experiencia, Bernat Scorus ha construido una trayectoria en el mundo del culturismo y el fitness que pocos pueden igualar. Ha convertido su pasión en una filosofía de vida, ayudando a miles de personas a alcanzar su mejor versión a través del entrenamiento y la nutrición personalizada.\n\nActualmente, lidera Scorus Fitness, un centro que ofrece entrenamiento personal en Alicante, programas de coaching online y transformación física integral. Su enfoque se basa en la experiencia real, el conocimiento adquirido en años de competición y el compromiso con sus clientes.',
+      
+      newH2Title: 'Entrenador Personal en Alicante y Campeón del Mundo de Culturismo',
+      
+      fatherParagraph: 'Durante este periodo, Bernat apenas tuvo tiempo para entrenar como lo hacía antes. La rutina de ser padre a tiempo completo lo absorbió completamente, y aunque nunca dejó el fitness por completo, su físico y mentalidad cambiaron. Pero en el fondo, su espíritu competitivo seguía vivo.',
+      
+      sonChallenge: '¿Por qué no compites otra vez, papá? ¡Compite!',
+      sonParagraph: 'Estas palabras resonaron en su mente como un desafío personal. Era el empujón que necesitaba para volver a los escenarios y demostrar que aún tenía mucho que ofrecer.',
+      
+      // Título Gimnasio
+      gymSubtitle: 'Scorus GYM',
+      gymTitle: 'Títulos y Logros Internacionales',
+      gymIntroParagraph: 'A partir del año 2000, Bernat comenzó a competir profesionalmente, logrando en poco tiempo consolidarse entre los mejores atletas del culturismo. Su esfuerzo y dedicación lo llevaron a obtener algunos de los títulos más prestigiosos del mundo:',
+      
+      // Títulos y logros
+      nabbaTitle: 'NABBA 2006',
+      nabbaSubtitle: 'Campeón del Mundo',
+      nabbaCategory: 'Categoría Peso Pesado',
+      nabbaCategorySubtitle: 'y Absoluto',
+      nabbaDescription: 'Un hito histórico en la carrera de Bernat, consolidándose como uno de los mejores culturistas del mundo.',
+      
+      mrUniverseTitle: 'NAC Mister Universo',
+      mrUniverseSubtitle: 'Subcampeón',
+      mrUniverseCategory: 'Categoría +90kg',
+      mrUniverseDescription: 'Una competición de élite internacional donde Bernat demostró su nivel excepcional, quedando entre los mejores del mundo.',
+      
+      arnoldClassicTitle: 'Arnold Classic',
+      arnoldClassicSubtitle: 'Competidor Internacional',
+      arnoldClassicDetail: 'Columbus (EE.UU.) y Madrid',
+      arnoldClassicDescription: 'Participación en una de las competiciones más prestigiosas del culturismo mundial, fundada por Arnold Schwarzenegger.',
+      
+      benWeiderTitle: 'Ben Weider Classic',
+      benWeiderSubtitle: 'Medallas de Oro',
+      benWeiderCategory: 'y Big Man Masters',
+      benWeiderDetail: 'Oro en competiciones de élite Masters, demostrando su excelencia y experiencia en categorías veteranas del culturismo.',
+      
+      experienceYears: '25+',
+      experienceLabel: 'Años de Experiencia',
+      experienceSince: 'Desde el año 2000',
+      
+      trophiesCount: '40+',
+      trophiesLabel: 'Trofeos Internacionales',
+      
+      // El Regreso Triunfal
+      triumphTitle: 'El Regreso Triunfal: Más Fuerte que Nunca',
+      triumphParagraph: 'Con la motivación renovada, Bernat regresó a la competición en 2018, y lo hizo por la puerta grande:',
+      
+      goldMedalTitle: 'MEDALLA DE ORO',
+      goldMedalSubtitle: 'El Regreso',
+      goldMedalSeason: 'Primera temporada tras el regreso',
+      goldMedalDescription: 'Un regreso triunfal que marcó el inicio de una nueva era de éxitos en la carrera de Bernat.',
+      
+      silverBronzeTitle: '2 PLATA + 1 BRONCE',
+      silverBronzeSubtitle: 'Más podios en 2018',
+      silverBronzeMedals: 'Dos medallas de',
+      silverBronzeSilver: 'Plata',
+      silverBronzeAnd: 'y una de',
+      silverBronzeBronze: 'Bronce',
+      silverBronzeDetail: 'Un año excepcional con múltiples podios que consolidaron su regreso al culturismo de élite.',
+      
+      bestBodybuilderTitle: '3º MEJOR CULTURISTA',
+      bestBodybuilderSubtitle: 'Reconocimiento Internacional',
+      bestBodybuilderNamed: 'Nombrado el',
+      bestBodybuilderThird: 'Tercer',
+      bestBodybuilderBest: 'Mejor Culturista del Año',
+      bestBodybuilderDetail: 'Un reconocimiento internacional que posicionó a Bernat entre los mejores culturistas del mundo.',
+      
+      newMeaningParagraph: 'Pero esta vez, la competición tenía un nuevo significado para él. No solo se trataba de ganar, sino de mostrar que la constancia, la disciplina y la determinación pueden superar cualquier obstáculo, incluso una pausa de seis años.',
+      
+      indiaParagraph: 'Ese mismo año, fue invitado a la India para formar parte de una academia de entrenadores personales, donde impartió cursos sobre nutrición, suplementación, entrenamiento y preparación para competiciones. Esta oportunidad le abrió nuevas puertas y le permitió expandir su conocimiento a nivel internacional, impartiendo seminarios en Dubái, Singapur y diversas ciudades de la India.',
+      
+      // Filosofía
+      philosophyTitle: 'Mi Filosofía: Más Allá del Fitness',
+      philosophyWord1: 'Mi',
+      philosophyWord2: 'Filosofía:',
+      philosophyWord3: 'Más',
+      philosophyWord4: 'Allá',
+      philosophyWord5: 'del',
+      philosophyWord6: 'Fitness',
+      
+      sacrificeCompetitionTitle: 'El Sacrificio de la Competición',
+      sacrificeCompetitionParagraph: 'Durante más de una década, Bernat vivió por y para el culturismo. Competía, entrenaba, perfeccionaba su técnica y compartía experiencias con algunos de los atletas más importantes del mundo. Pero, como todo en la vida, llegó un momento en el que sintió que necesitaba dar un paso atrás para centrarse en otro aspecto esencial: su familia.\n\nEn 2012, tras muchos años de competición al más alto nivel, decidió alejarse de los escenarios y dedicar su tiempo a construir un futuro junto a su pareja. Dos años después, en 2014, nació su primer hijo, y en 2016, llegó su hija. Fueron años en los que el culturismo pasó a un segundo plano, pues la prioridad absoluta era criar y cuidar de su familia.\n\nDurante más de una década, Bernat vivió por y para el culturismo. Competía, entrenaba, perfeccionaba su técnica y compartía experiencias con algunos de los atletas más importantes del mundo. Pero, como todo en la vida, llegó un momento en el que sintió que necesitaba dar un paso atrás para centrarse en otro aspecto esencial: su familia.\n\nEn 2012, tras muchos años de competición al más alto nivel, decidió alejarse de los escenarios y dedicar su tiempo a construir un futuro junto a su pareja. Dos años después, en 2014, nació su primer hijo, y en 2016, llegó su hija. Fueron años en los que el culturismo pasó a un segundo plano, pues la prioridad absoluta era criar y cuidar de su familia.',
+      
+      scorusFitnessParagraph: 'Tras su exitosa carrera en el culturismo, Bernat fundó Scorus Fitness, un centro de entrenamiento diseñado para ofrecer:',
+      
+      // Módulos de servicios
+      trainingModuleTitle: 'Entrenamiento',
+      trainingModuleDescription: 'Planes de entrenamiento<br/>personalizados',
+      nutritionModuleTitle: 'Nutrición',
+      nutritionModuleDescription: 'Nutrición enfocada en el<br/>rendimiento y la salud',
+      trackingModuleTitle: 'Seguimiento',
+      trackingModuleDescription: 'Acompañamiento real para<br/>lograr cambios duraderos',
+      rebornModuleTitle: 'REBORN y Scorus<br/>Campus',
+      rebornModuleDescription: 'Programas premium de<br/>transformación',
+      scorusGymModuleTitle: 'ScorusGYM',
+      scorusGymModuleDescription: 'Un gimnasio privado con un<br/>enfoque exclusivo y sin distracciones',
+      holisticParagraph: 'Su enfoque es holístico, abarcando tanto el desarrollo físico como la mentalidad necesaria para mantener un estilo de vida saludable y sostenible.',
+      
+      // CTA Final
+      ctaTitle: 'Transforma tu Vida',
+      ctaSubtitle: 'con Scorus Fitness',
+      ctaDescription: 'Si buscas un cambio real, estoy aquí para guiarte. Ya sea que quieras perder grasa, ganar músculo o prepararte para una competición, en Scorus Fitness encontrarás las herramientas y el apoyo que necesitas.',
+      ctaText: 'Empieza hoy. Contacta conmigo y transforma tu cuerpo y tu mente.',
+      ctaButton: '¡Contáctame Ahora!',
+      contactUrl: '/es/contacto',
+    },
+    en: {
+      // Intro
+      introName: 'Bernat Scorus',
+      introSubtitle: 'From Personal Growth to Excellence in Fitness',
+      introBody: 'My name is Bernat Richard Scorus and I have been helping people transform their bodies and improve their physical performance for over 25 years. From a very young age I knew that bodybuilding and fitness were my true passion, and throughout my career I have become World Bodybuilding Champion, Mr. Universe Runner-up and Mr. Olympia Masters Amateur Runner-up.',
+      
+      // Quotes
+      quote1: '«Success is not an accident. It is hard work, perseverance, learning, sacrifice and, above all, love for what you do.»',
+      quote2: 'The body achieves what the mind believes.',
+      quote3: 'Being a father taught me that the greatest challenge is not always in the gym, but in being the best example for my children.',
+      
+      // Tabs
+      tabProgresionLabel: 'Progress',
+      tabWorkoutLabel: 'Workout',
+      tabNutricionLabel: 'Nutrition',
+      tabProgresion: 'Since my beginnings in bodybuilding, I knew that the key to success is discipline and constant effort. With a methodology based on experience and learning, my mission is to help you achieve real results.',
+      tabWorkout: 'With a career marked by overcoming and performance, my programs are designed for you to reach your maximum potential with a personalized and structured approach.',
+      tabNutricion: 'Fitness is much more than lifting weights. Nutrition is the foundation of a lasting transformation and at Scorus Fitness we offer nutritional plans adapted to each person.',
+      
+      // Title "Childhood and first steps"
+      titleChildhood: 'The Sacrifice Childhood and First Steps in Sport',
+      
+      // Long paragraphs
+      nextBodyText: 'Bernat was born on July 6, 1979 in Marosvásárhely, Transylvania, but from a very young age he moved with his family to Budapest, Hungary, where he spent most of his childhood. His family environment was full of elite athletes: his grandfather and uncles were champions in various disciplines, so sport was always present in his life. From the age of 6, he practiced various physical activities such as swimming, gymnastics, karate, football, basketball and athletics, but none of these sports awakened a true vocation in him. However, his attraction to muscular and well-developed bodies grew with every action movie he watched. Arnold Schwarzenegger, Sylvester Stallone and Jean-Claude Van Damme were his idols, and he dreamed of building an impressive physique like theirs.',
+      
+      paragraphsText: 'From the age of 6, he practiced various physical activities such as swimming, gymnastics, karate, football, basketball and athletics, but none of these sports awakened a true vocation in him. However, his attraction to muscular and well-developed bodies grew with every action movie he watched. Arnold Schwarzenegger, Sylvester Stallone and Jean-Claude Van Damme were his idols, and he dreamed of building an impressive physique like theirs.\n\nThe turning point came in 1994, when he attended his first bodybuilding event. Seeing legends like Flex Wheeler, Milos Sarcev and Robby Robinson live had a profound impact on him. At that moment, he knew he wanted to dedicate his life to training and physical development.\n\nHowever, there was a problem: his genetics did not seem ideal for this sport. With only 50 kg of weight, an arm diameter of 28 cm and a chest of 80 cm, his family and friends told him that he did not have the necessary structure for bodybuilding. But he was not discouraged. His determination and vision were clear: he was going to prove that effort and perseverance could overcome any obstacle.',
+      
+      experienceParagraph: 'With more than 25 years of experience, Bernat Scorus has built a career in the world of bodybuilding and fitness that few can match. He has turned his passion into a life philosophy, helping thousands of people reach their best version through training and personalized nutrition.\n\nCurrently, he leads Scorus Fitness, a center that offers personal training in Alicante, online coaching programs and comprehensive physical transformation. His approach is based on real experience, knowledge acquired in years of competition and commitment to his clients.',
+      
+      newH2Title: 'Personal Trainer in Alicante and World Bodybuilding Champion',
+      
+      fatherParagraph: 'During this period, Bernat barely had time to train as he did before. The routine of being a full-time father absorbed him completely, and although he never completely left fitness, his physique and mentality changed. But deep down, his competitive spirit was still alive.',
+      
+      sonChallenge: 'Why don\'t you compete again, dad? Compete!',
+      sonParagraph: 'These words resonated in his mind as a personal challenge. It was the push he needed to return to the stages and prove that he still had much to offer.',
+      
+      // Gym Title
+      gymSubtitle: 'Scorus GYM',
+      gymTitle: 'Titles and International Achievements',
+      gymIntroParagraph: 'Starting in 2000, Bernat began competing professionally, quickly establishing himself among the best bodybuilding athletes. His effort and dedication led him to obtain some of the most prestigious titles in the world:',
+      
+      // Titles and achievements
+      nabbaTitle: 'NABBA 2006',
+      nabbaSubtitle: 'World Champion',
+      nabbaCategory: 'Heavyweight Category',
+      nabbaCategorySubtitle: 'and Overall',
+      nabbaDescription: 'A historic milestone in Bernat\'s career, establishing himself as one of the best bodybuilders in the world.',
+      
+      mrUniverseTitle: 'NAC Mister Universe',
+      mrUniverseSubtitle: 'Runner-up',
+      mrUniverseCategory: 'Category +90kg',
+      mrUniverseDescription: 'An international elite competition where Bernat demonstrated his exceptional level, ranking among the best in the world.',
+      
+      arnoldClassicTitle: 'Arnold Classic',
+      arnoldClassicSubtitle: 'International Competitor',
+      arnoldClassicDetail: 'Columbus (USA) and Madrid',
+      arnoldClassicDescription: 'Participation in one of the most prestigious bodybuilding competitions in the world, founded by Arnold Schwarzenegger.',
+      
+      benWeiderTitle: 'Ben Weider Classic',
+      benWeiderSubtitle: 'Gold Medals',
+      benWeiderCategory: 'and Big Man Masters',
+      benWeiderDetail: 'Gold in Masters elite competitions, demonstrating his excellence and experience in veteran bodybuilding categories.',
+      
+      experienceYears: '25+',
+      experienceLabel: 'Years of Experience',
+      experienceSince: 'Since year 2000',
+      
+      trophiesCount: '40+',
+      trophiesLabel: 'International Trophies',
+      
+      // The Triumphant Return
+      triumphTitle: 'The Triumphant Return: Stronger Than Ever',
+      triumphParagraph: 'With renewed motivation, Bernat returned to competition in 2018, and he did so in grand style:',
+      
+      goldMedalTitle: 'GOLD MEDAL',
+      goldMedalSubtitle: 'The Return',
+      goldMedalSeason: 'First season after return',
+      goldMedalDescription: 'A triumphant return that marked the beginning of a new era of success in Bernat\'s career.',
+      
+      silverBronzeTitle: '2 SILVER + 1 BRONZE',
+      silverBronzeSubtitle: 'More podiums in 2018',
+      silverBronzeMedals: 'Two',
+      silverBronzeSilver: 'Silver',
+      silverBronzeAnd: 'medals and one',
+      silverBronzeBronze: 'Bronze',
+      silverBronzeDetail: 'An exceptional year with multiple podiums that consolidated his return to elite bodybuilding.',
+      
+      bestBodybuilderTitle: '3RD BEST BODYBUILDER',
+      bestBodybuilderSubtitle: 'International Recognition',
+      bestBodybuilderNamed: 'Named the',
+      bestBodybuilderThird: 'Third',
+      bestBodybuilderBest: 'Best Bodybuilder of the Year',
+      bestBodybuilderDetail: 'An international recognition that positioned Bernat among the best bodybuilders in the world.',
+      
+      newMeaningParagraph: 'But this time, the competition had a new meaning for him. It was not only about winning, but about showing that perseverance, discipline and determination can overcome any obstacle, even a six-year break.',
+      
+      indiaParagraph: 'That same year, he was invited to India to be part of a personal trainer academy, where he taught courses on nutrition, supplementation, training and competition preparation. This opportunity opened new doors for him and allowed him to expand his knowledge internationally, giving seminars in Dubai, Singapore and various cities in India.',
+      
+      // Philosophy
+      philosophyTitle: 'My Philosophy: Beyond Fitness',
+      philosophyWord1: 'My',
+      philosophyWord2: 'Philosophy:',
+      philosophyWord3: 'Beyond',
+      philosophyWord4: 'Fitness',
+      philosophyWord5: '',
+      philosophyWord6: '',
+      
+      sacrificeCompetitionTitle: 'The Sacrifice of Competition',
+      sacrificeCompetitionParagraph: 'For more than a decade, Bernat lived for and through bodybuilding. He competed, trained, perfected his technique, and shared experiences with some of the most important athletes in the world. But, as with everything in life, a moment came when he felt the need to step back to focus on another essential aspect: his family.\n\nIn 2012, after many years of competing at the highest level, he decided to step away from the stages and dedicate his time to building a future with his partner. Two years later, in 2014, his first son was born, and in 2016, his daughter arrived. Those were years when bodybuilding took a back seat, as the absolute priority was raising and caring for his family.\n\nFor more than a decade, Bernat lived for and through bodybuilding. He competed, trained, perfected his technique, and shared experiences with some of the most important athletes in the world. But, as with everything in life, a moment came when he felt the need to step back to focus on another essential aspect: his family.\n\nIn 2012, after many years of competing at the highest level, he decided to step away from the stages and dedicate his time to building a future with his partner. Two years later, in 2014, his first son was born, and in 2016, his daughter arrived. Those were years when bodybuilding took a back seat, as the absolute priority was raising and caring for his family.',
+      
+      scorusFitnessParagraph: 'After his successful career in bodybuilding, Bernat founded Scorus Fitness, a training center designed to offer:',
+      
+      // Service modules
+      trainingModuleTitle: 'Training',
+      trainingModuleDescription: 'Personalized training<br/>plans',
+      nutritionModuleTitle: 'Nutrition',
+      nutritionModuleDescription: 'Nutrition focused on<br/>performance and health',
+      trackingModuleTitle: 'Tracking',
+      trackingModuleDescription: 'Real support to<br/>achieve lasting changes',
+      rebornModuleTitle: 'REBORN and Scorus<br/>Campus',
+      rebornModuleDescription: 'Premium transformation<br/>programs',
+      scorusGymModuleTitle: 'ScorusGYM',
+      scorusGymModuleDescription: 'A private gym with an<br/>exclusive focus and no distractions',
+      holisticParagraph: 'His approach is holistic, encompassing both physical development and the mindset necessary to maintain a healthy and sustainable lifestyle.',
+      
+      // Final CTA
+      ctaTitle: 'Transform Your Life',
+      ctaSubtitle: 'with Scorus Fitness',
+      ctaDescription: 'If you are looking for a real change, I am here to guide you. Whether you want to lose fat, gain muscle or prepare for a competition, at Scorus Fitness you will find the tools and support you need.',
+      ctaText: 'Start today. Contact me and transform your body and mind.',
+      ctaButton: 'Contact Me Now!',
+      contactUrl: '/en/contact',
+    },
+    fr: {
+      // Intro
+      introName: 'Bernat Scorus',
+      introSubtitle: 'De la Progression Personnelle à l\'Excellence en Fitness',
+      introBody: 'Je m\'appelle Bernat Richard Scorus et j\'aide les gens à transformer leur corps et à améliorer leurs performances physiques depuis plus de 25 ans. Dès mon plus jeune âge, j\'ai su que la musculation et le fitness étaient ma véritable passion, et tout au long de ma carrière, je suis devenu Champion du Monde de Culturisme, Vice-Champion de Mister Univers et Vice-Champion de Mr. Olympia Masters Amateur.',
+      
+      // Citas
+      quote1: '«Le succès n\'est pas un accident. C\'est du travail acharné, de la persévérance, de l\'apprentissage, du sacrifice et, surtout, de l\'amour pour ce que vous faites.»',
+      quote2: 'Le corps réalise ce que l\'esprit croit.',
+      quote3: 'Être père m\'a appris que le plus grand défi n\'est pas toujours dans la salle de sport, mais dans le fait d\'être le meilleur exemple pour mes enfants.',
+      
+      // Tabs
+      tabProgresionLabel: 'Progression',
+      tabWorkoutLabel: 'Entraînement',
+      tabNutricionLabel: 'Nutrition',
+      tabProgresion: 'Depuis mes débuts dans la musculation, j\'ai su que la clé du succès est la discipline et l\'effort constant. Avec une méthodologie basée sur l\'expérience et l\'apprentissage, ma mission est de vous aider à obtenir de vrais résultats.',
+      tabWorkout: 'Avec une carrière marquée par le dépassement de soi et la performance, mes programmes sont conçus pour que vous atteigniez votre plein potentiel avec une approche personnalisée et structurée.',
+      tabNutricion: 'Le fitness est bien plus que soulever des poids. L\'alimentation est la base d\'une transformation durable et chez Scorus Fitness, nous proposons des plans nutritionnels adaptés à chaque personne.',
+      
+      // Título "Infancia y primeros pasos"
+      titleChildhood: 'Le Sacrifice de l\'Enfance et les Premiers Pas dans le Sport',
+      
+      // Párrafos largos
+      nextBodyText: 'Bernat est né le 6 juillet 1979 à Marosvásárhely, en Transylvanie, mais très jeune, il a déménagé avec sa famille à Budapest, en Hongrie, où il a passé la majeure partie de son enfance. Son environnement familial était rempli d\'athlètes de haut niveau : son grand-père et ses oncles étaient champions dans diverses disciplines, le sport a donc toujours été présent dans sa vie. Dès l\'âge de 6 ans, il a pratiqué diverses activités physiques telles que la natation, la gymnastique, le karaté, le football, le basketball et l\'athlétisme, mais aucun de ces sports n\'a éveillé en lui une véritable vocation. Cependant, son attirance pour les corps musclés et bien développés grandissait avec chaque film d\'action qu\'il regardait. Arnold Schwarzenegger, Sylvester Stallone et Jean-Claude Van Damme étaient ses idoles, et il rêvait de construire un physique impressionnant comme le leur.',
+      
+      paragraphsText: 'Dès l\'âge de 6 ans, il a pratiqué diverses activités physiques telles que la natation, la gymnastique, le karaté, le football, le basketball et l\'athlétisme, mais aucun de ces sports n\'a éveillé en lui une véritable vocation. Cependant, son attirance pour les corps musclés et bien développés grandissait avec chaque film d\'action qu\'il regardait. Arnold Schwarzenegger, Sylvester Stallone et Jean-Claude Van Damme étaient ses idoles, et il rêvait de construire un physique impressionnant comme le leur.\n\nLe point tournant est arrivé en 1994, lorsqu\'il a assisté à son premier événement de culturisme. Voir en direct des légendes comme Flex Wheeler, Milos Sarcev et Robby Robinson l\'a profondément marqué. À ce moment-là, il a su qu\'il voulait consacrer sa vie à l\'entraînement et au développement physique.\n\nCependant, il y avait un problème : sa génétique ne semblait pas idéale pour ce sport. Avec seulement 50 kg de poids, un diamètre de bras de 28 cm et une poitrine de 80 cm, sa famille et ses amis lui disaient qu\'il n\'avait pas la structure nécessaire pour la musculation. Mais il ne s\'est pas découragé. Sa détermination et sa vision étaient claires : il allait prouver que l\'effort et la constance pouvaient surmonter n\'importe quel obstacle.',
+      
+      experienceParagraph: 'Avec plus de 25 ans d\'expérience, Bernat Scorus a construit une carrière dans le monde de la musculation et du fitness que peu peuvent égaler. Il a transformé sa passion en une philosophie de vie, aidant des milliers de personnes à atteindre leur meilleure version grâce à l\'entraînement et à la nutrition personnalisée.\n\nActuellement, il dirige Scorus Fitness, un centre qui propose un entraînement personnel à Alicante, des programmes de coaching en ligne et une transformation physique intégrale. Son approche est basée sur une expérience réelle, les connaissances acquises au cours d\'années de compétition et l\'engagement envers ses clients.',
+      
+      newH2Title: 'Entraîneur Personnel à Alicante et Champion du Monde de Culturisme',
+      newH2Word1: 'Entraîneur',
+      newH2Word2: 'Personnel',
+      newH2Word3: 'à',
+      newH2Word4: 'Alicante',
+      newH2Word5: 'et',
+      newH2Word6: 'Champion',
+      newH2Word7: 'du',
+      newH2Word8: 'Monde',
+      newH2Word9: 'de',
+      newH2Word10: 'Culturisme',
+      
+      fatherParagraph: 'Pendant cette période, Bernat a à peine eu le temps de s\'entraîner comme il le faisait auparavant. La routine d\'être père à temps plein l\'a complètement absorbé, et bien qu\'il n\'ait jamais complètement abandonné le fitness, son physique et sa mentalité ont changé. Mais au fond, son esprit de compétition était toujours vivant.',
+      
+      sonChallenge: 'Pourquoi ne compètes-tu pas à nouveau, papa ? Compète !',
+      sonParagraph: 'Ces mots ont résonné dans son esprit comme un défi personnel. C\'était le coup de pouce dont il avait besoin pour revenir sur les scènes et prouver qu\'il avait encore beaucoup à offrir.',
+      
+      // Título Gimnasio
+      gymSubtitle: 'Scorus GYM',
+      gymTitle: 'Titres et Réalisations Internationales',
+      gymIntroParagraph: 'À partir de l\'an 2000, Bernat a commencé à concourir professionnellement, parvenant rapidement à se consolider parmi les meilleurs athlètes de la musculation. Son effort et son dévouement l\'ont conduit à obtenir certains des titres les plus prestigieux au monde :',
+      
+      // Títulos y logros
+      nabbaTitle: 'NABBA 2006',
+      nabbaSubtitle: 'Champion du Monde',
+      nabbaCategory: 'Catégorie Poids Lourd',
+      nabbaCategorySubtitle: 'et Absolu',
+      nabbaDescription: 'Une étape historique dans la carrière de Bernat, se consolidant comme l\'un des meilleurs culturistes du monde.',
+      
+      mrUniverseTitle: 'NAC Mister Univers',
+      mrUniverseSubtitle: 'Vice-Champion',
+      mrUniverseCategory: 'Catégorie +90kg',
+      mrUniverseDescription: 'Une compétition internationale d\'élite où Bernat a démontré son niveau exceptionnel, se classant parmi les meilleurs du monde.',
+      
+      arnoldClassicTitle: 'Arnold Classic',
+      arnoldClassicSubtitle: 'Compétiteur International',
+      arnoldClassicDetail: 'Columbus (États-Unis) et Madrid',
+      arnoldClassicDescription: 'Participation à l\'une des compétitions de culturisme les plus prestigieuses au monde, fondée par Arnold Schwarzenegger.',
+      
+      benWeiderTitle: 'Ben Weider Classic',
+      benWeiderSubtitle: 'Médailles d\'Or',
+      benWeiderCategory: 'et Big Man Masters',
+      benWeiderDetail: 'Or dans les compétitions Masters d\'élite, démontrant son excellence et son expérience dans les catégories vétérans de la musculation.',
+      
+      experienceYears: '25+',
+      experienceLabel: 'Ans d\'Expérience',
+      experienceSince: 'Depuis l\'an 2000',
+      trophiesCount: '40+',
+      trophiesLabel: 'Trophées Internationaux',
+      
+      // Triumph title
+      triumphTitle: 'Le Retour Triomphal',
+      triumphParagraph: 'Avec une motivation renouvelée, Bernat est revenu en compétition en 2018, et il l\'a fait en grand :',
+      triumphWord1: 'Le',
+      triumphWord2: 'Retour',
+      triumphWord3: 'Triomphal',
+      
+      // Medal details
+      goldMedalTitle: 'MÉDAILLE D\'OR',
+      goldMedalSubtitle: 'Le Retour',
+      goldMedalSeason: 'Première saison après le retour',
+      goldMedalDescription: 'Un retour triomphal qui a marqué le début d\'une nouvelle ère de succès dans la carrière de Bernat.',
+      
+      silverBronzeTitle: '2 ARGENT + 1 BRONZE',
+      silverBronzeSubtitle: 'Plus de podiums en 2018',
+      silverBronzeMedals: 'Deux médailles',
+      silverBronzeSilver: 'd\'Argent',
+      silverBronzeAnd: 'et une',
+      silverBronzeBronze: 'de Bronze',
+      silverBronzeDetail: 'Une année exceptionnelle avec plusieurs podiums qui ont consolidé son retour au culturisme d\'élite.',
+      
+      bestBodybuilderTitle: '3ème MEILLEUR CULTURISTE',
+      bestBodybuilderSubtitle: 'Reconnaissance Internationale',
+      bestBodybuilderNamed: 'Nommé le',
+      bestBodybuilderThird: 'Troisième',
+      bestBodybuilderBest: 'Meilleur Culturiste de l\'Année',
+      bestBodybuilderDetail: 'Une reconnaissance internationale qui a positionné Bernat parmi les meilleurs culturistes du monde.',
+      
+      newMeaningParagraph: 'Mais cette fois, la compétition avait une nouvelle signification pour lui. Il ne s\'agissait pas seulement de gagner, mais de montrer que la persévérance, la discipline et la détermination peuvent surmonter n\'importe quel obstacle, même une pause de six ans.',
+      
+      indiaParagraph: 'La même année, il a été invité en Inde pour faire partie d\'une académie d\'entraîneurs personnels, où il a enseigné des cours sur la nutrition, la supplémentation, l\'entraînement et la préparation aux compétitions. Cette opportunité lui a ouvert de nouvelles portes et lui a permis d\'élargir ses connaissances au niveau international, en donnant des séminaires à Dubaï, Singapour et dans diverses villes d\'Inde.',
+      
+      // Philosophy title
+      philosophyTitle: 'Ma Philosophie : Au-Delà du Fitness',
+      philosophyWord1: 'Ma',
+      philosophyWord2: 'Philosophie',
+      philosophyWord3: 'Au-Delà',
+      philosophyWord4: 'du',
+      philosophyWord5: 'Fitness',
+      philosophyWord6: '',
+      
+      sacrificeCompetitionTitle: 'Le Sacrifice de la Compétition',
+      sacrificeCompetitionParagraph: 'Pendant plus d\'une décennie, Bernat a vécu par et pour la musculation. Il concourait, s\'entraînait, perfectionnait sa technique et partageait des expériences avec certains des athlètes les plus importants du monde. Mais, comme tout dans la vie, un moment est venu où il a senti qu\'il devait prendre du recul pour se concentrer sur un autre aspect essentiel : sa famille.\n\nEn 2012, après de nombreuses années de compétition au plus haut niveau, il a décidé de s\'éloigner des scènes et de consacrer son temps à construire un avenir avec sa partenaire. Deux ans plus tard, en 2014, son premier fils est né, et en 2016, sa fille est arrivée. Ce furent des années où la musculation est passée au second plan, car la priorité absolue était d\'élever et de prendre soin de sa famille.\n\nPendant plus d\'une décennie, Bernat a vécu par et pour la musculation. Il concourait, s\'entraînait, perfectionnait sa technique et partageait des expériences avec certains des athlètes les plus importants du monde. Mais, comme tout dans la vie, un moment est venu où il a senti qu\'il devait prendre du recul pour se concentrer sur un autre aspect essentiel : sa famille.\n\nEn 2012, après de nombreuses années de compétition au plus haut niveau, il a décidé de s\'éloigner des scènes et de consacrer son temps à construire un avenir avec sa partenaire. Deux ans plus tard, en 2014, son premier fils est né, et en 2016, sa fille est arrivée. Ce furent des années où la musculation est passée au second plan, car la priorité absolue était d\'élever et de prendre soin de sa famille.',
+      
+      scorusFitnessParagraph: 'Après sa carrière réussie dans la musculation, Bernat a fondé Scorus Fitness, un centre d\'entraînement conçu pour offrir :',
+      
+      // Módulos de servicios
+      trainingModuleTitle: 'Entraînement',
+      trainingModuleDescription: 'Plans d\'entraînement<br/>personnalisés',
+      nutritionModuleTitle: 'Nutrition',
+      nutritionModuleDescription: 'Nutrition axée sur<br/>la performance et la santé',
+      trackingModuleTitle: 'Suivi',
+      trackingModuleDescription: 'Accompagnement réel pour<br/>obtenir des changements durables',
+      rebornModuleTitle: 'REBORN et Scorus<br/>Campus',
+      rebornModuleDescription: 'Programmes premium de<br/>transformation',
+      scorusGymModuleTitle: 'ScorusGYM',
+      scorusGymModuleDescription: 'Une salle de sport privée avec<br/>une approche exclusive et sans distractions',
+      holisticParagraph: 'Son approche est holistique, englobant à la fois le développement physique et l\'état d\'esprit nécessaire pour maintenir un mode de vie sain et durable.',
+      
+      // Final CTA
+      ctaTitle: 'Transformez Votre Vie',
+      ctaSubtitle: 'avec Scorus Fitness',
+      ctaDescription: 'Si vous cherchez un vrai changement, je suis là pour vous guider. Que vous souhaitiez perdre de la graisse, gagner du muscle ou vous préparer pour une compétition, chez Scorus Fitness, vous trouverez les outils et le soutien dont vous avez besoin.',
+      ctaText: 'Commencez aujourd\'hui. Contactez-moi et transformez votre corps et votre esprit.',
+      ctaButton: 'Contactez-Moi Maintenant !',
+      contactUrl: '/fr/contact',
+    }
+  };
+  
+  const t = translations[lang];
+  
   const containerRef = useRef<HTMLDivElement>(null);
   const titleLeftRef = useRef<HTMLSpanElement>(null);
   const titleRightRef = useRef<HTMLSpanElement>(null);
@@ -106,10 +526,10 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const quoteRef = useRef<HTMLDivElement>(null);
   const quote2Ref = useRef<HTMLDivElement>(null);
   const quote2TextRef = useRef<HTMLParagraphElement>(null);
-  const quote2FullText = 'El cuerpo logra lo que la mente cree.';
+  const quote2FullText = t.quote2;
   const quote3Ref = useRef<HTMLDivElement>(null);
   const quote3TextRef = useRef<HTMLParagraphElement>(null);
-  const quote3FullText = 'Ser padre me enseñó que el mayor desafío no siempre está en el gimnasio, sino en ser el mejor ejemplo para mis hijos.';
+  const quote3FullText = t.quote3;
   
   // Tabs Netflix (controlados por scroll)
   const tabsContainerRef = useRef<HTMLDivElement>(null);
@@ -121,9 +541,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const [activeTab, setActiveTab] = useState<'progresion' | 'workout' | 'nutricion'>('progresion');
   
   const tabsContent = {
-    progresion: 'Desde mis inicios en el culturismo, supe que la clave del éxito es la disciplina y el esfuerzo constante. Con una metodología basada en la experiencia y el aprendizaje, mi misión es ayudarte a conseguir resultados reales.',
-    workout: 'Con una carrera marcada por la superación y el rendimiento, mis programas están diseñados para que alcances tu máximo potencial con un enfoque personalizado y estructurado.',
-    nutricion: 'El fitness es mucho más que levantar pesas. La alimentación es la base de una transformación duradera y en Scorus Fitness ofrecemos planes nutricionales adaptados a cada persona.',
+    progresion: t.tabProgresion,
+    workout: t.tabWorkout,
+    nutricion: t.tabNutricion,
   };
 
   // Bloque siguiente eliminado temporalmente (H2/imagen/párrafo)
@@ -134,23 +554,23 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const nextImageRef = useRef<HTMLDivElement>(null);
   const nextParagraphsRef = useRef<HTMLDivElement>(null);
   const nextParagraphsContainerRef = useRef<HTMLDivElement>(null);
-  const nextBodyFullText = `Bernat nació el 6 de julio de 1979 en Marosvásárhely, Transilvania, pero desde muy pequeño se trasladó con su familia a Budapest, Hungría, donde pasó la mayor parte de su infancia. Su entorno familiar estaba lleno de deportistas de élite: su abuelo y sus tíos fueron campeones en diversas disciplinas, por lo que el deporte siempre estuvo presente en su vida. Desde los 6 años, practicó diversas actividades físicas como natación, gimnasia, karate, fútbol, baloncesto y atletismo, pero ninguno de estos deportes despertó en él una verdadera vocación. Sin embargo, su atracción por los cuerpos musculosos y bien desarrollados crecía con cada película de acción que veía. Arnold Schwarzenegger, Sylvester Stallone y Jean-Claude Van Damme eran sus ídolos, y soñaba con construir un físico impresionante como el de ellos.`;
-  const paragraphsFullText = `Desde los 6 años, practicó diversas actividades físicas como natación, gimnasia, karate, fútbol, baloncesto y atletismo, pero ninguno de estos deportes despertó en él una verdadera vocación. Sin embargo, su atracción por los cuerpos musculosos y bien desarrollados crecía con cada película de acción que veía. Arnold Schwarzenegger, Sylvester Stallone y Jean-Claude Van Damme eran sus ídolos, y soñaba con construir un físico impresionante como el de ellos.\n\nEl punto de inflexión llegó en 1994, cuando asistió a su primer evento de culturismo. Ver en directo a leyendas como Flex Wheeler, Milos Sarcev y Robby Robinson lo impactó profundamente. En ese momento, supo que quería dedicar su vida al entrenamiento y al desarrollo físico.\n\nSin embargo, había un problema: su genética no parecía la ideal para este deporte. Con solo 50 kg de peso, un diámetro de brazo de 28 cm y un pecho de 80 cm, su familia y amigos le decían que no tenía la estructura necesaria para el culturismo. Pero él no se dejó desanimar. Su determinación y su visión estaban claras: iba a demostrar que el esfuerzo y la constancia podían superar cualquier obstáculo.`;
+  const nextBodyFullText = t.nextBodyText;
+  const paragraphsFullText = t.paragraphsText;
   
   // Nuevo párrafo post-cita 3
   const fatherParaRef = useRef<HTMLDivElement>(null);
   const fatherParaTextRef = useRef<HTMLParagraphElement>(null);
-  const fatherParaFullText = `Durante este periodo, Bernat apenas tuvo tiempo para entrenar como lo hacía antes. La rutina de ser padre a tiempo completo lo absorbió completamente, y aunque nunca dejó el fitness por completo, su físico y mentalidad cambiaron. Pero en el fondo, su espíritu competitivo seguía vivo.`;
+  const fatherParaFullText = t.fatherParagraph;
 
   // Frase del hijo (zoom out desde el centro)
   const sonChallengeRef = useRef<HTMLDivElement>(null);
   const sonChallengeTextRef = useRef<HTMLHeadingElement>(null);
-  const sonChallengeText = '¿Por qué no compites otra vez, papá? ¡Compite!';
+  const sonChallengeText = t.sonChallenge;
 
   // Párrafo tras la frase del hijo (aparece desde abajo)
   const sonParaRef = useRef<HTMLDivElement>(null);
   const sonParaTextRef = useRef<HTMLParagraphElement>(null);
-  const sonParaFullText = 'Estas palabras resonaron en su mente como un desafío personal. Era el empujón que necesitaba para volver a los escenarios y demostrar que aún tenía mucho que ofrecer.';
+  const sonParaFullText = t.sonParagraph;
 
   // Imagen de competición (entra desde abajo empujando)
   const compImageRef = useRef<HTMLDivElement>(null);
@@ -160,7 +580,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const gymTitleTextRef = useRef<HTMLHeadingElement>(null);
   const gymSubtitleRef = useRef<HTMLDivElement>(null); // "Scorus GYM"
   const gymBarRef = useRef<HTMLDivElement>(null); // Barra roja decorativa
-  const gymTitleText = 'Títulos y Logros Internacionales';
+  const gymTitleText = t.gymTitle;
   const gymLinesRef = useRef<HTMLDivElement>(null); // Líneas diagonales de fondo
   const gymIntroParaRef = useRef<HTMLDivElement>(null); // Párrafo introductorio que aparece con zoom out
   const nabbaChampRef = useRef<HTMLDivElement>(null); // Campeón NABBA 2006
@@ -516,7 +936,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     });
 
     // ================= NUEVO PÁRRAFO: Experiencia de 25 años (con efecto de escritura) =================
-    const experienceParaFullText = `Con más de 25 años de experiencia, Bernat Scorus ha construido una trayectoria en el mundo del culturismo y el fitness que pocos pueden igualar. Ha convertido su pasión en una filosofía de vida, ayudando a miles de personas a alcanzar su mejor versión a través del entrenamiento y la nutrición personalizada.\n\nActualmente, lidera Scorus Fitness, un centro que ofrece entrenamiento personal en Alicante, programas de coaching online y transformación física integral. Su enfoque se basa en la experiencia real, el conocimiento adquirido en años de competición y el compromiso con sus clientes.`;
+    const experienceParaFullText = t.experienceParagraph;
     
     const EXPERIENCE_PARA_ENTRY_PX = NOTCH_SIZE_PX * 3; // Entrada del párrafo
     const EXPERIENCE_PARA_TYPE_PX = NOTCH_SIZE_PX * 8; // Efecto de escritura
@@ -1148,7 +1568,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     // Desaparición del módulo de Tabs tras terminar de escribir Nutrición + 4 notches
     // No rompe el recorrido: sólo se activa cuando el texto de Nutrición se ha escrito completo
-    const NOTCH_PX = isMobile ? 75 : 100;
+    const NOTCH_PX = isMobile ? 111 : 108;
     const EXIT_AFTER_NOTCHES = 4;
     const TABS_EXIT_PX = NOTCH_PX * 8; // duración de la salida (más lenta para apreciarse mejor)
     const tabsExitStartPx = nutritionTypingStartPx + TYPING_PX + (NOTCH_PX * EXIT_AFTER_NOTCHES);
@@ -1280,7 +1700,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     });
 
     // ================= Párrafo posterior: entra empujando al H2 desde abajo =================
-    const COMP_PARA = `Durante más de una década, Bernat vivió por y para el culturismo. Competía, entrenaba, perfeccionaba su técnica y compartía experiencias con algunos de los atletas más importantes del mundo. Pero, como todo en la vida, llegó un momento en el que sintió que necesitaba dar un paso atrás para centrarse en otro aspecto esencial: su familia.\n\nEn 2012, tras muchos años de competición al más alto nivel, decidió alejarse de los escenarios y dedicar su tiempo a construir un futuro junto a su pareja. Dos años después, en 2014, nació su primer hijo, y en 2016, llegó su hija. Fueron años en los que el culturismo pasó a un segundo plano, pues la prioridad absoluta era criar y cuidar de su familia.\n\nDurante más de una década, Bernat vivió por y para el culturismo. Competía, entrenaba, perfeccionaba su técnica y compartía experiencias con algunos de los atletas más importantes del mundo. Pero, como todo en la vida, llegó un momento en el que sintió que necesitaba dar un paso atrás para centrarse en otro aspecto esencial: su familia.\n\nEn 2012, tras muchos años de competición al más alto nivel, decidió alejarse de los escenarios y dedicar su tiempo a construir un futuro junto a su pareja. Dos años después, en 2014, nació su primer hijo, y en 2016, llegó su hija. Fueron años en los que el culturismo pasó a un segundo plano, pues la prioridad absoluta era criar y cuidar de su familia.`;
+    const COMP_PARA = t.sacrificeCompetitionParagraph;
 
     const PARA_ENTER_PX = NOTCH_PX * 8; // duración de entrada del párrafo
     const paraStartPx = tabsExitStartPx + TABS_EXIT_PX; // tras desaparecer tabs y entrar H2
@@ -1647,7 +2067,13 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     // Estado inicial de la frase
     const setSonChallengeHTML = () => {
       if (!sonChallengeTextRef.current) return;
-      const outlinedHTML = sonChallengeText.replace(/compites|papá|Compite/gi, (m) => (
+      // Palabras clave según idioma
+      const keywordsPattern = lang === 'es' 
+        ? /compites|papá|Compite/gi 
+        : lang === 'en'
+        ? /compete|dad|Compete/gi
+        : /compètes|papa|Compète/gi; // francés
+      const outlinedHTML = sonChallengeText.replace(keywordsPattern, (m) => (
         `<span style="color:transparent;-webkit-text-stroke:2px rgb(220,38,38)">${m}</span>`
       ));
       sonChallengeTextRef.current.innerHTML = outlinedHTML;
@@ -3106,7 +3532,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     currentScrollPx += NEW_MEANING_HOLD_PX + NEW_MEANING_EXIT_PX;
 
     // ================= PÁRRAFO "ESE MISMO AÑO, FUE INVITADO A LA INDIA..." - ENTRADA DESDE DERECHA CON TYPEWRITER =================
-    const indiaParaText = "Ese mismo año, fue invitado a la India para formar parte de una academia de entrenadores personales, donde impartió cursos sobre nutrición, suplementación, entrenamiento y preparación para competiciones. Esta oportunidad le abrió nuevas puertas y le permitió expandir su conocimiento a nivel internacional, impartiendo seminarios en Dubái, Singapur y diversas ciudades de la India.";
+    const indiaParaText = t.indiaParagraph;
     const INDIA_PARA_ENTRY_PX = NOTCH_PX * 4; // Entrada desde la derecha
     const INDIA_PARA_TYPE_PX = NOTCH_PX * 8; // Efecto de escritura
     const indiaParaEntryStartPx = newMeaningExitStartPx + NEW_MEANING_EXIT_PX;
@@ -4199,7 +4625,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     });
 
     // ================= H2 "El Sacrificio de la Competición" - ENTRADA ESPECTACULAR =================
-    const COMP_TITLE = 'El Sacrificio de la Competición';
+    const COMP_TITLE = t.sacrificeCompetitionTitle;
     let compPrepared = false;
     let compPieces: HTMLElement[] = [];
     let compVectors: Array<{ el: HTMLElement; vx: number; vy: number; vr: number; scaleStart: number }>|null = null;
@@ -5431,7 +5857,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
             <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
             <div className="pointer-events-none absolute -top-6 -left-4 text-8xl md:text-9xl font-black text-white/5 select-none" aria-hidden="true">"</div>
             <p className="text-xl md:text-3xl leading-relaxed text-gray-100 font-semibold">
-              «El éxito no es un accidente. Es trabajo duro, perseverancia, aprendizaje, sacrificio y, sobre todo, amor por lo que haces.»
+              {t.quote1}
             </p>
             <span className="mt-4 block text-sm md:text-base tracking-widest uppercase text-gray-400">— Arnold Schwarzenegger</span>
           </div>
@@ -5607,11 +6033,18 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           {/* Barra roja a la izquierda */}
           <div ref={gymBarRef} className="absolute -left-4 top-0 h-full w-1.5 bg-red-600 rounded-full" style={{ opacity: 0 }} />
           {/* Subtítulo pequeño */}
-          <div ref={gymSubtitleRef} className="text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-white/80 mb-1" style={{ opacity: 0 }}>Scorus GYM</div>
+          <div ref={gymSubtitleRef} className="text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-white/80 mb-1" style={{ opacity: 0 }}>{t.gymSubtitle}</div>
           {/* Título con outline rojo en primera palabra y blanco en resto */}
           <h2 ref={gymTitleTextRef} className="text-left text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight will-change-transform">
-            <span className="text-transparent [text-shadow:0_0_0_rgba(0,0,0,0)] [webkit-text-stroke:2px_rgb(220,38,38)] mr-2">Títulos</span>
-            <span className="text-white">y Logros Internacionales</span>
+            {(() => {
+              const titleWords = t.gymTitle.split(' ');
+              return (
+                <>
+                  <span className="text-transparent [text-shadow:0_0_0_rgba(0,0,0,0)] [webkit-text-stroke:2px_rgb(220,38,38)] mr-2">{titleWords[0]}</span>
+                  <span className="text-white">{titleWords.slice(1).join(' ')}</span>
+                </>
+              );
+            })()}
           </h2>
         </div>
       </div>
@@ -5623,7 +6056,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
             <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
             <p className="text-base md:text-lg leading-relaxed text-gray-100">
-              A partir del año 2000, Bernat comenzó a competir profesionalmente, logrando en poco tiempo consolidarse entre los mejores atletas del culturismo. Su esfuerzo y dedicación lo llevaron a obtener algunos de los títulos más prestigiosos del mundo:
+              {t.gymIntroParagraph}
             </p>
           </div>
         </div>
@@ -5648,21 +6081,21 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 <div className="flex-1">
                   {/* Subtítulo */}
                   <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-red-500">
-                    Campeón del Mundo
+                    {t.nabbaSubtitle}
                   </div>
                   
                   {/* Título principal */}
                   <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
                     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
-                      NABBA 2006
+                      {t.nabbaTitle}
                     </span>
                   </h3>
                   
                   {/* Categoría */}
                   <div className="border-l-4 border-red-600 pl-4 py-2">
                     <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
-                      Categoría Peso Pesado<br/>
-                      <span className="text-red-400">y Absoluto</span>
+                      {t.nabbaCategory}<br/>
+                      <span className="text-red-400">{t.nabbaCategorySubtitle}</span>
                     </p>
                   </div>
                   
@@ -5680,7 +6113,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                   {/* Detalle adicional */}
                   <div className="pt-4 border-t border-white/10 md:mt-6">
                     <p className="text-sm md:text-base text-gray-400 leading-relaxed">
-                      Un hito histórico en la carrera de Bernat, consolidándose como uno de los mejores culturistas del mundo.
+                      {t.nabbaDescription}
                     </p>
                   </div>
                 </div>
@@ -5720,13 +6153,13 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 <div className="flex-1">
                   {/* Subtítulo */}
                   <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-red-500">
-                    Subcampeón
+                    {t.mrUniverseSubtitle}
                   </div>
                   
                   {/* Título principal */}
                   <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
                     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
-                      NAC Mister Universo
+                      {t.mrUniverseTitle}
                     </span>
                   </h3>
                   
@@ -5751,7 +6184,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                   {/* Detalle adicional */}
                   <div className="pt-4 border-t border-white/10 md:mt-6">
                     <p className="text-sm md:text-base text-gray-400 leading-relaxed">
-                      Una competición de élite internacional donde Bernat demostró su nivel excepcional, quedando entre los mejores del mundo.
+                      {t.mrUniverseDescription}
                     </p>
                   </div>
                 </div>
@@ -5791,21 +6224,20 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 <div className="flex-1">
                   {/* Subtítulo */}
                   <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-red-500">
-                    Competidor Internacional
+                    {t.arnoldClassicSubtitle}
                   </div>
                   
                   {/* Título principal */}
                   <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
                     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
-                      Arnold Classic
+                      {t.arnoldClassicTitle}
                     </span>
                   </h3>
                   
                   {/* Ubicaciones */}
                   <div className="border-l-4 border-red-600 pl-4 py-2">
                     <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
-                      Columbus <span className="text-red-400">(EE.UU.)</span><br/>
-                      <span className="text-red-400">y</span> Madrid
+                      {t.arnoldClassicDetail}
                     </p>
                   </div>
                   
@@ -5823,7 +6255,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                   {/* Detalle adicional */}
                   <div className="pt-4 border-t border-white/10 md:mt-6">
                     <p className="text-sm md:text-base text-gray-400 leading-relaxed">
-                      Participación en una de las competiciones más prestigiosas del culturismo mundial, fundada por Arnold Schwarzenegger.
+                      {t.arnoldClassicDescription}
                     </p>
                   </div>
                 </div>
@@ -5863,21 +6295,21 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 <div className="flex-1">
                   {/* Subtítulo */}
                   <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-red-500">
-                    Medallas de Oro
+                    {t.benWeiderSubtitle}
                   </div>
                   
                   {/* Título principal */}
                   <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
                     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
-                      Ben Weider Classic
+                      {t.benWeiderTitle}
                     </span>
                   </h3>
                   
                   {/* Competiciones */}
                   <div className="border-l-4 border-red-600 pl-4 py-2">
                     <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
-                      <span className="text-red-400">y</span> Big Man Masters<br/>
-                      <span className="text-gray-400 text-sm">(+40 años)</span>
+                      {t.benWeiderCategory}<br/>
+                      <span className="text-gray-400 text-sm">(+40 {lang === 'es' ? 'años' : 'years'})</span>
                     </p>
                   </div>
                   
@@ -5895,7 +6327,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                   {/* Detalle adicional */}
                   <div className="pt-4 border-t border-white/10 md:mt-6">
                     <p className="text-sm md:text-base text-gray-400 leading-relaxed">
-                      Oro en competiciones de élite Masters, demostrando su excelencia y experiencia en categorías veteranas del culturismo.
+                      {t.benWeiderDetail}
                     </p>
                   </div>
                 </div>
@@ -5951,7 +6383,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 <div className="mb-4">
                   <div className="text-6xl md:text-7xl font-black leading-none tracking-tighter">
                     <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-gray-100 to-red-500">
-                      25<span className="text-red-500">+</span>
+                      {t.experienceYears.replace('+', '')}<span className="text-red-500">+</span>
                     </span>
                   </div>
                 </div>
@@ -5959,10 +6391,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 {/* Texto de experiencia */}
                 <div className="space-y-1">
                   <p className="text-xl md:text-2xl font-bold uppercase tracking-tight text-white">
-                    Años de
-                  </p>
-                  <p className="text-xl md:text-2xl font-bold uppercase tracking-tight text-red-500">
-                    Experiencia
+                    {t.experienceLabel}
                   </p>
                 </div>
                 
@@ -5971,7 +6400,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 
                 {/* Subtexto */}
                 <p className="text-xs md:text-sm text-gray-400 font-medium">
-                  Desde el año 2000
+                  {t.experienceSince}
                 </p>
                 
               </div>
@@ -6003,18 +6432,15 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 <div className="mb-4">
                   <div className="text-6xl md:text-7xl font-black leading-none tracking-tighter">
                     <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-gray-100 to-red-500">
-                      40<span className="text-red-500">+</span>
+                      {t.trophiesCount.replace('+', '')}<span className="text-red-500">+</span>
                     </span>
                   </div>
                 </div>
                 
                 {/* Texto de trofeos */}
                 <div className="space-y-1">
-                  <p className="text-xl md:text-2xl font-bold uppercase tracking-tight text-red-500">
-                    Trofeos
-                  </p>
                   <p className="text-xl md:text-2xl font-bold uppercase tracking-tight text-white">
-                    Internacionales
+                    {t.trophiesLabel}
                   </p>
                 </div>
                 
@@ -6039,7 +6465,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
             <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
             <p className="text-base md:text-lg leading-relaxed text-gray-100">
-              Con la motivación renovada, Bernat regresó a la competición en 2018, y lo hizo por la puerta grande:
+              {t.triumphParagraph}
             </p>
           </div>
         </div>
@@ -6077,21 +6503,20 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 <div className="flex-1">
                   {/* Subtítulo */}
                   <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-yellow-500">
-                    El Regreso
+                    {t.goldMedalSubtitle}
                   </div>
                   
                   {/* Título principal */}
                   <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
                     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
-                      MEDALLA DE ORO
+                      {t.goldMedalTitle}
                     </span>
                   </h3>
                   
                   {/* Información */}
                   <div className="border-l-4 border-yellow-500 pl-4 py-2">
                     <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
-                      Primera temporada<br/>
-                      <span className="text-yellow-400">tras el regreso</span>
+                      {t.goldMedalSeason}
                     </p>
                   </div>
                   
@@ -6110,7 +6535,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                   {/* Detalle adicional */}
                   <div className="pt-4 border-t border-white/10 md:mt-6">
                     <p className="text-sm md:text-base text-gray-400 leading-relaxed">
-                      Un regreso triunfal que marcó el inicio de una nueva era de éxitos en la carrera de Bernat.
+                      {t.goldMedalDescription}
                     </p>
                   </div>
                 </div>
@@ -6157,21 +6582,21 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 <div className="flex-1">
                   {/* Subtítulo */}
                   <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-gray-400">
-                    Más podios en 2018
+                   {t.silverBronzeSubtitle}
                   </div>
                   
                   {/* Título principal */}
                   <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
                     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
-                      2 PLATA + 1 BRONCE
+                     {t.silverBronzeTitle}
                     </span>
                   </h3>
                   
                   {/* Información */}
                   <div className="border-l-4 border-gray-400 pl-4 py-2">
                     <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
-                      Dos medallas de <span className="text-gray-300">Plata</span><br/>
-                      <span className="text-amber-500">y una de Bronce</span>
+                     {t.silverBronzeMedals} <span className="text-gray-300">{t.silverBronzeSilver}</span><br/>
+                     <span className="text-amber-500">{t.silverBronzeAnd} {t.silverBronzeBronze}</span>
                     </p>
                   </div>
                   
@@ -6192,7 +6617,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                   {/* Detalle adicional */}
                   <div className="pt-4 border-t border-white/10 md:mt-6">
                     <p className="text-sm md:text-base text-gray-400 leading-relaxed">
-                      Un año excepcional con múltiples podios que consolidaron su regreso al culturismo de élite.
+                     {t.silverBronzeDetail}
                     </p>
                   </div>
                 </div>
@@ -6240,21 +6665,21 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                 <div className="flex-1">
                   {/* Subtítulo */}
                   <div className="mb-3 text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-amber-600">
-                    Reconocimiento Internacional
+                   {t.bestBodybuilderSubtitle}
                   </div>
                   
                   {/* Título principal */}
                   <h3 className="mb-4 text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
                     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-100 to-white">
-                      3º MEJOR CULTURISTA
+                     {t.bestBodybuilderTitle}
                     </span>
                   </h3>
                   
                   {/* Información */}
                   <div className="border-l-4 border-amber-600 pl-4 py-2">
                     <p className="text-base md:text-lg font-semibold text-gray-200 leading-relaxed">
-                      Nombrado el <span className="text-amber-500">Tercer</span><br/>
-                      <span className="text-amber-400">Mejor Culturista del Año</span>
+                     {t.bestBodybuilderNamed} <span className="text-amber-500">{t.bestBodybuilderThird}</span><br/>
+                     <span className="text-amber-400">{t.bestBodybuilderBest}</span>
                     </p>
                   </div>
                   
@@ -6275,7 +6700,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                   {/* Detalle adicional */}
                   <div className="pt-4 border-t border-white/10 md:mt-6">
                     <p className="text-sm md:text-base text-gray-400 leading-relaxed">
-                      Un reconocimiento internacional que posicionó a Bernat entre los mejores culturistas del mundo.
+                     {t.bestBodybuilderDetail}
                     </p>
                   </div>
                 </div>
@@ -6293,7 +6718,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
             <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
             <p className="text-base md:text-lg leading-relaxed text-gray-100">
-              Pero esta vez, la competición tenía un nuevo significado para él. No solo se trataba de ganar, sino de mostrar que la constancia, la disciplina y la determinación pueden superar cualquier obstáculo, incluso una pausa de seis años.
+              {t.newMeaningParagraph}
             </p>
           </div>
         </div>
@@ -6351,22 +6776,57 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           {/* Subtítulo pequeño arriba */}
           <div className="mb-4 text-center">
             <p className="text-xs md:text-sm font-bold uppercase tracking-[0.4em] text-red-600 opacity-80">
-              Scorus GYM
+               {t.gymSubtitle}
             </p>
           </div>
           
           {/* Título principal - cada palabra es fragmentable */}
           <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-tight tracking-tight text-center">
+            {(() => {
+              if (lang === 'es') {
+                return (
+                  <>
             <span className="block mb-2">
-              <span ref={philosophyWord1Ref} className="inline-block text-white will-change-transform mr-3">Mi</span>
-              <span ref={philosophyWord2Ref} className="inline-block text-red-600 will-change-transform">Filosofía:</span>
+                      <span ref={philosophyWord1Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord1}</span>
+                      <span ref={philosophyWord2Ref} className="inline-block text-red-600 will-change-transform">{t.philosophyWord2}</span>
             </span>
             <span className="block">
-              <span ref={philosophyWord3Ref} className="inline-block text-white will-change-transform mr-3">Más</span>
-              <span ref={philosophyWord4Ref} className="inline-block text-white will-change-transform mr-3">Allá</span>
-              <span ref={philosophyWord5Ref} className="inline-block text-white will-change-transform mr-3">del</span>
-              <span ref={philosophyWord6Ref} className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 will-change-transform">Fitness</span>
+                      <span ref={philosophyWord3Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord3}</span>
+                      <span ref={philosophyWord4Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord4}</span>
+                      <span ref={philosophyWord5Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord5}</span>
+                      <span ref={philosophyWord6Ref} className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 will-change-transform">{t.philosophyWord6}</span>
             </span>
+                  </>
+                );
+              } else if (lang === 'en') {
+                return (
+                  <>
+                    <span className="block mb-2">
+                      <span ref={philosophyWord1Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord1}</span>
+                      <span ref={philosophyWord2Ref} className="inline-block text-red-600 will-change-transform">{t.philosophyWord2}</span>
+                    </span>
+                    <span className="block">
+                      <span ref={philosophyWord3Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord3}</span>
+                      <span ref={philosophyWord4Ref} className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 will-change-transform">{t.philosophyWord4}</span>
+                    </span>
+                  </>
+                );
+              } else if (lang === 'fr') {
+                return (
+                  <>
+                    <span className="block mb-2">
+                      <span ref={philosophyWord1Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord1}</span>
+                      <span ref={philosophyWord2Ref} className="inline-block text-red-600 will-change-transform">{t.philosophyWord2}</span>
+                    </span>
+                    <span className="block">
+                      <span ref={philosophyWord3Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord3}</span>
+                      <span ref={philosophyWord4Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord4}</span>
+                      <span ref={philosophyWord5Ref} className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 will-change-transform">{t.philosophyWord5}</span>
+                    </span>
+                  </>
+                );
+              }
+            })()}
           </h2>
 
           {/* Línea decorativa inferior */}
@@ -6383,7 +6843,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
             <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
             <p className="text-base md:text-lg leading-relaxed text-gray-100">
-              Tras su exitosa carrera en el culturismo, Bernat fundó Scorus Fitness, un centro de entrenamiento diseñado para ofrecer:
+              {t.scorusFitnessParagraph}
             </p>
           </div>
         </div>
@@ -6402,9 +6862,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                     <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/>
                   </svg>
                 </div>
-                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">Entrenamiento</h3>
+                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">{t.trainingModuleTitle}</h3>
                 <div className="mb-4 w-16 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
-                <p className="text-sm md:text-base text-gray-300 leading-relaxed">Planes de entrenamiento<br/>personalizados</p>
+                <p className="text-sm md:text-base text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: t.trainingModuleDescription }} />
               </div>
             </div>
           </div>
@@ -6424,9 +6884,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                     <path d="M12 2C17.52 2 22 6.48 22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2ZM12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20ZM13 7H11V11H7V13H11V17H13V13H17V11H13V7Z"/>
                   </svg>
                 </div>
-                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">Nutrición</h3>
+                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">{t.nutritionModuleTitle}</h3>
                 <div className="mb-4 w-16 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
-                <p className="text-sm md:text-base text-gray-300 leading-relaxed">Nutrición enfocada en el<br/>rendimiento y la salud</p>
+                <p className="text-sm md:text-base text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: t.nutritionModuleDescription }} />
               </div>
             </div>
           </div>
@@ -6446,9 +6906,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                     <path d="M16 11C17.66 11 18.99 9.66 18.99 8C18.99 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM8 11C9.66 11 10.99 9.66 10.99 8C10.99 6.34 9.66 5 8 5C6.34 5 5 6.34 5 8C5 9.66 6.34 11 8 11ZM8 13C5.67 13 1 14.17 1 16.5V19H15V16.5C15 14.17 10.33 13 8 13ZM16 13C15.71 13 15.38 13.02 15.03 13.05C16.19 13.89 17 15.02 17 16.5V19H23V16.5C23 14.17 18.33 13 16 13Z"/>
                   </svg>
                 </div>
-                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">Seguimiento</h3>
+                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">{t.trackingModuleTitle}</h3>
                 <div className="mb-4 w-16 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
-                <p className="text-sm md:text-base text-gray-300 leading-relaxed">Acompañamiento real para<br/>lograr cambios duraderos</p>
+                <p className="text-sm md:text-base text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: t.trackingModuleDescription }} />
               </div>
             </div>
           </div>
@@ -6468,9 +6928,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                     <path d="M12 2L4 5V11C4 16.55 7.84 21.74 13 23C18.16 21.74 22 16.55 22 11V5L14 2L12 2ZM12 4.18L20 7V11C20 15.52 17.02 19.69 13 20.93C8.98 19.69 6 15.52 6 11V7L12 4.18ZM10.59 13.41L8.83 11.66L7.41 13.07L10.59 16.24L16.59 10.24L15.17 8.83L10.59 13.41Z"/>
                   </svg>
                 </div>
-                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">REBORN y Scorus<br/>Campus</h3>
+                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white" dangerouslySetInnerHTML={{ __html: t.rebornModuleTitle }} />
                 <div className="mb-4 w-16 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
-                <p className="text-sm md:text-base text-gray-300 leading-relaxed">Programas premium de<br/>transformación</p>
+                <p className="text-sm md:text-base text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: t.rebornModuleDescription }} />
               </div>
             </div>
           </div>
@@ -6490,9 +6950,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                     <path d="M13.5 5.5C14.59 5.5 15.5 4.58 15.5 3.5C15.5 2.38 14.59 1.5 13.5 1.5C12.39 1.5 11.5 2.38 11.5 3.5C11.5 4.58 12.39 5.5 13.5 5.5ZM9.89 19.38L10.89 15L13 17V23H15V15.5L12.89 13.5L13.5 10.5C14.79 12 16.79 13 19 13V11C17.09 11 15.5 10 14.69 8.58L13.69 7C13.29 6.4 12.69 6 12 6C11.69 6 11.5 6.08 11.19 6.08L6 8.28V13H8V9.58L9.79 8.88L8.19 17L3.29 16L2.89 18L9.89 19.38Z"/>
                   </svg>
                 </div>
-                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">ScorusGYM</h3>
+                <h3 className="mb-3 text-2xl md:text-3xl font-black uppercase tracking-tight text-white">{t.scorusGymModuleTitle}</h3>
                 <div className="mb-4 w-16 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
-                <p className="text-sm md:text-base text-gray-300 leading-relaxed">Un gimnasio privado con un<br/>enfoque exclusivo y sin distracciones</p>
+                <p className="text-sm md:text-base text-gray-300 leading-relaxed" dangerouslySetInnerHTML={{ __html: t.scorusGymModuleDescription }} />
               </div>
             </div>
           </div>
@@ -6506,7 +6966,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           <div className="relative rounded-3xl border border-white/10 bg-black/70 backdrop-blur-md shadow-[0_30px_100px_rgba(0,0,0,0.6)] px-6 py-8 md:px-12 md:py-12">
             <div className="absolute top-0 left-0 h-1.5 w-28 md:w-40 bg-red-600 rounded-tr-3xl rounded-tl-3xl" />
             <p className="text-base md:text-lg leading-relaxed text-gray-100">
-              Su enfoque es holístico, abarcando tanto el desarrollo físico como la mentalidad necesaria para mantener un estilo de vida saludable y sostenible.
+              {t.holisticParagraph}
             </p>
           </div>
         </div>
@@ -6669,12 +7129,17 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           {/* Subtítulo pequeño arriba */}
           <div className="mb-4 text-center">
             <p className="text-xs md:text-sm font-bold uppercase tracking-[0.3em] text-white opacity-70">
-              Scorus GYM
+              {t.gymSubtitle}
             </p>
           </div>
           
           {/* Título principal - cada palabra es fragmentable */}
           <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black uppercase leading-tight tracking-tight text-center">
+            {(() => {
+              const title = t.triumphTitle;
+              if (lang === 'es') {
+                return (
+                  <>
             <span className="block">
               <span ref={triumphTitle1Ref} className="inline-block text-red-600 will-change-transform mr-3" style={{ opacity: 1 }}>El Regreso</span>
               <span ref={triumphTitle2Ref} className="inline-block text-white will-change-transform" style={{ opacity: 1 }}>Triunfal:</span>
@@ -6685,6 +7150,34 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
               <span ref={triumphTitle5Ref} className="inline-block will-change-transform mr-3" style={{ opacity: 1 }}>que</span>
               <span ref={triumphTitle6Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>Nunca</span>
             </span>
+                  </>
+                );
+              } else if (lang === 'en') {
+                return (
+                  <>
+                    <span className="block">
+                      <span ref={triumphTitle1Ref} className="inline-block text-red-600 will-change-transform mr-3" style={{ opacity: 1 }}>The Triumphant</span>
+                      <span ref={triumphTitle2Ref} className="inline-block text-white will-change-transform" style={{ opacity: 1 }}>Return:</span>
+                    </span>
+                    <span className="block text-white">
+                      <span ref={triumphTitle3Ref} className="inline-block will-change-transform mr-3" style={{ opacity: 1 }}>Stronger</span>
+                      <span ref={triumphTitle4Ref} className="inline-block will-change-transform mr-3" style={{ opacity: 1 }}>Than</span>
+                      <span ref={triumphTitle5Ref} className="inline-block will-change-transform mr-3" style={{ opacity: 1 }}>Ever</span>
+                    </span>
+                  </>
+                );
+              } else if (lang === 'fr') {
+                return (
+                  <>
+                    <span className="block text-white">
+                      <span ref={triumphTitle1Ref} className="inline-block will-change-transform mr-3" style={{ opacity: 1 }}>Le</span>
+                      <span ref={triumphTitle2Ref} className="inline-block text-red-600 will-change-transform mr-3" style={{ opacity: 1 }}>Retour</span>
+                      <span ref={triumphTitle3Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>Triomphal</span>
+                    </span>
+                  </>
+                );
+              }
+            })()}
           </h2>
         </div>
       </div>
@@ -6692,14 +7185,14 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       {/* Contenido inicial (Bernat Scorus) */}
       <div className="container relative z-10 max-w-3xl px-4 text-center select-none">
         <h2 className="mb-4 text-5xl md:text-7xl font-black uppercase tracking-tight leading-none">
-          <span ref={titleLeftRef} className="inline-block will-change-transform">Bernat </span>
-          <span ref={titleRightRef} className="inline-block text-red-600 will-change-transform">Scorus</span>
+          <span ref={titleLeftRef} className="inline-block will-change-transform">{t.introName.split(' ')[0]} </span>
+          <span ref={titleRightRef} className="inline-block text-red-600 will-change-transform">{t.introName.split(' ')[1]}</span>
         </h2>
         <h3 ref={subtitleRef} className="mb-6 text-sm md:text-base font-semibold uppercase tracking-widest text-red-500 will-change-transform">
-          De la Superación Personal a la Excelencia en el Fitness
+          {t.introSubtitle}
         </h3>
         <p ref={bodyRef} className="mx-auto max-w-2xl text-sm md:text-lg leading-relaxed text-gray-200 will-change-transform">
-          Mi nombre es Bernat Richard Scorus y llevo más de 25 años ayudando a personas a transformar sus cuerpos y mejorar su rendimiento físico. Desde muy joven supe que el culturismo y el fitness eran mi verdadera pasión, y a lo largo de mi carrera he logrado convertirme en Campeón del Mundo de Culturismo, Subcampeón de Mister Universo y Subcampeón de Mr. Olympia Masters Amateur.
+          {t.introBody}
         </p>
       </div>
 
@@ -6707,15 +7200,16 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       <div ref={nextTitleBlockRef} className="fixed inset-0 z-[60] flex items-center justify-center pointer-events-none">
         <div ref={nextTitleInnerRef} className="container max-w-5xl px-4 md:px-8 will-change-transform">
           <h2 ref={nextTitleRef} className="text-center text-3xl md:text-5xl font-black uppercase tracking-tight text-white will-change-transform">
-            <span className="flip-up inline-block">El</span>
-            <span className="flip-down inline-block ml-2">Sacrificio</span>
-            <span className="flip-up inline-block ml-3">Infancia</span>
-            <span className="flip-down inline-block ml-3">y</span>
-            <span className="flip-up inline-block ml-3 text-transparent bg-clip-text [background-image:linear-gradient(90deg,rgba(229,9,20,1),rgba(229,9,20,1))]">Primeros</span>
-            <span className="flip-down inline-block ml-2 text-transparent bg-clip-text [background-image:linear-gradient(90deg,rgba(229,9,20,1),rgba(229,9,20,1))]">Pasos</span>
-            <span className="flip-up inline-block ml-2 text-transparent bg-clip-text [background-image:linear-gradient(90deg,rgba(229,9,20,1),rgba(229,9,20,1))]">en</span>
-            <span className="flip-down inline-block ml-2 text-transparent bg-clip-text [background-image:linear-gradient(90deg,rgba(229,9,20,1),rgba(229,9,20,1))]">el</span>
-            <span className="flip-up inline-block ml-2 text-transparent bg-clip-text [background-image:linear-gradient(90deg,rgba(229,9,20,1),rgba(229,9,20,1))]">Deporte</span>
+            {t.titleChildhood.split(' ').map((word, index) => {
+              const isHighlighted = index >= 4; // Resaltar a partir de la palabra "Primeros"
+              const animClass = index % 2 === 0 ? 'flip-up' : 'flip-down';
+              const colorClass = isHighlighted ? 'text-transparent bg-clip-text [background-image:linear-gradient(90deg,rgba(229,9,20,1),rgba(229,9,20,1))]' : '';
+              return (
+                <span key={index} className={`${animClass} inline-block ${index > 0 ? (index === 3 || index === 4 ? 'ml-3' : 'ml-2') : ''} ${colorClass}`}>
+                  {word}
+                </span>
+              );
+            })}
           </h2>
           <div className="mt-4 max-w-3xl mx-auto text-base md:text-lg leading-relaxed text-gray-100 text-left">
             <span ref={nextBodyRef}></span>
@@ -6736,12 +7230,17 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
           {/* Subtítulo pequeño */}
           <div className="mb-4 text-center">
             <p className="text-xs md:text-sm font-bold uppercase tracking-[0.4em] text-red-600 opacity-80">
-              Bernat Scorus
+              {t.introName}
             </p>
           </div>
           
           {/* Título principal */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black uppercase leading-tight tracking-tight text-center">
+            {(() => {
+              const title = t.newH2Title;
+              if (lang === 'es') {
+                return (
+                  <>
             <span className="block mb-2">
               <span className="text-red-600">Entrenador Personal</span>
             </span>
@@ -6756,6 +7255,47 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
               <span className="text-white">de </span>
               <span className="text-red-600">Culturismo</span>
             </span>
+                  </>
+                );
+              } else if (lang === 'en') {
+                return (
+                  <>
+                    <span className="block mb-2">
+                      <span className="text-red-600">Personal Trainer</span>
+                    </span>
+                    <span className="block mb-2">
+                      <span className="text-white">in Alicante</span>
+                    </span>
+                    <span className="block">
+                      <span className="text-white">and </span>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600">World Bodybuilding</span>
+                    </span>
+                    <span className="block">
+                      <span className="text-red-600">Champion</span>
+                    </span>
+                  </>
+                );
+              } else if (lang === 'fr') {
+                return (
+                  <>
+                    <span className="block mb-2">
+                      <span className="text-red-600">Entraîneur Personnel</span>
+                    </span>
+                    <span className="block mb-2">
+                      <span className="text-white">à Alicante</span>
+                    </span>
+                    <span className="block">
+                      <span className="text-white">et </span>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600">Champion du Monde</span>
+                    </span>
+                    <span className="block">
+                      <span className="text-white">de </span>
+                      <span className="text-red-600">Culturisme</span>
+                    </span>
+                  </>
+                );
+              }
+            })()}
           </h2>
 
           {/* Línea decorativa inferior */}
@@ -6845,7 +7385,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
                 <span className={`text-[10px] md:text-xl font-black uppercase tracking-wider ${activeTab === 'progresion' ? 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]' : 'text-gray-300'}`}>
-                  Progresión
+                   {t.tabProgresionLabel}
                 </span>
               </div>
           </button>
@@ -6868,7 +7408,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                 </svg>
                 <span className={`text-[10px] md:text-xl font-black uppercase tracking-wider ${activeTab === 'workout' ? 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]' : 'text-gray-300'}`}>
-                  Workout
+                   {t.tabWorkoutLabel}
                 </span>
               </div>
           </button>
@@ -6891,7 +7431,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
                 <span className={`text-[10px] md:text-xl font-black uppercase tracking-wider ${activeTab === 'nutricion' ? 'text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]' : 'text-gray-300'}`}>
-                  Nutrición
+                   {t.tabNutricionLabel}
                 </span>
               </div>
           </button>
@@ -6915,10 +7455,10 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
             <div className="absolute top-1/2 -translate-y-1/2 right-0 w-1 h-20 md:h-48 bg-gradient-to-b from-transparent via-red-600 to-transparent" />
             <h2 className="mb-3 md:mb-6 text-center text-2xl md:text-5xl lg:text-6xl font-black uppercase leading-tight tracking-tight">
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-red-500 to-white">
-                Transforma tu Vida
+                {t.ctaTitle}
               </span>
               <span className="block mt-1 md:mt-2 text-red-600">
-                con Scorus Fitness
+                {t.ctaSubtitle}
               </span>
             </h2>
             <div className="mb-4 md:mb-8 flex justify-center">
@@ -6926,21 +7466,21 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
             </div>
             <div className="mb-4 md:mb-10 max-w-3xl mx-auto">
               <p className="text-sm md:text-xl lg:text-2xl text-center leading-relaxed text-gray-100 font-medium">
-                Si buscas un <span className="text-red-500 font-bold">cambio real</span>, estoy aquí para guiarte. Ya sea que quieras <span className="text-white font-semibold">perder grasa</span>, <span className="text-white font-semibold">ganar músculo</span> o <span className="text-white font-semibold">prepararte para una competición</span>, en Scorus Fitness encontrarás las herramientas y el apoyo que necesitas.
+                {t.ctaDescription}
               </p>
             </div>
             <div className="flex flex-col items-center gap-3 md:gap-4">
               <p className="text-base md:text-2xl text-white font-bold text-center px-2">
-                Empieza hoy. <span className="text-red-500">Contacta conmigo</span> y transforma tu cuerpo y tu mente.
+                {t.ctaText}
               </p>
               <a 
-                href="/es/contacto" 
+                href={t.contactUrl} 
                 className="pointer-events-auto group relative inline-flex items-center justify-center px-6 py-3 md:px-14 md:py-6 text-base md:text-2xl font-black uppercase tracking-wider text-white transition-all duration-300 hover:scale-105"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 rounded-xl transition-all duration-300" />
                 <div className="absolute inset-0 rounded-xl border-2 border-red-500/50 group-hover:border-red-400 transition-all duration-300" />
                 <span className="relative z-10 flex items-center gap-2 md:gap-3">
-                  ¡Contáctame Ahora!
+                  {t.ctaButton}
                   <svg className="w-5 h-5 md:w-7 md:h-7 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>

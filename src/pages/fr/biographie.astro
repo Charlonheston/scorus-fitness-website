@@ -1,82 +1,70 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import HeroSection from '@components/biography/HeroSection.astro';
-import ScrollSection from '@components/biography/ScrollSection.astro';
-import TimelineSection from '@components/biography/TimelineSection.astro';
-import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import Layout from '@layouts/Layout.astro';
+import BioIntro from '@components/biography/BioIntro.tsx';
 
-const currentLang = 'fr';
+const title = 'Biographie | Bernat Scorus';
+const description = 'De la progression personnelle à l\'excellence en fitness. Scrollytelling.';
 
-const timelineEvents = [
-  { year: '1979', title: 'Le Début', description: 'Je suis né le 6 juillet 1979 à Marosvásárhely, Transylvanie. Mon enfance a été entourée d\'athlètes de haut niveau, ce qui a éveillé ma passion pour le sport dès le plus jeune âge.' },
-  { year: '1994', title: 'La Découverte', description: 'J\'ai assisté à mon premier événement de culturisme. Voir des légendes comme Flex Wheeler, Milos Sarcev et Robby Robinson en direct a changé ma vie pour toujours.' },
-  { year: '2000', title: 'Début de Compétition', description: 'J\'ai commencé à concourir professionnellement. Malgré ceux qui disaient que je n\'avais pas la génétique pour cela, j\'ai décidé de le prouver par le travail et la discipline.' },
-  { year: '2006', title: 'Champion du Monde', description: 'J\'ai remporté le titre de Champion du Monde NABBA dans les catégories Poids Lourd et Absolu. Le sacrifice et la dédicationont finalement payé.' },
-  { year: '2012', title: 'La Pause', description: 'J\'ai décidé de faire une pause pour me concentrer sur la famille. Bien que mon rythme ait changé, je n\'ai jamais complètement abandonné la musculation.' },
-  { year: '2018', title: 'Le Retour', description: 'Mon fils m\'a défié de concourir à nouveau. Après 6 ans d\'absence, je suis revenu sur les podiums avec plus de force que jamais, gagnant plusieurs médailles.' }
-];
-
-const sections = [
-  { videoMp4: '/videos/biography/bernat-intro.mp4', videoWebm: '/videos/biography/bernat-intro.webm', title: 'Enfance', subtitle: 'Origines', content: `Je suis né le 6 juillet 1979 à Marosvásárhely, Transylvanie. Ma famille était une famille d'athlètes de haut niveau, où le sport n'était pas seulement une activité, c'était une philosophie de vie.\n\nDès mon jeune âge, j'ai pratiqué la natation, la gymnastique, le karaté, le football, le basket-ball et l'athlétisme. Mais c'était le corps, la musculature bien définie, qui me fascinait. Regarder les films d'Arnold Schwarzenegger, Sylvester Stallone et Jean-Claude Van Damme m'a fait rêver de construire un physique extraordinaire.`, index: 0 },
-  { videoMp4: '/videos/biography/bernat-training.mp4', videoWebm: '/videos/biography/bernat-training.webm', title: 'Découverte', subtitle: '1994 - Un Moment Qui a Tout Changé', content: `Cet premier événement de culturisme a été révélateur. Voir des légendes comme Flex Wheeler, Milos Sarcev et Robby Robinson en direct n'était pas seulement inspirant, c'était transformateur.\n\nÀ ce moment, j'ai su exactement ce que je voulais faire de ma vie : me consacrer complètement au culturisme et au développement physique.\n\nMa famille et mes amis m'ont dit que je n'avais pas une génétique idéale (je ne pesais que 50 kg), mais cela ne m'a pas arrêté. Je savais que l'effort, la persévérance et la bonne mentalité pouvaient surmonter tout obstacle.`, index: 1 },
-  { videoMp4: '/videos/biography/bernat-competition.mp4', videoWebm: '/videos/biography/bernat-competition.webm', title: 'La Lutte', subtitle: '2000-2006 - Années de Dévouement Extrême', content: `J'ai commencé à concourir professionnellement en 2000. Ce qui a suivi, ce sont des années d'entraînement acharné, une nutrition stricte et un sacrifice constant.\n\nChaque kilogramme de muscle gagné était une victoire. Chaque compétition était une leçon. Chaque défaite me rendait plus fort.\n\nEn 2006, j'ai réalisé l'impossible : je suis devenu Champion du Monde NABBA dans les catégories Poids Lourd et Absolu. Ce moment a validé tous les sacrifices, toute la douleur, tout le dévouement.`, index: 2 },
-  { videoMp4: '/videos/biography/bernat-focus.mp4', videoWebm: '/videos/biography/bernat-focus.webm', title: 'Famille', subtitle: '2012 - Une Nouvelle Priorité', content: `En 2012, j'ai décidé de faire une pause. La compétition avait été ma vie, mais la famille la méritait aussi.\n\nJe suis devenu père à temps plein. Mon physique a changé, ma mentalité a changé, mais une chose n'a jamais changé : le feu de la compétition qui brûlait en moi.\n\nPendant six ans, j'ai gardé la musculation comme partie de ma vie, mais ce n'était pas la priorité. Je construisais une famille, créais des souvenirs, étais le père dont mes enfants avaient besoin.`, index: 3 },
-  { videoMp4: '/videos/biography/bernat-gym.mp4', videoWebm: '/videos/biography/bernat-gym.webm', title: 'Le Retour', subtitle: '2018 - Plus Fort Que Jamais', content: `En 2018, mon fils m'a regardé et m'a demandé : "Pourquoi tu ne compètes pas à nouveau, Papa ? Compète !"\n\nCes paroles ont été le coup de pouce dont j'avais besoin. Après six ans d'absence, je suis revenu sur les podiums, et je l'ai fait par la grande porte.\n\nJ'ai remporté des médailles, j'ai été reconnu à nouveau, mais plus important : j'ai prouvé que l'âge, le temps et les obstacles ne sont pas des limites quand on a de la discipline et de la détermination.\n\nDepuis, j'ai voyagé en Inde, Dubaï et Singapour, partageant mon savoir-faire en tant qu'entraîneur et mentor dans des académies internationales.`, index: 4 }
-];
+const videoMp4 = '/videos/biography/intro.mp4';
+const videoWebm = '/videos/biography/intro.webm';
 ---
 
-<Layout
-  title="Biographie - Bernat Scorus | Scorus Fitness"
-  description="L'histoire épique de Bernat Scorus, champion du monde de culturisme avec plus de 25 ans d'expérience"
->
-  <HeroSection videoMp4="/videos/biography/bernat-intro.mp4" videoWebm="/videos/biography/bernat-intro.webm" />
-  {sections.map((section) => (<ScrollSection videoMp4={section.videoMp4} videoWebm={section.videoWebm} title={section.title} subtitle={section.subtitle} content={section.content} index={section.index} />))}
-  <TimelineSection events={timelineEvents} />
-  <section class="relative py-24 md:py-32 bg-black">
-    <div class="container relative z-10 px-4 md:px-8">
-      <div class="mb-16 md:mb-24 text-center">
-        <p class="mb-4 text-xs md:text-sm font-semibold uppercase tracking-widest text-red-500">Ma Philosophie</p>
-        <h2 class="text-3xl md:text-5xl lg:text-6xl font-black uppercase leading-tight tracking-tighter text-white">Les <span class="text-red-600">3 Piliers</span></h2>
-      </div>
-      <div class="mx-auto grid max-w-6xl gap-8 md:gap-12 md:grid-cols-3">
-        {[{ title: 'Discipline', description: 'La discipline est l\'acte de faire ce que vous ne voulez pas faire pour être qui vous voulez être. Je m\'entraîne chaque jour, sans excuses.', icon: '💪' }, { title: 'Engagement Total', description: 'Quand vous vous engagez avec moi, vous obtenez 100% de moi. Votre transformation est ma mission. Ce n\'est pas un commerce, c\'est une vocation.', icon: '🎯' }, { title: 'Résultats Réels', description: 'Je ne promets pas de miracles. Je promets du travail acharné, une méthodologie éprouvée et des changements durables qui transformeront votre vie.', icon: '🏆' }].map((pillar) => (<div class="group rounded-lg bg-gray-900/50 p-8 md:p-10 backdrop-blur-sm border border-gray-800 transition-all duration-300 hover:border-red-600/50 hover:bg-gray-900/80"><div class="mb-6 text-5xl md:text-6xl">{pillar.icon}</div><h3 class="mb-4 text-2xl md:text-3xl font-black uppercase text-white">{pillar.title}</h3><p class="text-sm md:text-base leading-relaxed text-gray-300">{pillar.description}</p></div>))}
-      </div>
-    </div>
-  </section>
-  <section class="relative py-24 md:py-32 bg-gradient-to-b from-black to-gray-900">
-    <div class="container relative z-10 px-4 md:px-8">
-      <div class="mx-auto grid max-w-5xl gap-8 md:gap-12 sm:grid-cols-2 lg:grid-cols-4">
-        {[{ value: '25+', label: 'Ans d\'Expérience' }, { value: '500+', label: 'Clients Transformés' }, { value: '15+', label: 'Titres Remportés' }, { value: '5', label: 'Continents' }].map((stat) => (<div class="text-center stat-counter"><div class="mb-4 text-4xl md:text-5xl lg:text-6xl font-black text-red-600">{stat.value}</div><p class="text-sm md:text-base font-semibold uppercase tracking-widest text-gray-400">{stat.label}</p></div>))}
-      </div>
-    </div>
-  </section>
-  <section class="relative py-24 md:py-32 bg-black">
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-red-600/10 blur-3xl"></div>
-    </div>
-    <div class="container relative z-10 px-4 md:px-8">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-6 text-3xl md:text-5xl lg:text-6xl font-black uppercase leading-tight tracking-tighter text-white">Votre <span class="text-red-600">Transformation</span> Commence Aujourd\'hui</h2>
-        <p class="mb-12 text-base md:text-lg leading-relaxed text-gray-300">J'ai passé 25 ans à transformer des corps et des esprits. Maintenant c'est votre tour. Peu importe où vous êtes ou quels sont vos objectifs, j'ai les connaissances, l'expérience et la passion pour vous guider vers votre meilleure version.</p>
-        <div class="flex flex-col gap-4 sm:flex-row justify-center">
-          <ButtonPrimary href={`/${currentLang}/contact`} text="Commencer Maintenant" icon="zap" size="xl" variant="glow" />
-          <ButtonPrimary href={`/${currentLang}/services/entrainement-personnel`} text="Voir Services" icon="arrow" variant="glow" size="xl" />
-        </div>
-      </div>
-    </div>
-  </section>
+<Layout title={title} description={description}>
+  <BioIntro 
+    client:only="react" 
+    lang="fr"
+    videoMp4={videoMp4} 
+    videoWebm={videoWebm}
+    framesPattern="/images/about/biography/frames/Timeline 1_{index}.jpg"
+    framesCount={242}
+    frames2Pattern="/images/about/biography/training-frames/Timeline 1_{i}.jpg"
+    frames2Count={301}
+    frames3Pattern="/images/about/biography/challenge-frames/Timeline 1_{index}.webp"
+    frames3Count={242}
+    frames3Start={86400}
+    frames4Pattern="/images/about/biography/final-frames/Timeline 1_{index}.webp"
+    frames4Count={241}
+    frames4Start={86400}
+    frames5Pattern="/images/about/biography/legacy-frames/Timeline 1_{index}.webp"
+    frames5Count={192}
+    frames5Start={86400}
+    frames6Pattern="/images/about/biography/epilogue-frames/Timeline 1_{index}.webp"
+    frames6Count={242}
+    frames6Start={86400}
+  />
+  <!-- Altura extra responsive para cubrir todo el scrollytelling -->
+  <div id="bio-scroll-spacer"></div>
+  <!-- Espacio para el CTA fijo, permite que el footer aparezca debajo -->
+  <div id="bio-cta-spacer" class="relative bg-black"></div>
 </Layout>
 
-<style>.stat-counter { opacity: 0; transform: translateY(40px); }</style>
-<script>
-  import gsap from 'gsap';
-  import ScrollTrigger from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-  document.addEventListener('DOMContentLoaded', () => {
-    const statCounters = document.querySelectorAll('.stat-counter');
-    statCounters.forEach((counter, idx) => {
-      gsap.fromTo(counter, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: idx * 0.1, scrollTrigger: { trigger: counter, start: 'top 80%', end: 'top 50%', scrub: 0.5 } });
-    });
-  });
-</script>
+<style is:inline>
+  html, body { background-color: #000; }
+  /* Spacer responsive: Incluye fade out final de 2 notches */
+  #bio-scroll-spacer { height: 6200vh; }
+  @media (min-width: 768px) {
+    #bio-scroll-spacer { height: 5030vh; }
+  }
+  @media (min-width: 1024px) {
+    #bio-scroll-spacer { height: 4570vh; }
+  }
+  
+  /* Espacio para el CTA fijo - permite que el footer sea visible */
+  #bio-cta-spacer { 
+    height: 100vh; 
+    min-height: 600px;
+  }
+  @media (min-width: 768px) {
+    #bio-cta-spacer { 
+      height: 90vh;
+      min-height: 550px;
+    }
+  }
+  @media (min-width: 1024px) {
+    #bio-cta-spacer { 
+      height: 80vh;
+      min-height: 500px;
+    }
+  }
+</style>
 
