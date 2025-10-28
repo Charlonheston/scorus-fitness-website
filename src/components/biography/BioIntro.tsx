@@ -333,6 +333,71 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     // Cita: una sola timeline 10–16% (entra y sale) en desktop; en móvil la extendemos unos “snaps” más
     if (quoteRef.current) gsap.set(quoteRef.current, { y: '-120vh', opacity: 1 });
     const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    
+    // ================= LIMITADOR DE VELOCIDAD DE SCROLL EN MÓVIL =================
+    // Previene el "derrape" cuando se hace scroll rápido en móvil
+    if (isMobile) {
+      let isScrolling = false;
+      let scrollVelocity = 0;
+      let lastScrollY = window.scrollY;
+      let lastTime = Date.now();
+      let rafId: number;
+
+      const smoothScroll = () => {
+        const currentScrollY = window.scrollY;
+        const currentTime = Date.now();
+        const deltaY = currentScrollY - lastScrollY;
+        const deltaTime = currentTime - lastTime;
+
+        // Calcular velocidad de scroll (px/ms)
+        scrollVelocity = Math.abs(deltaY / deltaTime);
+
+        // Si la velocidad es muy alta (> 3 px/ms), aplicar fricción
+        if (scrollVelocity > 3 && !isScrolling) {
+          isScrolling = true;
+          
+          // Aplicar fricción progresiva
+          const friction = 0.92; // Factor de fricción (0-1, menor = más fricción)
+          let velocity = deltaY;
+          
+          const applyFriction = () => {
+            velocity *= friction;
+            
+            if (Math.abs(velocity) > 0.5) {
+              window.scrollBy(0, velocity);
+              rafId = requestAnimationFrame(applyFriction);
+            } else {
+              isScrolling = false;
+            }
+          };
+          
+          // Cancelar scroll nativo e iniciar scroll con fricción
+          window.scrollTo(0, lastScrollY);
+          applyFriction();
+        }
+
+        lastScrollY = currentScrollY;
+        lastTime = currentTime;
+      };
+
+      const scrollHandler = () => {
+        if (!isScrolling) {
+          smoothScroll();
+        }
+      };
+
+      window.addEventListener('scroll', scrollHandler, { passive: true });
+      
+      // Cleanup
+      const cleanupScrollLimiter = () => {
+        window.removeEventListener('scroll', scrollHandler);
+        if (rafId) cancelAnimationFrame(rafId);
+      };
+      
+      // Guardar cleanup para el return final
+      window.addEventListener('beforeunload', cleanupScrollLimiter);
+    }
+    
     const quoteEndFactor = isMobile ? 0.20 : 0.16; // valores más conservadores
     const quoteTl = gsap.timeline({
       scrollTrigger: {
