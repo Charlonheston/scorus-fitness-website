@@ -4115,8 +4115,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     currentScrollPx += FINAL_HIDE_PX;
 
     // ================= CTA SEGUIR EL SCROLL NATURALMENTE =================
-    // Después de que el CTA aparece, llegamos casi inmediatamente al footer con muy poco scroll
-    const CTA_STATIC_WAIT = NOTCH_PX * 0.3; // Apenas 0.3 notchs - llegada casi instantánea al footer
+    // Después de que el CTA aparece, casi inmediatamente se llega al footer
+    const CTA_STATIC_WAIT = NOTCH_PX * 0.3; // Solo 0.3 notchs - llegada casi instantánea al footer
     currentScrollPx += CTA_STATIC_WAIT; // Añadir el espacio de espera al scroll total
     const ctaMoveStartPx = geometricClosureStartPx + GEOMETRIC_CLOSURE_PX + CTA_STATIC_WAIT;
     
