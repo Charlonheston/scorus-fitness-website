@@ -4345,8 +4345,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, dx, dy, sw, sh);
     };
 
-    // Submuestreo móvil: saltar frames (p. ej., x3)
-    const frameStepMobile2 = 4;
+    // Submuestreo móvil: saltar frames más agresivamente
+    const frameStepMobile2 = 10;
     const effectiveFrameStep2 = isMobile ? frameStepMobile2 : 1;
     const effectiveFrames2Count = frames2Count ? Math.floor(((frames2Count - 1) / effectiveFrameStep2)) + 1 : undefined;
 
@@ -4369,7 +4369,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround2 = (center: number) => {
       if (!frames2Count) return;
-      const radius = 8;
+      const radius = isMobile ? 3 : 8; // Reducir precarga en móvil
       for (let i = Math.max(1, center - radius); i <= Math.min(frames2Count, center + radius); i++) {
         if (!imageCache2Ref.current.has(i)) {
           loadFrame2(i).catch(() => {});
@@ -4502,7 +4502,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, dx, dy, sw, sh);
     };
 
-    const frameStepMobile3 = 6; // salto agresivo en móvil
+    // Mobile-webp de challenge-frames están cada 3 frames, usamos step 12 (múltiplo de 3)
+    const frameStepMobile3 = 12; // salto agresivo en móvil optimizado para mobile-webp
     const effectiveFrameStep3 = isMobile ? frameStepMobile3 : 1;
     const effectiveFrames3Count = frames3Count ? Math.floor(((frames3Count - 1) / effectiveFrameStep3)) + 1 : undefined;
 
@@ -4527,7 +4528,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround3 = (center: number) => {
       if (!frames3Count) return;
-      const radius = 8;
+      const radius = isMobile ? 3 : 8; // Reducir precarga en móvil
       for (let i = Math.max(1, center - radius); i <= Math.min(frames3Count, center + radius); i++) {
         if (!imageCache3Ref.current.has(i)) {
           loadFrame3(i).catch(() => {});
@@ -4593,6 +4594,13 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const enabled3 = await tryEnableCanvas3();
       if (enabled3) {
         setupCanvas3Scrub();
+        // Liberar memoria de canvas anteriores en móvil
+        if (isMobile) {
+          setTimeout(() => {
+            imageCacheRef.current.clear();
+            imageCache2Ref.current.clear();
+          }, 2000);
+        }
       }
     })();
 
@@ -4656,7 +4664,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, 0, 0, iw, ih, sx, sy, sw, sh);
     };
 
-    const frameStepMobile4 = 6; // salto agresivo en móvil
+    // Mobile-webp de final-frames están cada 6 frames, usamos step 12 (múltiplo de 6)
+    const frameStepMobile4 = 12; // salto agresivo en móvil optimizado para mobile-webp
     const effectiveFrameStep4 = isMobile ? frameStepMobile4 : 1;
     const effectiveFrames4Count = frames4Count ? Math.floor(((frames4Count - 1) / effectiveFrameStep4)) + 1 : undefined;
 
@@ -4681,7 +4690,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround4 = (center: number) => {
       if (!frames4Count) return;
-      const radius = 8;
+      const radius = isMobile ? 3 : 8; // Reducir precarga en móvil
       for (let i = Math.max(1, center - radius); i <= Math.min(frames4Count, center + radius); i++) {
         if (!imageCache4Ref.current.has(i)) {
           loadFrame4(i).catch(() => {});
@@ -4747,6 +4756,13 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const enabled4 = await tryEnableCanvas4();
       if (enabled4) {
         setupCanvas4Scrub();
+        // Liberar memoria de canvas anteriores en móvil
+        if (isMobile) {
+          setTimeout(() => {
+            imageCache2Ref.current.clear();
+            imageCache3Ref.current.clear();
+          }, 2000);
+        }
       }
     })();
 
@@ -4808,7 +4824,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, 0, 0, iw, ih, sx, sy, sw, sh);
     };
 
-    const frameStepMobile5 = 6; // salto agresivo en móvil
+    // Mobile-webp de legacy-frames están cada 6 frames, usamos step 12 (múltiplo de 6)
+    const frameStepMobile5 = 12; // salto agresivo en móvil optimizado para mobile-webp
     const effectiveFrameStep5 = isMobile ? frameStepMobile5 : 1;
     const effectiveFrames5Count = frames5Count ? Math.floor(((frames5Count - 1) / effectiveFrameStep5)) + 1 : undefined;
 
@@ -4833,7 +4850,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround5 = (center: number) => {
       if (!frames5Count) return;
-      const radius = 8;
+      const radius = isMobile ? 3 : 8; // Reducir precarga en móvil
       for (let i = Math.max(1, center - radius); i <= Math.min(frames5Count, center + radius); i++) {
         if (!imageCache5Ref.current.has(i)) {
           loadFrame5(i).catch(() => {});
@@ -4899,6 +4916,13 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const enabled5 = await tryEnableCanvas5();
       if (enabled5) {
         setupCanvas5Scrub();
+        // Liberar memoria de canvas anteriores en móvil
+        if (isMobile) {
+          setTimeout(() => {
+            imageCache3Ref.current.clear();
+            imageCache4Ref.current.clear();
+          }, 2000);
+        }
       }
     })();
 
@@ -4960,7 +4984,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, 0, 0, iw, ih, sx, sy, sw, sh);
     };
 
-    const frameStepMobile6 = 6; // salto agresivo en móvil
+    // Mobile-webp de epilogue-frames están cada 6 frames, usamos step 12 (múltiplo de 6)
+    const frameStepMobile6 = 12; // salto agresivo en móvil optimizado para mobile-webp
     const effectiveFrameStep6 = isMobile ? frameStepMobile6 : 1;
     const effectiveFrames6Count = frames6Count ? Math.floor(((frames6Count - 1) / effectiveFrameStep6)) + 1 : undefined;
 
@@ -4985,7 +5010,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround6 = (center: number) => {
       if (!frames6Count) return;
-      const radius = 8;
+      const radius = isMobile ? 3 : 8; // Reducir precarga en móvil
       for (let i = Math.max(1, center - radius); i <= Math.min(frames6Count, center + radius); i++) {
         if (!imageCache6Ref.current.has(i)) {
           loadFrame6(i).catch(() => {});
@@ -5051,6 +5076,13 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       const enabled6 = await tryEnableCanvas6();
       if (enabled6) {
         setupCanvas6Scrub();
+        // Liberar memoria de canvas anteriores en móvil
+        if (isMobile) {
+          setTimeout(() => {
+            imageCache4Ref.current.clear();
+            imageCache5Ref.current.clear();
+          }, 2000);
+        }
       }
     })();
 
@@ -5153,8 +5185,8 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctx.drawImage(img, dx, dy, sw, sh);
     };
 
-    // Submuestreo móvil: saltar frames (p. ej., x3)
-    const frameStepMobile = 4;
+    // Submuestreo móvil: saltar frames más agresivamente
+    const frameStepMobile = 10;
     const effectiveFrameStep = isMobileDevice ? frameStepMobile : 1;
     const effectiveFramesCount = framesCount ? Math.floor(((framesCount - 1) / effectiveFrameStep)) + 1 : undefined;
 
@@ -5177,7 +5209,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     const preloadAround = (center: number) => {
       if (!framesCount) return;
-      const radius = 8;
+      const radius = isMobileDevice ? 3 : 8; // Reducir precarga en móvil
       for (let i = Math.max(1, center - radius); i <= Math.min(framesCount, center + radius); i++) {
         if (!imageCacheRef.current.has(i)) {
           loadFrame(i).catch(() => {});
