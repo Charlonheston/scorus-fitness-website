@@ -1,128 +1,248 @@
 ---
 /**
- * Página de Academia - Diseño Minimalista
+ * Page Academia - Diseño Premium Negro/Blanco/Rojo
+ * Página de índice de academia en español con componentes reutilizables
  */
 
 import Layout from '@/layouts/Layout.astro';
+import ServicesPageHeader from '@components/sections/ServicesPageHeader.astro';
+import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+
+const academyData = {
+  seo: {
+    title: "Academia | Scorus Fitness",
+    description: "Programas de formación y educación profesional en fitness. Talleres, seminarios, video cursos y RE-BORN. Aprende de un campeón mundial."
+  },
+  header: {
+    tagline: "Scorus Academia",
+    title: "FORMACIÓN Y EDUCACIÓN",
+    titleHighlight: "PARA PROFESIONALES",
+    subtitle: "Programas intensivos de formación diseñados para transformar tu conocimiento y práctica en el mundo del fitness y el entrenamiento profesional."
+  },
+  programs: [
+    {
+      title: 'Talleres',
+      href: '/es/servicios/talleres',
+      iconType: 'users',
+      description: '10 Talleres prácticos especializados en culturismo y fitness con sesiones teóricas y prácticas.',
+      features: [
+        'Entrenamiento fundamental',
+        'Nutrición para culturismo',
+        'Suplementación inteligente',
+        'Técnicas avanzadas de entrenamiento'
+      ],
+    },
+    {
+      title: 'Seminarios',
+      href: '/es/academia/seminarios',
+      iconType: 'presentation',
+      description: '14 seminarios especializados presenciales y online sobre entrenamiento, nutrición y bienestar.',
+      features: [
+        'Modalidad presencial y online',
+        'Formación en 3 idiomas',
+        'Material audiovisual incluido',
+        'Certificado de asistencia'
+      ],
+    },
+    {
+      title: 'Video Cursos',
+      href: '/es/servicios/video-cursos',
+      iconType: 'video',
+      description: 'Cursos online con contenido pregrabado de alta calidad para aprender a tu ritmo.',
+      features: [
+        'Acceso ilimitado de por vida',
+        'Material descargable',
+        'Contenido actualizado',
+        'Comunidad exclusiva'
+      ],
+    },
+    {
+      title: 'RE-BORN',
+      href: '/es/academia/re-born',
+      iconType: 'fire',
+      description: 'Programa de transformación integral física, mental y espiritual para hombres 35-55 años.',
+      features: [
+        'Transformación completa',
+        'Reconstrucción personal',
+        'Acompañamiento personalizado',
+        'Resultados garantizados'
+      ],
+    },
+  ]
+};
 ---
 
-<Layout title="Academia | Scorus Fitness" description="Programas de formación profesional en fitness">
-  <!-- Hero Section -->
-  <section class="bg-white py-32">
+<Layout
+  title={academyData.seo.title}
+  description={academyData.seo.description}
+>
+  <!-- Header Section -->
+  <ServicesPageHeader {...academyData.header} />
+
+  <!-- Programs Grid Section -->
+  <section class="bg-white py-24">
     <div class="container">
-      <div class="mx-auto max-w-4xl text-center">
-        <p class="mb-6 text-sm font-semibold uppercase tracking-widest text-gray-500">
-          Formación
+      <!-- Section Title -->
+      <div class="mb-16 text-center">
+        <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
+          Explora <span class="text-red-600">Nuestros Programas</span>
+        </h2>
+        <p class="mx-auto max-w-2xl text-lg text-gray-600">
+          Educación de élite para transformar tu carrera profesional
         </p>
-        <h1 class="mb-8 text-6xl font-bold text-gray-900 md:text-7xl">
-          Scorus Academia
-        </h1>
-        <p class="text-2xl leading-relaxed text-gray-600">
-          Programas intensivos de transformación y formación profesional
-        </p>
+      </div>
+
+      <!-- Programs Grid -->
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {academyData.programs.map((program) => (
+          <div class="group relative overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <!-- Program Card -->
+            <div class="p-8">
+              <!-- Icon -->
+              <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-black transition-all duration-300 group-hover:bg-red-600">
+                {program.iconType === 'users' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                )}
+                {program.iconType === 'presentation' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
+                  </svg>
+                )}
+                {program.iconType === 'video' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  </svg>
+                )}
+                {program.iconType === 'fire' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
+                  </svg>
+                )}
+              </div>
+
+              <!-- Title -->
+              <h3 class="mb-4 text-2xl font-black uppercase tracking-tight text-black">
+                {program.title}
+              </h3>
+
+              <!-- Description -->
+              <p class="mb-6 leading-relaxed text-gray-600">
+                {program.description}
+              </p>
+
+              <!-- Features List -->
+              <ul class="mb-8 space-y-2">
+                {program.features.map((feature) => (
+                  <li class="flex items-start text-sm text-gray-700">
+                    <svg class="mr-2 mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <!-- CTA Link Button -->
+              <a
+                href={program.href}
+                class="group/link inline-flex items-center text-sm font-bold uppercase tracking-wider text-black transition-all hover:text-red-600"
+              >
+                Más Información
+                <svg class="ml-2 h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Hover Border Effect -->
+            <div class="pointer-events-none absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Programs Grid -->
-  <section class="bg-gray-50 py-24">
+  <!-- Why Choose Academia Section -->
+  <section class="bg-black py-24 text-white">
     <div class="container">
-      <div class="grid gap-px bg-gray-200 md:grid-cols-2">
-        <!-- RE-BORN -->
-        <div class="bg-white p-16">
-          <div class="mb-8 text-6xl">🔥</div>
-          <h2 class="mb-6 text-4xl font-bold text-gray-900">RE-BORN</h2>
-          <p class="mb-8 text-lg leading-relaxed text-gray-600">
-            Transformación física y mental completa en 12 semanas. Un programa intensivo diseñado para renacer como la mejor versión de ti mismo.
+      <div class="mx-auto max-w-5xl">
+        <div class="mb-16 text-center">
+          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter md:text-5xl">
+            ¿Por Qué <span class="text-red-600">Scorus Academia</span>?
+          </h2>
+          <p class="text-lg text-gray-400">
+            Formación de élite con un campeón mundial
           </p>
-          <ul class="mb-12 space-y-4">
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-gray-600">12 semanas de transformación</span>
-            </li>
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-gray-600">Plan personalizado completo</span>
-            </li>
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span class="text-gray-600">Soporte 24/7</span>
-            </li>
-          </ul>
-          <a
-            href="/es/academia/re-born"
-            class="inline-flex items-center text-sm font-semibold uppercase tracking-wider text-black transition-all hover:tracking-widest"
-          >
-            Descubrir RE-BORN
-            <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
         </div>
 
-        <!-- SCORUS CAMPUS -->
-        <div class="bg-white p-16">
-          <div class="mb-8 text-6xl">🎓</div>
-          <h2 class="mb-6 text-4xl font-bold text-gray-900">Scorus Campus</h2>
-          <p class="mb-8 text-lg leading-relaxed text-gray-600">
-            Formación profesional avanzada en culturismo y entrenamiento. Conviértete en un experto con nuestro programa intensivo.
-          </p>
-          <ul class="mb-12 space-y-4">
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        <div class="grid gap-8 md:grid-cols-3">
+          <div class="text-center">
+            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+              <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
               </svg>
-              <span class="text-gray-600">Formación profesional</span>
-            </li>
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </div>
+            <h3 class="mb-2 text-xl font-bold uppercase">Experiencia Real</h3>
+            <p class="text-gray-400">Aprende de un campeón mundial con más de 30 años de experiencia</p>
+          </div>
+
+          <div class="text-center">
+            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+              <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/>
               </svg>
-              <span class="text-gray-600">Certificación oficial</span>
-            </li>
-            <li class="flex items-start">
-              <svg class="mr-3 mt-1 h-5 w-5 flex-shrink-0 text-black" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </div>
+            <h3 class="mb-2 text-xl font-bold uppercase">Contenido Exclusivo</h3>
+            <p class="text-gray-400">Metodologías y técnicas probadas en competición</p>
+          </div>
+
+          <div class="text-center">
+            <div class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-red-600">
+              <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
               </svg>
-              <span class="text-gray-600">Prácticas supervisadas</span>
-            </li>
-          </ul>
-          <a
-            href="/es/academia/scorus-campus"
-            class="inline-flex items-center text-sm font-semibold uppercase tracking-wider text-black transition-all hover:tracking-widest"
-          >
-            Descubrir Campus
-            <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
+            </div>
+            <h3 class="mb-2 text-xl font-bold uppercase">Multiidioma</h3>
+            <p class="text-gray-400">Formación disponible en español, inglés y húngaro</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- CTA Section -->
-  <section class="bg-black py-32 text-white">
+  <section class="bg-white py-32">
     <div class="container">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-8 text-5xl font-bold md:text-6xl">
-          Invierte en Ti
+      <div class="mx-auto max-w-4xl text-center">
+        <h2 class="mb-6 text-3xl font-black uppercase tracking-tighter text-black sm:text-4xl md:text-5xl lg:text-6xl">
+          ¿Listo Para <span class="text-red-600">Aprender</span>?
         </h2>
-        <p class="mb-12 text-lg text-gray-400">
-          La mejor inversión que puedes hacer es en tu propia transformación
+        <p class="mb-12 text-xl text-gray-600">
+          Invierte en tu formación profesional y lleva tu carrera al siguiente nivel con la academia de un campeón mundial.
         </p>
-        <a
-          href="/es/contacto"
-          class="inline-flex items-center justify-center border-2 border-white bg-white px-12 py-5 text-lg font-semibold text-black transition-all hover:bg-transparent hover:text-white"
-        >
-          Más Información
-        </a>
+        
+        <div class="flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <ButtonPrimary 
+            href="/es/contacto" 
+            text="Más Información" 
+            icon="zap"
+            size="xl"
+            variant="glow"
+          />
+          
+          <a
+            href="/es/biografia"
+            class="inline-flex items-center text-sm font-bold uppercase tracking-wider text-black transition-all hover:text-red-600"
+          >
+            Sobre Bernat
+            <svg class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </section>

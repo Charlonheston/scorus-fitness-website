@@ -11,7 +11,7 @@ import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 const servicesData = {
   seo: {
     title: "Dienstleistungen | Scorus Fitness",
-    description: "Professionelle Dienstleistungen für Personal Training, Online-Beratung, Workshops, Video-Kurse und Seminare. Körperliche und mentale Transformation mit bewährten Methoden."
+    description: "Professionelle Dienstleistungen für Personal Training, Online-Beratung, Online-Coaching. Körperliche und mentale Transformation mit bewährten Methoden."
   },
   header: {
     tagline: "Scorus Fitness",
@@ -22,7 +22,7 @@ const servicesData = {
   services: [
     {
       title: 'Personal Training',
-      slug: 'personliches-training',
+      href: '/de/dienstleistungen/personliches-training',
       iconType: 'dumbbell',
       description: 'Vollständig personalisierte Trainingsprogramme, die auf Ihre spezifischen Ziele abgestimmt sind.',
       features: [
@@ -34,50 +34,38 @@ const servicesData = {
     },
     {
       title: 'Online-Beratung',
-      slug: 'online-beratung',
-      iconType: 'laptop',
-      description: 'Professionelle Beratung von überall auf der Welt mit personalisiertem Tracking.',
+      href: '/de/dienstleistungen/online-beratung',
+      iconType: 'video',
+      description: 'Professionelle Beratung per Videoanruf zur Lösung Ihrer spezifischen Fragen.',
       features: [
-        'Wöchentliche Videoanrufe',
-        'Detaillierter Trainingsplan',
-        'Personalisierter Ernährungsplan',
+        'Personalisierte Beratungssitzungen',
+        'Lösung von Zweifeln in Echtzeit',
+        'Spezifischer Aktionsplan',
+        'Nachberatungs-Follow-up'
+      ],
+    },
+    {
+      title: 'Online-Coaching',
+      href: '/de/dienstleistungen/online-coaching',
+      iconType: 'laptop',
+      description: 'Komplettes Online-Coaching-System mit kontinuierlichem Tracking und 24/7 Support.',
+      features: [
+        'Personalisierter Trainingsplan',
+        'Angepasster Ernährungsplan',
+        'Wöchentliches Follow-up',
         'Kontinuierlicher 24/7 Support'
       ],
     },
     {
-      title: 'Workshops',
-      slug: 'workshops',
-      iconType: 'users',
-      description: 'Praktische Workshops zu Trainingstechniken, Ernährung und persönlicher Entwicklung.',
+      title: 'Scorus Campus',
+      href: '/de/akademie/scorus-campus',
+      iconType: 'graduation',
+      description: 'Exklusives 7-tägiges intensives Trainingserlebnis in unserem Fitnessstudio.',
       features: [
-        'Interaktive Gruppensitzungen',
-        'Überwachte Praxis',
-        'Vollständiges Lehrmaterial',
-        'Teilnahmebescheinigung'
-      ],
-    },
-    {
-      title: 'Video-Kurse',
-      slug: 'video-kurse',
-      iconType: 'video',
-      description: 'Video-Kurse, um in Ihrem eigenen Tempo über Training und fortgeschrittene Ernährung zu lernen.',
-      features: [
-        'Lebenslanger unbegrenzter Zugang',
-        'Aktualisierte Inhalte',
-        'Praktische Übungen',
-        'Exklusive Community'
-      ],
-    },
-    {
-      title: 'Seminare',
-      slug: 'seminare',
-      iconType: 'presentation',
-      description: 'Intensive Seminare zu spezifischen Themen des Fitness und professionellen Bodybuildings.',
-      features: [
-        'Fortgeschrittenes intensives Training',
-        'Gastexperten',
-        'Professionelles Networking',
-        'Exklusives Material'
+        'Intensives Präsenztraining',
+        'Unterkunft inklusive',
+        'Kompletter Ernährungsplan',
+        'Teilnahmezertifikat'
       ],
     },
   ]
@@ -105,7 +93,7 @@ const servicesData = {
       </div>
 
       <!-- Services Grid -->
-      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {servicesData.services.map((service) => (
           <div class="group relative overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
             <!-- Service Card -->
@@ -137,6 +125,13 @@ const servicesData = {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
                   </svg>
                 )}
+                {service.iconType === 'graduation' && (
+                  <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/>
+                  </svg>
+                )}
               </div>
 
               <!-- Title -->
@@ -163,7 +158,7 @@ const servicesData = {
 
               <!-- CTA Link Button -->
               <a
-                href={`/de/dienstleistungen/${service.slug}`}
+                href={service.href}
                 class="group/link inline-flex items-center text-sm font-bold uppercase tracking-wider text-black transition-all hover:text-red-600"
               >
                 Mehr Informationen
@@ -174,7 +169,7 @@ const servicesData = {
             </div>
 
             <!-- Hover Border Effect -->
-            <div class="absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <div class="pointer-events-none absolute inset-0 border-2 border-red-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
           </div>
         ))}
       </div>
