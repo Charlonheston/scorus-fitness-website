@@ -623,6 +623,9 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
   const triumphTitle4Ref = useRef<HTMLSpanElement>(null); // "Fuerte"
   const triumphTitle5Ref = useRef<HTMLSpanElement>(null); // "que"
   const triumphTitle6Ref = useRef<HTMLSpanElement>(null); // "Nunca"
+  
+  // Estado para el botón "scroll to top" en móvil
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -715,6 +718,18 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       };
       
       document.addEventListener('touchstart', touchStartHandler, { passive: true });
+    }
+
+    // ===== BOTÓN "SCROLL TO TOP" EN MÓVIL =====
+    if (isMobile) {
+      const handleScrollTopVisibility = () => {
+        const scrollY = window.scrollY || window.pageYOffset;
+        // Mostrar el botón después de 300px de scroll
+        setShowScrollTop(scrollY > 300);
+      };
+      
+      window.addEventListener('scroll', handleScrollTopVisibility, { passive: true });
+      handleScrollTopVisibility(); // ejecutar al cargar
     }
 
     // En mobile: añadir padding-top cuando el header se fija (scroll > 50px)
@@ -1630,7 +1645,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     // Desaparición del módulo de Tabs tras terminar de escribir Nutrición + 4 notches
     // No rompe el recorrido: sólo se activa cuando el texto de Nutrición se ha escrito completo
-    const NOTCH_PX = isMobile ? 111 : 108;
+    const NOTCH_PX = isMobile ? 55 : 108;
     const EXIT_AFTER_NOTCHES = 4;
     const TABS_EXIT_PX = NOTCH_PX * 8; // duración de la salida (más lenta para apreciarse mejor)
     const tabsExitStartPx = nutritionTypingStartPx + TYPING_PX + (NOTCH_PX * EXIT_AFTER_NOTCHES);
@@ -7567,6 +7582,31 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         </div>
       </div>
     </div>
+
+    {/* Botón flotante "Scroll to Top" (solo móvil) */}
+    {showScrollTop && (
+      <button
+        onClick={() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+        className="md:hidden fixed bottom-6 right-6 z-[100] w-14 h-14 rounded-full shadow-lg shadow-red-600/50 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 will-change-transform animate-fadeInUp"
+        style={{
+          background: 'linear-gradient(135deg, #e50914 0%, #c4070f 100%)',
+        }}
+        aria-label="Volver arriba"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          className="h-6 w-6 text-white" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor" 
+          strokeWidth={3}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+        </svg>
+      </button>
+    )}
 
     </>
   );
