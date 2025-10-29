@@ -29,12 +29,16 @@ export default defineConfig({
   ],
   output: 'static',
   image: {
-    // Optimización de imágenes con Sharp
+    // Optimización agresiva de imágenes con Sharp personalizado
     service: {
-      entrypoint: 'astro/assets/services/sharp',
+      entrypoint: './src/image-service.ts',
+      config: {
+        limitInputPixels: false,
+      },
     },
-    // Configuración de calidad de imágenes optimizada
+    // Configuración de calidad de imágenes optimizada para PageSpeed
     remotePatterns: [],
+    domains: [],
   },
   build: {
     // Inlinear assets pequeños para reducir requests
