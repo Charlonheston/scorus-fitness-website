@@ -96,6 +96,8 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
 
       // ✅ Usar requestAnimationFrame para batch de cambios DOM
       requestAnimationFrame(() => {
+        if (!header) return; // TypeScript null check
+        
         if (isScrolled) {
           // Estado sólido (scrolled) - NEGRO
           header.classList.remove('header-transparent');
