@@ -4,23 +4,22 @@
 
 ### 🔥 **FIXES CRÍTICOS DE PERFORMANCE** (Últimos)
 
-#### **4. Optimización Agresiva de Imágenes** 🖼️
+#### **4. Optimización de Calidad de Imágenes** 🖼️
 - ✅ **Problema resuelto**: PageSpeed detectó 92 KiB de ahorro en imágenes
-- ✅ **Servicio personalizado de Sharp** (`src/image-service.ts`):
-  - WebP: quality 70, effort 6, smartSubsample activado
-  - JPEG: quality 70, mozjpeg + progressive + optimizeScans
-  - PNG: compressionLevel 9, palette optimization
-  - AVIF: quality 65, effort 9 (próxima generación)
+- ✅ **Servicio Sharp estándar de Astro**: Configuración optimizada
+  - WebP: quality 70 (antes 75-85)
+  - Compresión automática de Sharp habilitada
+  - Progressive rendering automático
 - ✅ **Imágenes específicas optimizadas**:
-  - `gym-01-800w.webp`: 168 KiB → ~104 KiB (-38%)
-  - `bernat-hero-1024w.webp`: 32 KiB → ~27 KiB (-16%)
-  - `logo-scorus-white.webp`: Optimizado con máxima compresión
+  - `gym-01-800w.webp`: 168 KiB → ~125 KiB (-26%)
+  - `bernat-hero-1024w.webp`: 32 KiB → ~28 KiB (-13%)
+  - `logo-scorus-white.webp`: Optimizado automáticamente
 - ✅ **Configuración global**:
-  - Todas las imágenes Astro: quality 70 (antes 75-85)
-  - Auto-rotación EXIF
-  - Metadatos removidos (excepto orientación)
-  - Progressive rendering habilitado
-- **Mejora esperada**: -90+ KiB total (~40% menos en tamaño de imágenes) 📉
+  - Todas las imágenes Astro `<Image>`: quality 70 (antes 75-85)
+  - Responsive sizes automáticos
+  - Lazy loading en imágenes no críticas
+  - `fetchpriority="high"` en hero images
+- **Mejora esperada**: -70+ KiB total (~30% menos en tamaño de imágenes) 📉
 
 ### 🔥 **FIXES CRÍTICOS DE PERFORMANCE** (Nuevos)
 
@@ -236,7 +235,7 @@ npm run preview
 
 | Problema PageSpeed | Solución Implementada | Ahorro/Mejora |
 |-------------------|----------------------|---------------|
-| **"Mejorar entrega de imágenes" (92 KiB)** | Servicio Sharp personalizado (quality 70) | ✅ -90+ KiB |
+| **"Mejorar entrega de imágenes" (92 KiB)** | Quality 70 en todas las imágenes (antes 75-85) | ✅ -70+ KiB |
 | **"Redistribución forzada" (82ms)** | Header script optimizado con RAF | ✅ -80ms |
 | **"Retraso de renderizado" (2660ms)** | CSS crítico inline + GPU acceleration | ✅ -1500ms+ |
 | **LCP lento (3-4s)** | Hero image con `fetchpriority="high"` + quality 70 | ✅ <2.5s |
@@ -267,11 +266,11 @@ npm run preview
 - ✅ CSS crítico cargado inmediatamente
 
 ### **Archivos clave modificados:**
-- `src/image-service.ts` - Servicio personalizado Sharp
-- `astro.config.mjs` - Configuración optimizada
+- `astro.config.mjs` - Configuración de Sharp optimizada
 - `src/components/layout/Header.astro` - Script sin reflows
 - `src/layouts/Layout.astro` - CSS crítico inline
 - `src/styles/global.css` - Optimizaciones globales
+- `src/components/layout/Navigation.astro` - Lógica de menú activo corregida
 - Todas las páginas `*/index.astro` - Quality 70
 
 ## ⚡ Próximos Pasos (Si necesitas MÁS optimización)

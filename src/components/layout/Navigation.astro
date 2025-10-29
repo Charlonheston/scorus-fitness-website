@@ -169,15 +169,24 @@ type Lang = 'es' | 'en' | 'fr' | 'de' | 'hu';
 const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfig.es.items;
 
 // Función para detectar si un item debe estar activo
-const isItemActive = (item: NavItem, path: string): boolean => {
-  // Si el path coincide exactamente con el href del item
-  if (path === item.href || path.startsWith(item.href + '/')) {
-    return true;
+const isItemActive = (item: NavItem, path: string, allItems: NavItem[]): boolean => {
+  // Primero, verificar si algún CHILD de CUALQUIER item coincide exactamente
+  // Si es así, solo el padre de ese child debe estar activo
+  for (const navItem of allItems) {
+    if (navItem.children) {
+      const matchingChild = navItem.children.find(child => 
+        path === child.href || path.startsWith(child.href + '/')
+      );
+      if (matchingChild) {
+        // Solo este navItem padre debe estar activo, no otros
+        return navItem.href === item.href;
+      }
+    }
   }
   
-  // Si algún hijo del item está activo
-  if (item.children) {
-    return item.children.some(child => path === child.href || path.startsWith(child.href + '/'));
+  // Si no hay child match, verificar coincidencia directa con el item
+  if (path === item.href || path.startsWith(item.href + '/')) {
+    return true;
   }
   
   return false;
@@ -195,7 +204,7 @@ const isItemActive = (item: NavItem, path: string): boolean => {
         href={item.href}
         class:list={[
           'relative block text-sm font-bold uppercase tracking-wider transition-colors',
-          isItemActive(item, currentPath)
+          isItemActive(item, currentPath, navItems)
             ? 'text-red-600'
             : 'text-current hover:text-red-600',
         ]}
@@ -226,7 +235,7 @@ const isItemActive = (item: NavItem, path: string): boolean => {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         )}
-        {isItemActive(item, currentPath) && (
+        {isItemActive(item, currentPath, navItems) && (
           <span class="absolute -bottom-1 left-0 h-0.5 w-full bg-red-600" />
         )}
       </a>
