@@ -5820,106 +5820,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
     };
     window.addEventListener('resize', handleResize);
 
-    // ================= SISTEMA DE SCROLL SNAP MAGNÉTICO (SOLO MÓVIL) =================
-    // En móvil, cuando el usuario termina de hacer swipe, el scroll se "engancha"
-    // automáticamente al módulo más cercano, completando la animación de forma brusca.
-    let scrollSnapTimeoutId: number | undefined;
-    let isSnapScrolling = false;
-    
-    const snapScrollHandler = () => {
-      if (!isMobile || isSnapScrolling) return;
-      
-      // Limpiar timeout anterior
-      if (scrollSnapTimeoutId) clearTimeout(scrollSnapTimeoutId);
-      
-      // Esperar 150ms después del último evento de scroll para detectar que el usuario terminó
-      scrollSnapTimeoutId = window.setTimeout(() => {
-        const currentScroll = window.scrollY;
-        
-        // Definir todos los puntos de parada (módulos importantes)
-        // Estos están basados en las posiciones calculadas de las animaciones
-        const snapPoints = [
-          0, // Inicio
-          totalScroll * 0.12, // Después del intro (cita de Arnold)
-          quoteEndPx, // Fin de la cita
-          newH2HoldStartPx, // "Entrenador Personal..." visible
-          newH2ExitStartPx, // Fin del hold del H2
-          experienceParaStartPx, // Inicio del párrafo de experiencia
-          experienceParaTypeStartPx, // Párrafo de experiencia completo
-          experienceParaEndPx, // Fin del párrafo de experiencia
-          moveStartPx, // Después del flip del título
-          slideOutStartPx, // Inicio de slide out
-          imageSlideOutStartPx, // Slide out de imagen
-          paragraphsScrollStartPx, // Scroll de párrafos
-          quote2StartPx, // Segunda cita
-          quote2TypeStartPx, // Segunda cita typing
-          quote2ExitStartPx, // Salida segunda cita
-          tabsZoomStartPx, // Inicio de tabs (zoom)
-          tabsScrollStartPx, // Tabs scroll
-          nutritionTypingStartPx, // Nutrition typing
-          tabsExitStartPx, // Salida de tabs
-          paraStartPx, // Inicio del párrafo largo "El Sacrificio..."
-          paraTypeStartPx, // Párrafo typing
-          compExitStartPx, // Salida del módulo de competición
-          quote3SlideStartPx, // Salida de la tercera cita
-          fatherParaStartPx, // Párrafo del padre
-          fatherParaSlideStartPx, // Fin del párrafo del padre
-          sonChallengeStartPx, // "Why don't you compete again, dad?"
-          sonChallengeSlideStartPx, // H2 sale
-          sonParaStartPx, // Párrafo del hijo
-          sonParaSlideStartPx, // Salida del párrafo del hijo
-          imgStartPx, // Imagen entra
-          imgHoldStartPx, // Imagen hold
-          imgCollapseStartPx, // Imagen colapsa
-          gymStartPx, // Módulo del gimnasio
-          gymParaExitStartPx, // Salida párrafo gym
-          nabbaStartPx, // NABBA 2006
-          nabbaHoldStartPx, // NABBA hold
-          mrUniversoStartPx, // Mr Universo
-          mrUniversoHoldStartPx, // Mr Universo hold
-          arnoldStartPx, // Arnold Classic
-          arnoldHoldStartPx, // Arnold hold
-          benWeiderStartPx, // Ben Weider
-          benWeiderHoldStartPx, // Ben Weider hold
-          experienceStartPx, // Años de experiencia
-          trophiesStartPx, // Trofeos
-          // ... más puntos según sea necesario
-        ];
-        
-        // Encontrar el punto de snap más cercano
-        let closestPoint = snapPoints[0];
-        let minDistance = Math.abs(currentScroll - snapPoints[0]);
-        
-        for (const point of snapPoints) {
-          const distance = Math.abs(currentScroll - point);
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestPoint = point;
-          }
-        }
-        
-        // Solo hacer snap si la distancia es mayor a 50px (para evitar snaps innecesarios)
-        if (minDistance > 50) {
-          isSnapScrolling = true;
-          
-          // Hacer scroll suave al punto más cercano
-          window.scrollTo({
-            top: closestPoint,
-            behavior: 'smooth'
-          });
-          
-          // Permitir nuevo snap después de 600ms
-          setTimeout(() => {
-            isSnapScrolling = false;
-          }, 600);
-        }
-      }, 150);
-    };
-    
-    if (isMobile) {
-      window.addEventListener('scroll', snapScrollHandler, { passive: true });
-    }
-
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
       window.removeEventListener('resize', handleResize);
@@ -5933,12 +5833,6 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       }
       if (touchStartHandler) {
         document.removeEventListener('touchstart', touchStartHandler);
-      }
-      
-      // Cleanup del scroll snap
-      if (isMobile) {
-        window.removeEventListener('scroll', snapScrollHandler);
-        if (scrollSnapTimeoutId) clearTimeout(scrollSnapTimeoutId);
       }
     };
   }, [framesPattern, framesCount, frames2Pattern, frames2Count, frames3Pattern, frames3Count, frames4Pattern, frames4Count, frames5Pattern, frames5Count, useCanvas, useCanvas2, useCanvas3, useCanvas4, useCanvas5]);
