@@ -26,7 +26,7 @@ interface Props {
   frames6Pattern?: string;
   frames6Count?: number;
   frames6Start?: number;  // Número base del primer frame (p.ej. 86400)
-  lang?: 'es' | 'en' | 'fr'; // Idioma para las traducciones
+  lang?: 'es' | 'en' | 'fr' | 'de' | 'hu'; // Idioma para las traducciones
 }
 
 export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/bernat-hero.webp', framesPattern, framesCount, frames2Pattern, frames2Count, frames3Pattern, frames3Count, frames3Start, frames4Pattern, frames4Count, frames4Start, frames5Pattern, frames5Count, frames5Start, frames6Pattern, frames6Count, frames6Start, lang = 'es' }: Props) {
@@ -444,6 +444,298 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
       ctaText: 'Commencez aujourd\'hui. Contactez-moi et transformez votre corps et votre esprit.',
       ctaButton: 'Contactez-Moi Maintenant !',
       contactUrl: '/fr/contact',
+    },
+    de: {
+      // Intro
+      introName: 'Bernat Scorus',
+      introSubtitle: 'Von Persönlicher Verbesserung zur Fitness-Exzellenz',
+      introBody: 'Mein Name ist Bernat Richard Scorus und ich helfe Menschen seit über 25 Jahren, ihre Körper zu transformieren und ihre körperliche Leistungsfähigkeit zu verbessern. Schon sehr jung wusste ich, dass Bodybuilding und Fitness meine wahre Leidenschaft waren, und im Laufe meiner Karriere bin ich Bodybuilding-Weltmeister, Vizeweltmeister von Mister Universe und Vizemeister von Mr. Olympia Masters Amateur geworden.',
+      
+      // Citas
+      quote1: '«Erfolg ist kein Zufall. Es ist harte Arbeit, Ausdauer, Lernen, Opfer und vor allem Liebe zu dem, was man tut.»',
+      quote2: 'Der Körper erreicht, was der Geist glaubt.',
+      quote3: 'Vater zu sein lehrte mich, dass die größte Herausforderung nicht immer im Fitnessstudio liegt, sondern darin, das beste Vorbild für meine Kinder zu sein.',
+      
+      // Tabs
+      tabProgresionLabel: 'Progression',
+      tabWorkoutLabel: 'Training',
+      tabNutricionLabel: 'Ernährung',
+      tabProgresion: 'Seit meinen Anfängen im Bodybuilding wusste ich, dass der Schlüssel zum Erfolg Disziplin und konstante Anstrengung sind. Mit einer Methodik, die auf Erfahrung und Lernen basiert, ist es meine Mission, Ihnen zu helfen, echte Ergebnisse zu erzielen.',
+      tabWorkout: 'Mit einer Karriere, die von Überwindung und Leistung geprägt ist, sind meine Programme darauf ausgelegt, dass Sie Ihr maximales Potenzial mit einem personalisierten und strukturierten Ansatz erreichen.',
+      tabNutricion: 'Fitness ist viel mehr als Gewichte zu heben. Ernährung ist die Grundlage einer dauerhaften Transformation, und bei Scorus Fitness bieten wir Ernährungspläne an, die auf jede Person zugeschnitten sind.',
+      
+      // Título "Infancia y primeros pasos"
+      titleChildhood: 'Das Opfer Kindheit und Erste Schritte im Sport',
+      
+      // Párrafos largos
+      nextBodyText: 'Bernat wurde am 6. Juli 1979 in Marosvásárhely, Siebenbürgen, geboren, aber schon sehr jung zog er mit seiner Familie nach Budapest, Ungarn, wo er den größten Teil seiner Kindheit verbrachte. Sein familiäres Umfeld war voller Spitzensportler: sein Großvater und seine Onkel waren Champions in verschiedenen Disziplinen, sodass Sport immer in seinem Leben präsent war. Ab 6 Jahren praktizierte er verschiedene körperliche Aktivitäten wie Schwimmen, Gymnastik, Karate, Fußball, Basketball und Leichtathletik, aber keiner dieser Sportarten weckte in ihm eine wahre Berufung. Seine Anziehung zu muskulösen und gut entwickelten Körpern wuchs jedoch mit jedem Actionfilm, den er sah. Arnold Schwarzenegger, Sylvester Stallone und Jean-Claude Van Damme waren seine Idole, und er träumte davon, einen beeindruckenden Körperbau wie sie aufzubauen.',
+      
+      paragraphsText: 'Ab 6 Jahren praktizierte er verschiedene körperliche Aktivitäten wie Schwimmen, Gymnastik, Karate, Fußball, Basketball und Leichtathletik, aber keiner dieser Sportarten weckte in ihm eine wahre Berufung. Seine Anziehung zu muskulösen und gut entwickelten Körpern wuchs jedoch mit jedem Actionfilm, den er sah. Arnold Schwarzenegger, Sylvester Stallone und Jean-Claude Van Damme waren seine Idole, und er träumte davon, einen beeindruckenden Körperbau wie sie aufzubauen.\n\nDer Wendepunkt kam 1994, als er sein erstes Bodybuilding-Event besuchte. Legenden wie Flex Wheeler, Milos Sarcev und Robby Robinson live zu sehen, beeindruckte ihn tief. In diesem Moment wusste er, dass er sein Leben dem Training und der körperlichen Entwicklung widmen wollte.\n\nEs gab jedoch ein Problem: Seine Genetik schien nicht ideal für diesen Sport zu sein. Mit nur 50 kg Körpergewicht, einem Armumfang von 28 cm und einer Brust von 80 cm sagten ihm seine Familie und Freunde, dass er nicht die notwendige Struktur für Bodybuilding hätte. Aber er ließ sich nicht entmutigen. Seine Entschlossenheit und Vision waren klar: Er würde beweisen, dass Anstrengung und Beständigkeit jedes Hindernis überwinden können.',
+      
+      experienceParagraph: 'Mit über 25 Jahren Erfahrung hat Bernat Scorus eine Karriere in der Welt des Bodybuildings und Fitness aufgebaut, die nur wenige erreichen können. Er hat seine Leidenschaft in eine Lebensphilosophie verwandelt und Tausenden von Menschen geholfen, ihre beste Version durch personalisiertes Training und Ernährung zu erreichen.\n\nDerzeit leitet er Scorus Fitness, ein Zentrum, das Personal Training in Alicante, Online-Coaching-Programme und umfassende körperliche Transformation anbietet. Sein Ansatz basiert auf echter Erfahrung, dem in Jahren des Wettbewerbs erworbenen Wissen und dem Engagement für seine Kunden.',
+      
+      newH2Title: 'Personal Trainer in Alicante und Bodybuilding-Weltmeister',
+      newH2Word1: 'Personal',
+      newH2Word2: 'Trainer',
+      newH2Word3: 'in',
+      newH2Word4: 'Alicante',
+      newH2Word5: 'und',
+      newH2Word6: 'Bodybuilding',
+      newH2Word7: '',
+      newH2Word8: 'Weltmeister',
+      newH2Word9: '',
+      newH2Word10: '',
+      
+      fatherParagraph: 'Während dieser Zeit hatte Bernat kaum Zeit, so zu trainieren wie zuvor. Die Routine, Vollzeitvater zu sein, absorbierte ihn vollständig, und obwohl er das Fitness nie ganz aufgab, veränderten sich sein Körperbau und seine Mentalität. Aber tief im Inneren war sein Wettbewerbsgeist immer noch lebendig.',
+      
+      sonChallenge: 'Warum konkurrierst du nicht wieder, Papa? Konkurriere!',
+      sonParagraph: 'Diese Worte resonierte in seinem Kopf wie eine persönliche Herausforderung. Es war der Anstoß, den er brauchte, um auf die Bühnen zurückzukehren und zu beweisen, dass er noch viel zu bieten hatte.',
+      
+      // Título Gimnasio
+      gymSubtitle: 'Scorus GYM',
+      gymTitle: 'Titel und Internationale Erfolge',
+      gymIntroParagraph: 'Ab dem Jahr 2000 begann Bernat professionell zu konkurrieren und konsolidierte sich in kurzer Zeit unter den besten Bodybuilding-Athleten. Seine Anstrengung und sein Engagement führten ihn dazu, einige der prestigeträchtigsten Titel der Welt zu erhalten:',
+      
+      // Títulos y logros
+      nabbaTitle: 'NABBA 2006',
+      nabbaSubtitle: 'Weltmeister',
+      nabbaCategory: 'Kategorie Schwergewicht',
+      nabbaCategorySubtitle: 'und Absolut',
+      nabbaDescription: 'Ein historischer Meilenstein in Bernats Karriere, der sich als einer der besten Bodybuilder der Welt konsolidierte.',
+      
+      mrUniverseTitle: 'NAC Mister Universe',
+      mrUniverseSubtitle: 'Vizemeister',
+      mrUniverseCategory: 'Kategorie +90kg',
+      mrUniverseDescription: 'Ein internationaler Elite-Wettbewerb, bei dem Bernat sein außergewöhnliches Niveau demonstrierte und sich unter den Besten der Welt platzierte.',
+      
+      arnoldClassicTitle: 'Arnold Classic',
+      arnoldClassicSubtitle: 'Internationaler Wettkämpfer',
+      arnoldClassicDetail: 'Columbus (USA) und Madrid',
+      arnoldClassicDescription: 'Teilnahme an einem der prestigeträchtigsten Bodybuilding-Wettbewerbe der Welt, gegründet von Arnold Schwarzenegger.',
+      
+      benWeiderTitle: 'Ben Weider Classic',
+      benWeiderSubtitle: 'Goldmedaillen',
+      benWeiderCategory: 'und Big Man Masters',
+      benWeiderDetail: 'Gold bei Elite-Masters-Wettbewerben, was seine Exzellenz und Erfahrung in den Veteranen-Kategorien des Bodybuildings demonstriert.',
+      
+      experienceYears: '25+',
+      experienceLabel: 'Jahre Erfahrung',
+      experienceSince: 'Seit dem Jahr 2000',
+      trophiesCount: '40+',
+      trophiesLabel: 'Internationale Trophäen',
+      
+      // Triumph title
+      triumphTitle: 'Die Triumphale Rückkehr',
+      triumphParagraph: 'Mit erneuerter Motivation kehrte Bernat 2018 in den Wettbewerb zurück, und er tat es groß:',
+      triumphWord1: 'Die',
+      triumphWord2: 'Triumphale',
+      triumphWord3: 'Rückkehr',
+      
+      // Medal details
+      goldMedalTitle: 'GOLDMEDAILLE',
+      goldMedalSubtitle: 'Die Rückkehr',
+      goldMedalSeason: 'Erste Saison nach der Rückkehr',
+      goldMedalDescription: 'Eine triumphale Rückkehr, die den Beginn einer neuen Erfolgsära in Bernats Karriere markierte.',
+      
+      silverBronzeTitle: '2 SILBER + 1 BRONZE',
+      silverBronzeSubtitle: 'Mehr Podien in 2018',
+      silverBronzeMedals: 'Zwei',
+      silverBronzeSilver: 'Silbermedaillen',
+      silverBronzeAnd: 'und eine',
+      silverBronzeBronze: 'Bronzemedaille',
+      silverBronzeDetail: 'Ein außergewöhnliches Jahr mit mehreren Podien, die seine Rückkehr zum Elite-Bodybuilding konsolidierten.',
+      
+      bestBodybuilderTitle: '3. BESTER BODYBUILDER',
+      bestBodybuilderSubtitle: 'Internationale Anerkennung',
+      bestBodybuilderNamed: 'Genannt der',
+      bestBodybuilderThird: 'Drittbeste',
+      bestBodybuilderBest: 'Bodybuilder des Jahres',
+      bestBodybuilderDetail: 'Eine internationale Anerkennung, die Bernat unter den besten Bodybuildern der Welt positionierte.',
+      
+      newMeaningParagraph: 'Aber dieses Mal hatte der Wettbewerb für ihn eine neue Bedeutung. Es ging nicht nur darum zu gewinnen, sondern zu zeigen, dass Ausdauer, Disziplin und Entschlossenheit jedes Hindernis überwinden können, selbst eine sechsjährige Pause.',
+      
+      indiaParagraph: 'Im selben Jahr wurde er nach Indien eingeladen, um Teil einer Personal-Trainer-Akademie zu sein, wo er Kurse über Ernährung, Nahrungsergänzung, Training und Wettkampfvorbereitung lehrte. Diese Gelegenheit öffnete ihm neue Türen und ermöglichte es ihm, sein Wissen international zu erweitern, indem er Seminare in Dubai, Singapur und verschiedenen Städten Indiens gab.',
+      
+      // Philosophy title
+      philosophyTitle: 'Meine Philosophie: Über Fitness Hinaus',
+      philosophyWord1: 'Meine',
+      philosophyWord2: 'Philosophie',
+      philosophyWord3: 'Über',
+      philosophyWord4: 'Fitness',
+      philosophyWord5: 'Hinaus',
+      philosophyWord6: '',
+      
+      sacrificeCompetitionTitle: 'Das Opfer des Wettbewerbs',
+      sacrificeCompetitionParagraph: 'Über ein Jahrzehnt lang lebte Bernat durch und für Bodybuilding. Er konkurrierte, trainierte, perfektionierte seine Technik und teilte Erfahrungen mit einigen der wichtigsten Athleten der Welt. Aber wie alles im Leben kam ein Moment, in dem er das Gefühl hatte, einen Schritt zurücktreten zu müssen, um sich auf einen anderen wesentlichen Aspekt zu konzentrieren: seine Familie.\n\nIm Jahr 2012, nach vielen Jahren des Wettbewerbs auf höchstem Niveau, beschloss er, sich von den Bühnen zurückzuziehen und seine Zeit dem Aufbau einer Zukunft mit seiner Partnerin zu widmen. Zwei Jahre später, 2014, wurde sein erster Sohn geboren, und 2016 kam seine Tochter. Es waren Jahre, in denen Bodybuilding in den Hintergrund trat, da die absolute Priorität darin bestand, seine Familie zu erziehen und zu pflegen.\n\nÜber ein Jahrzehnt lang lebte Bernat durch und für Bodybuilding. Er konkurrierte, trainierte, perfektionierte seine Technik und teilte Erfahrungen mit einigen der wichtigsten Athleten der Welt. Aber wie alles im Leben kam ein Moment, in dem er das Gefühl hatte, einen Schritt zurücktreten zu müssen, um sich auf einen anderen wesentlichen Aspekt zu konzentrieren: seine Familie.\n\nIm Jahr 2012, nach vielen Jahren des Wettbewerbs auf höchstem Niveau, beschloss er, sich von den Bühnen zurückzuziehen und seine Zeit dem Aufbau einer Zukunft mit seiner Partnerin zu widmen. Zwei Jahre später, 2014, wurde sein erster Sohn geboren, und 2016 kam seine Tochter. Es waren Jahre, in denen Bodybuilding in den Hintergrund trat, da die absolute Priorität darin bestand, seine Familie zu erziehen und zu pflegen.',
+      
+      scorusFitnessParagraph: 'Nach seiner erfolgreichen Karriere im Bodybuilding gründete Bernat Scorus Fitness, ein Trainingszentrum, das Folgendes bietet:',
+      
+      // Módulos de servicios
+      trainingModuleTitle: 'Training',
+      trainingModuleDescription: 'Personalisierte<br/>Trainingspläne',
+      nutritionModuleTitle: 'Ernährung',
+      nutritionModuleDescription: 'Ernährung fokussiert auf<br/>Leistung und Gesundheit',
+      trackingModuleTitle: 'Nachverfolgung',
+      trackingModuleDescription: 'Echte Begleitung für<br/>dauerhafte Veränderungen',
+      rebornModuleTitle: 'REBORN und Scorus<br/>Campus',
+      rebornModuleDescription: 'Premium-<br/>Transformationsprogramme',
+      scorusGymModuleTitle: 'ScorusGYM',
+      scorusGymModuleDescription: 'Ein privates Fitnessstudio mit<br/>exklusivem Ansatz ohne Ablenkungen',
+      holisticParagraph: 'Sein Ansatz ist ganzheitlich und umfasst sowohl die körperliche Entwicklung als auch die Denkweise, die erforderlich ist, um einen gesunden und nachhaltigen Lebensstil aufrechtzuerhalten.',
+      
+      // Final CTA
+      ctaTitle: 'Transformieren Sie Ihr Leben',
+      ctaSubtitle: 'mit Scorus Fitness',
+      ctaDescription: 'Wenn Sie nach einer echten Veränderung suchen, bin ich hier, um Sie zu führen. Ob Sie Fett verlieren, Muskeln aufbauen oder sich auf einen Wettkampf vorbereiten möchten, bei Scorus Fitness finden Sie die Werkzeuge und Unterstützung, die Sie brauchen.',
+      ctaText: 'Beginnen Sie heute. Kontaktieren Sie mich und transformieren Sie Ihren Körper und Geist.',
+      ctaButton: 'Kontaktieren Sie Mich Jetzt!',
+      contactUrl: '/de/kontakt',
+    },
+    hu: {
+      // Intro
+      introName: 'Bernat Scorus',
+      introSubtitle: 'Személyes Fejlődéstől a Fitness Kiválóságig',
+      introBody: 'A nevem Bernat Richard Scorus és már több mint 25 éve segítek embereknek testük átalakításában és fizikai teljesítményük javításában. Nagyon fiatalon tudtam, hogy a testépítés és a fitness az igazi szenvedélyem, és karrierem során elértem, hogy Testépítő Világbajnok, Mister Universe Ezüstérmes és Mr. Olympia Masters Amateur Ezüstérmes legyek.',
+      
+      // Citas
+      quote1: '«A siker nem véletlen. Ez kemény munka, kitartás, tanulás, áldozat és mindenekelőtt szeretet az iránt, amit csinálsz.»',
+      quote2: 'A test eléri azt, amit az elme hisz.',
+      quote3: 'Apa lenni megtanított, hogy a legnagyobb kihívás nem mindig az edzőteremben van, hanem abban, hogy a legjobb példa legyek a gyermekeim számára.',
+      
+      // Tabs
+      tabProgresionLabel: 'Haladás',
+      tabWorkoutLabel: 'Edzés',
+      tabNutricionLabel: 'Táplálkozás',
+      tabProgresion: 'A testépítésben való kezdetek óta tudtam, hogy a siker kulcsa a fegyelem és az állandó erőfeszítés. A tapasztalaton és tanulá alapuló módszertanommal az a küldetésem, hogy segítsek valódi eredményeket elérni.',
+      tabWorkout: 'A túllépés és teljesítmény által meghatározott karrieremmel a programjaim úgy vannak tervezve, hogy elérjed a maximális potenciálodat személyre szabott és strukturált megközelítéssel.',
+      tabNutricion: 'A fitness sokkal több, mint súlyok emelése. A táplálkozás a tartós átalakulás alapja, és a Scorus Fitness-nél minden személyre szabott táplálkozási tervet kínálunk.',
+      
+      // Título "Infancia y primeros pasos"
+      titleChildhood: 'Az Áldozat Gyermekkor és Első Lépések a Sportban',
+      
+      // Párrafos largos
+      nextBodyText: 'Bernat 1979. július 6-án született Marosvásárhelyen, Erdélyben, de nagyon fiatalon családjával Budapestre, Magyarországra költözött, ahol gyermekkorának nagy részét töltötte. Családi környezete tele volt elit sportolókkal: nagyapja és nagybátyjai bajnokok voltak különböző sportágakban, így a sport mindig jelen volt életében. 6 éves korától különböző fizikai tevékenységeket gyakorolt, mint úszás, torna, karate, foci, kosárlabda és atlétika, de egyik sem ébresztett benne valódi elhivatottságot. Azonban az izmos és jól fejlett testek iránti vonzalma minden akciófillel nőtt, amit látott. Arnold Schwarzenegger, Sylvester Stallone és Jean-Claude Van Damme voltak az bálványai, és arról álmodott, hogy hozzájuk hasonló lenyűgöző testalkatot építsen.',
+      
+      paragraphsText: '6 éves korától különböző fizikai tevékenységeket gyakorolt, mint úszás, torna, karate, foci, kosárlabda és atlétika, de egyik sem ébresztett benne valódi elhivatottságot. Azonban az izmos és jól fejlett testek iránti vonzalma minden akciófillel nőtt, amit látott. Arnold Schwarzenegger, Sylvester Stallone és Jean-Claude Van Damme voltak az bálványai, és arról álmodott, hogy hozzájuk hasonló lenyűgöző testalkatot építsen.\n\nA fordulópont 1994-ben érkezett, amikor részt vett első testépítő versenyén. Olyan legendák élőben való látása, mint Flex Wheeler, Milos Sarcev és Robby Robinson, mélyen megrendítette. Abban a pillanatban tudta, hogy életét az edzésnek és a fizikai fejlődésnek akarja szentelni.\n\nVolt azonban egy probléma: genetikája nem tűnt ideálisnak ehhez a sporthoz. Csak 50 kg testsúllyal, 28 cm-es karátmérővel és 80 cm-es mellkassal családja és barátai azt mondták neki, hogy nincs meg a szükséges felépítése a testépítéshez. De nem hagyta magát elcsüggedni. Elhatározása és víziója világos volt: bebizonyítja, hogy az erőfeszítés és kitartás legyőzhet minden akadályt.',
+      
+      experienceParagraph: 'Több mint 25 év tapasztalatával Bernat Scorus olyan karriert épített a testépítés és fitness világában, amelyet kevesen érhetnek el. Szenvedélyét életfilozófiává alakította, segítve több ezer embernek elérni legjobb verziójukat személyre szabott edzésen és táplálkozáson keresztül.\n\nJelenleg a Scorus Fitness-t vezeti, egy központot, amely személyi edzést kínál Alicantéban, online coaching programokat és teljes körű fizikai átalakulást. Megközelítése valós tapasztalaton, a versenyzés évei alatt megszerzett tudáson és ügyfelei iránti elkötelezettségen alapul.',
+      
+      newH2Title: 'Személyi Edző Alicantéban és Testépítő Világbajnok',
+      newH2Word1: 'Személyi',
+      newH2Word2: 'Edző',
+      newH2Word3: 'Alicantéban',
+      newH2Word4: 'és',
+      newH2Word5: 'Testépítő',
+      newH2Word6: 'Világbajnok',
+      newH2Word7: '',
+      newH2Word8: '',
+      newH2Word9: '',
+      newH2Word10: '',
+      
+      fatherParagraph: 'Ebben az időszakban Bernatnak alig volt ideje úgy edzeni, mint korábban. A teljes munkaidős apa rutinja teljesen elnyelte, és bár soha nem hagyta fel teljesen a fitneszel, testalkata és mentalitása megváltozott. De mélyen belül versenyszellemet még mindig élt.',
+      
+      sonChallenge: 'Miért nem versenyezel újra, apa? Versenyezz!',
+      sonParagraph: 'Ezek a szavak személyes kihívásként visszhangoztak fejében. Ez volt az az ösztönzés, amire szüksége volt, hogy visszatérjen a színpadokra és bebizonyítsa, hogy még sok mindent kínálhat.',
+      
+      // Título Gimnasio
+      gymSubtitle: 'Scorus GYM',
+      gymTitle: 'Címek és Nemzetközi Eredmények',
+      gymIntroParagraph: '2000-től kezdve Bernat professzionális szinten kezdett versenyezni, rövid időn belül megszilárdítva helyét a legjobb testépítő sportolók között. Erőfeszítése és elkötelezettsége néhány világ legrangosabb címéhez vezette:',
+      
+      // Títulos y logros
+      nabbaTitle: 'NABBA 2006',
+      nabbaSubtitle: 'Világbajnok',
+      nabbaCategory: 'Nehézsúly Kategória',
+      nabbaCategorySubtitle: 'és Abszolút',
+      nabbaDescription: 'Történelmi mérföldkő Bernat karrierjében, megszilárdítva helyét a világ legjobb testépítői között.',
+      
+      mrUniverseTitle: 'NAC Mister Universe',
+      mrUniverseSubtitle: 'Ezüstérmes',
+      mrUniverseCategory: '+90kg Kategória',
+      mrUniverseDescription: 'Nemzetközi elit verseny, ahol Bernat kivételes szintjét mutatta be, a világ legjobbjai között.',
+      
+      arnoldClassicTitle: 'Arnold Classic',
+      arnoldClassicSubtitle: 'Nemzetközi Versenyző',
+      arnoldClassicDetail: 'Columbus (USA) és Madrid',
+      arnoldClassicDescription: 'Részvétel a világ egyik legrangosabb testépítő versenyén, amelyet Arnold Schwarzenegger alapított.',
+      
+      benWeiderTitle: 'Ben Weider Classic',
+      benWeiderSubtitle: 'Aranyérmek',
+      benWeiderCategory: 'és Big Man Masters',
+      benWeiderDetail: 'Arany elit Masters versenyeken, bizonyítva kiválóságát és tapasztalatát a testépítés veterán kategóriáiban.',
+      
+      experienceYears: '25+',
+      experienceLabel: 'Év Tapasztalat',
+      experienceSince: '2000 óta',
+      trophiesCount: '40+',
+      trophiesLabel: 'Nemzetközi Trófeák',
+      
+      // Triumph title
+      triumphTitle: 'A Diadalmas Visszatérés',
+      triumphParagraph: 'Megújult motivációval Bernat 2018-ban visszatért a versenyzésbe, és nagyban tette:',
+      triumphWord1: 'A',
+      triumphWord2: 'Diadalmas',
+      triumphWord3: 'Visszatérés',
+      
+      // Medal details
+      goldMedalTitle: 'ARANYÉREM',
+      goldMedalSubtitle: 'A Visszatérés',
+      goldMedalSeason: 'Első szezon a visszatérés után',
+      goldMedalDescription: 'Diadalmas visszatérés, amely Bernat karrierjében egy új sikerkorszak kezdetét jelentette.',
+      
+      silverBronzeTitle: '2 EZÜST + 1 BRONZ',
+      silverBronzeSubtitle: 'További dobogók 2018-ban',
+      silverBronzeMedals: 'Két',
+      silverBronzeSilver: 'ezüstérem',
+      silverBronzeAnd: 'és egy',
+      silverBronzeBronze: 'bronzérem',
+      silverBronzeDetail: 'Kivételes év több dobogóval, amely megszilárdította visszatérését az elit testépítésbe.',
+      
+      bestBodybuilderTitle: '3. LEGJOBB TESTÉPÍTŐ',
+      bestBodybuilderSubtitle: 'Nemzetközi Elismerés',
+      bestBodybuilderNamed: 'Kinevezték a',
+      bestBodybuilderThird: 'Harmadik',
+      bestBodybuilderBest: 'Legjobb Testépítőnek az Évben',
+      bestBodybuilderDetail: 'Nemzetközi elismerés, amely Bernátot a világ legjobb testépítői közé helyezte.',
+      
+      newMeaningParagraph: 'De ezúttal a versenyzés új jelentést kapott számára. Nem csak a győzelemről szólt, hanem arról, hogy megmutassa, a kitartás, fegyelem és elszántság legyőzhet minden akadályt, még egy hato éves szünetet is.',
+      
+      indiaParagraph: 'Ugyanabban az évben meghívást kapott Indiába, hogy része legyen egy személyi edzők akadémiájának, ahol kurzusokat tanított táplálkozásról, táplálékkiegészítésről, edzésről és versenyfelkészítésről. Ez a lehetőség új ajtókat nyitott meg számára, és lehetővé tette tudásának nemzetközi szintű bővítését, szemináriumokat tartva Dubaiban, Szingapúrban és India különböző városaiban.',
+      
+      // Philosophy title
+      philosophyTitle: 'Az Én Filozófiám: A Fitnessen Túl',
+      philosophyWord1: 'Az',
+      philosophyWord2: 'Én',
+      philosophyWord3: 'Filozófiám',
+      philosophyWord4: 'A',
+      philosophyWord5: 'Fitnessen',
+      philosophyWord6: 'Túl',
+      
+      sacrificeCompetitionTitle: 'A Verseny Áldozata',
+      sacrificeCompetitionParagraph: 'Több mint egy évtizeden keresztül Bernat a testépítésért és a testépítés által élt. Versenyzett, edzett, tökéletesítette technikáját és tapasztalatokat osztott meg a világ legfontosabb sportolóival. De mint minden az életben, eljött egy pillanat, amikor úgy érezte, hogy hátra kell lépnie, hogy egy másik lényeges szempontra koncentráljon: a családjára.\n\n2012-ben, sok év legmagasabb szintű versenyzés után úgy döntött, hogy eltávolodik a színpadoktól és idejét partnerével közös jövő építésére szenteli. Két évvel később, 2014-ben megszületett első fia, 2016-ban pedig megérkezett lánya. Ezek azok az évek voltak, amikor a testépítés háttérbe szorult, mivel az abszolút prioritás a család nevelése és gondozása volt.\n\nTöbb mint egy évtizeden keresztül Bernat a testépítésért és a testépítés által élt. Versenyzett, edzett, tökéletesítette technikáját és tapasztalatokat osztott meg a világ legfontosabb sportolóival. De mint minden az életben, eljött egy pillanat, amikor úgy érezte, hogy hátra kell lépnie, hogy egy másik lényeges szempontra koncentráljon: a családjára.\n\n2012-ben, sok év legmagasabb szintű versenyzés után úgy döntött, hogy eltávolodik a színpadoktól és idejét partnerével közös jövő építésére szenteli. Két évvel később, 2014-ben megszületett első fia, 2016-ban pedig megérkezett lánya. Ezek azok az évek voltak, amikor a testépítés háttérbe szorult, mivel az abszolút prioritás a család nevelése és gondozása volt.',
+      
+      scorusFitnessParagraph: 'Sikeres testépítő karrierje után Bernat megalapította a Scorus Fitness-t, egy edzőközpontot, amely a következőket kínálja:',
+      
+      // Módulos de servicios
+      trainingModuleTitle: 'Edzés',
+      trainingModuleDescription: 'Személyre szabott<br/>edzéstervek',
+      nutritionModuleTitle: 'Táplálkozás',
+      nutritionModuleDescription: 'Teljesítményre és<br/>egészségre fókuszált táplálkozás',
+      trackingModuleTitle: 'Nyomon Követés',
+      trackingModuleDescription: 'Valódi kísérés tartós<br/>változások eléréséhez',
+      rebornModuleTitle: 'REBORN és Scorus<br/>Campus',
+      rebornModuleDescription: 'Prémium<br/>átalakulási programok',
+      scorusGymModuleTitle: 'ScorusGYM',
+      scorusGymModuleDescription: 'Privát edzőterem<br/>exkluzív megközelítéssel, zavaró tényezők nélkül',
+      holisticParagraph: 'Megközelítése holisztikus, magában foglalja mind a fizikai fejlődést, mind az egészséges és fenntartható életmód fenntartásához szükséges gondolkodásmódot.',
+      
+      // Final CTA
+      ctaTitle: 'Alakítsd Át Életed',
+      ctaSubtitle: 'a Scorus Fitness-szel',
+      ctaDescription: 'Ha valódi változást keresel, itt vagyok, hogy vezesselek. Akár zsírt akarsz veszíteni, izmot építeni vagy versenyekre készülni, a Scorus Fitness-nél megtalálod az eszközöket és támogatást, amire szükséged van.',
+      ctaText: 'Kezdj ma. Lépj kapcsolatba velem és alakítsd át tested és elméd.',
+      ctaButton: 'Lépj Kapcsolatba Most!',
+      contactUrl: '/hu/kapcsolat',
     }
   };
   
@@ -2149,7 +2441,11 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
         ? /compites|papá|Compite/gi 
         : lang === 'en'
         ? /compete|dad|Compete/gi
-        : /compètes|papa|Compète/gi; // francés
+        : lang === 'fr'
+        ? /compètes|papa|Compète/gi
+        : lang === 'de'
+        ? /konkurrierst|Papa|Konkurriere/gi
+        : /versenyezel|apa|Versenyezz/gi; // húngaro
       const outlinedHTML = sonChallengeText.replace(keywordsPattern, (m) => (
         `<span style="color:transparent;-webkit-text-stroke:2px rgb(220,38,38)">${m}</span>`
       ));
@@ -6913,6 +7209,35 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                     </span>
                   </>
                 );
+              } else if (lang === 'de') {
+                return (
+                  <>
+                    <span className="block mb-2">
+                      <span ref={philosophyWord1Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord1}</span>
+                      <span ref={philosophyWord2Ref} className="inline-block text-red-600 will-change-transform">{t.philosophyWord2}</span>
+                    </span>
+                    <span className="block">
+                      <span ref={philosophyWord3Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord3}</span>
+                      <span ref={philosophyWord4Ref} className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 will-change-transform mr-3">{t.philosophyWord4}</span>
+                      <span ref={philosophyWord5Ref} className="inline-block text-white will-change-transform">{t.philosophyWord5}</span>
+                    </span>
+                  </>
+                );
+              } else if (lang === 'hu') {
+                return (
+                  <>
+                    <span className="block mb-2">
+                      <span ref={philosophyWord1Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord1}</span>
+                      <span ref={philosophyWord2Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord2}</span>
+                      <span ref={philosophyWord3Ref} className="inline-block text-red-600 will-change-transform">{t.philosophyWord3}</span>
+                    </span>
+                    <span className="block">
+                      <span ref={philosophyWord4Ref} className="inline-block text-white will-change-transform mr-3">{t.philosophyWord4}</span>
+                      <span ref={philosophyWord5Ref} className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 will-change-transform mr-3">{t.philosophyWord5}</span>
+                      <span ref={philosophyWord6Ref} className="inline-block text-white will-change-transform">{t.philosophyWord6}</span>
+                    </span>
+                  </>
+                );
               }
             })()}
           </h2>
@@ -7264,6 +7589,26 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                     </span>
                   </>
                 );
+              } else if (lang === 'de') {
+                return (
+                  <>
+                    <span className="block text-white">
+                      <span ref={triumphTitle1Ref} className="inline-block will-change-transform mr-3" style={{ opacity: 1 }}>Die</span>
+                      <span ref={triumphTitle2Ref} className="inline-block text-red-600 will-change-transform mr-3" style={{ opacity: 1 }}>Triumphale</span>
+                      <span ref={triumphTitle3Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>Rückkehr</span>
+                    </span>
+                  </>
+                );
+              } else if (lang === 'hu') {
+                return (
+                  <>
+                    <span className="block text-white">
+                      <span ref={triumphTitle1Ref} className="inline-block will-change-transform mr-3" style={{ opacity: 1 }}>A</span>
+                      <span ref={triumphTitle2Ref} className="inline-block text-red-600 will-change-transform mr-3" style={{ opacity: 1 }}>Diadalmas</span>
+                      <span ref={triumphTitle3Ref} className="inline-block will-change-transform" style={{ opacity: 1 }}>Visszatérés</span>
+                    </span>
+                  </>
+                );
               }
             })()}
           </h2>
@@ -7379,6 +7724,42 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
                     <span className="block">
                       <span className="text-white">de </span>
                       <span className="text-red-600">Culturisme</span>
+                    </span>
+                  </>
+                );
+              } else if (lang === 'de') {
+                return (
+                  <>
+                    <span className="block mb-2">
+                      <span className="text-red-600">Personal Trainer</span>
+                    </span>
+                    <span className="block mb-2">
+                      <span className="text-white">in Alicante</span>
+                    </span>
+                    <span className="block">
+                      <span className="text-white">und </span>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600">Bodybuilding-</span>
+                    </span>
+                    <span className="block">
+                      <span className="text-red-600">Weltmeister</span>
+                    </span>
+                  </>
+                );
+              } else if (lang === 'hu') {
+                return (
+                  <>
+                    <span className="block mb-2">
+                      <span className="text-red-600">Személyi Edző</span>
+                    </span>
+                    <span className="block mb-2">
+                      <span className="text-white">Alicantéban</span>
+                    </span>
+                    <span className="block">
+                      <span className="text-white">és </span>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600">Testépítő</span>
+                    </span>
+                    <span className="block">
+                      <span className="text-red-600">Világbajnok</span>
                     </span>
                   </>
                 );

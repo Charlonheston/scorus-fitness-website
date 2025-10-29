@@ -1,86 +1,69 @@
 ---
-/**
- * Életrajz oldal - Húngaro
- */
+import Layout from '@layouts/Layout.astro';
+import BioIntro from '@components/biography/BioIntro.tsx';
 
-import Layout from '@/layouts/Layout.astro';
-import HeroSection from '@components/biography/HeroSection.astro';
-import ScrollSection from '@components/biography/ScrollSection.astro';
-import TimelineSection from '@components/biography/TimelineSection.astro';
-import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+const title = 'Életrajz | Bernat Scorus';
+const description = 'Személyes fejlődéstől a fitness kiválóságig. Scrollytelling.';
 
-const currentLang = 'hu';
-
-const timelineEvents = [
-  { year: '1979', title: 'A kezdetek', description: '1979. július 6-án születtem Marosvásárhelyen, Erdélyben. Gyerekkorom az elite sportolók körül telt, ami fiatal koromtól fogva felébresztette bennem a sport iránti szenvedélyt.' },
-  { year: '1994', title: 'A felfedezés', description: 'Első testépítési versenyemen vettem részt. Olyan legendák láttam élőben, mint Flex Wheeler, Milos Sarcev és Robby Robinson - ez a pillanat örökre megváltoztatta az életemet.' },
-  { year: '2000', title: 'Verseny kezdete', description: 'Profi szinten kezdtem versenyezni. Annak ellenére, hogy sokan azt mondták, nincs megfelelő genetikám, munkával és diszciplínával bebizonyítottam az ellenkezőjét.' },
-  { year: '2006', title: 'Világbajnok', description: 'Elértem a NABBA Világbajnoki címet Nehézsulyú és Abszolút kategóriában. Az áldozat és az elszántság végre meghozta gyümölcseit.' },
-  { year: '2012', title: 'A szünet', description: 'Úgy döntöttem, szünetet tartok a versenyektől, hogy a családra tudjak koncentrálni. Bár megváltozott a ritmusom, sosem adtam fel teljesen az edzést.' },
-  { year: '2018', title: 'A visszatérés', description: 'Fiam kihívott: "Miért nem versenyezel már, apa? Versenyezz!" 6 év szünet után nagyobb erővel visszatértem a pódiumra, és több érmet is nyertem.' }
-];
-
-const sections = [
-  { videoMp4: '/videos/biography/bernat-intro.mp4', videoWebm: '/videos/biography/bernat-intro.webm', title: 'Gyermekkor', subtitle: 'Kezdetek', content: `1979. július 6-án születtem Marosvásárhelyen, Erdélyben. Családom elit sportolók családja volt, ahol a sport nem csak tevékenység, hanem egy életfiloszofia volt.\n\nFiatal koromtól úsztam, tornáztam, karatéztam, focizottam, kosárlabdáztam és atletizáltam. De a test, az erőteljes izmok csodálata fogta el a szívem. Az Arnold Schwarzenegger, Sylvester Stallone és Jean-Claude Van Damme filmek azt a vágyat ébresztették bennem, hogy olyan testtel rendelkezzem.`, index: 0 },
-  { videoMp4: '/videos/biography/bernat-training.mp4', videoWebm: '/videos/biography/bernat-training.webm', title: 'Felfedezés', subtitle: '1994 - Az a pillanat, ami mindent megváltoztatott', content: `Az első testépítési verseny volt az a pillanat, amikor felismertem az igazi utamat. Legendákat láttam: Flex Wheeler-t, Milos Sarcev-et és Robby Robinson-t - nem volt csak inspiráló, hanem transzformatív.\n\nTudtam pontosan, mit akarok az élettől: teljesen a testépítésnek és fizikai fejlesztésnek szentelni az életemet.\n\nAz anyám és barátaim azt mondták, nincs megfelelő genetikám (csak 50 kilóm volt), de ez nem állított meg. Tudtam, hogy az erőfeszítés, kitartás és helyes mentalitás minden akadályt le tud győzni.`, index: 1 },
-  { videoMp4: '/videos/biography/bernat-competition.mp4', videoWebm: '/videos/biography/bernat-competition.webm', title: 'A küzdelem', subtitle: '2000-2006 - Az extrém odaadás évei', content: `2000-ben kezdtem el profi szinten versenyezni. Amit követett: könyörtelen edzések, szigorú táplálkozás és állandó áldozatok.\n\nMinden kiló izomtömeg egy győzelem volt. Minden verseny egy tanulság. Minden vereség erősebbé tett.\n\n2006-ban azt értem el, amit lehetetlennek tartottak: NABBA Világbajnokká váltam Nehézsulyú és Abszolút kategóriában. Ez a pillanat validálta az összes áldozatot, fájdalmat és elszántságot.`, index: 2 },
-  { videoMp4: '/videos/biography/bernat-focus.mp4', videoWebm: '/videos/biography/bernat-focus.webm', title: 'Család', subtitle: '2012 - Új prioritás', content: `2012-ben úgy döntöttem, szünetet tartok. A verseny az én életem volt, de a család is megérdemelte.\n\nTeljes idejű apává lettem. A testem megváltozott, a gondolkodásomváltozott, de egy dolog nem: az edzésben égő szenvedély.\n\nHat évig edzésnek helyet adtam az életemben, de nem volt az első. Családot épített, emlékeket teremtettem, az apja voltam, akire szükségük volt a gyerekeknek.`, index: 3 },
-  { videoMp4: '/videos/biography/bernat-gym.mp4', videoWebm: '/videos/biography/bernat-gym.webm', title: 'A visszatérés', subtitle: '2018 - Erősebb mint valaha', content: `2018-ban a fiam azt kérdezte: "Miért nem versenyezel már, apa? Versenyezz!"\n\nEz a biztatás pont az volt, amire szükségem volt. Hat év után visszatértem a pódiumra, és nagyobb erővel, mint valaha.\n\nErmeket nyertem, ismét elismerést kaptam, de legfontosabb: bebizonyítottam, hogy az élet, az idő és az akadályok nem limitálják azokat, akiknek van diszciplínája és elszántságuk.\n\nAzóta Indiában, Dubaiban, Szingapúrban jártam, mint edző és mentor nemzetközi akadémiákon.`, index: 4 }
-];
+const videoMp4 = '/videos/biography/intro.mp4';
+const videoWebm = '/videos/biography/intro.webm';
 ---
 
-<Layout
-  title="Életrajz - Bernat Scorus | Scorus Fitness"
-  description="Bernat Scorus epikus története, a testépítés világbajnoka, több mint 25 év tapasztalattal"
->
-  <HeroSection videoMp4="/videos/biography/bernat-intro.mp4" videoWebm="/videos/biography/bernat-intro.webm" />
-  {sections.map((section) => (<ScrollSection videoMp4={section.videoMp4} videoWebm={section.videoWebm} title={section.title} subtitle={section.subtitle} content={section.content} index={section.index} />))}
-  <TimelineSection events={timelineEvents} />
-  <section class="relative py-24 md:py-32 bg-black">
-    <div class="container relative z-10 px-4 md:px-8">
-      <div class="mb-16 md:mb-24 text-center">
-        <p class="mb-4 text-xs md:text-sm font-semibold uppercase tracking-widest text-red-500">Az én filozófiám</p>
-        <h2 class="text-3xl md:text-5xl lg:text-6xl font-black uppercase leading-tight tracking-tighter text-white">A <span class="text-red-600">3 Pillér</span></h2>
-      </div>
-      <div class="mx-auto grid max-w-6xl gap-8 md:gap-12 md:grid-cols-3">
-        {[{ title: 'Fegyelem', description: 'A fegyelem az, hogy azt teszed, amit nem akarsz tenni azért, hogy az lehess, aki szeretnél lenni. Minden nap edzek, kifogások nélkül.', icon: '💪' }, { title: 'Teljes Elköteleződés', description: 'Ha elköteleződöl velem, akkor 100%-ban megkapod az én erőmet. A te átalakulásod az én misszióm. Ez nem üzlet, ez egy hivatás.', icon: '🎯' }, { title: 'Valós Eredmények', description: 'Nem ígérek csodákat. Ígérek kemény munkát, bizonyított módszertant és tartós változást, ami megváltoztatja az életedet.', icon: '🏆' }].map((pillar) => (<div class="group rounded-lg bg-gray-900/50 p-8 md:p-10 backdrop-blur-sm border border-gray-800 transition-all duration-300 hover:border-red-600/50 hover:bg-gray-900/80"><div class="mb-6 text-5xl md:text-6xl">{pillar.icon}</div><h3 class="mb-4 text-2xl md:text-3xl font-black uppercase text-white">{pillar.title}</h3><p class="text-sm md:text-base leading-relaxed text-gray-300">{pillar.description}</p></div>))}
-      </div>
-    </div>
-  </section>
-  <section class="relative py-24 md:py-32 bg-gradient-to-b from-black to-gray-900">
-    <div class="container relative z-10 px-4 md:px-8">
-      <div class="mx-auto grid max-w-5xl gap-8 md:gap-12 sm:grid-cols-2 lg:grid-cols-4">
-        {[{ value: '25+', label: 'Év Tapasztalat' }, { value: '500+', label: 'Átalakított Kliensek' }, { value: '15+', label: 'Nyert Címek' }, { value: '5', label: 'Kontinens' }].map((stat) => (<div class="text-center stat-counter"><div class="mb-4 text-4xl md:text-5xl lg:text-6xl font-black text-red-600">{stat.value}</div><p class="text-sm md:text-base font-semibold uppercase tracking-widest text-gray-400">{stat.label}</p></div>))}
-      </div>
-    </div>
-  </section>
-  <section class="relative py-24 md:py-32 bg-black">
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-red-600/10 blur-3xl"></div>
-    </div>
-    <div class="container relative z-10 px-4 md:px-8">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-6 text-3xl md:text-5xl lg:text-6xl font-black uppercase leading-tight tracking-tighter text-white">A te <span class="text-red-600">Átalakulásod</span> Ma Kezdődik</h2>
-        <p class="mb-12 text-base md:text-lg leading-relaxed text-gray-300">25 évem a testek és elmék átalakultatásával telt. Most a te sorod. Bárhol vagy és bármi a célod, megvan bennem az ismeret, tapasztalat és szenvedély, hogy a legjobb verzióddá válj.</p>
-        <div class="flex flex-col gap-4 sm:flex-row justify-center">
-          <ButtonPrimary href={`/${currentLang}/kapcsolat`} text="Kezdj Most" icon="zap" size="xl" variant="glow" />
-          <ButtonPrimary href={`/${currentLang}/szolgaltatasok`} text="Tekintsd meg" icon="arrow" variant="glow" size="xl" />
-        </div>
-      </div>
-    </div>
-  </section>
+<Layout title={title} description={description}>
+  <BioIntro 
+    client:only="react" 
+    lang="hu"
+    videoMp4={videoMp4} 
+    videoWebm={videoWebm}
+    framesPattern="/images/about/biography/frames/Timeline 1_{index}.jpg"
+    framesCount={242}
+    frames2Pattern="/images/about/biography/training-frames/Timeline 1_{i}.jpg"
+    frames2Count={301}
+    frames3Pattern="/images/about/biography/challenge-frames/Timeline 1_{index}.webp"
+    frames3Count={242}
+    frames3Start={86400}
+    frames4Pattern="/images/about/biography/final-frames/Timeline 1_{index}.webp"
+    frames4Count={241}
+    frames4Start={86400}
+    frames5Pattern="/images/about/biography/legacy-frames/Timeline 1_{index}.webp"
+    frames5Count={192}
+    frames5Start={86400}
+    frames6Pattern="/images/about/biography/epilogue-frames/Timeline 1_{index}.webp"
+    frames6Count={242}
+    frames6Start={86400}
+  />
+  <!-- Altura extra responsive para cubrir todo el scrollytelling -->
+  <div id="bio-scroll-spacer"></div>
+  <!-- Espacio para el CTA fijo, permite que el footer aparezca debajo -->
+  <div id="bio-cta-spacer" class="relative bg-black"></div>
 </Layout>
 
-<style>.stat-counter { opacity: 0; transform: translateY(40px); }</style>
-<script>
-  import gsap from 'gsap';
-  import ScrollTrigger from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-  document.addEventListener('DOMContentLoaded', () => {
-    const statCounters = document.querySelectorAll('.stat-counter');
-    statCounters.forEach((counter, idx) => {
-      gsap.fromTo(counter, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: idx * 0.1, scrollTrigger: { trigger: counter, start: 'top 80%', end: 'top 50%', scrub: 0.5 } });
-    });
-  });
-</script>
-
+<style is:inline>
+  html, body { background-color: #000; }
+  /* Spacer responsive: Incluye fade out final de 2 notches */
+  #bio-scroll-spacer { height: 6200vh; }
+  @media (min-width: 768px) {
+    #bio-scroll-spacer { height: 5030vh; }
+  }
+  @media (min-width: 1024px) {
+    #bio-scroll-spacer { height: 4570vh; }
+  }
+  
+  /* Espacio para el CTA fijo - permite que el footer sea visible */
+  #bio-cta-spacer { 
+    height: 100vh; 
+    min-height: 600px;
+  }
+  @media (min-width: 768px) {
+    #bio-cta-spacer { 
+      height: 90vh;
+      min-height: 550px;
+    }
+  }
+  @media (min-width: 1024px) {
+    #bio-cta-spacer { 
+      height: 80vh;
+      min-height: 500px;
+    }
+  }
+</style>
