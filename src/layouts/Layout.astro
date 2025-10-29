@@ -57,16 +57,83 @@ const finalSchemas = schema ? (Array.isArray(schema) ? [...defaultSchemas, ...sc
     <!-- Structured Data -->
     <StructuredData schema={finalSchemas} />
     
-    <!-- Preload de fuentes web para evitar FOUT -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" as="style">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" as="style">
-    
-    <!-- Preconnect a Google Fonts -->
+    <!-- DNS Prefetch y Preconnect para recursos externos -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
+    <!-- Cargar fuentes web de forma asíncrona con font-display swap -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"></noscript>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"></noscript>
+    
     <!-- View Transitions (navegación fluida) -->
     <meta name="view-transition" content="same-origin" />
+    
+    <!-- Critical CSS inline - Reducir render blocking -->
+    <style>
+      /* Prevenir FOUC - Hero debe mostrarse inmediatamente */
+      body { opacity: 1 !important; }
+      
+      /* Header crítico - Estado inicial TRANSPARENTE */
+      #main-header { 
+        position: fixed; 
+        top: 0; 
+        width: 100%; 
+        z-index: 50;
+        background-color: transparent !important;
+        box-shadow: none !important;
+      }
+      
+      /* ⚡ FORZAR ESTADO INICIAL: Texto BLANCO - Máxima especificidad */
+      html body header#main-header.header-transparent #header-nav nav a,
+      html body header#main-header.header-transparent #header-nav nav a span,
+      html body header#main-header.header-transparent #header-nav button,
+      html body header#main-header.header-transparent #header-nav button span,
+      html body header#main-header.header-transparent .flex.items-center,
+      html body header#main-header.header-transparent .flex.items-center button {
+        color: white !important;
+      }
+      
+      /* SVGs iniciales en BLANCO - Máxima especificidad */
+      html body header#main-header.header-transparent svg,
+      html body header#main-header.header-transparent svg path {
+        stroke: white !important;
+        color: white !important;
+        fill: none !important;
+      }
+      
+      /* Logo blanco visible, logo negro oculto */
+      html body header#main-header.header-transparent #logo-white {
+        display: block !important;
+      }
+      
+      html body header#main-header.header-transparent #logo-black {
+        display: none !important;
+      }
+      
+      /* Links activos siguen en ROJO incluso en estado inicial */
+      html body header#main-header.header-transparent a.text-red-600,
+      html body header#main-header.header-transparent a.text-red-600 span {
+        color: rgb(220, 38, 38) !important;
+      }
+      
+      /* Mobile menu button - Forzar blanco */
+      html body header#main-header.header-transparent .lg\:hidden button,
+      html body header#main-header.header-transparent .lg\:hidden svg {
+        color: white !important;
+        stroke: white !important;
+      }
+      
+      /* Hero section crítica para LCP */
+      section:first-of-type {
+        min-height: 100vh;
+        background-color: #000;
+      }
+    </style>
   </head>
   <body class="flex min-h-screen flex-col">
     <Header />

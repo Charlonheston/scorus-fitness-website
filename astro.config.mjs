@@ -29,17 +29,30 @@ export default defineConfig({
   ],
   output: 'static',
   image: {
-    // No usar optimización automática de Astro - estamos usando set:html con picture elements
+    // Optimización de imágenes con Sharp
     service: {
-      entrypoint: 'astro/assets/services/noop',
+      entrypoint: 'astro/assets/services/sharp',
     },
+    // Configuración de calidad de imágenes optimizada
+    remotePatterns: [],
   },
+  build: {
+    // Inlinear assets pequeños para reducir requests
+    inlineStylesheets: 'auto',
+    // Optimizaciones de assets
+    assets: '_astro',
+  },
+  compressHTML: true,
   vite: {
     build: {
+      // Minimización CSS con Lightning CSS
       cssMinify: 'lightningcss',
-      // Optimizar imágenes estáticas
+      // Minimización JS
+      minify: 'esbuild',
+      // Optimizar chunks
       rollupOptions: {
         output: {
+          // Organizar assets por tipo
           assetFileNames: (assetInfo) => {
             let extType = assetInfo.name.split('.').at(-1);
             if (/png|jpe?g|gif|svg|webp|avif/i.test(extType)) {
@@ -47,15 +60,28 @@ export default defineConfig({
             }
             return `assets/${extType}/[name]-[hash][extname]`;
           },
+          // Optimizar chunks de código
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom'],
+          },
         },
       },
+      // Habilitar source maps solo en dev
+      sourcemap: false,
+      // Optimizar tamaño del bundle
+      chunkSizeWarningLimit: 1000,
     },
     ssr: {
       external: ['sharp'],
     },
+    // Optimizaciones adicionales
+    optimizeDeps: {
+      include: ['react', 'react-dom'],
+    },
   },
   experimental: {
-    // Habilitar optimizaciones experimentales si están disponibles
+    // Habilitar optimizaciones experimentales
+    contentCollectionCache: true,
   },
 });
 

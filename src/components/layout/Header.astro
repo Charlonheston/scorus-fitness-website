@@ -18,12 +18,13 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
 <header 
   id="main-header" 
   class="fixed top-0 z-50 w-full header-transparent"
+  style="color: white;"
 >
   <div class="container">
-    <div class="flex h-16 md:h-28 items-center justify-between w-full">
+    <div class="flex h-16 md:h-28 items-center justify-between w-full" style="color: white;">
       <!-- Logo - Con cambio dinámico blanco/negro -->
       <div class="flex items-center flex-shrink-0">
-        <a href={`/${currentLang}/`} class="header-link group flex items-center">
+        <a href={`/${currentLang}/`} class="header-link group flex items-center" style="color: white;">
           <!-- Logo Blanco (transparente) -->
           <img 
             id="logo-white"
@@ -65,145 +66,137 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
 </header>
 
 <script>
-  // Efecto de scroll para el header con cambio de colores
+  // Efecto de scroll optimizado para el header - EVITA REFLOWS FORZADOS
   function initHeaderScroll() {
     const header = document.getElementById('main-header');
-    
     if (!header) return;
 
-    function updateHeader() {
-      if (!header) return; // TypeScript null check
-      
-      const currentScroll = window.scrollY || window.pageYOffset;
-      
-      // Obtener elementos del NAV principal (EXCLUIR dropdowns)
-      const navBar = header.querySelector('#header-nav');
-      const mainLinks = navBar ? navBar.querySelectorAll(':scope > nav > div > a, :scope > div > button') : [];
-      const mainSpans = navBar ? navBar.querySelectorAll(':scope > nav > div > a > span') : [];
-      const mainSvgs = navBar ? navBar.querySelectorAll(':scope > nav > div > a > svg, :scope > div > button > svg') : [];
-      
-      // Obtener elementos del LOGO
-      const logoWhite = header.querySelector('#logo-white') as HTMLElement;
-      const logoBlack = header.querySelector('#logo-black') as HTMLElement;
-      
-      // Obtener elementos móviles (hamburguesa y language switcher)
-      const mobileMenuButton = header.querySelector('#mobile-menu-button') as HTMLElement;
-      const mobileContainer = header.querySelector('.flex.items-center.gap-4.lg\\:hidden') as HTMLElement;
+    // ✅ CACHEAR TODOS LOS ELEMENTOS AL INICIO (no en cada scroll)
+    const headerContainer = header.querySelector('.container > .flex') as HTMLElement | null;
+    const navBar = header.querySelector('#header-nav');
+    const mainLinks = navBar ? Array.from(navBar.querySelectorAll(':scope > nav > div > a, :scope > div > button')) : [];
+    const mainSpans = navBar ? Array.from(navBar.querySelectorAll(':scope > nav > div > a > span')) : [];
+    const mainSvgs = navBar ? Array.from(navBar.querySelectorAll(':scope > nav > div > a > svg, :scope > div > button > svg')) : [];
+    const logoWhite = header.querySelector('#logo-white') as HTMLElement | null;
+    const logoBlack = header.querySelector('#logo-black') as HTMLElement | null;
+    const mobileMenuButton = header.querySelector('#mobile-menu-button') as HTMLElement | null;
+    const mobileContainer = header.querySelector('.flex.items-center.gap-4.lg\\:hidden') as HTMLElement | null;
+    const hamburgerSvg = mobileMenuButton?.querySelector('svg') as SVGElement | null;
 
-      if (currentScroll <= 50) {
-        // ========== ESTADO TRANSPARENTE (TOP) ==========
-        header.style.backgroundColor = 'transparent';
-        header.style.boxShadow = 'none';
-        header.classList.remove('bg-white', 'shadow-md', 'header-solid');
-        header.classList.add('header-transparent');
-        
-        // Mostrar Logo BLANCO
-        if (logoWhite && logoBlack) {
-          logoWhite.classList.remove('hidden');
-          logoBlack.classList.add('hidden');
-        }
-        
-        // Links principales del NAV en BLANCO (EXCEPTO activos en rojo)
-        mainLinks.forEach(el => {
-          if (!el.classList.contains('text-red-600')) {
-            (el as HTMLElement).style.color = 'white';
-            el.classList.add('!text-white');
-            el.classList.remove('!text-black');
-          }
-        });
-        
-        // Spans de los links en BLANCO
-        mainSpans.forEach(el => {
-          const closestLink = el.closest('a');
-          if (closestLink && !closestLink.classList.contains('text-red-600')) {
-            (el as HTMLElement).style.color = 'white';
-            el.classList.add('!text-white');
-            el.classList.remove('!text-black');
-          }
-        });
-        
-        // SVGs principales en BLANCO
-        mainSvgs.forEach(el => {
-          (el as HTMLElement).style.stroke = 'white';
-          (el as HTMLElement).style.color = 'white';
-        });
-        
-        // MOBILE: Hamburguesa en BLANCO
-        if (mobileMenuButton) {
-          mobileMenuButton.style.color = 'white';
-          const hamburgerSvg = mobileMenuButton.querySelector('svg');
-          if (hamburgerSvg) {
-            hamburgerSvg.style.stroke = 'white';
-            hamburgerSvg.style.color = 'white';
-          }
-        }
-        
-        // MOBILE: Contenedor móvil en BLANCO
-        if (mobileContainer) {
-          mobileContainer.style.color = 'white';
-        }
-        
-      } else {
-        // ========== ESTADO SÓLIDO (SCROLLED) ==========
-        header.style.backgroundColor = 'white';
-        header.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
-        header.classList.remove('header-transparent');
-        header.classList.add('bg-white', 'shadow-md', 'header-solid');
-        
-        // Mostrar Logo NEGRO
-        if (logoWhite && logoBlack) {
-          logoWhite.classList.add('hidden');
-          logoBlack.classList.remove('hidden');
-        }
-        
-        // Links principales del NAV en NEGRO (EXCEPTO activos en rojo)
-        mainLinks.forEach(el => {
-          if (!el.classList.contains('text-red-600')) {
+    let ticking = false;
+    let lastKnownScrollPosition = 0;
+    let isScrolled = false;
+
+    function updateHeaderStyles(scrollPos: number) {
+      const shouldBeScrolled = scrollPos > 50;
+      
+      // ✅ Solo actualizar si el estado cambió (evita manipulaciones innecesarias)
+      if (shouldBeScrolled === isScrolled) return;
+      isScrolled = shouldBeScrolled;
+
+      // ✅ Usar requestAnimationFrame para batch de cambios DOM
+      requestAnimationFrame(() => {
+        if (isScrolled) {
+          // Estado sólido (scrolled) - NEGRO
+          header.classList.remove('header-transparent');
+          header.classList.add('header-solid', 'bg-white', 'shadow-md');
+          header.style.color = 'black';
+          
+          if (headerContainer) headerContainer.style.color = 'black';
+          
+          logoWhite?.classList.add('hidden');
+          logoBlack?.classList.remove('hidden');
+          
+          mainLinks.forEach(el => {
+            if (!el.classList.contains('text-red-600')) {
+              (el as HTMLElement).style.color = 'black';
+              el.classList.remove('!text-white');
+              el.classList.add('!text-black');
+            }
+          });
+          
+          mainSpans.forEach(el => {
+            const closestLink = el.closest('a');
+            if (closestLink && !closestLink.classList.contains('text-red-600')) {
+              (el as HTMLElement).style.color = 'black';
+              (el as HTMLElement).classList.remove('!text-white');
+              (el as HTMLElement).classList.add('!text-black');
+            }
+          });
+          
+          mainSvgs.forEach(el => {
+            (el as HTMLElement).style.stroke = 'black';
             (el as HTMLElement).style.color = 'black';
-            el.classList.add('!text-black');
-            el.classList.remove('!text-white');
-          }
-        });
-        
-        // Spans de los links en NEGRO
-        mainSpans.forEach(el => {
-          const closestLink = el.closest('a');
-          if (closestLink && !closestLink.classList.contains('text-red-600')) {
-            (el as HTMLElement).style.color = 'black';
-            el.classList.add('!text-black');
-            el.classList.remove('!text-white');
-          }
-        });
-        
-        // SVGs principales en NEGRO
-        mainSvgs.forEach(el => {
-          (el as HTMLElement).style.stroke = 'black';
-          (el as HTMLElement).style.color = 'black';
-        });
-        
-        // MOBILE: Hamburguesa en NEGRO
-        if (mobileMenuButton) {
-          mobileMenuButton.style.color = 'black';
-          const hamburgerSvg = mobileMenuButton.querySelector('svg');
+          });
+          
+          if (mobileMenuButton) mobileMenuButton.style.color = 'black';
           if (hamburgerSvg) {
             hamburgerSvg.style.stroke = 'black';
             hamburgerSvg.style.color = 'black';
           }
+          if (mobileContainer) mobileContainer.style.color = 'black';
+          
+        } else {
+          // Estado transparente (top) - BLANCO
+          header.classList.remove('header-solid', 'bg-white', 'shadow-md');
+          header.classList.add('header-transparent');
+          header.style.color = 'white';
+          
+          if (headerContainer) headerContainer.style.color = 'white';
+          
+          logoWhite?.classList.remove('hidden');
+          logoBlack?.classList.add('hidden');
+          
+          mainLinks.forEach(el => {
+            if (!el.classList.contains('text-red-600')) {
+              (el as HTMLElement).style.color = 'white';
+              el.classList.remove('!text-black');
+              el.classList.add('!text-white');
+            }
+          });
+          
+          mainSpans.forEach(el => {
+            const closestLink = el.closest('a');
+            if (closestLink && !closestLink.classList.contains('text-red-600')) {
+              (el as HTMLElement).style.color = 'white';
+              (el as HTMLElement).classList.remove('!text-black');
+              (el as HTMLElement).classList.add('!text-white');
+            }
+          });
+          
+          mainSvgs.forEach(el => {
+            (el as HTMLElement).style.stroke = 'white';
+            (el as HTMLElement).style.color = 'white';
+          });
+          
+          if (mobileMenuButton) mobileMenuButton.style.color = 'white';
+          if (hamburgerSvg) {
+            hamburgerSvg.style.stroke = 'white';
+            hamburgerSvg.style.color = 'white';
+          }
+          if (mobileContainer) mobileContainer.style.color = 'white';
         }
-        
-        // MOBILE: Contenedor móvil en NEGRO
-        if (mobileContainer) {
-          mobileContainer.style.color = 'black';
-        }
+      });
+    }
+
+    // ✅ Handler optimizado con throttling via requestAnimationFrame
+    function handleScroll() {
+      lastKnownScrollPosition = window.scrollY;
+      
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateHeaderStyles(lastKnownScrollPosition);
+          ticking = false;
+        });
+        ticking = true;
       }
     }
 
-    // Ejecutar al cargar y al hacer scroll
-    window.addEventListener('scroll', updateHeader, { passive: true });
-    window.addEventListener('load', updateHeader);
+    // ✅ Evento con passive para mejor performance
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
     // Ejecutar inmediatamente
-    updateHeader();
+    updateHeaderStyles(window.scrollY);
   }
 
   // Inicializar cuando el DOM esté listo
@@ -215,7 +208,26 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
 </script>
 
 <style>
-  /* Estilos para el header con JavaScript dinámico */
+  /* Estilos optimizados para el header - Reducir Render Blocking */
+  
+  /* OPTIMIZACIONES DE PERFORMANCE */
+  #main-header {
+    /* Forzar capa de composición para GPU acceleration */
+    transform: translateZ(0);
+    will-change: background-color, box-shadow;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    
+    /* Transiciones suaves y performantes */
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  /* Optimizar logos para cambios rápidos */
+  #logo-white,
+  #logo-black {
+    will-change: opacity;
+    transition: opacity 0.2s ease;
+  }
   
   /* ASEGURAR QUE EL HEADER SE MANTENGA COMPLETAMENTE FIJO */
   #main-header {

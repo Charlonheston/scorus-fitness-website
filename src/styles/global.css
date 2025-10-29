@@ -2,12 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Header Transparente - Forzar desde CSS global */
-#main-header {
-  background-color: transparent !important;
-  transition: all 0.3s ease-in-out;
-}
-
+/* Header Transparente - Optimizado para performance */
 #main-header.header-solid {
   background-color: white !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
@@ -23,12 +18,29 @@
 /* Optimizar el primer elemento contentful (Hero) */
 section:first-of-type {
   content-visibility: auto;
-  contain: layout style paint;
+  contain-intrinsic-size: 100vw 100vh;
 }
 
-/* Prerender importante para LCP */
+/* Optimizar animaciones para mejor performance */
 .group {
-  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Lazy load optimizations */
+img[loading="lazy"] {
+  content-visibility: auto;
+  contain-intrinsic-size: 100px 100px;
+}
+
+/* Reducir FOUC de fuentes */
+body {
+  font-display: swap;
+}
+
+/* Optimizar scroll */
+* {
+  scroll-behavior: smooth;
 }
 
 /* ==================== Reset Base ==================== */
