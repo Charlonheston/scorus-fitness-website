@@ -1645,7 +1645,7 @@ export default function BioIntro({ videoMp4, videoWebm, poster = '/images/hero/b
 
     // Desaparición del módulo de Tabs tras terminar de escribir Nutrición + 4 notches
     // No rompe el recorrido: sólo se activa cuando el texto de Nutrición se ha escrito completo
-    const NOTCH_PX = isMobile ? 55 : 108;
+    const NOTCH_PX = isMobile ? 70 : 108;
     const EXIT_AFTER_NOTCHES = 4;
     const TABS_EXIT_PX = NOTCH_PX * 8; // duración de la salida (más lenta para apreciarse mejor)
     const tabsExitStartPx = nutritionTypingStartPx + TYPING_PX + (NOTCH_PX * EXIT_AFTER_NOTCHES);
