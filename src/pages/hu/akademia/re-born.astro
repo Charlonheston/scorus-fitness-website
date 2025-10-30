@@ -59,14 +59,22 @@ const rebornData = {
 <Layout title={rebornData.seo.title} description={rebornData.seo.description}>
   <!-- Hero Section -->
   <section class="relative min-h-screen bg-black overflow-hidden flex items-center justify-center pt-32 pb-16">
-    <!-- Background Elements -->
-    <div class="absolute inset-0 opacity-20">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+      <img src="/images/academia/re-born.jpeg" alt="ÚJJA-SZÜLETÉS Program Háttér" class="h-full w-full object-cover object-center" loading="eager" decoding="async">
+    </div>
+
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 z-10 bg-black/60"></div>
+
+    <!-- Background Elements (Gradient Blurs) -->
+    <div class="absolute inset-0 z-20 opacity-20">
       <div class="absolute top-0 left-1/4 w-96 h-96 bg-red-600 rounded-full blur-3xl"></div>
       <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-red-900 rounded-full blur-3xl"></div>
     </div>
 
     <!-- Content -->
-    <div class="relative z-10 container text-center">
+    <div class="relative z-30 container text-center">
       <div class="mb-6 inline-block border-l-4 border-red-600 pl-4">
         <p class="text-sm font-bold uppercase tracking-widest text-red-600">
           EXKLUZÍV PROGRAM
