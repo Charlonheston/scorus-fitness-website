@@ -1,0 +1,107 @@
+---
+/**
+ * Página de Blog - Lista de Artículos
+ * Español
+ */
+
+import Layout from '@layouts/Layout.astro';
+import { getArticles } from '@lib/strapi';
+import { formatDate } from '@lib/utils';
+
+// Obtener artículos de Strapi
+const articles = await getArticles('es');
+
+console.log('📚 Articles in page:', articles.length);
+console.log('📋 Articles data:', articles);
+
+const currentLang = 'es';
+---
+
+<Layout
+  title="Blog | Scorus Fitness"
+  description="Artículos sobre fitness, nutrición y entrenamiento"
+>
+  <!-- Hero Section -->
+  <section class="bg-black py-24 text-white">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h1 class="mb-6 text-5xl font-black uppercase tracking-tighter md:text-6xl">
+          Blog <span class="text-red-600">Scorus</span>
+        </h1>
+        <p class="text-xl text-gray-300">
+          Descubre los últimos artículos sobre fitness, nutrición y entrenamiento
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Articles Grid -->
+  <section class="bg-white py-16">
+    <div class="container">
+      {articles.length === 0 ? (
+        <div class="py-20 text-center">
+          <p class="text-xl text-gray-500">No hay artículos disponibles todavía.</p>
+        </div>
+      ) : (
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {articles.map((article) => {
+            // Validar que el artículo tenga los campos necesarios
+            if (!article?.attributes?.title || !article?.attributes?.slug) {
+              return null;
+            }
+
+            const publishedDate = article.attributes.createdAt 
+              ? (article.attributes.publishedAt 
+                  ? new Date(article.attributes.publishedAt)
+                  : new Date(article.attributes.createdAt))
+              : new Date();
+            
+            // Extraer texto plano del contenido (remover HTML tags para el preview)
+            const contentValue = article.attributes.content;
+            const contentText = typeof contentValue === 'string'
+              ? contentValue.replace(/<[^>]*>/g, '').trim()
+              : '';
+            const preview = contentText.length > 150 
+              ? contentText.substring(0, 150) + '...'
+              : contentText;
+            
+            return (
+              <article class="group flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-lg">
+                <a href={`/es/blog/${article.attributes.slug}`} class="flex flex-col h-full">
+                  <div class="flex-1 p-6">
+                    <time class="text-sm text-gray-500">
+                      {formatDate(publishedDate, 'es-ES')}
+                    </time>
+                    <h2 class="mt-2 text-xl font-bold text-gray-900 group-hover:text-red-600 transition-colors">
+                      {article.attributes.title}
+                    </h2>
+                    {preview && (
+                      <p class="mt-3 line-clamp-3 text-gray-600">
+                        {preview}
+                      </p>
+                    )}
+                  </div>
+                  <div class="border-t border-gray-200 px-6 py-4">
+                    <span class="text-red-600 font-semibold">
+                      Leer más →
+                    </span>
+                  </div>
+                </a>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+

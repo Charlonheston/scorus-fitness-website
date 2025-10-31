@@ -73,7 +73,7 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
 
     // ✅ CACHEAR TODOS LOS ELEMENTOS AL INICIO (no en cada scroll)
     const headerContainer = header.querySelector('.container > .flex') as HTMLElement | null;
-    const navBar = header.querySelector('#header-nav');
+      const navBar = header.querySelector('#header-nav');
     const mainLinks = navBar ? Array.from(navBar.querySelectorAll(':scope > nav > div > a, :scope > div > button')) : [];
     const mainSpans = navBar ? Array.from(navBar.querySelectorAll(':scope > nav > div > a > span')) : [];
     const mainSvgs = navBar ? Array.from(navBar.querySelectorAll(':scope > nav > div > a > svg, :scope > div > button > svg')) : [];
@@ -123,7 +123,7 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
               (el as HTMLElement).style.color = 'black';
               (el as HTMLElement).classList.remove('!text-white');
               (el as HTMLElement).classList.add('!text-black');
-            }
+        }
           });
           
           mainSvgs.forEach(el => {
@@ -149,28 +149,28 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
           logoWhite?.classList.remove('hidden');
           logoBlack?.classList.add('hidden');
           
-          mainLinks.forEach(el => {
-            if (!el.classList.contains('text-red-600')) {
-              (el as HTMLElement).style.color = 'white';
+        mainLinks.forEach(el => {
+          if (!el.classList.contains('text-red-600')) {
+            (el as HTMLElement).style.color = 'white';
               el.classList.remove('!text-black');
-              el.classList.add('!text-white');
-            }
-          });
-          
-          mainSpans.forEach(el => {
-            const closestLink = el.closest('a');
-            if (closestLink && !closestLink.classList.contains('text-red-600')) {
-              (el as HTMLElement).style.color = 'white';
+            el.classList.add('!text-white');
+          }
+        });
+        
+        mainSpans.forEach(el => {
+          const closestLink = el.closest('a');
+          if (closestLink && !closestLink.classList.contains('text-red-600')) {
+            (el as HTMLElement).style.color = 'white';
               (el as HTMLElement).classList.remove('!text-black');
               (el as HTMLElement).classList.add('!text-white');
-            }
-          });
-          
-          mainSvgs.forEach(el => {
-            (el as HTMLElement).style.stroke = 'white';
-            (el as HTMLElement).style.color = 'white';
-          });
-          
+          }
+        });
+        
+        mainSvgs.forEach(el => {
+          (el as HTMLElement).style.stroke = 'white';
+          (el as HTMLElement).style.color = 'white';
+        });
+        
           if (mobileMenuButton) mobileMenuButton.style.color = 'white';
           if (hamburgerSvg) {
             hamburgerSvg.style.stroke = 'white';
@@ -191,9 +191,9 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
           ticking = false;
         });
         ticking = true;
-      }
-    }
-
+          }
+        }
+        
     // ✅ Evento con passive para mejor performance
     window.addEventListener('scroll', handleScroll, { passive: true });
     
