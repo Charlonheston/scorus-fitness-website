@@ -191,6 +191,7 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
   role="dialog"
   aria-modal="true"
   aria-label="Menú de navegación"
+  style="background-color: #ffffff !important; background: #ffffff !important; opacity: 1 !important;"
 >
   <!-- Header del drawer -->
   <div class="flex items-center justify-between border-b-2 border-red-600 bg-black p-6">
@@ -212,7 +213,7 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
   </div>
 
   <!-- Contenido del menú -->
-  <nav class="overflow-y-auto p-6" style="max-height: calc(100vh - 80px);">
+  <nav class="overflow-y-auto p-6 bg-white" style="max-height: calc(100vh - 80px); background-color: #ffffff !important; background: #ffffff !important;">
     <ul class="space-y-2">
       {navItems.map((item) => {
         // Detectar si es la página de inicio (home)
@@ -332,6 +333,28 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
         drawer.classList.add('translate-x-0');
         newButton.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
+        
+        // FORZAR fondo blanco directamente en el drawer mediante JavaScript
+        if (drawer) {
+          drawer.style.setProperty('background-color', '#ffffff', 'important');
+          drawer.style.setProperty('background', '#ffffff', 'important');
+          drawer.style.setProperty('background-image', 'none', 'important');
+          drawer.style.setProperty('opacity', '1', 'important');
+          drawer.style.setProperty('backdrop-filter', 'none', 'important');
+          drawer.style.setProperty('-webkit-backdrop-filter', 'none', 'important');
+          
+          // También forzar en los pseudo-elementos si existen
+          const computedStyle = window.getComputedStyle(drawer, '::before');
+          if (computedStyle) {
+            drawer.style.setProperty('--before-display', 'none', 'important');
+          }
+        }
+        
+        // Añadir clase al header para forzar fondo blanco
+        const header = document.getElementById('main-header');
+        if (header) {
+          header.classList.add('mobile-menu-open');
+        }
       }
 
       // Cerrar menú
@@ -345,6 +368,13 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
         drawer.classList.add('translate-x-full');
         newButton.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        
+        // Remover clase del header
+        const header = document.getElementById('main-header');
+        if (header) {
+          header.classList.remove('mobile-menu-open');
+        }
+        
         setTimeout(() => {
           newOverlay.style.pointerEvents = 'none';
           newOverlay.style.display = 'none';
@@ -399,6 +429,51 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
 </script>
 
 <style>
+  /* Forzar fondo blanco en el drawer móvil - Múltiples selectores para máxima especificidad */
+  #mobile-menu-drawer,
+  div#mobile-menu-drawer,
+  #mobile-menu-drawer.fixed,
+  div[id="mobile-menu-drawer"],
+  #mobile-menu-drawer::before,
+  #mobile-menu-drawer::after {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Eliminar cualquier pseudo-elemento que pueda estar causando transparencia */
+  #mobile-menu-drawer::before,
+  #mobile-menu-drawer::after {
+    display: none !important;
+  }
+
+  /* Asegurar que el contenido interno (nav) también tenga fondo blanco */
+  #mobile-menu-drawer > nav,
+  #mobile-menu-drawer nav,
+  #mobile-menu-drawer[data-astro-cid-ab2pytf6] > nav[data-astro-cid-ab2pytf6] {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+  }
+
+  /* Forzar que todos los hijos directos también tengan fondo correcto */
+  #mobile-menu-drawer > * {
+    background-color: transparent !important;
+  }
+
+  /* Excepto el header del drawer que debe ser negro */
+  #mobile-menu-drawer > div:first-child {
+    background-color: black !important;
+  }
+
+  /* Y excepto el nav que debe ser blanco */
+  #mobile-menu-drawer > nav {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+  }
+
   /* Smooth scrolling en el drawer */
   #mobile-menu-drawer nav {
     scrollbar-width: thin;

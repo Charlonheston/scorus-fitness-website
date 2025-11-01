@@ -6,15 +6,13 @@
 const STRAPI_URL = import.meta.env.PUBLIC_STRAPI_URL || 'http://localhost:1337';
 const STRAPI_API_TOKEN = import.meta.env.STRAPI_API_TOKEN || import.meta.env.PUBLIC_STRAPI_API_TOKEN || '';
 
-// Debug inicial (solo en desarrollo)
-if (import.meta.env.DEV) {
-  console.log('🔧 Strapi Config:', {
-    url: STRAPI_URL,
-    hasToken: !!STRAPI_API_TOKEN,
-    tokenLength: STRAPI_API_TOKEN?.length || 0,
-    envKeys: Object.keys(import.meta.env).filter(k => k.includes('STRAPI'))
-  });
-}
+// Debug inicial
+console.log('🔧 Strapi Config:', {
+  url: STRAPI_URL,
+  hasToken: !!STRAPI_API_TOKEN,
+  tokenLength: STRAPI_API_TOKEN?.length || 0,
+  envKeys: Object.keys(import.meta.env).filter(k => k.includes('STRAPI'))
+});
 
 /**
  * Tipos para la respuesta de Strapi
@@ -67,23 +65,18 @@ function getHeaders(): HeadersInit {
     'Content-Type': 'application/json',
   };
 
-  // Debug: Verificar token (solo en desarrollo)
-  if (import.meta.env.DEV) {
-    console.log('🔑 Token check:', {
-      hasToken: !!STRAPI_API_TOKEN,
-      tokenLength: STRAPI_API_TOKEN?.length || 0,
-      tokenPreview: STRAPI_API_TOKEN ? STRAPI_API_TOKEN.substring(0, 20) + '...' : 'NO TOKEN',
-      strapiUrl: STRAPI_URL
-    });
-  }
+  // Debug: Verificar token
+  console.log('🔑 Token check:', {
+    hasToken: !!STRAPI_API_TOKEN,
+    tokenLength: STRAPI_API_TOKEN?.length || 0,
+    tokenPreview: STRAPI_API_TOKEN ? STRAPI_API_TOKEN.substring(0, 20) + '...' : 'NO TOKEN',
+    strapiUrl: STRAPI_URL
+  });
 
   if (STRAPI_API_TOKEN) {
     (headers as Record<string, string>)['Authorization'] = `Bearer ${STRAPI_API_TOKEN}`;
   } else {
-    // Solo mostrar warning en desarrollo, en producción puede usar permisos públicos
-    if (import.meta.env.DEV) {
-      console.warn('⚠️ No API token found! Make sure STRAPI_API_TOKEN is set in .env');
-    }
+    console.warn('⚠️ No API token found! Make sure STRAPI_API_TOKEN is set in .env');
   }
 
   return headers;
@@ -121,14 +114,11 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
 
     const headers = getHeaders();
     const authHeader = (headers as Record<string, string>)['Authorization'] || '';
-    
-    if (import.meta.env.DEV) {
-      console.log('📡 Fetching:', {
-        url: url.toString(),
-        hasAuthHeader: !!authHeader,
-        authHeaderPreview: authHeader ? authHeader.substring(0, 30) + '...' : 'No auth'
-      });
-    }
+    console.log('📡 Fetching:', {
+      url: url.toString(),
+      hasAuthHeader: !!authHeader,
+      authHeaderPreview: authHeader ? authHeader.substring(0, 30) + '...' : 'No auth'
+    });
 
     const response = await fetch(url.toString(), {
       headers: headers,
@@ -136,65 +126,21 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
 
     if (!response.ok) {
       const errorText = await response.text();
-      let errorJson;
-      try {
-        errorJson = JSON.parse(errorText);
-      } catch {
-        errorJson = { raw: errorText };
-      }
-      
-      // Log siempre en producción si hay error
-      console.error('❌ Strapi API Error:', {
+      console.error('❌ API Error Response:', {
         status: response.status,
         statusText: response.statusText,
         url: url.toString(),
-        hasAuthHeader: !!authHeader,
-        error: errorJson,
-        env: {
-          strapiUrl: STRAPI_URL,
-          hasToken: !!STRAPI_API_TOKEN,
-          isProd: import.meta.env.PROD
-        }
+        headersSent: Object.keys(headers),
+        errorBody: errorText
       });
-      
-      // Si es 401, dar más información
-      if (response.status === 401) {
-        console.error('🔐 401 Unauthorized - Verifica:', {
-          '1. Token en Vercel': 'Settings → Environment Variables → STRAPI_API_TOKEN',
-          '2. Permisos en Strapi': 'Settings → Users & Permissions → Roles → Public → Article → find',
-          '3. API Token válido': 'Settings → API Tokens → Verificar que existe y tiene permisos'
-        });
-      }
-      
       throw new Error(`Error fetching articles: ${response.status} ${response.statusText}`);
     }
 
     const data: StrapiResponse<StrapiArticle[]> = await response.json();
     
     // Debug: Ver qué devuelve la API
-    if (import.meta.env.DEV) {
-      console.log('🔍 Strapi API Response sample:', JSON.stringify(data.data?.[0] || {}, null, 2));
-      console.log('📊 Articles count:', data.data?.length || 0);
-      console.log('🔍 Full response structure:', {
-        hasData: !!data.data,
-        dataType: Array.isArray(data.data) ? 'array' : typeof data.data,
-        firstItemStructure: data.data?.[0] ? {
-          hasId: !!data.data[0].id,
-          hasAttributes: !!data.data[0].attributes,
-          keys: Object.keys(data.data[0] || {})
-        } : null
-      });
-    }
-    
-    // En producción, log mínimo si hay problemas
-    if (import.meta.env.PROD && (!data.data || data.data.length === 0)) {
-      console.warn('⚠️ No articles found in production. Response structure:', {
-        hasData: !!data.data,
-        dataType: typeof data.data,
-        error: (data as any).error,
-        meta: (data as any).meta
-      });
-    }
+    console.log('🔍 Strapi API Response sample:', JSON.stringify(data.data?.[0] || {}, null, 2));
+    console.log('📊 Articles count:', data.data?.length || 0);
     
     // Filtrar artículos inválidos y convertir content a string
     // Strapi v5 puede devolver datos con o sin 'attributes'
@@ -202,17 +148,14 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
       .filter((article: any) => {
         // Soporte para ambos formatos: con attributes y sin attributes (Strapi v5)
         const attrs = article.attributes || article;
-        const hasTitle = !!(attrs?.title || article?.title);
-        const hasSlug = !!(attrs?.slug || article?.slug);
-        const isValid = article && hasTitle && hasSlug;
+        const isValid = article && (attrs.title || article.title) && (attrs.slug || article.slug);
         
-        if (!isValid && import.meta.env.DEV) {
+        if (!isValid) {
           console.warn('⚠️ Invalid article filtered out:', {
-            id: article?.id || article?.documentId,
-            hasAttributes: !!article?.attributes,
-            hasTitle,
-            hasSlug,
-            articleKeys: Object.keys(article || {})
+            id: article.id,
+            hasAttributes: !!article.attributes,
+            hasTitle: !!(attrs.title || article.title),
+            hasSlug: !!(attrs.slug || article.slug)
           });
         }
         return isValid;
@@ -224,16 +167,14 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
         const isBlocks = Array.isArray(contentValue);
         const isString = typeof contentValue === 'string';
         
-        const title = attrs?.title || article?.title;
-        const slug = attrs?.slug || article?.slug;
+        const title = attrs.title || article.title;
+        const slug = attrs.slug || article.slug;
         
-        if (import.meta.env.DEV) {
-          console.log(`📝 Article "${title}":`, {
-            contentType: isBlocks ? 'Blocks' : isString ? 'String' : typeof contentValue,
-            contentPreview: isString ? contentValue.substring(0, 50) : 'Array',
-            structure: article.attributes ? 'with attributes' : 'flat structure'
-          });
-        }
+        console.log(`📝 Article "${title}":`, {
+          contentType: isBlocks ? 'Blocks' : isString ? 'String' : typeof contentValue,
+          contentPreview: isString ? contentValue.substring(0, 50) : 'Array',
+          structure: article.attributes ? 'with attributes' : 'flat structure'
+        });
         
         // Normalizar a formato con attributes
         return {
@@ -250,22 +191,11 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
         };
       });
     
-    if (import.meta.env.DEV) {
-      console.log(`✅ Valid articles after filtering: ${validArticles.length}`);
-    }
+    console.log(`✅ Valid articles after filtering: ${validArticles.length}`);
     
     return validArticles;
   } catch (error) {
-    // Log detallado del error (siempre visible)
-    console.error('❌ Error fetching articles from Strapi:', {
-      message: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined,
-      env: {
-        strapiUrl: STRAPI_URL,
-        hasToken: !!STRAPI_API_TOKEN,
-        isProd: import.meta.env.PROD
-      }
-    });
+    console.error('Error fetching articles from Strapi:', error);
     return [];
   }
 }
