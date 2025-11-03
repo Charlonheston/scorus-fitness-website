@@ -115,7 +115,7 @@ export interface StrapiResponse<T> {
 /**
  * Headers para las requests a Strapi
  */
-function getHeaders(): HeadersInit {
+export function getHeaders(): HeadersInit {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
@@ -171,8 +171,9 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
     url.searchParams.append('populate[0]', 'imgUrl');
     url.searchParams.append('populate[1]', 'categories');
     url.searchParams.append('populate[2]', 'tags');
-    url.searchParams.append('populate[3]', 'author');
-    url.searchParams.append('populate[4]', 'author.avatar');
+  url.searchParams.append('populate[3]', 'author');
+  url.searchParams.append('populate[4]', 'author.avatar');
+  url.searchParams.append('populate[5]', 'author.socialLinks');
 
     const headers = getHeaders();
     const authHeader = (headers as Record<string, string>)['Authorization'] || '';
@@ -257,6 +258,29 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
           author = { data: author };
         }
         
+        // Normalizar socialLinks del autor si existe
+        if (author?.data) {
+          const authorData = author.data;
+          const authorAttrs = authorData.attributes || authorData;
+          let socialLinks = authorAttrs.socialLinks || authorAttrs.social_links;
+          
+          if (socialLinks && socialLinks.data) {
+            socialLinks = socialLinks.data;
+          }
+          
+          if (authorData.attributes) {
+            authorData.attributes.socialLinks = socialLinks || [];
+          } else {
+            authorData.socialLinks = socialLinks || [];
+          }
+        } else if (author && author.attributes) {
+          let socialLinks = author.attributes.socialLinks || author.attributes.social_links;
+          if (socialLinks && socialLinks.data) {
+            socialLinks = socialLinks.data;
+          }
+          author.attributes.socialLinks = socialLinks || [];
+        }
+        
         // Normalizar imgUrl - puede venir como { data: { attributes: { url: ... } } } o null
         let imgUrl = attrs.imgUrl || article.imgUrl;
         if (imgUrl && !imgUrl.data && imgUrl.attributes) {
@@ -309,8 +333,9 @@ export async function getArticleBySlug(
     url.searchParams.append('populate[0]', 'imgUrl');
     url.searchParams.append('populate[1]', 'categories');
     url.searchParams.append('populate[2]', 'tags');
-    url.searchParams.append('populate[3]', 'author');
-    url.searchParams.append('populate[4]', 'author.avatar');
+  url.searchParams.append('populate[3]', 'author');
+  url.searchParams.append('populate[4]', 'author.avatar');
+  url.searchParams.append('populate[5]', 'author.socialLinks');
 
     const response = await fetch(url.toString(), {
       headers: getHeaders(),
@@ -346,6 +371,29 @@ export async function getArticleBySlug(
     let author = attrs.author || article.author;
     if (author && !author.data && author.id) {
       author = { data: author };
+    }
+    
+    // Normalizar socialLinks del autor si existe
+    if (author?.data) {
+      const authorData = author.data;
+      const authorAttrs = authorData.attributes || authorData;
+      let socialLinks = authorAttrs.socialLinks || authorAttrs.social_links;
+      
+      if (socialLinks && socialLinks.data) {
+        socialLinks = socialLinks.data;
+      }
+      
+      if (authorData.attributes) {
+        authorData.attributes.socialLinks = socialLinks || [];
+      } else {
+        authorData.socialLinks = socialLinks || [];
+      }
+    } else if (author && author.attributes) {
+      let socialLinks = author.attributes.socialLinks || author.attributes.social_links;
+      if (socialLinks && socialLinks.data) {
+        socialLinks = socialLinks.data;
+      }
+      author.attributes.socialLinks = socialLinks || [];
     }
     
     // Normalizar imgUrl - puede venir como { data: { attributes: { url: ... } } } o null
@@ -395,8 +443,9 @@ export async function getArticleById(
     url.searchParams.append('populate[0]', 'imgUrl');
     url.searchParams.append('populate[1]', 'categories');
     url.searchParams.append('populate[2]', 'tags');
-    url.searchParams.append('populate[3]', 'author');
-    url.searchParams.append('populate[4]', 'author.avatar');
+  url.searchParams.append('populate[3]', 'author');
+  url.searchParams.append('populate[4]', 'author.avatar');
+  url.searchParams.append('populate[5]', 'author.socialLinks');
 
     const response = await fetch(url.toString(), {
       headers: getHeaders(),
@@ -432,6 +481,29 @@ export async function getArticleById(
     let author = attrs.author || article.author;
     if (author && !author.data && author.id) {
       author = { data: author };
+    }
+    
+    // Normalizar socialLinks del autor si existe
+    if (author?.data) {
+      const authorData = author.data;
+      const authorAttrs = authorData.attributes || authorData;
+      let socialLinks = authorAttrs.socialLinks || authorAttrs.social_links;
+      
+      if (socialLinks && socialLinks.data) {
+        socialLinks = socialLinks.data;
+      }
+      
+      if (authorData.attributes) {
+        authorData.attributes.socialLinks = socialLinks || [];
+      } else {
+        authorData.socialLinks = socialLinks || [];
+      }
+    } else if (author && author.attributes) {
+      let socialLinks = author.attributes.socialLinks || author.attributes.social_links;
+      if (socialLinks && socialLinks.data) {
+        socialLinks = socialLinks.data;
+      }
+      author.attributes.socialLinks = socialLinks || [];
     }
     
     // Normalizar imgUrl

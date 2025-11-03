@@ -100,7 +100,7 @@ const currentLang = 'en';
                             style={category.attributes?.color ? `background-color: ${category.attributes.color}` : ''}
                           >
                             {category.attributes?.icon && <span>{category.attributes.icon}</span>}
-                            {category.attributes?.name || category.name}
+                            {category.attributes?.name || (category as any).name}
                           </span>
                         ))}
                       </div>
@@ -131,7 +131,7 @@ const currentLang = 'en';
                       <div class="mb-3 flex flex-wrap gap-1.5">
                         {tags.slice(0, 3).map((tag) => (
                           <span class="rounded bg-white/10 px-2 py-0.5 text-xs font-semibold text-gray-300 backdrop-blur-sm">
-                            #{tag.attributes?.name || tag.name}
+                            #{(tag.attributes?.name || (tag as any).name)}
                           </span>
                         ))}
                       </div>
@@ -140,7 +140,7 @@ const currentLang = 'en';
                     {/* Author */}
                     {author && (
                       <div class="flex items-center gap-3">
-                        {author.attributes?.avatar?.data && (
+                        {(author.attributes?.avatar as any)?.data && (
                           <img 
                             src={getImageUrl(author.attributes.avatar) || ''} 
                             alt={author.attributes.name}
@@ -150,7 +150,7 @@ const currentLang = 'en';
                         )}
                         <div>
                           <p class="text-xs font-bold uppercase tracking-wider text-white">
-                            {author.attributes?.name || author.name}
+                            {author.attributes?.name || (author as any).name}
                           </p>
                           {author.attributes?.title && (
                             <p class="text-xs text-gray-400">{author.attributes.title}</p>

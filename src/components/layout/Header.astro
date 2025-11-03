@@ -25,7 +25,7 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
       <!-- Logo - Con cambio dinámico blanco/negro -->
       <div class="flex items-center flex-shrink-0">
         <a href={`/${currentLang}/`} class="header-link group flex items-center" style="color: white;">
-          <!-- Logo Blanco (transparente) -->
+          <!-- Logo Blanco (transparente) - Por defecto visible -->
           <img 
             id="logo-white"
             src="/images/logos/logo-scorus-white.webp" 
@@ -36,7 +36,7 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
             loading="eager"
             decoding="async"
           />
-          <!-- Logo Negro (scroll) -->
+          <!-- Logo Negro (scroll/blog) - Oculto por defecto -->
           <img 
             id="logo-black"
             src="/images/logos/logo-scorus.webp" 
@@ -70,6 +70,9 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
   function initHeaderScroll() {
     const header = document.getElementById('main-header');
     if (!header) return;
+
+    // Detectar si estamos en una página de blog
+    const isBlogPage = window.location.pathname.includes('/blog/');
 
     // ✅ CACHEAR TODOS LOS ELEMENTOS AL INICIO (no en cada scroll)
     const headerContainer = header.querySelector('.container > .flex') as HTMLElement | null;
@@ -139,44 +142,88 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
           if (mobileContainer) mobileContainer.style.color = 'black';
           
         } else {
-          // Estado transparente (top) - BLANCO
-          header.classList.remove('header-solid', 'bg-white', 'shadow-md');
-          header.classList.add('header-transparent');
-          header.style.color = 'white';
+          // Estado transparente (top)
+          // En páginas de blog: mostrar NEGRO, en otras páginas: mostrar BLANCO
+          if (isBlogPage) {
+            // Página de blog: estado transparente con elementos NEGROS
+            header.classList.remove('header-solid', 'shadow-md');
+            header.classList.add('header-transparent');
+            // No añadir bg-white en el top, pero usar elementos negros
+            header.style.color = 'black';
+            
+            if (headerContainer) headerContainer.style.color = 'black';
+            
+            logoWhite?.classList.add('hidden');
+            logoBlack?.classList.remove('hidden');
+            
+            mainLinks.forEach(el => {
+              if (!el.classList.contains('text-red-600')) {
+                (el as HTMLElement).style.color = 'black';
+                el.classList.remove('!text-white');
+                el.classList.add('!text-black');
+              }
+            });
+            
+            mainSpans.forEach(el => {
+              const closestLink = el.closest('a');
+              if (closestLink && !closestLink.classList.contains('text-red-600')) {
+                (el as HTMLElement).style.color = 'black';
+                (el as HTMLElement).classList.remove('!text-white');
+                (el as HTMLElement).classList.add('!text-black');
+              }
+            });
+            
+            mainSvgs.forEach(el => {
+              (el as HTMLElement).style.stroke = 'black';
+              (el as HTMLElement).style.color = 'black';
+            });
+            
+            if (mobileMenuButton) mobileMenuButton.style.color = 'black';
+            if (hamburgerSvg) {
+              hamburgerSvg.style.stroke = 'black';
+              hamburgerSvg.style.color = 'black';
+            }
+            if (mobileContainer) mobileContainer.style.color = 'black';
+          } else {
+            // Otras páginas: estado transparente con elementos BLANCOS (comportamiento original)
+            header.classList.remove('header-solid', 'bg-white', 'shadow-md');
+            header.classList.add('header-transparent');
+            header.style.color = 'white';
+            
+            if (headerContainer) headerContainer.style.color = 'white';
+            
+            logoWhite?.classList.remove('hidden');
+            logoBlack?.classList.add('hidden');
+            
+          mainLinks.forEach(el => {
+            if (!el.classList.contains('text-red-600')) {
+              (el as HTMLElement).style.color = 'white';
+                el.classList.remove('!text-black');
+              el.classList.add('!text-white');
+            }
+          });
           
-          if (headerContainer) headerContainer.style.color = 'white';
+          mainSpans.forEach(el => {
+            const closestLink = el.closest('a');
+            if (closestLink && !closestLink.classList.contains('text-red-600')) {
+              (el as HTMLElement).style.color = 'white';
+                (el as HTMLElement).classList.remove('!text-black');
+                (el as HTMLElement).classList.add('!text-white');
+            }
+          });
           
-          logoWhite?.classList.remove('hidden');
-          logoBlack?.classList.add('hidden');
-          
-        mainLinks.forEach(el => {
-          if (!el.classList.contains('text-red-600')) {
+          mainSvgs.forEach(el => {
+            (el as HTMLElement).style.stroke = 'white';
             (el as HTMLElement).style.color = 'white';
-              el.classList.remove('!text-black');
-            el.classList.add('!text-white');
+          });
+          
+            if (mobileMenuButton) mobileMenuButton.style.color = 'white';
+            if (hamburgerSvg) {
+              hamburgerSvg.style.stroke = 'white';
+              hamburgerSvg.style.color = 'white';
+            }
+            if (mobileContainer) mobileContainer.style.color = 'white';
           }
-        });
-        
-        mainSpans.forEach(el => {
-          const closestLink = el.closest('a');
-          if (closestLink && !closestLink.classList.contains('text-red-600')) {
-            (el as HTMLElement).style.color = 'white';
-              (el as HTMLElement).classList.remove('!text-black');
-              (el as HTMLElement).classList.add('!text-white');
-          }
-        });
-        
-        mainSvgs.forEach(el => {
-          (el as HTMLElement).style.stroke = 'white';
-          (el as HTMLElement).style.color = 'white';
-        });
-        
-          if (mobileMenuButton) mobileMenuButton.style.color = 'white';
-          if (hamburgerSvg) {
-            hamburgerSvg.style.stroke = 'white';
-            hamburgerSvg.style.color = 'white';
-          }
-          if (mobileContainer) mobileContainer.style.color = 'white';
         }
       });
     }
@@ -199,6 +246,52 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
     
     // Ejecutar inmediatamente
     updateHeaderStyles(window.scrollY);
+    
+    // En páginas de blog, aplicar estilos negros inmediatamente al cargar (incluso en el top)
+    if (isBlogPage && window.scrollY <= 50) {
+      // Forzar estado negro inmediatamente sin esperar al scroll
+      requestAnimationFrame(() => {
+        if (!header) return;
+        
+        header.classList.remove('header-solid', 'shadow-md');
+        header.classList.add('header-transparent');
+        header.style.color = 'black';
+        
+        if (headerContainer) headerContainer.style.color = 'black';
+        
+        logoWhite?.classList.add('hidden');
+        logoBlack?.classList.remove('hidden');
+        
+        mainLinks.forEach(el => {
+          if (!el.classList.contains('text-red-600')) {
+            (el as HTMLElement).style.color = 'black';
+            el.classList.remove('!text-white');
+            el.classList.add('!text-black');
+          }
+        });
+        
+        mainSpans.forEach(el => {
+          const closestLink = el.closest('a');
+          if (closestLink && !closestLink.classList.contains('text-red-600')) {
+            (el as HTMLElement).style.color = 'black';
+            (el as HTMLElement).classList.remove('!text-white');
+            (el as HTMLElement).classList.add('!text-black');
+          }
+        });
+        
+        mainSvgs.forEach(el => {
+          (el as HTMLElement).style.stroke = 'black';
+          (el as HTMLElement).style.color = 'black';
+        });
+        
+        if (mobileMenuButton) mobileMenuButton.style.color = 'black';
+        if (hamburgerSvg) {
+          hamburgerSvg.style.stroke = 'black';
+          hamburgerSvg.style.color = 'black';
+        }
+        if (mobileContainer) mobileContainer.style.color = 'black';
+      });
+    }
   }
 
   // Inicializar cuando el DOM esté listo
@@ -342,15 +435,71 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
 
   /* ========== HEADER BLANCO EN MÓVIL ========== */
   /* Asegurar que el header tenga fondo blanco en móvil siempre */
+  /* EXCEPTO en páginas de blog cuando está en el top */
   @media (max-width: 1023px) {
     #main-header {
       background-color: white !important;
       box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
     }
     
+    /* En páginas de blog, permitir header transparente en el top */
+    body:has([data-blog-page]) #main-header.header-transparent {
+      background-color: transparent !important;
+      box-shadow: none !important;
+    }
+    
     /* Cuando el menú móvil está abierto, asegurar que el header siga blanco */
     #main-header.mobile-menu-open {
       background-color: white !important;
     }
+  }
+  
+  /* Estilos iniciales para páginas de blog - aplicar negros desde el inicio */
+  body[data-blog-page="true"] #main-header {
+    color: black !important;
+  }
+  
+  body[data-blog-page="true"] #main-header .container > .flex {
+    color: black !important;
+  }
+  
+  body[data-blog-page="true"] #main-header #logo-white {
+    display: none !important;
+  }
+  
+  body[data-blog-page="true"] #main-header #logo-black {
+    display: block !important;
+  }
+  
+  body[data-blog-page="true"] #main-header #header-nav > nav > div > a:not(.text-red-600),
+  body[data-blog-page="true"] #main-header #header-nav > nav > div > a:not(.text-red-600) > span {
+    color: black !important;
+  }
+  
+  body[data-blog-page="true"] #main-header #header-nav > nav > div > a:not(.text-red-600) > svg,
+  body[data-blog-page="true"] #main-header #header-nav > nav > div > a:not(.text-red-600) > svg > path {
+    stroke: black !important;
+    color: black !important;
+  }
+  
+  body[data-blog-page="true"] #main-header #mobile-menu-button,
+  body[data-blog-page="true"] #main-header #mobile-menu-button > svg,
+  body[data-blog-page="true"] #main-header #mobile-menu-button > svg > path {
+    color: black !important;
+    stroke: black !important;
+  }
+  
+  body[data-blog-page="true"] #main-header .flex.items-center.gap-4.lg\:hidden {
+    color: black !important;
+  }
+  
+  body[data-blog-page="true"] #main-header .flex.items-center.gap-4.lg\:hidden > * {
+    color: black !important;
+  }
+  
+  body[data-blog-page="true"] #main-header .flex.items-center.gap-4.lg\:hidden svg,
+  body[data-blog-page="true"] #main-header .flex.items-center.gap-4.lg\:hidden svg > path {
+    stroke: black !important;
+    color: black !important;
   }
 </style>
