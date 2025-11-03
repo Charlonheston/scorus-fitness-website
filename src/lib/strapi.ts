@@ -166,6 +166,13 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
     // Ordenar por createdAt en lugar de publishedAt (ya que publishedAt puede no existir)
     url.searchParams.append('sort', 'createdAt:desc');
     url.searchParams.append('pagination[pageSize]', '100');
+    // Si tenemos token, usar 'preview' para incluir todos los artículos (incluso con publishedAt null)
+    // Si no hay token, 'live' solo incluye artículos con publishedAt establecido
+    if (STRAPI_API_TOKEN) {
+      url.searchParams.append('publicationState', 'preview');
+    } else {
+      url.searchParams.append('publicationState', 'live');
+    }
     // Populate todas las relaciones - Strapi v5 syntax
     // Intentar primero con populate[0]=* que funciona para relaciones básicas
     url.searchParams.append('populate[0]', 'imgUrl');
