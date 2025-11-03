@@ -29,16 +29,71 @@ export type StrapiBlock = {
   [key: string]: any;
 };
 
+export interface StrapiMedia {
+  id: number;
+  attributes: {
+    url: string;
+    alternativeText?: string;
+    width?: number;
+    height?: number;
+  };
+}
+
+export interface StrapiCategory {
+  id: number;
+  attributes: {
+    name: string;
+    slug: string;
+    icon?: string;
+    color?: string;
+  };
+}
+
+export interface StrapiTag {
+  id: number;
+  attributes: {
+    name: string;
+    slug: string;
+  };
+}
+
+export interface StrapiAuthor {
+  id: number;
+  attributes: {
+    name: string;
+    title?: string;
+    avatar?: StrapiMedia;
+    bio?: string;
+    socialLinks?: Array<{
+      url: string;
+      platform: string;
+    }>;
+  };
+}
+
 export interface StrapiArticle {
   id: number;
   attributes: {
     title: string;
     slug: string;
+    date?: string;
     content: string | StrapiBlock[]; // Puede ser HTML string o Blocks array
-    publishedAt?: string; // Opcional - Strapi lo añade automáticamente si el contenido está publicado
+    excerpt?: string;
+    imgUrl?: StrapiMedia | null;
+    imageAlt?: string;
+    publishedAt?: string;
     createdAt: string;
     updatedAt: string;
     locale?: string;
+    categories?: {
+      data: StrapiCategory[];
+    };
+    tags?: {
+      data: StrapiTag[];
+    };
+    author?: {
+      data: StrapiAuthor | null;
+    };
     localizations?: {
       data: StrapiArticle[];
     };
@@ -111,6 +166,13 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
     // Ordenar por createdAt en lugar de publishedAt (ya que publishedAt puede no existir)
     url.searchParams.append('sort', 'createdAt:desc');
     url.searchParams.append('pagination[pageSize]', '100');
+    // Populate todas las relaciones - Strapi v5 syntax
+    // Intentar primero con populate[0]=* que funciona para relaciones básicas
+    url.searchParams.append('populate[0]', 'imgUrl');
+    url.searchParams.append('populate[1]', 'categories');
+    url.searchParams.append('populate[2]', 'tags');
+    url.searchParams.append('populate[3]', 'author');
+    url.searchParams.append('populate[4]', 'author.avatar');
 
     const headers = getHeaders();
     const authHeader = (headers as Record<string, string>)['Authorization'] || '';
@@ -176,17 +238,49 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
           structure: article.attributes ? 'with attributes' : 'flat structure'
         });
         
-        // Normalizar a formato con attributes
+            // Normalizar a formato con attributes incluyendo relaciones
+        // Manejar relaciones que pueden venir en diferentes formatos
+        let categories = attrs.categories || article.categories;
+        if (categories && !categories.data) {
+          // Si categories existe pero no tiene data, puede ser que sea un array directo
+          categories = Array.isArray(categories) ? { data: categories } : categories;
+        }
+        
+        let tags = attrs.tags || article.tags;
+        if (tags && !tags.data) {
+          tags = Array.isArray(tags) ? { data: tags } : tags;
+        }
+        
+        let author = attrs.author || article.author;
+        if (author && !author.data && author.id) {
+          // Si author existe como objeto directo sin wrapper data
+          author = { data: author };
+        }
+        
+        // Normalizar imgUrl - puede venir como { data: { attributes: { url: ... } } } o null
+        let imgUrl = attrs.imgUrl || article.imgUrl;
+        if (imgUrl && !imgUrl.data && imgUrl.attributes) {
+          // Si viene como objeto directo con attributes, envolver en data
+          imgUrl = { data: imgUrl };
+        }
+        
         return {
           id: article.id || article.documentId,
           attributes: {
             title,
             slug,
+            date: attrs.date || article.date,
             content: isString ? contentValue : blocksToText(contentValue as StrapiBlock[]),
+            excerpt: attrs.excerpt || article.excerpt,
+            imgUrl: imgUrl || null,
+            imageAlt: attrs.imageAlt || article.imageAlt,
             createdAt: attrs.createdAt || article.createdAt || '',
             updatedAt: attrs.updatedAt || article.updatedAt || '',
             publishedAt: attrs.publishedAt || article.publishedAt,
             locale: attrs.locale || article.locale,
+            categories: categories || { data: [] },
+            tags: tags || { data: [] },
+            author: author || null,
           },
         };
       });
@@ -211,6 +305,12 @@ export async function getArticleBySlug(
     const url = new URL(`${STRAPI_URL}/api/articles`);
     url.searchParams.append('locale', locale);
     url.searchParams.append('filters[slug][$eq]', slug);
+    // Populate todas las relaciones - Strapi v5 syntax
+    url.searchParams.append('populate[0]', 'imgUrl');
+    url.searchParams.append('populate[1]', 'categories');
+    url.searchParams.append('populate[2]', 'tags');
+    url.searchParams.append('populate[3]', 'author');
+    url.searchParams.append('populate[4]', 'author.avatar');
 
     const response = await fetch(url.toString(), {
       headers: getHeaders(),
@@ -232,17 +332,47 @@ export async function getArticleBySlug(
     const contentValue = attrs.content || article.content;
     const isString = typeof contentValue === 'string';
 
-    // Normalizar a formato con attributes
+    // Normalizar relaciones - igual que en getArticles
+    let categories = attrs.categories || article.categories;
+    if (categories && !categories.data) {
+      categories = Array.isArray(categories) ? { data: categories } : categories;
+    }
+    
+    let tags = attrs.tags || article.tags;
+    if (tags && !tags.data) {
+      tags = Array.isArray(tags) ? { data: tags } : tags;
+    }
+    
+    let author = attrs.author || article.author;
+    if (author && !author.data && author.id) {
+      author = { data: author };
+    }
+    
+    // Normalizar imgUrl - puede venir como { data: { attributes: { url: ... } } } o null
+    let imgUrl = attrs.imgUrl || article.imgUrl;
+    if (imgUrl && !imgUrl.data && imgUrl.attributes) {
+      // Si viene como objeto directo con attributes, envolver en data
+      imgUrl = { data: imgUrl };
+    }
+
+    // Normalizar a formato con attributes incluyendo relaciones
     return {
       id: article.id || article.documentId,
       attributes: {
         title: attrs.title || article.title,
         slug: attrs.slug || article.slug,
+        date: attrs.date || article.date,
         content: isString ? contentValue : blocksToText(contentValue as StrapiBlock[]),
+        excerpt: attrs.excerpt || article.excerpt,
+        imgUrl: imgUrl || null,
+        imageAlt: attrs.imageAlt || article.imageAlt,
         createdAt: attrs.createdAt || article.createdAt || '',
         updatedAt: attrs.updatedAt || article.updatedAt || '',
         publishedAt: attrs.publishedAt || article.publishedAt,
         locale: attrs.locale || article.locale,
+        categories: categories || { data: [] },
+        tags: tags || { data: [] },
+        author: author || null,
       },
     };
   } catch (error) {
@@ -261,6 +391,12 @@ export async function getArticleById(
   try {
     const url = new URL(`${STRAPI_URL}/api/articles/${id}`);
     url.searchParams.append('locale', locale);
+    // Populate todas las relaciones - Strapi v5 syntax
+    url.searchParams.append('populate[0]', 'imgUrl');
+    url.searchParams.append('populate[1]', 'categories');
+    url.searchParams.append('populate[2]', 'tags');
+    url.searchParams.append('populate[3]', 'author');
+    url.searchParams.append('populate[4]', 'author.avatar');
 
     const response = await fetch(url.toString(), {
       headers: getHeaders(),
@@ -282,17 +418,46 @@ export async function getArticleById(
     const contentValue = attrs.content || article.content;
     const isString = typeof contentValue === 'string';
 
-    // Normalizar a formato con attributes
+    // Normalizar relaciones
+    let categories = attrs.categories || article.categories;
+    if (categories && !categories.data) {
+      categories = Array.isArray(categories) ? { data: categories } : categories;
+    }
+    
+    let tags = attrs.tags || article.tags;
+    if (tags && !tags.data) {
+      tags = Array.isArray(tags) ? { data: tags } : tags;
+    }
+    
+    let author = attrs.author || article.author;
+    if (author && !author.data && author.id) {
+      author = { data: author };
+    }
+    
+    // Normalizar imgUrl
+    let imgUrl = attrs.imgUrl || article.imgUrl;
+    if (imgUrl && !imgUrl.data && imgUrl.attributes) {
+      imgUrl = { data: imgUrl };
+    }
+
+    // Normalizar a formato con attributes incluyendo relaciones
     return {
       id: article.id || article.documentId,
       attributes: {
         title: attrs.title || article.title,
         slug: attrs.slug || article.slug,
+        date: attrs.date || article.date,
         content: isString ? contentValue : blocksToText(contentValue as StrapiBlock[]),
+        excerpt: attrs.excerpt || article.excerpt,
+        imgUrl: imgUrl || null,
+        imageAlt: attrs.imageAlt || article.imageAlt,
         createdAt: attrs.createdAt || article.createdAt || '',
         updatedAt: attrs.updatedAt || article.updatedAt || '',
         publishedAt: attrs.publishedAt || article.publishedAt,
         locale: attrs.locale || article.locale,
+        categories: categories || { data: [] },
+        tags: tags || { data: [] },
+        author: author || null,
       },
     };
   } catch (error) {
