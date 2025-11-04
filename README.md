@@ -17,7 +17,7 @@ Sitio web de entrenamiento personal y gimnasio construido con **Astro 4**, **Tai
 - **Framework**: [Astro 4.x](https://astro.build)
 - **Styling**: [TailwindCSS 3.x](https://tailwindcss.com)
 - **UI Components**: Astro + React Islands
-- **CMS**: Sanity.io (headless)
+- **CMS**: Strapi v5 (headless)
 - **i18n**: astro-i18next
 - **Testing**: Vitest + Playwright
 - **Deployment**: Vercel
@@ -80,7 +80,7 @@ npm run dev
 │   ├── pages/                   # Rutas (file-based routing)
 │   │   └── [lang]/              # Rutas i18n
 │   ├── lib/                     # Utilidades y helpers
-│   │   ├── api/                 # Clientes API (Sanity)
+│   │   ├── strapi.ts            # Cliente API Strapi
 │   │   └── i18n/                # Configuración i18n
 │   ├── types/                   # TypeScript types
 │   └── styles/                  # Estilos globales
@@ -95,9 +95,33 @@ La documentación completa del proyecto está en `/docs`:
 - [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Arquitectura y decisiones técnicas
 - [DEVELOPMENT.md](docs/DEVELOPMENT.md) - Guía de desarrollo
 - [I18N.md](docs/I18N.md) - Internacionalización
-- [CMS_SETUP.md](docs/CMS_SETUP.md) - Configuración del CMS
-- [DEPLOYMENT.md](docs/DEPLOYMENT.md) - Despliegue
 - [SEO_STRATEGY.md](docs/SEO_STRATEGY.md) - Estrategia SEO
+- [CONFIGURAR-STRAPI-PRODUCCION-LOCAL.md](docs/CONFIGURAR-STRAPI-PRODUCCION-LOCAL.md) - Configurar web local para usar Strapi de producción
+
+## 🔗 Configurar Strapi (Producción)
+
+Para que tu web local use el Strapi de producción en lugar del local:
+
+### **Opción Rápida (Script Automático):**
+
+```powershell
+# Ejecuta el script interactivo
+.\setup-strapi-production.ps1
+```
+
+Este script te guiará paso a paso para configurar tu `.env.local` conectándose a Strapi de producción.
+
+### **Opción Manual:**
+
+1. Crea un archivo `.env.local` en la raíz del proyecto
+2. Añade:
+   ```env
+   PUBLIC_STRAPI_URL=https://scorus-cms-strapi.onrender.com
+   STRAPI_API_TOKEN=tu_token_de_produccion
+   ```
+3. Reinicia el servidor de desarrollo
+
+📚 **[Guía Completa](./docs/CONFIGURAR-STRAPI-PRODUCCION-LOCAL.md)**
 
 ## 🌍 Internacionalización
 
