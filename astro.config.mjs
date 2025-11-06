@@ -4,7 +4,7 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import astroI18next from 'astro-i18next';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
@@ -28,7 +28,7 @@ export default defineConfig({
       },
     }),
   ],
-  output: 'hybrid', // Permite SSR en páginas específicas
+  output: 'server', // Permite SSR (antes era 'hybrid' en Astro 4)
   adapter: vercel({
     webAnalytics: {
       enabled: true
@@ -87,9 +87,8 @@ export default defineConfig({
       include: ['react', 'react-dom'],
     },
   },
-  experimental: {
-    // Habilitar optimizaciones experimentales
-    contentCollectionCache: true,
-  },
+  // experimental: {
+  //   // Opciones experimentales para Astro 5+
+  // },
 });
 
