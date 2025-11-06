@@ -2,99 +2,72 @@
 /**
  * Página Individual de Artículo del Blog
  * Ruta dinámica: /es/blog/[slug]
- * Estilo similar al blog de referencia
+ * Renderizado dinámico (SSR) para contenido siempre actualizado
  */
+
+// Deshabilitar prerendering para esta página (modo SSR)
+export const prerender = false;
 
 import Layout from '@layouts/Layout.astro';
 import { Image } from 'astro:assets';
-import { getArticleBySlug, getArticles, type StrapiArticle } from '@lib/strapi';
+import { getArticleBySlug, type StrapiArticle } from '@lib/strapi';
 import { formatDate } from '@lib/utils';
 
-export async function getStaticPaths() {
-  try {
-    const articles = await getArticles('es');
-    
-    console.log('📋 getStaticPaths - Total articles found:', articles.length);
-    console.log('📋 getStaticPaths - Slugs:', articles.map(a => a.attributes.slug));
-    
-    if (!articles || articles.length === 0) {
-      console.warn('⚠️ No articles found in getStaticPaths');
-      return [];
-    }
-    
-    const paths = articles.map((article) => {
-      const baseLocale = article.attributes.locale || 'es';
-      const baseSlug = article.attributes.slug;
-      const localizationEntries: Array<{ locale: string; slug: string }> = [];
+// Obtener el slug de los parámetros de la URL
+const { slug } = Astro.params;
 
-      if (baseLocale && baseSlug) {
-        localizationEntries.push({ locale: baseLocale, slug: baseSlug });
-      }
-
-      const rawLocalizations = article.attributes.localizations;
-      const localizationData = Array.isArray(rawLocalizations?.data)
-        ? rawLocalizations.data
-        : Array.isArray(rawLocalizations)
-          ? rawLocalizations
-          : [];
-
-      localizationData.forEach((loc: any) => {
-        const locAttrs = loc.attributes || loc;
-        if (locAttrs?.locale && locAttrs?.slug) {
-          localizationEntries.push({
-            locale: locAttrs.locale,
-            slug: locAttrs.slug,
-          });
-        }
-      });
-
-      const uniqueLocalizations = Object.values(
-        localizationEntries.reduce((acc, loc) => {
-          if (!acc[loc.locale]) {
-            acc[loc.locale] = loc;
-          }
-          return acc;
-        }, {} as Record<string, { locale: string; slug: string }>)
-      );
-
-      return {
-        params: { slug: article.attributes.slug },
-        props: {
-          article,
-          articleLocalizations: uniqueLocalizations,
-        },
-      };
-    });
-
-    return paths;
-  } catch (error) {
-    console.error('❌ Error in getStaticPaths:', error);
-    return [];
-  }
+if (!slug) {
+  return Astro.redirect('/es/blog');
 }
 
-const params = await Astro.params;
-const slug = params?.slug || '';
+console.log('🔍 Loading article dynamically with slug:', slug);
 
-console.log('🔍 Loading article with slug:', slug);
-console.log('🔍 Article from props:', Astro.props.article ? 'Yes' : 'No');
-
-let article = Astro.props.article;
-
-// Si no está en props (puede pasar en desarrollo o si el slug no estaba en getStaticPaths)
-if (!article && slug) {
-  console.log('🔍 Article not in props, fetching by slug...');
-  const fetchedArticle = await getArticleBySlug(slug, 'es');
-  if (fetchedArticle) {
-    article = fetchedArticle;
-  }
-  console.log('🔍 Article fetched:', article ? 'Found' : 'Not found');
-}
+// Obtener el artículo directamente desde Strapi (siempre actualizado)
+const article = await getArticleBySlug(slug, 'es');
 
 if (!article) {
   console.error('❌ Article not found for slug:', slug);
   return Astro.redirect('/es/blog');
 }
+
+console.log('✅ Article loaded:', article.attributes.title);
+
+// Obtener localizaciones del artículo
+const baseLocale = article.attributes.locale || 'es';
+const baseSlug = article.attributes.slug;
+const localizationEntries: Array<{ locale: string; slug: string }> = [];
+
+if (baseLocale && baseSlug) {
+  localizationEntries.push({ locale: baseLocale, slug: baseSlug });
+}
+
+const rawLocalizations = article.attributes.localizations;
+const localizationData = Array.isArray(rawLocalizations?.data)
+  ? rawLocalizations.data
+  : Array.isArray(rawLocalizations)
+    ? rawLocalizations
+    : [];
+
+localizationData.forEach((loc: any) => {
+  const locAttrs = loc.attributes || loc;
+  if (locAttrs?.locale && locAttrs?.slug) {
+    localizationEntries.push({
+      locale: locAttrs.locale,
+      slug: locAttrs.slug,
+    });
+  }
+});
+
+const articleLocalizations = Object.values(
+  localizationEntries.reduce((acc, loc) => {
+    if (!acc[loc.locale]) {
+      acc[loc.locale] = loc;
+    }
+    return acc;
+  }, {} as Record<string, { locale: string; slug: string }>)
+);
+
+console.log('🔍 ES Article Localizations:', articleLocalizations);
 
 // Helper para obtener URL de imagen
 async function getImageUrl(imgUrl: any): Promise<string | null> {
@@ -153,9 +126,7 @@ const author = article.attributes.author?.data;
 const excerpt = article.attributes.excerpt || '';
 
 // Obtener localizaciones del artículo desde props (ya obtenidas en getStaticPaths)
-const articleLocalizations = Astro.props.articleLocalizations || [{ locale: 'es', slug: article.attributes.slug }];
-
-console.log('🔍 ES Article Localizations from props:', articleLocalizations);
+// articleLocalizations ya se definió arriba al obtener el artículo
 
 // Procesar socialLinks del autor
 let processedSocialLinks: Array<{ url: string; platform: string; iconPath: string; iconViewBox: string; useFill: boolean }> = [];

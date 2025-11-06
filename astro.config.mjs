@@ -4,6 +4,7 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import astroI18next from 'astro-i18next';
+import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,7 +28,8 @@ export default defineConfig({
       },
     }),
   ],
-  output: 'static',
+  output: 'hybrid', // Permite SSR en páginas específicas
+  adapter: vercel(),
   image: {
     // Optimización de imágenes con Sharp estándar
     service: {
