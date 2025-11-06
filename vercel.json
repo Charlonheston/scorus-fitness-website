@@ -1,12 +1,5 @@
 {
-  "framework": "astro",
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "functions": {
-    "_render": {
-      "runtime": "nodejs20.x"
-    }
-  },
   "env": {
     "NODE_ENV": "production"
   },

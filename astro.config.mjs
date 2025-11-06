@@ -29,7 +29,12 @@ export default defineConfig({
     }),
   ],
   output: 'hybrid', // Permite SSR en páginas específicas
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true
+    },
+    edgeMiddleware: false
+  }),
   image: {
     // Optimización de imágenes con Sharp estándar
     service: {
