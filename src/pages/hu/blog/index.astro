@@ -2,7 +2,10 @@
 /**
  * Blog Oldal - Cikkek Listája
  * Magyar - Netflix Minimalista Fitness Stílus
+ * SSR: Szerver oldali renderelés a frissített cikkek megjelenítéséhez
  */
+
+export const prerender = false;
 
 import Layout from '@layouts/Layout.astro';
 import { getArticles, type StrapiArticle } from '@lib/strapi';

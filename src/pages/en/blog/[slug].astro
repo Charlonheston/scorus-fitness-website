@@ -3,7 +3,10 @@
  * Individual Blog Article Page
  * Dynamic route: /en/blog/[slug]
  * Style similar to reference blog
+ * SSR: Server-side rendered to show updated articles
  */
+
+export const prerender = false;
 
 import Layout from '@layouts/Layout.astro';
 import { Image } from 'astro:assets';

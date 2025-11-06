@@ -3,7 +3,10 @@
  * Página Individual de Artículo del Blog
  * Ruta dinámica: /de/blog/[slug]
  * Estilo similar al blog de referencia
+ * SSR: Serverseitig gerendert, um aktualisierte Artikel anzuzeigen
  */
+
+export const prerender = false;
 
 import Layout from '@layouts/Layout.astro';
 import { Image } from 'astro:assets';
@@ -58,7 +61,7 @@ export async function getStaticPaths() {
       );
 
       return {
-        params: { slug: article.attributes.slug },
+      params: { slug: article.attributes.slug },
         props: {
           article,
           articleLocalizations: uniqueLocalizations,
@@ -823,9 +826,9 @@ if (typeof article.attributes.content === 'string') {
                             )}
                           </a>
                         ))}
-                      </div>
+      </div>
                     )}
-                  </div>
+    </div>
 
                   {/* Action Icons */}
                   <div class="flex items-center gap-4">
@@ -977,8 +980,8 @@ if (typeof article.attributes.content === 'string') {
             id="blog-article-content"
             class="article-content blog-article-content"
             set:html={htmlContent}
-          />
-        </div>
+        />
+      </div>
 
         <!-- Sidebar Column (Right, narrower) -->
         <aside class="lg:col-span-1 lg:sticky lg:top-32 lg:self-start lg:pt-6">
@@ -1021,7 +1024,7 @@ if (typeof article.attributes.content === 'string') {
                       </span>
                     );
                   })}
-                </div>
+    </div>
               </div>
             )}
 
@@ -1050,9 +1053,9 @@ if (typeof article.attributes.content === 'string') {
                   const serviceTitle = service.title.length > 30 
                     ? service.title.substring(0, 30) + '...' 
                     : service.title;
-                  
-                  return (
-                    <a 
+              
+              return (
+                <a 
                       href={service.href}
                       class="group block overflow-hidden rounded-lg bg-white border border-gray-200 hover:shadow-md transition-shadow"
                     >
@@ -1081,16 +1084,16 @@ if (typeof article.attributes.content === 'string') {
                           </svg>
                         </span>
                       </div>
-                    </a>
-                  );
-                })}
-              </div>
+                </a>
+              );
+            })}
+          </div>
             </div>
           </div>
         </aside>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   
   <style is:global>
   /* Estilos para el contenido del artículo */
