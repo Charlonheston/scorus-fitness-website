@@ -3,8 +3,8 @@
  */
 
 // En Astro, las variables sin PUBLIC_ solo están disponibles en el servidor
-const STRAPI_URL = import.meta.env.PUBLIC_STRAPI_URL || 'http://localhost:1337';
-const STRAPI_API_TOKEN = import.meta.env.STRAPI_API_TOKEN || import.meta.env.PUBLIC_STRAPI_API_TOKEN || '';
+export const STRAPI_URL = import.meta.env.PUBLIC_STRAPI_URL || 'https://scorus-cms-strapi.onrender.com';
+export const STRAPI_API_TOKEN = import.meta.env.STRAPI_API_TOKEN || import.meta.env.PUBLIC_STRAPI_API_TOKEN || '';
 
 // Debug inicial
 console.log('🔧 Strapi Config:', {
@@ -73,6 +73,7 @@ export interface StrapiAuthor {
 
 export interface StrapiArticle {
   id: number;
+  documentId?: string; // Added for v5 support
   attributes: {
     title: string;
     slug: string;
@@ -181,6 +182,7 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
   url.searchParams.append('populate[3]', 'author');
   url.searchParams.append('populate[4]', 'author.avatar');
   url.searchParams.append('populate[5]', 'author.socialLinks');
+  url.searchParams.append('populate[6]', 'localizations');
 
     const headers = getHeaders();
     const authHeader = (headers as Record<string, string>)['Authorization'] || '';
@@ -294,9 +296,18 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
           // Si viene como objeto directo con attributes, envolver en data
           imgUrl = { data: imgUrl };
         }
+
+        // Normalizar localizaciones
+        let localizations = attrs.localizations || article.localizations;
+        if (localizations && !localizations.data) {
+          localizations = Array.isArray(localizations)
+            ? { data: localizations }
+            : localizations;
+        }
         
         return {
           id: article.id || article.documentId,
+          documentId: article.documentId, // ¡AGREGAR ESTO!
           attributes: {
             title,
             slug,
@@ -312,6 +323,7 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
             categories: categories || { data: [] },
             tags: tags || { data: [] },
             author: author || null,
+            localizations: localizations || { data: [] },
           },
         };
       });
@@ -326,6 +338,64 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
 }
 
 /**
+ * Obtiene todas las localizaciones de un artículo dado su documentId
+ */
+export async function getArticleLocalizations(
+  documentId: string
+): Promise<Array<{ locale: string; slug: string }>> {
+  try {
+    console.log('🌍 getArticleLocalizations - Fetching for documentId:', documentId);
+    
+    const url = new URL(`${STRAPI_URL}/api/articles`);
+    url.searchParams.append('filters[documentId][$eq]', documentId);
+    url.searchParams.append('locale', 'all');
+    url.searchParams.append('fields[0]', 'slug');
+    url.searchParams.append('fields[1]', 'locale');
+    url.searchParams.append('fields[2]', 'documentId');
+
+    const response = await fetch(url.toString(), {
+      headers: getHeaders(),
+    });
+
+    if (!response.ok) {
+      console.error('❌ Error fetching localizations:', response.status, response.statusText);
+      return [];
+    }
+
+    const data: StrapiResponse<any[]> = await response.json();
+    
+    console.log('🌍 RESPONSE - Found items:', data.data?.length || 0);
+    
+    if (!data.data || !Array.isArray(data.data)) {
+      console.error('❌ No data.data array found');
+      return [];
+    }
+
+    console.log('🌍 First item keys:', Object.keys(data.data[0] || {}));
+
+    const localizations = data.data.map((item, index) => {
+      // Strapi v5 puede devolver los campos directamente en el objeto, no en attributes
+      const locale = item.locale || item.attributes?.locale;
+      const slug = item.slug || item.attributes?.slug;
+      
+      console.log(`  🌍 [${index}] locale=${locale}, slug=${slug}`);
+      
+      return {
+        locale,
+        slug
+      };
+    }).filter(loc => loc.locale && loc.slug);
+    
+    console.log('🌍 ✅ FINAL RESULT:', localizations.map(l => `${l.locale}:${l.slug}`).join(', '));
+    
+    return localizations;
+  } catch (error) {
+    console.error('Error fetching article localizations:', error);
+    return [];
+  }
+}
+
+/**
  * Obtiene un artículo específico por slug
  */
 export async function getArticleBySlug(
@@ -333,9 +403,13 @@ export async function getArticleBySlug(
   locale: string = 'es'
 ): Promise<StrapiArticle | null> {
   try {
+    console.log('🔍 getArticleBySlug - Searching for:', { slug, locale, strapiUrl: STRAPI_URL });
+    
     const url = new URL(`${STRAPI_URL}/api/articles`);
     url.searchParams.append('locale', locale);
     url.searchParams.append('filters[slug][$eq]', slug);
+    
+    console.log('🔍 getArticleBySlug - Request URL:', url.toString());
     // Populate todas las relaciones - Strapi v5 syntax
     url.searchParams.append('populate[0]', 'imgUrl');
     url.searchParams.append('populate[1]', 'categories');
@@ -343,6 +417,7 @@ export async function getArticleBySlug(
   url.searchParams.append('populate[3]', 'author');
   url.searchParams.append('populate[4]', 'author.avatar');
   url.searchParams.append('populate[5]', 'author.socialLinks');
+  url.searchParams.append('populate[6]', 'localizations');
 
     const response = await fetch(url.toString(), {
       headers: getHeaders(),
@@ -355,7 +430,15 @@ export async function getArticleBySlug(
     const data: StrapiResponse<StrapiArticle[]> = await response.json();
     const article: any = data.data?.[0];
     
+    console.log('🔍 getArticleBySlug - Response:', {
+      found: !!article,
+      totalResults: data.data?.length || 0,
+      articleSlug: article?.attributes?.slug || article?.slug,
+      requestedSlug: slug
+    });
+    
     if (!article) {
+      console.warn('⚠️ getArticleBySlug - Article not found for slug:', slug);
       return null;
     }
 
@@ -411,8 +494,16 @@ export async function getArticleBySlug(
     }
 
     // Normalizar a formato con attributes incluyendo relaciones
+    // Incluir documentId y localizations para soportar el language switcher
+    // localizations puede venir como array o como { data: [...] }
+    const localizationsRaw = attrs.localizations ?? article.localizations;
+    const localizations = Array.isArray(localizationsRaw)
+      ? localizationsRaw
+      : (localizationsRaw && (localizationsRaw as any).data) ? (localizationsRaw as any).data : [];
+
     return {
       id: article.id || article.documentId,
+      documentId: article.documentId,
       attributes: {
         title: attrs.title || article.title,
         slug: attrs.slug || article.slug,
@@ -428,6 +519,7 @@ export async function getArticleBySlug(
         categories: categories || { data: [] },
         tags: tags || { data: [] },
         author: author || null,
+        localizations,
       },
     };
   } catch (error) {
@@ -520,8 +612,14 @@ export async function getArticleById(
     }
 
     // Normalizar a formato con attributes incluyendo relaciones
+    const localizationsRaw = attrs.localizations ?? article.localizations;
+    const localizations = Array.isArray(localizationsRaw)
+      ? localizationsRaw
+      : (localizationsRaw && (localizationsRaw as any).data) ? (localizationsRaw as any).data : [];
+
     return {
       id: article.id || article.documentId,
+      documentId: article.documentId,
       attributes: {
         title: attrs.title || article.title,
         slug: attrs.slug || article.slug,
@@ -537,6 +635,7 @@ export async function getArticleById(
         categories: categories || { data: [] },
         tags: tags || { data: [] },
         author: author || null,
+        localizations,
       },
     };
   } catch (error) {

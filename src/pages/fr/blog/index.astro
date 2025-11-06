@@ -1,14 +1,14 @@
 ---
 /**
- * Blog Page - Article List
- * English - Netflix Minimalist Fitness Style
+ * Page Blog - Liste d'Articles
+ * Français - Style Netflix Minimaliste Fitness
  */
 
 import Layout from '@layouts/Layout.astro';
 import { getArticles, type StrapiArticle } from '@lib/strapi';
 import { formatDate } from '@lib/utils';
 
-const articles = await getArticles('en');
+const articles = await getArticles('fr');
 
 console.log('📚 Articles fetched:', articles.length);
 console.log('📋 Sample article:', articles[0]);
@@ -241,12 +241,12 @@ function getIconSvg(iconName: string | undefined | null): { path: string; viewBo
   return iconMap[normalizedName] || null;
 }
 
-const currentLang = 'en';
+const currentLang = 'fr';
 ---
 
 <Layout
   title="Blog | Scorus Fitness"
-  description="Articles about fitness, nutrition and training"
+  description="Articles sur le fitness, la nutrition et l'entraînement"
 >
   <!-- Hero Section -->
   <section class="relative flex min-h-[60vh] items-center justify-center overflow-hidden bg-black py-24 text-white">
@@ -273,7 +273,7 @@ const currentLang = 'en';
           Blog <span class="text-red-600">Scorus</span>
         </h1>
         <p class="text-xl text-gray-300">
-          Discover the latest articles about fitness, nutrition and training
+          Découvrez les derniers articles sur le fitness, la nutrition et l'entraînement
         </p>
       </div>
     </div>
@@ -284,8 +284,8 @@ const currentLang = 'en';
     <div class="container">
       {sortedArticles.length === 0 ? (
         <div class="py-20 text-center">
-          <p class="text-xl text-gray-500">No articles available yet.</p>
-          <p class="mt-4 text-sm text-gray-600">Articles found: {sortedArticles.length}</p>
+          <p class="text-xl text-gray-500">Aucun article disponible pour le moment.</p>
+          <p class="mt-4 text-sm text-gray-600">Articles trouvés: {sortedArticles.length}</p>
         </div>
       ) : (
         <>
@@ -308,7 +308,7 @@ const currentLang = 'en';
                   
                   return (
                     <a 
-                      href={`/en/blog/${featuredArticle.attributes.slug}`}
+                      href={`/fr/blog/${featuredArticle.attributes.slug}`}
                       class="group relative col-span-1 md:col-span-2 overflow-hidden rounded-2xl shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-red-600/20 hover:-translate-y-2 w-full"
                     >
                       {featuredImageUrl ? (
@@ -363,7 +363,7 @@ const currentLang = 'en';
                         )}
                         
                         <time class="mb-2 block text-xs font-bold uppercase tracking-widest text-gray-300">
-                          {formatDate(featuredDate, 'en-US')}
+                          {formatDate(featuredDate, 'fr-FR')}
                         </time>
                         
                         <h2 class="mb-3 text-3xl md:text-4xl font-black uppercase leading-tight tracking-tighter text-white drop-shadow-2xl transition-all duration-300 group-hover:text-red-400 group-hover:drop-shadow-[0_0_20px_rgba(220,38,38,0.5)]">
@@ -394,7 +394,7 @@ const currentLang = 'en';
                     
                     return (
                       <a 
-                        href={`/en/blog/${article.attributes.slug}`}
+                        href={`/fr/blog/${article.attributes.slug}`}
                         class="group relative flex-1 overflow-hidden rounded-xl shadow-lg transition-all duration-500 hover:shadow-xl hover:shadow-red-600/20 hover:-translate-y-1 min-h-0"
                       >
                         {articleImageUrl ? (
@@ -461,7 +461,7 @@ const currentLang = 'en';
               
               {/* Breadcrumbs */}
               <nav class="mt-6 flex items-center gap-2 text-sm text-gray-600" aria-label="Breadcrumb">
-                <a href="/en" class="hover:text-red-600 transition-colors">Home</a>
+                <a href="/fr" class="hover:text-red-600 transition-colors">Accueil</a>
                 <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
                 </svg>
@@ -478,7 +478,7 @@ const currentLang = 'en';
                 class="category-filter active rounded-full px-4 py-2 text-sm font-semibold transition-all duration-300 bg-gray-900 text-white hover:bg-gray-800 shadow-md"
                 data-category="all"
               >
-                All
+                Tous
               </button>
               {Array.from(allCategories.values()).map((category) => {
                 const categoryIconSvg = getIconSvg(category.icon);
@@ -510,13 +510,13 @@ const currentLang = 'en';
             
             {/* Ordenamiento */}
             <div class="flex items-center gap-2">
-              <label for="sort-select" class="text-sm font-semibold text-gray-700">Sort:</label>
+              <label for="sort-select" class="text-sm font-semibold text-gray-700">Trier:</label>
               <select 
                 id="sort-select" 
                 class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all duration-300 hover:border-gray-400 focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600/20"
               >
-                <option value="recent">Most recent</option>
-                <option value="oldest">Oldest</option>
+                <option value="recent">Plus récents</option>
+                <option value="oldest">Plus anciens</option>
               </select>
             </div>
           </div>
@@ -619,7 +619,7 @@ const currentLang = 'en';
                     
                     {/* Fecha */}
                     <time class="mb-2 block text-xs font-bold uppercase tracking-widest text-gray-300">
-                      {formatDate(publishedDate, 'en-US')}
+                      {formatDate(publishedDate, 'fr-FR')}
                     </time>
                     
                     {/* Título truncado a máximo de caracteres para homogeneidad */}
@@ -675,7 +675,7 @@ const currentLang = 'en';
                     
                     {/* CTA mejorado - más compacto */}
                     <div class="flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-xs font-black uppercase tracking-wider text-white shadow-lg transition-all duration-300 group-hover:bg-white group-hover:text-red-600 group-hover:scale-105 group-hover:shadow-xl group-hover:shadow-red-600/50">
-                      Read article
+                      Lire l'article
                       <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                       </svg>
@@ -684,7 +684,7 @@ const currentLang = 'en';
                 </div>
                 
                 {/* Link overlay */}
-                <a href={`/en/blog/${article.attributes.slug}`} class="absolute inset-0 z-20" aria-label={`Read article: ${article.attributes.title}`}></a>
+                <a href={`/fr/blog/${article.attributes.slug}`} class="absolute inset-0 z-20" aria-label={`Lire l'article: ${article.attributes.title}`}></a>
               </article>
             );
           })}
@@ -692,7 +692,7 @@ const currentLang = 'en';
           
           {/* Mensaje cuando no hay artículos filtrados */}
           <div id="no-results" class="hidden py-20 text-center">
-            <p class="text-xl text-gray-500">No articles found with the selected filters.</p>
+            <p class="text-xl text-gray-500">Aucun article trouvé avec les filtres sélectionnés.</p>
           </div>
         </>
       )}

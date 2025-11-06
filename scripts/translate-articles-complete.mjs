@@ -57,7 +57,7 @@ async function getLocalizedRelation(relation, targetLocale, type) {
     // Si falla, retornar el ID original
     console.warn(`   ⚠️  No se pudo obtener localización de ${type} ${relationId}: ${error.message.substring(0, 100)}`);
     return relationId;
-  }
+}
 }
 
 // Función para traducir texto usando traducciones básicas o API
@@ -71,7 +71,7 @@ async function translateText(text, targetLocale) {
   // Retornar el texto con un marcador indicando que necesita traducción real
   // En producción, aquí harías la llamada a la API de traducción
   return `[NEEDS_TRANSLATION:${targetLocale}] ${cleanText}`;
-}
+  }
 
 // Función para crear traducción de artículo
 async function createArticleTranslation(article, targetLocale) {
@@ -98,7 +98,7 @@ async function createArticleTranslation(article, targetLocale) {
     if (existing.data && existing.data.length > 0) {
       console.log(`   ⏭️  Ya existe traducción en ${targetLocale.toUpperCase()}`);
       return existing.data[0];
-    }
+      }
   } catch (e) {
     // Continuar si no existe
   }

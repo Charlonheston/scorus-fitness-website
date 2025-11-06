@@ -2,148 +2,1657 @@
 /**
  * Individual Blog Article Page
  * Dynamic route: /en/blog/[slug]
+ * Style similar to reference blog
  */
 
 import Layout from '@layouts/Layout.astro';
-import { getArticleBySlug, getArticles } from '@lib/strapi';
+import { Image } from 'astro:assets';
+import { getArticleBySlug, getArticles, type StrapiArticle } from '@lib/strapi';
 import { formatDate } from '@lib/utils';
 
-// Generate all static routes at build time
 export async function getStaticPaths() {
   try {
     const articles = await getArticles('en');
     
-    // If no articles, return empty array
+    console.log('📋 getStaticPaths - Total articles found:', articles.length);
+    console.log('📋 getStaticPaths - Slugs:', articles.map(a => a.attributes.slug));
+    
     if (!articles || articles.length === 0) {
+      console.warn('⚠️ No articles found in getStaticPaths');
       return [];
     }
     
-    return articles.map((article) => ({
-      params: { slug: article.attributes.slug },
-      props: { article },
-    }));
+    const paths = articles.map((article) => {
+      const baseLocale = article.attributes.locale || 'en';
+      const baseSlug = article.attributes.slug;
+      const localizationEntries: Array<{ locale: string; slug: string }> = [];
+
+      if (baseLocale && baseSlug) {
+        localizationEntries.push({ locale: baseLocale, slug: baseSlug });
+      }
+
+      const rawLocalizations = article.attributes.localizations;
+      const localizationData = Array.isArray(rawLocalizations?.data)
+        ? rawLocalizations.data
+        : Array.isArray(rawLocalizations)
+          ? rawLocalizations
+          : [];
+
+      localizationData.forEach((loc: any) => {
+        const locAttrs = loc.attributes || loc;
+        if (locAttrs?.locale && locAttrs?.slug) {
+          localizationEntries.push({
+            locale: locAttrs.locale,
+            slug: locAttrs.slug,
+          });
+        }
+      });
+
+      const uniqueLocalizations = Object.values(
+        localizationEntries.reduce((acc, loc) => {
+          if (!acc[loc.locale]) {
+            acc[loc.locale] = loc;
+          }
+          return acc;
+        }, {} as Record<string, { locale: string; slug: string }>)
+      );
+
+      return {
+        params: { slug: article.attributes.slug },
+        props: {
+          article,
+          articleLocalizations: uniqueLocalizations,
+        },
+      };
+    });
+
+    return paths;
   } catch (error) {
-    console.error('Error in getStaticPaths:', error);
+    console.error('❌ Error in getStaticPaths:', error);
     return [];
   }
 }
 
-// Get article from props
 const params = await Astro.params;
-const article = Astro.props.article || await getArticleBySlug(params?.slug || '', 'en');
+const slug = params?.slug || '';
 
-// If article doesn't exist, redirect to blog
+console.log('🔍 Loading article with slug:', slug);
+console.log('🔍 Article from props:', Astro.props.article ? 'Yes' : 'No');
+
+let article = Astro.props.article;
+
+// If not in props (can happen in development or if slug wasn't in getStaticPaths)
+if (!article && slug) {
+  console.log('🔍 Article not in props, fetching by slug...');
+  const fetchedArticle = await getArticleBySlug(slug, 'en');
+  if (fetchedArticle) {
+    article = fetchedArticle;
+  }
+  console.log('🔍 Article fetched:', article ? 'Found' : 'Not found');
+}
+
 if (!article) {
+  console.error('❌ Article not found for slug:', slug);
   return Astro.redirect('/en/blog');
 }
 
-const publishedDate = article.attributes.createdAt 
-  ? (article.attributes.publishedAt 
-      ? new Date(article.attributes.publishedAt)
-      : new Date(article.attributes.createdAt))
-  : new Date();
+// Helper para obtener URL de imagen
+async function getImageUrl(imgUrl: any): Promise<string | null> {
+  if (!imgUrl) {
+    return null;
+  }
+  
+  const baseUrl = 'https://scorus-cms-strapi.onrender.com';
+  let fileId: number | null = null;
+  
+  if (imgUrl?.data?.id) {
+    fileId = imgUrl.data.id;
+  }
+  
+  let url: string | null = null;
+  
+  if (imgUrl?.data?.attributes?.url) {
+    url = imgUrl.data.attributes.url;
+  } else if (imgUrl?.data?.url) {
+    url = imgUrl.data.url;
+  } else if (imgUrl?.attributes?.url) {
+    url = imgUrl.attributes.url;
+  } else if (imgUrl?.url && typeof imgUrl.url === 'string') {
+    url = imgUrl.url;
+  } else if (typeof imgUrl === 'string') {
+    url = imgUrl;
+  }
+  
+  if (url) {
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    } else if (url.startsWith('/')) {
+      return `${baseUrl}${url}`;
+    } else {
+      return `${baseUrl}/${url}`;
+    }
+  }
+  
+  if (fileId) {
+    return `${baseUrl}/api/upload/files/${fileId}`;
+  }
+  
+  return null;
+}
 
-// Get related articles (last 3, excluding current)
-const allArticles = await getArticles('en');
-const relatedArticles = allArticles
-  .filter((a) => a.id !== article.id)
-  .slice(0, 3);
+const publishedDate = article.attributes.date 
+  ? new Date(article.attributes.date)
+  : (article.attributes.publishedAt 
+      ? new Date(article.attributes.publishedAt)
+      : new Date(article.attributes.createdAt));
+
+const imageUrl = await getImageUrl(article.attributes.imgUrl);
+const categories = article.attributes.categories?.data || [];
+const tags = article.attributes.tags?.data || [];
+const author = article.attributes.author?.data;
+const excerpt = article.attributes.excerpt || '';
+
+// Get article localizations from props (already fetched in getStaticPaths)
+const articleLocalizations = Astro.props.articleLocalizations || [{ locale: 'en', slug: article.attributes.slug }];
+
+console.log('🔍 EN Article Localizations from props:', articleLocalizations);
+
+// Procesar socialLinks del autor
+let processedSocialLinks: Array<{ url: string; platform: string; iconPath: string; iconViewBox: string; useFill: boolean }> = [];
+if (author) {
+  const authorAttrs = author.attributes || author;
+  let socialLinks: any = authorAttrs?.socialLinks || [];
+  
+  if (socialLinks && (socialLinks as any).data && Array.isArray((socialLinks as any).data)) {
+    socialLinks = (socialLinks as any).data;
+  } else if (socialLinks && (socialLinks as any).data && !Array.isArray((socialLinks as any).data)) {
+    socialLinks = [(socialLinks as any).data];
+  }
+  
+  if (!Array.isArray(socialLinks)) {
+    socialLinks = socialLinks ? [socialLinks] : [];
+  }
+  
+  processedSocialLinks = socialLinks
+    .filter((social: any) => {
+      const hasUrl = !!(social.url || social.attributes?.url);
+      const hasPlatform = !!(social.platform || social.attributes?.platform);
+      return hasUrl && hasPlatform;
+    })
+    .map((social: any) => {
+      const socialUrl = social.url || social.attributes?.url || '';
+      const socialPlatform = social.platform || social.attributes?.platform || '';
+      const platform = (socialPlatform?.toLowerCase() || '').trim();
+      
+      let iconPath = '';
+      let iconViewBox = '0 0 24 24';
+      let useFill = true;
+      
+      if (platform === 'linkedin' || platform.includes('linkedin')) {
+        iconPath = 'M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z';
+      } else if (platform.includes('instagram') || platform === 'instagram') {
+        iconPath = 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z';
+      } else if (platform.includes('facebook') || platform === 'facebook') {
+        iconPath = 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z';
+      } else if (platform.includes('twitter') || platform.includes('x.com') || platform === 'twitter') {
+        iconPath = 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z';
+        iconViewBox = '0 0 24 24';
+      } else if (platform.includes('youtube') || platform === 'youtube') {
+        iconPath = 'M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z';
+      } else {
+        iconPath = '';
+        useFill = false;
+      }
+      
+      return { url: socialUrl, platform: socialPlatform, iconPath, iconViewBox, useFill };
+    });
+}
+
+// Get author avatar URL - manejar diferentes estructuras
+let authorAvatarUrl: string | null = null;
+if (author) {
+  const authorAttrs = author.attributes || author;
+  let avatar = authorAttrs?.avatar;
+  
+  // Debug: ver estructura completa
+  console.log('🔍 Author structure:', {
+    hasAuthor: !!author,
+    authorKeys: Object.keys(author || {}),
+    hasAttributes: !!authorAttrs,
+    authorAttrsKeys: Object.keys(authorAttrs || {}),
+    hasAvatar: !!avatar,
+    avatarFull: avatar ? JSON.stringify(avatar, null, 2).substring(0, 800) : 'null'
+  });
+  
+  if (avatar) {
+    // Si avatar es un array, tomar el primero
+    if (Array.isArray(avatar)) {
+      avatar = avatar[0];
+    }
+    
+    const avatarAny = avatar as any;
+    // Intentar diferentes estructuras posibles de Strapi v5
+    // Estructura 1: { data: { attributes: { url: ... } } } - formato estándar
+    if (avatarAny?.data?.attributes?.url) {
+      authorAvatarUrl = await getImageUrl(avatar);
+    }
+    // Estructura 2: { attributes: { url: ... } } (sin data wrapper)
+    else if (avatarAny?.attributes?.url) {
+      authorAvatarUrl = await getImageUrl({ data: avatar });
+    }
+    // Estructura 3: { data: { url: ... } } (sin attributes)
+    else if (avatarAny?.data?.url) {
+      authorAvatarUrl = await getImageUrl({ data: { attributes: { url: avatarAny.data.url } } });
+    }
+    // Estructura 4: { url: ... } directo
+    else if (avatarAny?.url && typeof avatarAny.url === 'string') {
+      authorAvatarUrl = await getImageUrl({ data: { attributes: { url: avatarAny.url } } });
+    }
+    // Estructura 5: string directo (nombre del archivo)
+    else if (typeof avatar === 'string') {
+      authorAvatarUrl = await getImageUrl({ data: { attributes: { url: avatar } } });
+    }
+    // Último intento: pasar el objeto completo tal cual
+    else {
+      authorAvatarUrl = await getImageUrl(avatar);
+    }
+    
+    console.log('✅ Author avatar URL result:', authorAvatarUrl);
+  } else {
+    console.warn('⚠️ No avatar found for author');
+  }
+}
+
+// Services and Academy to show randomly
+const servicesData = [
+  {
+    title: 'Entrenamiento Personal',
+    href: '/en/servicios/entrenamiento-personal',
+    description: 'Programas de entrenamiento completamente personalizados y adaptados a tus objetivos específicos.',
+    image: '/images/services/personal-training.webp',
+  },
+  {
+    title: 'Consultoría Online',
+    href: '/en/servicios/consultoria-online',
+    description: 'Asesoramiento profesional mediante videollamadas para resolver tus dudas específicas.',
+    image: '/images/services/online-consulting.webp',
+  },
+  {
+    title: 'Asesoramiento Online',
+    href: '/en/servicios/asesoramiento-online',
+    description: 'Sistema completo de coaching online con seguimiento continuo y soporte 24/7.',
+    image: '/images/services/online-coaching-hero.webp',
+  },
+  {
+    title: 'Scorus Campus',
+    href: '/en/academia/scorus-campus',
+    description: 'Experiencia exclusiva de entrenamiento intensivo de 7 días en nuestro gimnasio.',
+    image: '/images/services/scorus-campus-hero.webp',
+  },
+  {
+    title: 'Talleres',
+    href: '/en/servicios/talleres',
+    description: '10 Talleres prácticos especializados en culturismo y fitness con sesiones teóricas y prácticas.',
+    image: '/images/services/workshops-hero.webp',
+  },
+  {
+    title: 'Seminarios',
+    href: '/en/academia/seminarios',
+    description: '14 seminarios especializados presenciales y online sobre entrenamiento, nutrición y bienestar.',
+    image: '/images/academia/seminars-hero.webp',
+  },
+  {
+    title: 'Video Cursos',
+    href: '/en/servicios/video-cursos',
+    description: 'Cursos online con contenido pregrabado de alta calidad para aprender a tu ritmo.',
+    image: '/images/academia/video-cursos.webp',
+  },
+  {
+    title: 'RE-BORN',
+    href: '/en/academia/re-born',
+    description: 'Programa de transformación integral física, mental y espiritual para hombres 35-55 años.',
+    image: '/images/academia/re-born.webp',
+  },
+];
+
+// Select 3 random services
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+const randomServices = shuffleArray(servicesData).slice(0, 3);
+
+// Mapear nombres de iconos a SVG paths sólidos (Lucide filled)
+function getIconSvg(iconName: string | undefined | null): { path: string; viewBox: string; isSolid?: boolean } | null {
+  if (!iconName) return null;
+  
+  const iconMap: Record<string, { path: string; viewBox: string; isSolid?: boolean }> = {
+    // Nutrición - Apple (sólido simplificado)
+    'apple': { 
+      path: 'M12 2C8 2 7 5 7 8c0 5 4 10 5 11 1-1 5-6 5-11 0-3-1-6-5-6zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    'nutrition': { 
+      path: 'M12 2C8 2 7 5 7 8c0 5 4 10 5 11 1-1 5-6 5-11 0-3-1-6-5-6zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Suplementación - Pill (sólido)
+    'supplement': { 
+      path: 'M10.5 7.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-3a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    'supplementation': { 
+      path: 'M10.5 7.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3-3a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Transformación - Sparkles (sólido)
+    'transformation': { 
+      path: 'M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Academia - GraduationCap (sólido)
+    'academia': { 
+      path: 'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 8l-5-2.5L12 6l5 2.5L12 11z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    'academy': { 
+      path: 'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 8l-5-2.5L12 6l5 2.5L12 11z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Entrenamiento/Fitness - Dumbbell (sólido con rectángulos)
+    'training': { 
+      path: 'M2 8h4v8H2V8zm18 0h4v8h-4V8zm5 5H5v-2h20v2z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    'dumbbell': { 
+      path: 'M2 8h4v8H2V8zm18 0h4v8h-4V8zm5 5H5v-2h20v2z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    'fitness': { 
+      path: 'M2 8h4v8H2V8zm18 0h4v8h-4V8zm5 5H5v-2h20v2z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    'workout': { 
+      path: 'M2 8h4v8H2V8zm18 0h4v8h-4V8zm5 5H5v-2h20v2z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Salud - Heart (sólido)
+    'health': { 
+      path: 'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Dieta - Utensils (sólido)
+    'diet': { 
+      path: 'M3 2v7c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V2H3zm0 9v10c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V11H3zm12-6v12c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Músculo - Zap (sólido)
+    'muscle': { 
+      path: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Fuerza - Flame (sólido)
+    'strength': { 
+      path: 'M12 2C8 2 7 5 7 8c0 4 3 7 5 8 2-1 5-4 5-8 0-3-1-6-5-6zm0 18c-2 0-4-1.5-5-3 1-1.5 4-4.5 5-6 1 1.5 4 4.5 5 6-1 1.5-3 3-5 3z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Cardio - Activity (sólido)
+    'cardio': { 
+      path: 'M22 12h-4l-3 9L9 3l-3 9H2', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Yoga - Circle (sólido)
+    'yoga': { 
+      path: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    'meditation': { 
+      path: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Bienestar - Flower (sólido)
+    'wellness': { 
+      path: 'M12 2c-2.2 0-4 1.8-4 4v6c0 2.2 1.8 4 4 4s4-1.8 4-4V6c0-2.2-1.8-4-4-4zm0 12c-3.3 0-6 2.7-6 6v2h12v-2c0-3.3-2.7-6-6-6z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Proteína - Drumstick (sólido)
+    'protein': { 
+      path: 'M15.5 17c-2.3 1.9-5.5 2.8-8.5 2.4L3 21l1.6-4c-.4-3 .5-6.2 2.4-8.5L15.5 17zm5-10c-.6-.6-1.5-1-2.5-1-.6 0-1.2.2-1.7.5L18 9.3c.3-.5.5-1.1.5-1.7 0-1-.4-1.9-1-2.5z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    // Peso - Scale (sólido)
+    'weight': { 
+      path: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 5h2v8h-2V8z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+    'scale': { 
+      path: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 5h2v8h-2V8z', 
+      viewBox: '0 0 24 24',
+      isSolid: true
+    },
+  };
+  
+  const normalizedName = iconName.toLowerCase().trim();
+  return iconMap[normalizedName] || null;
+}
+
+// Extraer títulos H2 para el índice
+function extractHeadings(markdown: string): Array<{ id: string; text: string }> {
+  if (!markdown) return [];
+  
+  const headings: Array<{ id: string; text: string }> = [];
+  const lines = markdown.split('\n');
+  
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('## ')) {
+      let headingText = trimmed.substring(3).trim();
+      // Eliminar números al inicio con formato "1\. ", "2\. ", etc.
+      headingText = headingText.replace(/^\d+\\?\.\s*/, '');
+      // Crear un ID único para el anchor
+      const id = headingText
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+      headings.push({ id, text: headingText });
+    }
+  }
+  
+  return headings;
+}
+
+// Convertir contenido markdown a HTML usando una función simple pero robusta
+function markdownToHtml(markdown: string): string {
+  if (!markdown) return '';
+  
+  // Si ya es HTML (contiene tags), devolver tal cual
+  if (/<[a-z][\s\S]*>/i.test(markdown)) {
+    return markdown;
+  }
+  
+  // Dividir en líneas para procesar mejor
+  const lines = markdown.split('\n');
+  const html: string[] = [];
+  let inList = false;
+  let inBlockquote = false;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    const nextLine = i < lines.length - 1 ? lines[i + 1].trim() : '';
+    
+    // Headings
+    if (line.startsWith('### ')) {
+      closeList(html, inList);
+      inList = false;
+      html.push(`<h3>${processInline(line.substring(4))}</h3>`);
+      continue;
+    }
+    if (line.startsWith('## ')) {
+      closeList(html, inList);
+      inList = false;
+      let headingText = line.substring(3).trim();
+      // Eliminar números al inicio con formato "1\. ", "2\. ", etc.
+      headingText = headingText.replace(/^\d+\\?\.\s*/, '');
+      // Crear un ID único para el anchor
+      const headingId = headingText
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+      html.push(`<h2 id="${headingId}">${processInline(headingText)}</h2>`);
+      continue;
+    }
+    if (line.startsWith('# ')) {
+      closeList(html, inList);
+      inList = false;
+      html.push(`<h1>${processInline(line.substring(2))}</h1>`);
+      continue;
+    }
+    
+    // Horizontal rules
+    if (line === '---' || line === '***') {
+      closeList(html, inList);
+      inList = false;
+      html.push('<hr />');
+      continue;
+    }
+    
+    // Blockquotes - mejor detección
+    if (line.startsWith('> ')) {
+      if (!inBlockquote) {
+        html.push('<blockquote class="fitness-quote">');
+        inBlockquote = true;
+      }
+      const quoteText = line.substring(2).trim();
+      if (quoteText) {
+        html.push(`<p>${processInline(quoteText)}</p>`);
+      }
+      // Si la siguiente línea no es un blockquote o está vacía, cerrar
+      if (nextLine && !nextLine.startsWith('> ') && nextLine !== '') {
+        html.push('</blockquote>');
+        inBlockquote = false;
+      }
+      continue;
+    } else if (inBlockquote) {
+      html.push('</blockquote>');
+      inBlockquote = false;
+    }
+    
+    // Lists
+    if (/^[\*\-\+] /.test(line) || /^\d+\. /.test(line)) {
+      if (!inList) {
+        html.push('<ul>');
+        inList = true;
+      }
+      const listText = line.replace(/^[\*\-\+] /, '').replace(/^\d+\. /, '');
+      html.push(`<li>${processInline(listText)}</li>`);
+      if (nextLine && !/^[\*\-\+] /.test(nextLine) && !/^\d+\. /.test(nextLine) && nextLine !== '') {
+        html.push('</ul>');
+        inList = false;
+      }
+      continue;
+    } else if (inList) {
+      html.push('</ul>');
+      inList = false;
+    }
+    
+    // Empty lines - mejor manejo
+    if (line === '') {
+      // Cerrar listas y blockquotes si están abiertos antes de una línea vacía
+      if (inList) {
+        html.push('</ul>');
+        inList = false;
+      }
+      if (inBlockquote) {
+        html.push('</blockquote>');
+        inBlockquote = false;
+      }
+      // No agregar párrafos vacíos innecesarios
+      continue;
+    }
+    
+    // Regular paragraphs
+    html.push(`<p>${processInline(line)}</p>`);
+  }
+  
+  // Cerrar cualquier lista o blockquote que quede abierto al final
+  if (inList) {
+    html.push('</ul>');
+  }
+  if (inBlockquote) {
+    html.push('</blockquote>');
+  }
+  
+  return html.join('\n');
+}
+
+function closeList(html: string[], inList: boolean): void {
+  if (inList) {
+    html.push('</ul>');
+  }
+}
+
+function processInline(text: string): string {
+  return text
+    // Bold
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/__(.+?)__/g, '<strong>$1</strong>')
+    // Italic
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/_(.+?)_/g, '<em>$1</em>')
+    // Links
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+}
+
+// Extraer títulos para el índice
+let articleHeadings: Array<{ id: string; text: string }> = [];
+let htmlContent = '';
+if (typeof article.attributes.content === 'string') {
+  articleHeadings = extractHeadings(article.attributes.content);
+  htmlContent = markdownToHtml(article.attributes.content);
+}
 ---
 
 <Layout
-  title={`${article.attributes.title} | Scorus Blog`}
-  description={typeof article.attributes.content === 'string' 
+  title={`${article.attributes.title} | Blog Scorus`}
+  description={excerpt || (typeof article.attributes.content === 'string' 
     ? article.attributes.content.replace(/<[^>]*>/g, '').substring(0, 160) 
-    : 'Blog article'}
+    : 'Blog article')}
+  articleLocalizations={articleLocalizations}
+  currentSlug={article.attributes.slug}
+  isBlogPage={true}
+  data-blog-page="true"
 >
-  <!-- Hero Article -->
-  <section class="bg-black py-16 text-white">
+  <!-- Main Content Area -->
+  <section class="bg-white pt-40 py-8">
     <div class="container">
-      <div class="mx-auto max-w-4xl">
-        <a 
-          href="/en/blog" 
-          class="mb-8 inline-flex items-center text-gray-400 hover:text-white transition-colors"
-        >
-          ← Back to blog
-        </a>
-        <time class="text-sm text-gray-400">
-          {formatDate(publishedDate, 'en-US')}
-        </time>
-        <h1 class="mt-4 text-4xl font-black uppercase tracking-tighter md:text-5xl lg:text-6xl">
+      <!-- Full Width Section: Title, Excerpt, Image, Caption, Breadcrumbs -->
+      <div class="mb-8">
+        <!-- Article Title -->
+        <h1 class="mb-4 mt-12 text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-gray-900">
           {article.attributes.title}
         </h1>
-      </div>
-    </div>
-  </section>
 
-  <!-- Article Content -->
-  <article class="bg-white py-16">
-    <div class="container">
-      <div class="mx-auto max-w-4xl">
-        <div 
-          class="prose prose-lg max-w-none prose-headings:font-black prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-red-600 prose-a:no-underline hover:prose-a:underline"
-          set:html={article.attributes.content}
+        <!-- Article Excerpt/Subtitle -->
+        {excerpt && (
+          <p class="mb-6 text-lg text-gray-600 leading-relaxed">
+            {excerpt}
+          </p>
+        )}
+
+        <!-- Categories - Con icono y color -->
+        {categories.length > 0 && (
+          <div class="mb-6 flex flex-wrap gap-2">
+            {categories.map((category) => {
+              const categoryColor = category.attributes?.color || (category as any).color;
+              const categoryIconRaw = category.attributes?.icon || (category as any).icon;
+              const categoryIconSvg = getIconSvg(categoryIconRaw);
+              const categoryName = category.attributes?.name || (category as any).name;
+              
+              const bgColor = categoryColor || '#f3f4f6';
+              const textColor = categoryColor || '#374151';
+              const borderColor = categoryColor ? `${categoryColor}40` : '#e5e7eb';
+              const iconColor = categoryColor || 'currentColor';
+              return (
+                <span 
+                  class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all hover:scale-105"
+                  style={`background-color: ${bgColor}20; color: ${textColor}; border: 1px solid ${borderColor};`}
+                >
+                  {categoryIconSvg && (
+                    <svg 
+                      class="w-4 h-4 flex-shrink-0" 
+                      fill={categoryIconSvg.isSolid ? "currentColor" : "none"}
+                      stroke={categoryIconSvg.isSolid ? "none" : "currentColor"}
+                      stroke-width={categoryIconSvg.isSolid ? "0" : "2"}
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      viewBox={categoryIconSvg.viewBox}
+                      style={`color: ${iconColor};`}
+                    >
+                      <path d={categoryIconSvg.path} />
+                    </svg>
+                  )}
+                  <span>{categoryName}</span>
+                </span>
+              );
+            })}
+          </div>
+        )}
+
+        <!-- Main Article Image -->
+        {imageUrl && (
+          <div class="mb-4">
+            <div class="relative w-full aspect-video overflow-hidden rounded-lg">
+              <picture class="absolute inset-0">
+                <source srcset={imageUrl} type="image/webp" />
+                <source srcset={imageUrl} type="image/jpeg" />
+                <source srcset={imageUrl} type="image/png" />
+                <img 
+                  src={imageUrl} 
+                  alt={article.attributes.imageAlt || article.attributes.title}
+                  class="w-full h-full object-cover"
+                  loading="eager"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            {/* Image Caption */}
+            {article.attributes.imageAlt && (
+              <p class="mt-2 text-sm text-gray-500 italic">
+                {article.attributes.imageAlt}
+              </p>
+            )}
+          </div>
+        )}
+
+        <!-- Breadcrumb Navigation (debajo de la imagen) -->
+        <div class="pb-4 border-b border-gray-200">
+          <nav class="flex items-center gap-2 text-sm text-gray-600">
+            <a href="/en" class="hover:text-red-600 transition-colors">Home</a>
+            <span>/</span>
+            <a href="/en/blog" class="hover:text-red-600 transition-colors">Blog</a>
+            <span>/</span>
+            <span class="text-gray-900 font-semibold truncate max-w-2xl">{article.attributes.title}</span>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Two Column Layout: Author + Content (Left) and Sidebar (Right) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Content Column (Left, wider) -->
+        <div class="lg:col-span-2">
+          <!-- Author Information - Estética moderna -->
+          {author && (
+            <div class="mb-8 py-6 border-t border-b border-gray-200">
+              <div class="flex items-start gap-4">
+                {/* Profile Picture with Orange Background */}
+                <div class="relative flex-shrink-0">
+                  <div class="absolute inset-0 bg-orange-500 rounded-full"></div>
+                  {authorAvatarUrl ? (
+                    <img 
+                      src={authorAvatarUrl} 
+                      alt={author.attributes?.name || (author as any).name}
+                      class="relative h-16 w-16 rounded-full object-cover border-2 border-white z-10 author-avatar-img"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="relative h-16 w-16 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center z-10">
+                      <span class="text-xl font-bold text-gray-600">
+                        {(author.attributes?.name || (author as any).name || 'A').charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Author Info */}
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-4 mb-3">
+                    {/* Name */}
+                    <div class="flex-1">
+                      <h3 class="text-lg font-bold text-gray-900 mb-2">
+                        {author.attributes?.name || (author as any).name}
+                      </h3>
+                      <div class="flex items-center gap-2 text-sm text-gray-500">
+                        {author.attributes?.title && (
+                          <>
+                            <span>{author.attributes.title}</span>
+                            <span class="text-gray-300">•</span>
+                          </>
+                        )}
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <time>{formatDate(publishedDate, 'en-US')}</time>
+                      </div>
+                    </div>
+
+                    <!-- Social Media Icons - Right aligned -->
+                    {processedSocialLinks.length > 0 && (
+                      <div class="flex gap-3 flex-shrink-0">
+                        {processedSocialLinks.map((social) => (
+                          <a 
+                            href={social.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="text-gray-400 hover:text-gray-600 transition-colors"
+                            aria-label={social.platform || 'Red social'}
+                            title={social.platform || 'Red social'}
+                          >
+                            {social.iconPath ? (
+                              <svg 
+                                class="w-5 h-5" 
+                                fill={social.useFill ? "currentColor" : "none"} 
+                                stroke={social.useFill ? "none" : "currentColor"}
+                                viewBox={social.iconViewBox}
+                              >
+                                <path d={social.iconPath} />
+                              </svg>
+                            ) : (
+                              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                              </svg>
+                            )}
+                          </a>
+                        ))}
+      </div>
+                    )}
+    </div>
+
+                  {/* Action Icons */}
+                  <div class="flex items-center gap-4">
+                    {/* Share Icon - compartir artículo */}
+                    <button 
+                      id="share-article-btn"
+                      class="text-gray-400 hover:text-gray-600 transition-colors"
+                      aria-label="Compartir artículo"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="18" cy="5" r="3" stroke-width="1.5"/>
+                        <circle cx="6" cy="12" r="3" stroke-width="1.5"/>
+                        <circle cx="18" cy="19" r="3" stroke-width="1.5"/>
+                        <path d="M8.59 13.51l6.83 3.98" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M15.41 6.51l-6.82 3.98" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                    <script is:inline define:vars={{ articleTitle: article.attributes.title, excerptText: excerpt || article.attributes.title }}>
+                      document.getElementById('share-article-btn')?.addEventListener('click', async () => {
+                        const title = articleTitle;
+                        const text = excerptText;
+                        const url = window.location.href;
+                        
+                        if (navigator.share) {
+                          try {
+                            await navigator.share({ title, text, url });
+                          } catch (err) {
+                            console.log('Error sharing:', err);
+                          }
+                        } else {
+                          // Fallback: copiar al portapapeles
+                          try {
+                            await navigator.clipboard.writeText(url);
+                            alert('Enlace copiado al portapapeles');
+                          } catch (err) {
+                            console.error('Error copying to clipboard:', err);
+                          }
+                        }
+                      });
+                    </script>
+                    
+                    {/* WhatsApp Share Icon */}
+                    <button 
+                      id="whatsapp-share-btn"
+                      class="text-gray-400 hover:text-green-500 transition-colors"
+                      aria-label="Compartir en WhatsApp"
+                      title="Compartir en WhatsApp"
+                    >
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                      </svg>
+                    </button>
+                    <script is:inline define:vars={{ articleTitle: article.attributes.title, excerptText: excerpt || article.attributes.title }}>
+                      document.getElementById('whatsapp-share-btn')?.addEventListener('click', () => {
+                        const title = articleTitle;
+                        const text = excerptText;
+                        const url = window.location.href;
+                        
+                        // Crear mensaje para WhatsApp
+                        const message = `${title}\n\n${text}\n\n${url}`;
+                        const encodedMessage = encodeURIComponent(message);
+                        
+                        // Detectar si es móvil o desktop
+                        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                        
+                        // Abrir WhatsApp
+                        if (isMobile) {
+                          // WhatsApp móvil
+                          window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+                        } else {
+                          // WhatsApp Web
+                          window.open(`https://web.whatsapp.com/send?text=${encodedMessage}`, '_blank');
+                        }
+                      });
+                    </script>
+                    
+                    {/* Bookmark Icon */}
+                    <button 
+                      class="text-gray-400 hover:text-gray-600 transition-colors"
+                      aria-label="Guardar"
+                    >
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <!-- Table of Contents - Índice plegable -->
+          {articleHeadings.length > 0 && (
+            <div class="mb-8 rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
+              <button 
+                id="toc-toggle"
+                class="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors"
+                aria-expanded="false"
+                aria-controls="toc-content"
+              >
+                <div class="flex items-center gap-3">
+                  <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                  <h3 class="text-lg font-bold text-gray-900">Table of Contents</h3>
+                  <span class="text-sm text-gray-500 font-normal">({articleHeadings.length} sections)</span>
+                </div>
+                <svg 
+                  id="toc-arrow"
+                  class="w-5 h-5 text-gray-600 transition-transform duration-200"
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              <div 
+                id="toc-content"
+                class="hidden max-h-0 overflow-hidden transition-all duration-300"
+              >
+                <nav class="px-6 pb-4" aria-label="Tabla de contenidos">
+                  <ul class="space-y-2">
+                    {articleHeadings.map((heading, index) => (
+                      <li>
+                        <a 
+                          href={`#${heading.id}`}
+                          class="flex items-start gap-3 py-2 px-3 rounded-md text-sm text-gray-700 hover:text-red-600 hover:bg-gray-50 transition-colors group"
+                        >
+                          <span class="text-gray-400 group-hover:text-red-600 font-medium mt-0.5 min-w-[20px]">
+                            {index + 1}.
+                          </span>
+                          <span class="flex-1">{heading.text}</span>
+                          <svg class="w-4 h-4 text-gray-300 group-hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          )}
+
+          <!-- Article Content -->
+          <article 
+            id="blog-article-content"
+            class="article-content blog-article-content"
+            set:html={htmlContent}
         />
       </div>
+
+        <!-- Sidebar Column (Right, narrower) -->
+        <aside class="lg:col-span-1 lg:sticky lg:top-32 lg:self-start lg:pt-6">
+          <div class="space-y-6">
+            <!-- Categories Section -->
+            {categories.length > 0 && (
+              <div>
+                <h3 class="mb-3 font-bold text-gray-900">Categories:</h3>
+                <div class="flex flex-wrap gap-2">
+                  {categories.map((category) => {
+                    const categoryColor = category.attributes?.color || (category as any).color;
+                    const categoryIconRaw = category.attributes?.icon || (category as any).icon;
+                    const categoryIconSvg = getIconSvg(categoryIconRaw);
+                    const categoryName = category.attributes?.name || (category as any).name;
+                    
+                    const bgColor = categoryColor || '#f3f4f6';
+                    const textColor = categoryColor || '#374151';
+                    const borderColor = categoryColor ? `${categoryColor}40` : '#e5e7eb';
+                    const iconColor = categoryColor || 'currentColor';
+                    return (
+                      <span 
+                        class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-all hover:scale-105"
+                        style={`background-color: ${bgColor}20; color: ${textColor}; border: 1px solid ${borderColor};`}
+                      >
+                        {categoryIconSvg && (
+                          <svg 
+                            class="w-4 h-4 flex-shrink-0" 
+                            fill={categoryIconSvg.isSolid ? "currentColor" : "none"}
+                            stroke={categoryIconSvg.isSolid ? "none" : "currentColor"}
+                            stroke-width={categoryIconSvg.isSolid ? "0" : "2"}
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            viewBox={categoryIconSvg.viewBox}
+                            style={`color: ${iconColor};`}
+                          >
+                            <path d={categoryIconSvg.path} />
+                          </svg>
+                        )}
+                        <span>{categoryName}</span>
+                      </span>
+                    );
+                  })}
     </div>
-  </article>
+              </div>
+            )}
 
-  <!-- Related Articles -->
-  {relatedArticles.length > 0 && (
-    <section class="bg-gray-50 py-16">
-      <div class="container">
-        <div class="mx-auto max-w-6xl">
-          <h2 class="mb-8 text-3xl font-black uppercase text-gray-900">
-            Related <span class="text-red-600">Articles</span>
-          </h2>
-          <div class="grid gap-6 md:grid-cols-3">
-            {relatedArticles.map((relatedArticle) => {
-              if (!relatedArticle?.attributes?.title || !relatedArticle?.attributes?.slug) {
-                return null;
-              }
+            <!-- Tags Section -->
+            {tags.length > 0 && (
+              <div>
+                <h3 class="mb-3 font-bold text-gray-900">Etiquetas:</h3>
+                <div class="flex flex-wrap gap-2">
+                  {tags.map((tag) => (
+                    <span class="inline-block rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
+                      {tag.attributes?.name || (tag as any).name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
-              const relatedDate = relatedArticle.attributes.createdAt 
-                ? (relatedArticle.attributes.publishedAt 
-                    ? new Date(relatedArticle.attributes.publishedAt)
-                    : new Date(relatedArticle.attributes.createdAt))
-                : new Date();
+            <!-- Related Services Section -->
+            <div>
+              <h3 class="mb-4 text-lg font-bold text-gray-900">
+                ¿Buscas nuestros <span class="text-red-600">Servicios</span>?
+              </h3>
+              
+              <div class="space-y-4">
+                {randomServices.map((service) => {
+                  const serviceTitle = service.title.length > 30 
+                    ? service.title.substring(0, 30) + '...' 
+                    : service.title;
               
               return (
                 <a 
-                  href={`/en/blog/${relatedArticle.attributes.slug}`}
-                  class="group block rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-lg"
-                >
-                  <time class="text-sm text-gray-500">
-                    {formatDate(relatedDate, 'en-US')}
-                  </time>
-                  <h3 class="mt-2 text-xl font-bold text-gray-900 group-hover:text-red-600 transition-colors">
-                    {relatedArticle.attributes.title}
-                  </h3>
+                      href={service.href}
+                      class="group block overflow-hidden rounded-lg bg-white border border-gray-200 hover:shadow-md transition-shadow"
+                    >
+                      {/* Small Image */}
+                      <div class="relative h-32 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                        <img 
+                          src={service.image} 
+                          alt={service.title}
+                          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 service-image"
+                          loading="lazy"
+                        />
+                      </div>
+                      
+                      {/* Content */}
+                      <div class="p-4">
+                        <h4 class="mb-1 text-sm font-bold text-gray-900 uppercase">
+                          {serviceTitle}
+                        </h4>
+                        <p class="mb-2 text-xs text-gray-600 line-clamp-2">
+                          {service.description}
+                        </p>
+                        <span class="inline-flex items-center gap-1 text-xs font-semibold text-red-600 group-hover:gap-2 transition-all">
+                          Ver más
+                          <svg class="h-3 w-3 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                          </svg>
+                        </span>
+                      </div>
                 </a>
               );
             })}
           </div>
+            </div>
+          </div>
+        </aside>
         </div>
       </div>
     </section>
-  )}
-</Layout>
-
-<style>
-  .prose img {
-    @apply rounded-lg shadow-lg;
+  
+  <style is:global>
+  /* Estilos para el contenido del artículo */
+  #blog-article-content,
+  .article-content,
+  .blog-article-content {
+    font-size: 1rem !important;
+    line-height: 1.75 !important;
+    color: #374151 !important;
+    box-sizing: border-box !important;
   }
   
-  .prose pre {
-    @apply bg-gray-900 text-gray-100 rounded-lg p-4 overflow-x-auto;
+  /* Resetear cualquier estilo de prose que pueda interferir */
+  #blog-article-content *,
+  .article-content *,
+  .blog-article-content * {
+    box-sizing: border-box !important;
   }
   
-  .prose code {
-    @apply bg-gray-100 text-gray-900 px-1 py-0.5 rounded text-sm;
+  /* Sobrescribir completamente los estilos de .prose blockquote */
+  .prose #blog-article-content blockquote,
+  .prose .article-content blockquote,
+  .prose .blog-article-content blockquote {
+    all: revert !important;
+    border: none !important;
+    border-left: 4px solid #dc2626 !important;
+    margin: 2rem 0 !important;
+    padding: 1.5rem 2rem !important;
+    padding-left: 2rem !important;
+    font-style: italic !important;
+    font-size: 1.125rem !important;
+    line-height: 1.75 !important;
+    background: linear-gradient(to right, #111827 0%, #000000 50%, #111827 100%) !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+    font-weight: 500 !important;
+    overflow: hidden !important;
+    position: relative !important;
   }
   
-  .prose pre code {
-    @apply bg-transparent text-gray-100;
+  /* Headings */
+  #blog-article-content h1,
+  .article-content h1,
+  .blog-article-content h1 {
+    font-size: 2.25rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin-top: 3rem !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid #e5e7eb !important;
+  }
+  
+  #blog-article-content h2,
+  .article-content h2,
+  .blog-article-content h2 {
+    font-size: 1.875rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin-top: 2.5rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+  
+  #blog-article-content h3,
+  .article-content h3,
+  .blog-article-content h3 {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  #blog-article-content h4,
+  .article-content h4,
+  .blog-article-content h4 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    color: #111827 !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  /* Párrafos - más espacio */
+  #blog-article-content p,
+  .article-content p,
+  .blog-article-content p {
+    margin-bottom: 1.25rem !important;
+    margin-top: 0 !important;
+    line-height: 1.75 !important;
+    color: #374151 !important;
+    font-size: 1rem !important;
+  }
+  
+  /* Párrafos vacíos - ocultarlos o darles mínimo espacio */
+  #blog-article-content p:empty,
+  .article-content p:empty,
+  .blog-article-content p:empty {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 0 !important;
+    display: none !important;
+  }
+  
+  /* Enlaces */
+  .article-content a {
+    @apply text-red-600 no-underline font-semibold hover:underline transition-all;
+  }
+  
+  /* Texto en negrita e itálica */
+  .article-content strong,
+  .article-content b {
+    @apply font-bold text-gray-900;
+  }
+  
+  .article-content em,
+  .article-content i {
+    @apply italic text-gray-700;
+  }
+  
+  /* Listas con puntos - más espacio */
+  #blog-article-content ul,
+  .article-content ul,
+  .blog-article-content ul {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+    padding-left: 1.5rem !important;
+    list-style-type: disc !important;
+    list-style-position: outside !important;
+    color: #374151 !important;
+  }
+  
+  #blog-article-content ul li,
+  .article-content ul li,
+  .blog-article-content ul li {
+    margin-bottom: 0.75rem !important;
+    line-height: 1.75 !important;
+  }
+  
+  #blog-article-content ul li::marker,
+  .article-content ul li::marker,
+  .blog-article-content ul li::marker {
+    color: #dc2626 !important;
+  }
+  
+  /* Listas numeradas - más espacio */
+  #blog-article-content ol,
+  .article-content ol,
+  .blog-article-content ol {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+    padding-left: 1.5rem !important;
+    list-style-type: decimal !important;
+    list-style-position: outside !important;
+    color: #374151 !important;
+  }
+  
+  #blog-article-content ol li,
+  .article-content ol li,
+  .blog-article-content ol li {
+    margin-bottom: 0.75rem !important;
+    line-height: 1.75 !important;
+  }
+  
+  #blog-article-content ol li::marker,
+  .article-content ol li::marker,
+  .blog-article-content ol li::marker {
+    color: #dc2626 !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Citas (blockquotes) - Estilo Netflix minimalista fitness */
+  /* Usar ID primero para máxima especificidad */
+  #blog-article-content blockquote.fitness-quote,
+  #blog-article-content blockquote {
+    /* Resetear estilos previos */
+    border: none !important;
+    border-left: 4px solid #dc2626 !important;
+    margin: 2rem 0 !important;
+    padding: 0 !important;
+    
+    /* Estilos Netflix minimalista fitness */
+    position: relative !important;
+    display: block !important;
+    padding: 1.5rem 2rem !important;
+    padding-left: 2rem !important;
+    font-style: italic !important;
+    font-size: 1.125rem !important;
+    line-height: 1.75 !important;
+    background: linear-gradient(to right, #111827 0%, #000000 50%, #111827 100%) !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+    font-weight: 500 !important;
+    overflow: hidden !important;
+    font-family: inherit !important;
+  }
+  
+  /* Fallback con clases */
+  .article-content blockquote.fitness-quote,
+  .blog-article-content blockquote.fitness-quote,
+  .article-content blockquote,
+  .blog-article-content blockquote,
+  article.article-content blockquote,
+  article.blog-article-content blockquote {
+    border: none !important;
+    border-left: 4px solid #dc2626 !important;
+    margin: 2rem 0 !important;
+    padding: 1.5rem 2rem !important;
+    padding-left: 2rem !important;
+    font-style: italic !important;
+    font-size: 1.125rem !important;
+    line-height: 1.75 !important;
+    background: linear-gradient(to right, #111827 0%, #000000 50%, #111827 100%) !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+    font-weight: 500 !important;
+    overflow: hidden !important;
+    position: relative !important;
+    font-family: inherit !important;
+  }
+  
+  #blog-article-content blockquote.fitness-quote::before,
+  #blog-article-content blockquote::before {
+    content: '"' !important;
+    position: absolute !important;
+    top: -0.5rem !important;
+    left: 0.75rem !important;
+    font-size: 6rem !important;
+    font-family: Georgia, serif !important;
+    color: rgba(220, 38, 38, 0.2) !important;
+    line-height: 1 !important;
+    font-weight: 700 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+  
+  .article-content blockquote::before,
+  .blog-article-content blockquote::before,
+  article.article-content blockquote::before,
+  article.blog-article-content blockquote::before {
+    content: '"' !important;
+    position: absolute !important;
+    top: -0.5rem !important;
+    left: 0.75rem !important;
+    font-size: 6rem !important;
+    font-family: Georgia, serif !important;
+    color: rgba(220, 38, 38, 0.2) !important;
+    line-height: 1 !important;
+    font-weight: 700 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+  
+  #blog-article-content blockquote.fitness-quote p,
+  #blog-article-content blockquote p {
+    /* Resetear estilos de párrafos */
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    
+    /* Estilos del texto en citas */
+    position: relative !important;
+    z-index: 10 !important;
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    font-style: italic !important;
+    font-size: 1.125rem !important;
+    line-height: 1.75 !important;
+    font-weight: 500 !important;
+    font-family: inherit !important;
+    display: block !important;
+  }
+  
+  .article-content blockquote p,
+  .blog-article-content blockquote p,
+  article.article-content blockquote p,
+  article.blog-article-content blockquote p {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    position: relative !important;
+    z-index: 10 !important;
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    font-style: italic !important;
+    font-size: 1.125rem !important;
+    line-height: 1.75 !important;
+    font-weight: 500 !important;
+    font-family: inherit !important;
+    display: block !important;
+  }
+  
+  #blog-article-content blockquote p:not(:last-child),
+  .article-content blockquote p:not(:last-child),
+  .blog-article-content blockquote p:not(:last-child) {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  #blog-article-content blockquote strong,
+  #blog-article-content blockquote b,
+  .article-content blockquote strong,
+  .article-content blockquote b,
+  .blog-article-content blockquote strong,
+  .blog-article-content blockquote b {
+    color: #fca5a5 !important;
+    font-weight: 700 !important;
+    font-style: italic !important;
+  }
+  
+  /* Selectores adicionales con mayor especificidad */
+  #blog-article-content blockquote,
+  section #blog-article-content blockquote,
+  section .article-content blockquote,
+  section .blog-article-content blockquote,
+  .container #blog-article-content blockquote,
+  .container .article-content blockquote,
+  .container .blog-article-content blockquote {
+    border: none !important;
+    border-left: 4px solid #dc2626 !important;
+    background: linear-gradient(to right, #111827 0%, #000000 50%, #111827 100%) !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+  
+  #blog-article-content blockquote p,
+  section #blog-article-content blockquote p,
+  section .article-content blockquote p,
+  section .blog-article-content blockquote p,
+  .container #blog-article-content blockquote p,
+  .container .article-content blockquote p,
+  .container .blog-article-content blockquote p {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  /* Sobrescribir cualquier estilo de .prose - Prioridad máxima */
+  .prose #blog-article-content blockquote {
+    border: none !important;
+    border-left: 4px solid #dc2626 !important;
+    background: linear-gradient(to right, #111827 0%, #000000 50%, #111827 100%) !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    padding: 1.5rem 2rem !important;
+    padding-left: 2rem !important;
+    margin: 2rem 0 !important;
+    position: relative !important;
+    font-style: italic !important;
+    font-size: 1.125rem !important;
+    line-height: 1.75 !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+    font-weight: 500 !important;
+    overflow: hidden !important;
+  }
+  
+  .prose #blog-article-content blockquote::before {
+    content: '"' !important;
+    position: absolute !important;
+    top: -0.5rem !important;
+    left: 0.75rem !important;
+    font-size: 6rem !important;
+    font-family: Georgia, serif !important;
+    color: rgba(220, 38, 38, 0.2) !important;
+    line-height: 1 !important;
+    font-weight: 700 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+  }
+  
+  .prose #blog-article-content blockquote p {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 10 !important;
+    font-style: italic !important;
+    font-size: 1.125rem !important;
+    line-height: 1.75 !important;
+    font-weight: 500 !important;
+  }
+  
+  /* Fallback para .prose con clases */
+  .prose .article-content blockquote,
+  .prose .blog-article-content blockquote {
+    border: none !important;
+    border-left: 4px solid #dc2626 !important;
+    background: linear-gradient(to right, #111827 0%, #000000 50%, #111827 100%) !important;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    padding: 1.5rem 2rem !important;
+    padding-left: 2rem !important;
+    margin: 2rem 0 !important;
+    position: relative !important;
+  }
+  
+  .prose .article-content blockquote p,
+  .prose .blog-article-content blockquote p {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Separadores horizontales - más espacio */
+  #blog-article-content hr,
+  .article-content hr,
+  .blog-article-content hr {
+    margin-top: 2.5rem !important;
+    margin-bottom: 2.5rem !important;
+    border: 0 !important;
+    border-top: 2px solid #d1d5db !important;
+    height: 0 !important;
+  }
+  
+  /* Espaciado entre elementos consecutivos */
+  #blog-article-content h2 + p,
+  #blog-article-content h3 + p,
+  .article-content h2 + p,
+  .article-content h3 + p {
+    margin-top: 1rem !important;
+  }
+  
+  #blog-article-content p + h2,
+  #blog-article-content p + h3,
+  #blog-article-content ul + h2,
+  #blog-article-content ul + h3,
+  #blog-article-content ol + h2,
+  #blog-article-content ol + h3,
+  .article-content p + h2,
+  .article-content p + h3,
+  .article-content ul + h2,
+  .article-content ul + h3,
+  .article-content ol + h2,
+  .article-content ol + h3 {
+    margin-top: 2rem !important;
+  }
+  
+  #blog-article-content blockquote + p,
+  #blog-article-content p + blockquote,
+  .article-content blockquote + p,
+  .article-content p + blockquote {
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  /* Imágenes embebidas */
+  .article-content img {
+    @apply my-8 rounded-lg shadow-md max-w-full h-auto;
+  }
+  
+  /* Código inline */
+  .article-content code {
+    @apply bg-gray-100 text-red-600 px-2 py-1 rounded text-sm font-mono;
+  }
+  
+  /* Bloques de código */
+  .article-content pre {
+    @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-6;
+  }
+  
+  .article-content pre code {
+    @apply bg-transparent text-gray-100 p-0;
+  }
+  
+  /* Tablas */
+  .article-content table {
+    @apply w-full my-6 border-collapse;
+  }
+  
+  .article-content table th {
+    @apply bg-gray-100 border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900;
+  }
+  
+  .article-content table td {
+    @apply border border-gray-300 px-4 py-2 text-gray-700;
+  }
+  
+  .article-content table tr:nth-child(even) {
+    @apply bg-gray-50;
+  }
+  
+  /* Utilidades */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 </style>
 
+<script>
+  // Marcar body como página de blog para estilos del header
+  document.body.setAttribute('data-blog-page', 'true');
+  
+  // Toggle Table of Contents
+  const tocToggle = document.getElementById('toc-toggle');
+  const tocContent = document.getElementById('toc-content');
+  const tocArrow = document.getElementById('toc-arrow');
+  
+  if (tocToggle && tocContent && tocArrow) {
+    tocToggle.addEventListener('click', () => {
+      const isExpanded = tocToggle.getAttribute('aria-expanded') === 'true';
+      tocToggle.setAttribute('aria-expanded', String(!isExpanded));
+      
+      if (isExpanded) {
+        tocContent.classList.add('hidden', 'max-h-0');
+        tocContent.classList.remove('max-h-[600px]');
+        tocArrow.classList.remove('rotate-180');
+      } else {
+        tocContent.classList.remove('hidden', 'max-h-0');
+        tocContent.classList.add('max-h-[600px]');
+        tocArrow.classList.add('rotate-180');
+      }
+    });
+    
+    // Smooth scroll para los enlaces del índice
+    document.querySelectorAll('#toc-content a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (this: HTMLAnchorElement, e: Event) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href')?.substring(1);
+        const targetElement = document.getElementById(targetId || '');
+        if (targetElement) {
+          const headerOffset = 100; // Compensar el header transparente
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  }
+  
+  // Manejar errores de carga de imagen del avatar
+  document.addEventListener('DOMContentLoaded', () => {
+    const avatarImg = document.querySelector('.author-avatar-img') as HTMLImageElement;
+    if (avatarImg) {
+      avatarImg.addEventListener('error', function(this: HTMLImageElement) {
+        this.onerror = null;
+        const parent = this.parentElement;
+        if (parent) {
+          const alt = this.alt || 'A';
+          const initial = alt.charAt(0).toUpperCase();
+          parent.innerHTML = `<div class="relative h-16 w-16 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center z-10"><span class="text-xl font-bold text-gray-600">${initial}</span></div>`;
+        }
+      });
+    }
+    
+    // Manejar errores de carga de imágenes de servicios
+    document.querySelectorAll('.service-image').forEach((img) => {
+      img.addEventListener('error', function(this: HTMLImageElement) {
+        this.style.display = 'none';
+      });
+    });
+  });
+</script>

@@ -2,7 +2,33 @@
 /**
  * Language Switcher Component
  * Selector de idioma minimalista con traducción de rutas
+ * Soporta artículos de blog con localizaciones
  */
+
+interface Props {
+  // Opcional: información de localización para artículos de blog
+  articleLocalizations?: Array<{
+    locale: string;
+    slug: string;
+  }>;
+  // Opcional: slug del artículo actual (para construir URLs de blog)
+  currentSlug?: string;
+  // Opcional: indicar si estamos en una página de blog
+  isBlogPage?: boolean;
+}
+
+const { articleLocalizations, currentSlug, isBlogPage = false } = Astro.props;
+
+// Debug: ver qué props llegan
+if (isBlogPage) {
+  console.log('🔍 LanguageSwitcher Debug:', {
+    isBlogPage,
+    currentSlug,
+    articleLocalizations,
+    hasLocalizations: !!articleLocalizations,
+    localizationsCount: articleLocalizations?.length || 0
+  });
+}
 
 const languages = [
   { code: 'es', name: 'ES', fullName: 'Español' },
@@ -90,17 +116,40 @@ pathWithoutLang = pathWithoutLang.replace(/^\//, '').replace(/\/$/, '');
 
 // Generar URLs traducidas para cada idioma
 const translatedUrls = languages.reduce((acc, lang) => {
-  const translatedPath = translateRoute(pathWithoutLang, currentLang, lang.code);
-  // Construir la URL final
-  if (!translatedPath || translatedPath === '/') {
-    // Para la home
-    acc[lang.code] = `/${lang.code}/`;
+  // Si estamos en una página de blog y tenemos localizaciones del artículo
+  if (isBlogPage && articleLocalizations && currentSlug) {
+    // Buscar la localización para este idioma
+    const localization = articleLocalizations.find(loc => loc.locale === lang.code);
+    
+    if (localization) {
+      // El artículo existe en este idioma
+      acc[lang.code] = `/${lang.code}/blog/${localization.slug}`;
+    } else if (lang.code === currentLang) {
+      // Estamos en el idioma actual (aunque no haya localización explícita)
+      acc[lang.code] = `/${lang.code}/blog/${currentSlug}`;
+    } else {
+      // El artículo no existe en este idioma - ir al listado de blog
+      acc[lang.code] = `/${lang.code}/blog`;
+    }
   } else {
-    // Para otras páginas
-    acc[lang.code] = `/${lang.code}/${translatedPath}`;
+    // Comportamiento normal para otras páginas
+    const translatedPath = translateRoute(pathWithoutLang, currentLang, lang.code);
+    // Construir la URL final
+    if (!translatedPath || translatedPath === '/') {
+      // Para la home
+      acc[lang.code] = `/${lang.code}/`;
+    } else {
+      // Para otras páginas
+      acc[lang.code] = `/${lang.code}/${translatedPath}`;
+    }
   }
   return acc;
 }, {} as Record<string, string>);
+
+// Debug: mostrar las URLs generadas
+if (isBlogPage) {
+  console.log('🔗 Generated URLs:', translatedUrls);
+}
 ---
 
 <div class="group relative" id="language-switcher">

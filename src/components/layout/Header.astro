@@ -8,6 +8,18 @@ import Navigation from './Navigation.astro';
 import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
 import MobileMenu from './MobileMenu.astro';
 
+interface Props {
+  // Props para el language switcher en páginas de blog
+  articleLocalizations?: Array<{
+    locale: string;
+    slug: string;
+  }>;
+  currentSlug?: string;
+  isBlogPage?: boolean;
+}
+
+const { articleLocalizations, currentSlug, isBlogPage = false } = Astro.props;
+
 // Detectar idioma desde la URL
 const currentPath = Astro.url.pathname;
 const pathParts = currentPath.split('/').filter(Boolean);
@@ -53,12 +65,20 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
       <!-- Navegación Desktop + Language Switcher (oculto en móvil) -->
       <div id="header-nav" class="hidden lg:flex lg:items-center lg:space-x-8 ml-auto">
         <Navigation />
-        <LanguageSwitcher />
+        <LanguageSwitcher 
+          articleLocalizations={articleLocalizations}
+          currentSlug={currentSlug}
+          isBlogPage={isBlogPage}
+        />
       </div>
 
       <!-- Menú Móvil (solo visible en móvil) -->
       <div class="flex items-center gap-4 lg:hidden ml-auto flex-shrink-0">
-        <LanguageSwitcher />
+        <LanguageSwitcher 
+          articleLocalizations={articleLocalizations}
+          currentSlug={currentSlug}
+          isBlogPage={isBlogPage}
+        />
         <MobileMenu />
       </div>
     </div>

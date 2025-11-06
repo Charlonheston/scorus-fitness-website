@@ -19,6 +19,13 @@ export interface Props {
   noindex?: boolean;
   ogType?: 'website' | 'article' | 'profile';
   schema?: Record<string, any> | Record<string, any>[];
+  // Props para el language switcher en páginas de blog
+  articleLocalizations?: Array<{
+    locale: string;
+    slug: string;
+  }>;
+  currentSlug?: string;
+  isBlogPage?: boolean;
 }
 
 const {
@@ -29,6 +36,9 @@ const {
   noindex = false,
   ogType = 'website',
   schema,
+  articleLocalizations,
+  currentSlug,
+  isBlogPage = false,
 } = Astro.props;
 
 // Schema.org por defecto (LocalBusiness + Person)
@@ -136,7 +146,11 @@ const finalSchemas = schema ? (Array.isArray(schema) ? [...defaultSchemas, ...sc
     </style>
   </head>
   <body class="flex min-h-screen flex-col">
-    <Header />
+    <Header 
+      articleLocalizations={articleLocalizations}
+      currentSlug={currentSlug}
+      isBlogPage={isBlogPage}
+    />
     
     <!-- Main sin padding - El header está superpuesto sobre el contenido -->
     <main class="flex-1">
