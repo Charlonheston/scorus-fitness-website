@@ -4,11 +4,10 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import astroI18next from 'astro-i18next';
-import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://scorusfitness.com', // URL base para el sitemap y SEO
+  // site: 'https://scorusfitness.com', // Comentado temporalmente - Descomentar cuando tengas tu dominio
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -28,13 +27,7 @@ export default defineConfig({
       },
     }),
   ],
-  output: 'server', // Permite SSR (antes era 'hybrid' en Astro 4)
-  adapter: vercel({
-    webAnalytics: {
-      enabled: true
-    },
-    edgeMiddleware: false
-  }),
+  output: 'static',
   image: {
     // Optimización de imágenes con Sharp estándar
     service: {
@@ -87,8 +80,5 @@ export default defineConfig({
       include: ['react', 'react-dom'],
     },
   },
-  // experimental: {
-  //   // Opciones experimentales para Astro 5+
-  // },
 });
 
