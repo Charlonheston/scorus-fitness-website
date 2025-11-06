@@ -8,7 +8,7 @@ import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
-  // site: 'https://scorusfitness.com', // Comentado temporalmente - Descomentar cuando tengas tu dominio
+  site: 'https://scorusfitness.com', // URL base para el sitemap y SEO
   integrations: [
     tailwind({
       applyBaseStyles: false,
