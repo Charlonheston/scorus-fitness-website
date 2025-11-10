@@ -9,6 +9,20 @@ import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro'
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import translations from '../../../../public/locales/en/services.json';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsAsesoramientoOnlineEN } from '@data/faqs-en';
+import { getOfferSchema } from '@lib/schema';
+
+// Offer Schema for Personalized Diet
+const offerSchema = getOfferSchema({
+  name: 'Personalized Diet',
+  price: '100',
+  priceCurrency: 'EUR',
+  description: 'Completely personalized nutritional plan designed by Bernat Scorus according to your goals, metabolism and lifestyle.',
+  url: 'https://scorusfitness.com/en/services/online-counseling',
+  availability: 'https://schema.org/InStock',
+});
 
 const t = translations.online_counseling;
 const currentLang = 'en';
@@ -186,7 +200,7 @@ const currentLang = 'en';
         <h2 class="mb-4 sm:mb-6 text-4xl sm:text-5xl font-black uppercase tracking-tighter md:text-6xl">
           Any <span class="text-red-600">Questions</span>?
         </h2>
-        <p class="mb-6 sm:mb-8 text-base sm:text-lg sm:text-xl text-gray-300">
+        <p class="mb-6 sm:mb-8 text-base sm:text-xl text-gray-300">
           Call us or visit our gym in Alicante
         </p>
 
@@ -239,4 +253,18 @@ const currentLang = 'en';
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsAsesoramientoOnlineEN}
+    title="Online Counseling Frequently Asked Questions"
+    subtitle="Everything you need to know about our complete online coaching program"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsAsesoramientoOnlineEN} />
+
+  <!-- Offer Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(offerSchema)} />
+
 </Layout>

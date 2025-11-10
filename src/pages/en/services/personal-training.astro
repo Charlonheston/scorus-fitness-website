@@ -9,6 +9,20 @@ import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro'
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import translations from '../../../../public/locales/en/services.json';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsEntrenamientoPersonalEN } from '@data/faqs-en';
+import { getOfferSchema } from '@lib/schema';
+
+// Offer Schema for Personalized Training Routine
+const offerSchema = getOfferSchema({
+  name: 'Personalized Training Routine',
+  price: '30',
+  priceCurrency: 'EUR',
+  description: 'Personalized training routine specifically designed for your goals by Bernat Scorus, world bodybuilding champion.',
+  url: 'https://scorusfitness.com/en/services/personal-training',
+  availability: 'https://schema.org/InStock',
+});
 
 const t = translations.personal_training;
 const currentLang = 'en';
@@ -323,4 +337,18 @@ const currentLang = 'en';
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsEntrenamientoPersonalEN}
+    title="Personal Training Frequently Asked Questions"
+    subtitle="Everything you need to know about our personal training service"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsEntrenamientoPersonalEN} />
+
+  <!-- Offer Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(offerSchema)} />
+
 </Layout>

@@ -6,6 +6,9 @@
 import Layout from '@/layouts/Layout.astro';
 import { CONTACT_INFO } from '@lib/constants';
 import translations from '../../../public/locales/de/contact.json';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsContactoDE } from '@data/faqs-de';
 
 const t = translations;
 ---
@@ -133,6 +136,17 @@ const t = translations;
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsContactoDE}
+    title="Häufig Gestellte Fragen"
+    subtitle="Alles, was Sie über unseren Kontaktprozess wissen müssen"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsContactoDE} />
+
 </Layout>
 
 <script is:inline>

@@ -10,6 +10,9 @@ import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro'
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import WorkshopIcon from '@components/ui/WorkshopIcon.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsTalleresFR } from '@data/faqs-fr';
 
 const currentLang = 'fr';
 
@@ -93,44 +96,41 @@ const benefits = [
     </div>
   </section>
 
-  <!-- Modalities Section - Netflix Style -->
-  <section class="relative bg-black py-32">
-    <!-- Background gradient effect -->
-    <div class="absolute inset-0 bg-gradient-to-b from-red-900/20 to-black opacity-60"></div>
-    
-    <div class="container relative z-10">
+  <!-- Modalities Section - Modern & Elegant -->
+  <section class="relative bg-white py-24">
+    <div class="container">
       <div class="mx-auto max-w-6xl">
         <div class="mb-20 text-center">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-red-600">Choisissez Votre Format</p>
-          <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-white md:text-5xl">
+          <p class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-red-600">Choisissez Votre Format</p>
+          <h2 class="mb-6 text-4xl font-black uppercase tracking-tight text-black md:text-5xl">
             Deux <span class="text-red-600">Modalités</span>
           </h2>
-          <p class="text-lg text-gray-300">Accédez au contenu premium dans le format qui vous convient le mieux</p>
+          <p class="text-lg text-gray-600">Accédez au contenu premium dans le format qui vous convient le mieux</p>
         </div>
 
-        <div class="grid gap-12 md:grid-cols-2">
+        <div class="grid gap-8 md:grid-cols-2">
           {modalities.map((modality) => (
-            <div class={`group relative overflow-hidden rounded-2xl transition-all duration-500 ${
+            <div class={`group relative overflow-hidden rounded-lg transition-all duration-500 ${
               modality.highlight 
-                ? 'md:scale-105' 
-                : ''
+                ? 'ring-2 ring-red-600 ring-offset-4' 
+                : 'border border-gray-200'
             }`}>
-              <!-- Card background with gradient -->
-              <div class={`absolute inset-0 ${
+              <!-- Background card -->
+              <div class={`absolute inset-0 transition-colors duration-500 ${
                 modality.highlight
-                  ? 'bg-gradient-to-br from-red-600 via-red-700 to-black'
-                  : 'bg-gradient-to-br from-gray-900 via-gray-800 to-black'
-              } opacity-90 group-hover:opacity-100 transition-opacity duration-300`}></div>
-
-              <!-- Border glow effect -->
-              <div class={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                modality.highlight
-                  ? 'bg-gradient-to-r from-red-500/50 to-transparent'
-                  : 'bg-gradient-to-r from-red-600/30 to-transparent'
+                  ? 'bg-gradient-to-br from-red-50 via-white to-white'
+                  : 'bg-white group-hover:bg-gray-50'
               }`}></div>
 
               <!-- Content -->
-              <div class="relative z-10 px-8 py-12">
+              <div class="relative z-10 p-10 md:p-12">
+                <!-- Top decorative line -->
+                <div class={`mb-8 h-1 w-12 transition-all duration-300 ${
+                  modality.highlight
+                    ? 'bg-red-600'
+                    : 'bg-gray-300 group-hover:bg-red-600'
+                }`}></div>
+
                 <!-- Icon with circle background -->
                 <div class={`mb-8 inline-flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 ${
                   modality.highlight
@@ -147,34 +147,39 @@ const benefits = [
                 </div>
 
                 <!-- Title -->
-                <h3 class={`mb-2 text-2xl font-black uppercase tracking-wider ${
-                  modality.highlight ? 'text-red-100' : 'text-white'
+                <h3 class={`mb-3 text-2xl font-black uppercase tracking-tight transition-colors duration-300 ${
+                  modality.highlight ? 'text-black' : 'text-gray-900'
                 }`}>
                   {modality.title}
                 </h3>
 
                 <!-- Subtitle -->
-                <p class={`mb-8 text-sm font-medium ${
-                  modality.highlight ? 'text-red-200/80' : 'text-gray-300'
+                <p class={`mb-8 text-sm font-medium transition-colors duration-300 ${
+                  modality.highlight ? 'text-gray-700' : 'text-gray-600 group-hover:text-gray-700'
                 }`}>
                   {modality.subtitle}
                 </p>
 
-                <!-- Features list with animation -->
-                <ul class="space-y-4">
-                  {modality.features.map((feature, idx) => (
-                    <li class="group/item flex items-start gap-4 transition-transform duration-300 hover:translate-x-2">
-                      <div class={`mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full ${
+                <!-- Divider -->
+                <div class={`mb-8 transition-colors duration-300 ${
+                  modality.highlight ? 'bg-red-200' : 'bg-gray-200 group-hover:bg-gray-300'
+                } h-px`}></div>
+
+                <!-- Features list - Clean & Minimal -->
+                <ul class="mb-8 space-y-4">
+                  {modality.features.map((feature) => (
+                    <li class="flex items-start gap-3 transition-transform duration-300 hover:translate-x-1">
+                      <div class={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
                         modality.highlight
-                          ? 'bg-red-500/30 text-red-300'
-                          : 'bg-red-600/20 text-red-400'
+                          ? 'bg-red-100 text-red-600'
+                          : 'bg-gray-100 text-gray-600 group-hover:bg-red-100 group-hover:text-red-600'
                       }`}>
-                        <WorkshopIcon type={feature.iconType} size="sm" color="currentColor" />
+                        <WorkshopIcon type={feature.iconType} size="xs" color="currentColor" />
                       </div>
                       <span class={`pt-0.5 text-sm font-medium transition-colors duration-300 ${
                         modality.highlight
-                          ? 'text-red-100 group-hover/item:text-red-50'
-                          : 'text-gray-200 group-hover/item:text-white'
+                          ? 'text-gray-700'
+                          : 'text-gray-600 group-hover:text-gray-800'
                       }`}>
                         {feature.text}
                       </span>
@@ -183,23 +188,16 @@ const benefits = [
                 </ul>
 
                 <!-- CTA Button -->
-                <div class="mt-10">
-                  <button class={`w-full rounded-lg px-6 py-3 font-bold uppercase tracking-wider transition-all duration-300 ${
+                <a
+                  href={`/${currentLang}/contact`}
+                  class={`inline-flex w-full items-center justify-center rounded-lg px-6 py-3.5 font-bold uppercase tracking-wider transition-all duration-300 ${
                     modality.highlight
-                      ? 'border-2 border-red-400 bg-red-600 text-white hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/50'
-                      : 'border-2 border-red-600/50 text-red-300 hover:border-red-500 hover:bg-red-600/10'
+                      ? 'bg-red-600 text-white hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/30'
+                      : 'border-2 border-gray-300 text-gray-700 hover:border-red-600 hover:bg-red-50 hover:text-red-600'
                   }`}>
-                    Sélectionner
-                  </button>
-                </div>
+                  Demander Informations
+                </a>
               </div>
-
-              <!-- Bottom accent line -->
-              <div class={`absolute bottom-0 left-0 h-1 w-full ${
-                modality.highlight
-                  ? 'bg-gradient-to-r from-red-400 to-red-600'
-                  : 'bg-gradient-to-r from-red-600/30 to-transparent'
-              } group-hover:from-red-300 group-hover:to-red-500 transition-all duration-300`}></div>
             </div>
           ))}
         </div>
@@ -328,4 +326,15 @@ const benefits = [
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsTalleresFR}
+    title="Questions Fréquemment Posées sur les Ateliers"
+    subtitle="Tout ce que vous devez savoir sur nos ateliers pratiques"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsTalleresFR} />
+
 </Layout>

@@ -9,6 +9,9 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsSeminarios } from '@data/faqs';
 
 const currentLang = 'es';
 
@@ -118,15 +121,6 @@ const onlineSteps = [
   }
 ];
 
-const benefits = [
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>', title: 'Conocimiento Profundo', desc: 'Formación integral basada en ciencia y experiencia real' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/></svg>', title: 'Temáticas Variadas', desc: '14 seminarios diferentes adaptados a tus intereses' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM3 20a6 6 0 0 1 12 0v1H3v-1z"/></svg>', title: 'Experto de Élite', desc: 'Impartido por Bernat Scorus, campeón mundial' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c4.97 0 9 4.03 9 9M3 12c0-4.97 4.03-9 9-9m0 18c-4.97 0-9-4.03-9-9m18 0c0 4.97-4.03 9-9 9"/></svg>', title: 'Alcance Global', desc: 'Disponible en 3 idiomas: español, inglés y húngaro' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>', title: 'Aplicable Inmediatamente', desc: 'Conocimientos prácticos que puedes usar hoy' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 0 1-.88-7.903A5 5 0 1 1 15.9 6L16 12m0 0l-4 4m4-4l4 4"/></svg>', title: 'Flexible', desc: 'Elige entre presencial u online según tus necesidades' }
-];
-
 const topicsCovered = [
   '✓ Nutrición y alimentación',
   '✓ Suplementación deportiva',
@@ -140,7 +134,7 @@ const topicsCovered = [
 
 <Layout
   title="Seminarios | Scorus Fitness - Formación Integral en Entrenamiento y Bienestar"
-  description="14 seminarios especializados presenciales y online sobre nutrición, entrenamiento, suplementación, antiaging y bienestar. Impartidos por Bernat Scorus en español, inglés y húngaro."
+  description="14 seminarios especializados de culturismo y fitness con Bernat Scorus. Formación presencial y online sobre nutrición avanzada, entrenamiento, suplementación, antiaging y optimización hormonal. Certificado incluido."
 >
   <!-- Hero Section -->
   <ServiceDetailHeader
@@ -404,67 +398,6 @@ const topicsCovered = [
     </div>
   </section>
 
-  <!-- Preguntas Frecuentes / Requirements Section -->
-  <section class="bg-white py-24">
-    <div class="container">
-      <div class="mx-auto max-w-6xl">
-        <div class="mb-16 text-center">
-          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
-            Preguntas <span class="text-red-600">Frecuentes</span>
-          </h2>
-        </div>
-
-        <div class="grid gap-8 md:grid-cols-2">
-          <!-- Para Asistentes -->
-          <div class="rounded-xl bg-gradient-to-br from-gray-50 to-white p-8 border-2 border-gray-200">
-            <h3 class="mb-6 text-2xl font-black uppercase text-black">Para Asistentes</h3>
-            <div class="space-y-4">
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">¿Qué necesito para asistir?</h4>
-                <p class="text-sm text-gray-700">Solo tiempo y disponibilidad. Para seminarios online: dispositivo con Internet, entorno tranquilo y ganas de aprender.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">¿Cuánta duración tienen?</h4>
-                <p class="text-sm text-gray-700">Los seminarios online tienen entre 60 y 120 minutos. Los presenciales tienen duración variable según las necesidades del organizador.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">¿Puedo ver la grabación después?</h4>
-                <p class="text-sm text-gray-700">Sí, en seminarios online tienes acceso ilimitado a la grabación tras la sesión en vivo.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">¿Recibiré material?</h4>
-                <p class="text-sm text-gray-700">Sí, material complementario: PDFs, imágenes, vídeos, podcasts y enlaces de interés.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Para Organizadores -->
-          <div class="rounded-xl bg-gradient-to-br from-red-50 to-white p-8 border-2 border-red-200">
-            <h3 class="mb-6 text-2xl font-black uppercase text-black">Para Organizadores</h3>
-            <div class="space-y-4">
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">¿Qué necesitan ustedes?</h4>
-                <p class="text-sm text-gray-700">Una sala o auditorio adecuado, micrófono para amplificación y pantalla/proyector para material audiovisual.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">¿En qué idiomas disponibles?</h4>
-                <p class="text-sm text-gray-700">Español, inglés y húngaro. También disponibles en España y en el extranjero.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">¿Cómo organizo un seminario?</h4>
-                <p class="text-sm text-gray-700">Contacta directamente para coordinar la temática, fecha, hora y lugar del evento según tus necesidades.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">¿Puedo personalizar la temática?</h4>
-                <p class="text-sm text-gray-700">Sí, todos los seminarios se adaptan a cada evento con material audiovisual personalizado.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- CTA Section -->
   <section class="bg-gradient-to-b from-black to-gray-900 py-32 text-white">
     <div class="container">
@@ -519,4 +452,15 @@ const topicsCovered = [
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsSeminarios}
+    title="Preguntas Frecuentes sobre Seminarios"
+    subtitle="Todo lo que necesitas saber sobre nuestros seminarios intensivos"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsSeminarios} />
+
 </Layout>

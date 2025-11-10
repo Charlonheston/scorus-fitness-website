@@ -5,6 +5,7 @@
  */
 
 import { SITE_CONFIG, DEFAULT_SEO } from '@lib/constants';
+import TwitterCards from './TwitterCards.astro';
 
 export interface Props {
   title?: string;
@@ -17,6 +18,7 @@ export interface Props {
   publishedTime?: Date;
   modifiedTime?: Date;
   author?: string;
+  keywords?: string[];
 }
 
 const {
@@ -30,6 +32,7 @@ const {
   publishedTime,
   modifiedTime,
   author,
+  keywords = DEFAULT_SEO.keywords,
 } = Astro.props;
 
 const canonicalURL = canonical ? new URL(canonical, SITE_CONFIG.url) : new URL(Astro.url.pathname, SITE_CONFIG.url);
@@ -45,6 +48,7 @@ const robotsMeta = robotsContent.length > 0 ? robotsContent.join(', ') : 'index,
 <!-- SEO Básico -->
 <title>{title}</title>
 <meta name="description" content={description} />
+<meta name="keywords" content={keywords.join(', ')} />
 <link rel="canonical" href={canonicalURL} />
 <meta name="robots" content={robotsMeta} />
 
@@ -67,12 +71,12 @@ const robotsMeta = robotsContent.length > 0 ? robotsContent.join(', ') : 'index,
   <meta property="article:author" content={author} />
 )}
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:url" content={canonicalURL} />
-<meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={imageURL} />
+<!-- Twitter Card (usando componente mejorado) -->
+<TwitterCards
+  title={title}
+  description={description}
+  image={imageURL.toString()}
+/>
 
 <!-- Adicionales -->
 <meta name="author" content={author || 'Scorus Fitness'} />

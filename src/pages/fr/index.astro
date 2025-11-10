@@ -11,6 +11,12 @@ import { getCollection } from 'astro:content';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import ButtonGhost from '@components/ui/ButtonGhost.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsHomeFR } from '@data/faqs-fr';
+import { getWebSiteSchema } from '@lib/schema';
+
+const websiteSchema = getWebSiteSchema('fr');
 
 // Importer les images
 import heroImage from '../../../public/images/hero/bernat-hero.jpg';
@@ -63,7 +69,7 @@ const services = [
     title: 'Consultation en Ligne',
     description: 'Résolvez vos doutes avec des sessions de consultation professionnelle.',
     iconType: 'video',
-    href: '/fr/services/consultation-en-ligne',
+    href: '/fr/services/conseil-en-ligne',
     image: '/images/services/online-consulting.jpg',
   },
   {
@@ -879,6 +885,19 @@ const testimonials = [
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsHomeFR}
+    title="Questions Fréquemment Posées"
+    subtitle="Tout ce que vous devez savoir sur nos services"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsHomeFR} />
+
+  <!-- WebSite Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
 </Layout>
 

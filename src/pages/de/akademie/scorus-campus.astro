@@ -9,6 +9,9 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsScorousCampusDE } from '@data/faqs-de';
 
 const currentLang = 'de';
 ---
@@ -523,4 +526,15 @@ const currentLang = 'de';
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsScorousCampusDE}
+    title="Häufig Gestellte Fragen über Scorus Campus"
+    subtitle="Alles, was Sie über unser intensives 7-Tage-Programm wissen müssen"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsScorousCampusDE} />
+
 </Layout>

@@ -1,12 +1,23 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import BioIntro from '@components/biography/BioIntro.tsx';
+import { getVideoSchema } from '@lib/schema';
 
 const title = 'Biografía | Bernat Scorus';
-const description = 'De la superación personal a la excelencia en el fitness. Scrollytelling.';
+const description = 'Conoce la historia de Bernat Scorus, campeón mundial de culturismo y entrenador personal en Alicante. Más de 25 años transformando cuerpos y vidas con metodología probada y enfoque personalizado.';
 
 const videoMp4 = '/videos/biography/intro.mp4';
 const videoWebm = '/videos/biography/intro.webm';
+
+// VideoObject Schema para el video de biografía
+const videoSchema = getVideoSchema({
+  name: 'La Historia de Bernat Scorus - Campeón Mundial de Culturismo',
+  description: 'Descubre la inspiradora trayectoria de Bernat Scorus, desde sus inicios hasta convertirse en campeón mundial de culturismo y uno de los entrenadores personales más reconocidos de España. 25 años de experiencia transformando más de 4,000 vidas.',
+  thumbnailUrl: 'https://scorusfitness.com/images/about/biography/frames/Timeline 1_1.jpg',
+  uploadDate: new Date('2024-01-15'),
+  duration: 'PT5M30S', // 5 minutos 30 segundos (ajustar según duración real)
+  contentUrl: 'https://scorusfitness.com/videos/biography/intro.mp4',
+});
 ---
 
 <Layout title={title} description={description}>
@@ -35,6 +46,9 @@ const videoWebm = '/videos/biography/intro.webm';
   <div id="bio-scroll-spacer"></div>
   <!-- Espacio para el CTA fijo, permite que el footer aparezca debajo -->
   <div id="bio-cta-spacer" class="relative bg-black"></div>
+
+  <!-- VideoObject Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
 </Layout>
 
 <style is:inline>

@@ -1,0 +1,35 @@
+---
+/**
+ * Componente Twitter Cards para mejorar la apariencia de los links compartidos en Twitter/X
+ */
+
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  card?: 'summary' | 'summary_large_image';
+  site?: string;
+  creator?: string;
+}
+
+const { 
+  title, 
+  description, 
+  image = 'https://scorusfitness.com/og-image.jpg',
+  card = 'summary_large_image',
+  site = '@bernatscorus',
+  creator = '@bernatscorus'
+} = Astro.props;
+
+// Asegurar que la imagen sea una URL absoluta
+const imageUrl = image.startsWith('http') ? image : `https://scorusfitness.com${image}`;
+---
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content={card} />
+<meta name="twitter:site" content={site} />
+<meta name="twitter:creator" content={creator} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+

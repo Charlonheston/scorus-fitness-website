@@ -7,6 +7,9 @@
 import Layout from '@/layouts/Layout.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import RebornPhases from '@/components/sections/RebornPhases.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsReBornDE } from '@data/faqs-de';
 
 const rebornData = {
   seo: {
@@ -338,4 +341,15 @@ const rebornData = {
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsReBornDE}
+    title="Häufig Gestellte Fragen über RE-BORN"
+    subtitle="Alles, was Sie über unser Transformationsprogramm wissen müssen"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsReBornDE} />
+
 </Layout>

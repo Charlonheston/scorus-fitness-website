@@ -4,20 +4,35 @@
  * Page complète avec tous les modules de l'ancienne page rénovés
  */
 
-import Layout from '@/layouts/Layout.astro';
+import Layout from '@layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import translations from '../../../../public/locales/fr/services.json';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsAsesoramientoOnlineFR } from '@data/faqs-fr';
+import { getOfferSchema } from '@lib/schema';
 
 const t = translations.online_counseling;
 const currentLang = 'fr';
+
+// Offer Schema para Dieta Personalizada
+const offerSchema = getOfferSchema({
+  name: 'Régime Personnalisé',
+  price: '100',
+  priceCurrency: 'EUR',
+  description: 'Plan nutritionnel entièrement personnalisé conçu par Bernat Scorus selon vos objectifs, votre métabolisme et votre mode de vie.',
+  url: 'https://scorusfitness.com/fr/services/coaching-en-ligne',
+  availability: 'https://schema.org/InStock',
+});
 ---
 
 <Layout
   title={t.meta.title}
   description={t.meta.description}
 >
+  <!-- Header Section -->
   <ServiceDetailHeader
     backLink={{
       href: `/${currentLang}/services`,
@@ -28,6 +43,7 @@ const currentLang = 'fr';
     backgroundImage="/images/services/online-coaching-hero.jpg"
   />
 
+  <!-- Hero Tagline Section -->
   <section class="relative bg-gradient-to-br from-red-600 to-black py-12 sm:py-16 text-white">
     <div class="container">
       <div class="mx-auto max-w-4xl text-center px-4">
@@ -38,6 +54,7 @@ const currentLang = 'fr';
     </div>
   </section>
 
+  <!-- Benefits Section -->
   <section class="bg-white py-16 sm:py-24">
     <div class="container">
       <div class="mx-auto max-w-6xl px-4">
@@ -64,6 +81,7 @@ const currentLang = 'fr';
     </div>
   </section>
 
+  <!-- Story Section - Mi Historia -->
   <section class="bg-black py-16 sm:py-24 text-white">
     <div class="container">
       <div class="mx-auto max-w-5xl px-4">
@@ -80,12 +98,17 @@ const currentLang = 'fr';
 
         <div class="space-y-6 sm:space-y-8 text-base sm:text-lg leading-relaxed text-gray-300">
           <p class="text-xl sm:text-2xl leading-relaxed" set:html={t.story.intro}></p>
+          
           <p class="font-semibold text-white" set:html={t.story.transformation}></p>
+          
           <div class="my-6 sm:my-8 h-1 w-24 bg-red-600 rounded-full mx-auto"></div>
+          
           <p set:html={t.story.family}></p>
+          
           <p class="text-xl sm:text-2xl font-bold text-white" set:html={t.story.results}></p>
         </div>
 
+        <!-- CTA Intermedio -->
         <div class="mt-12 sm:mt-16 text-center">
           <h3 class="mb-6 sm:mb-8 text-2xl sm:text-3xl md:text-4xl font-black uppercase text-red-600">
             {t.story.cta}
@@ -104,6 +127,7 @@ const currentLang = 'fr';
     </div>
   </section>
 
+  <!-- Pricing Section - 3 Packs -->
   <section class="bg-white py-16 sm:py-24">
     <div class="container">
       <div class="mx-auto max-w-7xl px-4">
@@ -120,6 +144,7 @@ const currentLang = 'fr';
                 ? 'bg-red-600 scale-105 hover:scale-110' 
                 : 'bg-gradient-to-br from-gray-900 to-black hover:-translate-y-2'
             }`}>
+              {/* Badge */}
               <div class="mb-6">
                 <span class={`inline-block rounded-full px-4 py-2 text-xs font-black uppercase tracking-wider ${
                   plan.popular 
@@ -130,10 +155,12 @@ const currentLang = 'fr';
                 </span>
               </div>
 
+              {/* Plan Name */}
               <h3 class="mb-4 text-2xl sm:text-3xl font-black uppercase text-white">
                 {plan.name}
               </h3>
 
+              {/* Price */}
               <div class="mb-6">
                 <div class="flex items-baseline">
                   <span class="text-5xl sm:text-6xl font-black text-white">{plan.price}</span>
@@ -142,17 +169,19 @@ const currentLang = 'fr';
                 <p class="mt-2 text-sm text-white/70">*prix total {plan.total_price}€</p>
               </div>
 
+              {/* Features */}
               <ul class="mb-8 flex-1 space-y-3">
                 {plan.features.map((feature: string) => (
                   <li class="flex items-start text-sm sm:text-base text-white/90">
                     <svg class="mr-2 mt-1 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
-                    <span class={feature.startsWith('Tout') ? 'font-bold' : ''}>{feature}</span>
+                    <span class={feature.startsWith('Tout ce qui est inclus') ? 'font-bold' : ''}>{feature}</span>
                   </li>
                 ))}
               </ul>
 
+              {/* CTA Button */}
               <div class="mt-auto">
                 {plan.popular ? (
                   <ButtonPrimary
@@ -180,16 +209,18 @@ const currentLang = 'fr';
     </div>
   </section>
 
+  <!-- CTA Final Section -->
   <section class="bg-black py-20 sm:py-32 text-white">
     <div class="container">
       <div class="mx-auto max-w-4xl text-center px-4">
         <h2 class="mb-4 sm:mb-6 text-4xl sm:text-5xl font-black uppercase tracking-tighter md:text-6xl">
-          Des <span class="text-red-600">Questions</span>?
+          Vous Avez des <span class="text-red-600">Questions</span>?
         </h2>
-        <p class="mb-6 sm:mb-8 text-base sm:text-lg sm:text-xl text-gray-300">
-          Appelez-nous ou visitez notre salle de sport à Alicante
+        <p class="mb-6 sm:mb-8 text-base sm:text-xl text-gray-300">
+          Appelez-nous ou visitez-nous à notre salle de sport à Alicante
         </p>
 
+        <!-- Contact Info -->
         <div class="mb-8 sm:mb-12 flex flex-col items-center justify-center gap-4 sm:gap-6 md:flex-row md:gap-12">
           <a href="tel:+34673975252" class="group flex items-center gap-2 sm:gap-3 text-base sm:text-lg transition-colors hover:text-red-600">
             <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -208,7 +239,7 @@ const currentLang = 'fr';
         </div>
 
         <div class="mb-8 sm:mb-12">
-          <h3 class="mb-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-gray-400">Horaire</h3>
+          <h3 class="mb-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-gray-400">Horaires</h3>
           <p class="text-base sm:text-lg">
             <span class="font-bold text-white">Lundi - Vendredi</span> | 07:00 - 10:00
           </p>
@@ -220,7 +251,7 @@ const currentLang = 'fr';
         <div class="flex flex-col items-center justify-center gap-4 sm:gap-6">
           <ButtonPrimary 
             href={`/${currentLang}/contact`}
-            text="Contactez-nous"
+            text="Contactez-Nous"
             icon="zap"
             size="xl"
             variant="glow"
@@ -239,5 +270,18 @@ const currentLang = 'fr';
       </div>
     </div>
   </section>
-</Layout>
 
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsAsesoramientoOnlineFR}
+    title="Questions Fréquemment Posées sur le Coaching En Ligne"
+    subtitle="Tout ce que vous devez savoir sur notre programme de coaching en ligne complet"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsAsesoramientoOnlineFR} />
+
+  <!-- Offer Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(offerSchema)} />
+
+</Layout>

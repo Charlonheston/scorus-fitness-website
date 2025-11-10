@@ -1,0 +1,157 @@
+---
+/**
+ * Componente FAQs - Estilo Minimalista Netflix
+ * Acordeón expandible con animaciones suaves
+ */
+
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  faqs: FAQ[];
+  title?: string;
+  subtitle?: string;
+}
+
+const { 
+  faqs, 
+  title = 'Preguntas Frecuentes',
+  subtitle
+} = Astro.props;
+---
+
+<section class="faq-section bg-gradient-to-b from-gray-950 to-black py-20 md:py-28">
+  <div class="container">
+    <div class="mx-auto max-w-4xl">
+      <!-- Header -->
+      <div class="mb-12 text-center">
+        <h2 class="mb-4 text-3xl font-black uppercase tracking-tighter text-white md:text-4xl lg:text-5xl">
+          {title}
+        </h2>
+        {subtitle && (
+          <p class="mx-auto max-w-2xl text-lg text-gray-400">
+            {subtitle}
+          </p>
+        )}
+      </div>
+
+      <!-- FAQs List -->
+      <div class="space-y-3">
+        {faqs.map((faq, index) => (
+          <div class="faq-item group rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-red-600/50 hover:bg-white/10">
+            <button
+              class="faq-button flex w-full items-start justify-between gap-4 p-6 text-left transition-colors"
+              aria-expanded="false"
+              aria-controls={`faq-answer-${index}`}
+            >
+              <span class="flex-1 text-lg font-bold text-white transition-colors group-hover:text-red-600">
+                {faq.question}
+              </span>
+              <svg
+                class="faq-icon h-6 w-6 flex-shrink-0 text-red-600 transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </button>
+            
+            <div
+              id={`faq-answer-${index}`}
+              class="faq-answer overflow-hidden transition-all duration-300"
+              style="max-height: 0;"
+            >
+              <div class="border-t border-white/10 px-6 pb-6 pt-4">
+                <p class="text-base leading-relaxed text-gray-300" set:html={faq.answer} />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- CTA Footer -->
+      <div class="mt-12 text-center">
+        <p class="mb-6 text-gray-400">
+          ¿No encuentras la respuesta que buscas?
+        </p>
+        <a
+          href="/es/contacto"
+          class="inline-flex items-center justify-center rounded-lg bg-red-600 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/30"
+        >
+          Contáctanos
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // FAQ Accordion functionality
+  function initFAQs() {
+    const faqButtons = document.querySelectorAll('.faq-button');
+    
+    faqButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const faqItem = button.closest('.faq-item');
+        const answer = faqItem?.querySelector('.faq-answer');
+        const icon = button.querySelector('.faq-icon');
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        
+        // Close all other FAQs
+        document.querySelectorAll('.faq-button').forEach((otherButton) => {
+          if (otherButton !== button) {
+            const otherItem = otherButton.closest('.faq-item');
+            const otherAnswer = otherItem?.querySelector('.faq-answer');
+            const otherIcon = otherButton.querySelector('.faq-icon');
+            
+            otherButton.setAttribute('aria-expanded', 'false');
+            if (otherAnswer instanceof HTMLElement) {
+              otherAnswer.style.maxHeight = '0';
+            }
+            otherIcon?.classList.remove('rotate-45');
+          }
+        });
+        
+        // Toggle current FAQ
+        if (isExpanded) {
+          button.setAttribute('aria-expanded', 'false');
+          if (answer instanceof HTMLElement) {
+            answer.style.maxHeight = '0';
+          }
+          icon?.classList.remove('rotate-45');
+        } else {
+          button.setAttribute('aria-expanded', 'true');
+          if (answer instanceof HTMLElement) {
+            answer.style.maxHeight = `${answer.scrollHeight}px`;
+          }
+          icon?.classList.add('rotate-45');
+        }
+      });
+    });
+  }
+  
+  // Initialize on page load
+  initFAQs();
+  
+  // Reinitialize after view transitions
+  document.addEventListener('astro:page-load', initFAQs);
+</script>
+
+<style>
+  .faq-icon {
+    transition: transform 0.3s ease;
+  }
+  
+  .faq-answer {
+    transition: max-height 0.3s ease;
+  }
+</style>
+

@@ -11,6 +11,12 @@ import { getCollection } from 'astro:content';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import ButtonGhost from '@components/ui/ButtonGhost.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsHomeDE } from '@data/faqs-de';
+import { getWebSiteSchema } from '@lib/schema';
+
+const websiteSchema = getWebSiteSchema('de');
 
 // Bilder importieren
 import heroImage from '../../../public/images/hero/bernat-hero.jpg';
@@ -879,6 +885,19 @@ const testimonials = [
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsHomeDE}
+    title="Häufig Gestellte Fragen"
+    subtitle="Antworten auf die häufigsten Fragen zu unseren Dienstleistungen"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsHomeDE} />
+
+  <!-- WebSite Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
 
 </Layout>
 

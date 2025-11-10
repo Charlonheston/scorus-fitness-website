@@ -7,6 +7,10 @@ import Layout from '@/layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsGymEN } from '@data/faqs-en';
+import { getImageGallerySchema } from '@lib/schema';
 
 // Import hero image
 import gym01 from '../../../public/images/gym/gym-01.jpg';
@@ -25,6 +29,15 @@ const gymImages = [
   { src: '/images/gym/gym-09.jpg', alt: 'Scorus Fitness - Training environment' },
   { src: '/images/gym/gym-10.jpg', alt: 'Scorus Fitness - Complete facilities' },
 ];
+
+// ImageGallery Schema for SEO
+const imageGallerySchema = getImageGallerySchema(
+  gymImages.map(img => ({
+    url: img.src,
+    caption: img.alt,
+    description: img.alt,
+  }))
+);
 ---
 
 <Layout
@@ -397,7 +410,7 @@ const gymImages = [
             variant="glow"
           />
           
-          <ButtonSecondary 
+          <ButtonSecondary
             href={`/${currentLang}/services/personal-training`}
             text="View Services"
             icon="arrow"
@@ -408,5 +421,19 @@ const gymImages = [
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsGymEN}
+    title="Gym Frequently Asked Questions"
+    subtitle="Everything you need to know about Scorus GYM"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsGymEN} />
+
+  <!-- ImageGallery Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(imageGallerySchema)} />
+
 </Layout>
 

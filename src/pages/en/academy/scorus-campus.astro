@@ -9,6 +9,9 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsScorousCampusEN } from '@data/faqs-en';
 
 const currentLang = 'en';
 ---
@@ -607,4 +610,15 @@ const currentLang = 'en';
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsScorousCampusEN}
+    title="Frequently Asked Questions about Scorus Campus"
+    subtitle="Everything you need to know about our 7-day intensive experience"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsScorousCampusEN} />
+
 </Layout>

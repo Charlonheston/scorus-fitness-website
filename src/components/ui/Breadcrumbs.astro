@@ -1,0 +1,74 @@
+---
+/**
+ * Componente Breadcrumbs para navegación y SEO
+ * Muestra el camino de navegación desde la home hasta la página actual
+ */
+
+import { getBreadcrumbSchema } from '@lib/schema';
+
+export interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+export interface Props {
+  items: BreadcrumbItem[];
+  currentLang?: string;
+}
+
+const { items, currentLang = 'es' } = Astro.props;
+
+// Añadir Home al principio si no está
+const allItems: BreadcrumbItem[] = items[0]?.url === `/${currentLang}` 
+  ? items 
+  : [
+      { name: 'Home', url: `/${currentLang}` },
+      ...items,
+    ];
+
+// Generar Schema.org para los breadcrumbs
+const breadcrumbSchema = getBreadcrumbSchema(
+  allItems.map(item => ({
+    name: item.name,
+    url: `https://scorusfitness.com${item.url}`,
+  }))
+);
+---
+
+<!-- Schema.org Breadcrumbs -->
+<script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
+
+<!-- Breadcrumbs visuales -->
+<nav aria-label="Breadcrumb" class="mb-8">
+  <ol class="flex items-center flex-wrap space-x-2 text-sm text-gray-600">
+    {allItems.map((item, index) => (
+      <li class="flex items-center">
+        {index > 0 && (
+          <span class="mx-2 text-gray-400" aria-hidden="true">/</span>
+        )}
+        {index === allItems.length - 1 ? (
+          <span class="font-semibold text-red-600" aria-current="page">
+            {item.name}
+          </span>
+        ) : (
+          <a 
+            href={item.url} 
+            class="hover:text-red-600 transition-colors duration-200"
+          >
+            {item.name}
+          </a>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  /* Responsive: reducir tamaño en móvil */
+  @media (max-width: 640px) {
+    nav {
+      font-size: 0.75rem;
+    }
+  }
+</style>
+

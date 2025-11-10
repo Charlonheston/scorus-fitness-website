@@ -1,0 +1,41 @@
+---
+/**
+ * Componente FAQPage Schema para SEO
+ * Genera el structured data JSON-LD para que Google muestre rich snippets
+ */
+
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  faqs: FAQ[];
+}
+
+const { faqs } = Astro.props;
+
+// Limpiar HTML de las respuestas para el schema
+function cleanHTML(html: string): string {
+  return html
+    .replace(/<[^>]*>/g, '') // Remover tags HTML
+    .replace(/\s+/g, ' ') // Normalizar espacios
+    .trim();
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: cleanHTML(faq.answer),
+    },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+

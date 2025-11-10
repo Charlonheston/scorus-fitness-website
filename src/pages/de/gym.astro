@@ -7,6 +7,10 @@ import Layout from '@/layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsGymDE } from '@data/faqs-de';
+import { getImageGallerySchema } from '@lib/schema';
 
 // Import hero image
 import gym01 from '../../../public/images/gym/gym-01.jpg';
@@ -25,6 +29,15 @@ const gymImages = [
   { src: '/images/gym/gym-09.jpg', alt: 'Scorus Fitness - Trainingsumgebung' },
   { src: '/images/gym/gym-10.jpg', alt: 'Scorus Fitness - Komplette Einrichtungen' },
 ];
+
+// ImageGallery Schema für SEO
+const imageGallerySchema = getImageGallerySchema(
+  gymImages.map(img => ({
+    url: img.src,
+    caption: img.alt,
+    description: img.alt,
+  }))
+);
 ---
 
 <Layout
@@ -408,5 +421,19 @@ const gymImages = [
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsGymDE}
+    title="Häufig Gestellte Fragen über das Fitnessstudio"
+    subtitle="Alles, was Sie über unser exklusives Fitnessstudio wissen müssen"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsGymDE} />
+
+  <!-- ImageGallery Schema für SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(imageGallerySchema)} />
+
 </Layout>
 

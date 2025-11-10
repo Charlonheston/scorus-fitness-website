@@ -10,6 +10,9 @@ import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro'
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import WorkshopIcon from '@components/ui/WorkshopIcon.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsTalleres } from '@data/faqs';
 
 const currentLang = 'es';
 
@@ -125,7 +128,7 @@ const benefits = [
 
 <Layout
   title="Talleres Formativos | Scorus Fitness - 10 Talleres Especializados"
-  description="10 talleres intensivos en culturismo, nutrición y entrenamiento. Formación presencial u online con Bernat Scorus, campeón mundial de fisicoculturismo."
+  description="10 talleres prácticos de culturismo y fitness con Bernat Scorus en Alicante. Aprende técnica de entrenamiento, nutrición deportiva, programación y mentalidad ganadora. Grupos reducidos, presencial u online con certificado."
 >
   <!-- Hero Section -->
   <ServiceDetailHeader
@@ -383,4 +386,15 @@ const benefits = [
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsTalleres}
+    title="Preguntas Frecuentes sobre Talleres"
+    subtitle="Todo lo que necesitas saber sobre nuestros talleres prácticos e intensivos de culturismo"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsTalleres} />
+
 </Layout>

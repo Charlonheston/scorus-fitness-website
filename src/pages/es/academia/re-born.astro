@@ -7,11 +7,14 @@
 import Layout from '@/layouts/Layout.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import RebornPhases from '@/components/sections/RebornPhases.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsReBorn } from '@data/faqs';
 
 const rebornData = {
   seo: {
     title: "RE-BORN | Programa de Transformación | Scorus Fitness",
-    description: "Programa completo de transformación para hombres 35-55 que han pasado por crisis. Reconstruye tu identidad, mente y cuerpo en Scorus Gym Alicante."
+    description: "Programa de transformación integral para hombres 35-55 años que buscan renacer tras una crisis. Reconstruye tu cuerpo, mente y espíritu en 3 fases con Bernat Scorus. Mentoría 1:1, comunidad exclusiva y resultados garantizados."
   },
   phases: [
     {
@@ -338,4 +341,15 @@ const rebornData = {
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsReBorn}
+    title="Preguntas Frecuentes sobre RE-BORN"
+    subtitle="Descubre cómo este programa puede transformar tu vida por completo"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsReBorn} />
+
 </Layout>

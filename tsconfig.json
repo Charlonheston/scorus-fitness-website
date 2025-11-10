@@ -11,7 +11,8 @@
       "@lib/*": ["src/lib/*"],
       "@types/*": ["src/types/*"],
       "@styles/*": ["src/styles/*"],
-      "@content/*": ["src/content/*"]
+      "@content/*": ["src/content/*"],
+      "@data/*": ["src/data/*"]
     },
     "strictNullChecks": true,
     "strict": true

@@ -3,6 +3,9 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import translations from '../../../../public/locales/hu/services.json';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsSeminariosHU } from '@data/faqs-hu';
 
 const t = translations.seminars;
 const currentLang = 'hu';
@@ -44,5 +47,16 @@ const currentLang = 'hu';
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsSeminariosHU}
+    title="Gyakran Ismételt Kérdések a Szemináriumokról"
+    subtitle="Minden, amit a professzionális szemináriumainkról tudnod kell"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsSeminariosHU} />
+
 </Layout>
 

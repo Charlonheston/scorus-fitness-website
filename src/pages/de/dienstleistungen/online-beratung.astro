@@ -8,9 +8,23 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import translations from '../../../../public/locales/de/services.json';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsConsultoriaOnlineDE } from '@data/faqs-de';
+import { getOfferSchema } from '@lib/schema';
 
 const t = translations.online_consulting;
 const currentLang = 'de';
+
+// Offer Schema para Consultoría Online
+const offerSchema = getOfferSchema({
+  name: 'Online-Beratung',
+  price: '60',
+  priceCurrency: 'EUR',
+  description: 'Personalisierte Online-Beratung mit Bernat Scorus. Lösen Sie alle Ihre Zweifel zu Training, Ernährung und Nahrungsergänzung.',
+  url: 'https://scorusfitness.com/de/dienstleistungen/online-beratung',
+  availability: 'https://schema.org/InStock',
+});
 ---
 
 <Layout
@@ -200,35 +214,6 @@ const currentLang = 'de';
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section class="bg-gray-50 py-16 sm:py-24">
-    <div class="container">
-      <div class="mx-auto max-w-4xl">
-        <div class="mb-12 sm:mb-16 text-center">
-          <h2 class="mb-4 text-3xl sm:text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
-            {t.faq_title}
-          </h2>
-        </div>
-
-        <div class="space-y-6">
-          {Object.values(t.faq).map((item: any) => (
-            <details class="group overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl">
-              <summary class="flex cursor-pointer items-center justify-between p-6 font-bold text-black transition-colors hover:bg-gray-50">
-                <span class="text-base sm:text-lg">{item.question}</span>
-                <svg class="h-5 w-5 flex-shrink-0 text-red-600 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </summary>
-              <div class="border-t border-gray-100 p-6 pt-4">
-                <p class="text-sm sm:text-base leading-relaxed text-gray-700">{item.answer}</p>
-              </div>
-            </details>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- CTA Final -->
   <section class="bg-black py-20 sm:py-32 text-white">
     <div class="container">
@@ -269,4 +254,18 @@ const currentLang = 'de';
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsConsultoriaOnlineDE}
+    title="Häufig Gestellte Fragen über Online-Beratung"
+    subtitle="Alles, was Sie über unsere Online-Beratung und virtuelle Betreuung wissen müssen"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsConsultoriaOnlineDE} />
+
+  <!-- Offer Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(offerSchema)} />
+
 </Layout>

@@ -7,6 +7,9 @@
 import Layout from '@/layouts/Layout.astro';
 import ServicesPageHeader from '@components/sections/ServicesPageHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsServiciosIndexHU } from '@data/faqs-hu';
 
 const servicesData = {
   seo: {
@@ -257,4 +260,15 @@ const servicesData = {
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsServiciosIndexHU}
+    title="Gyakran Ismételt Kérdések a Szolgáltatásokról"
+    subtitle="Minden, amit a Scorus Fitness Szolgáltatásokról tudnod kell"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsServiciosIndexHU} />
+
 </Layout>

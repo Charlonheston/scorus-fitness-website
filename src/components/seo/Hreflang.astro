@@ -1,0 +1,60 @@
+---
+/**
+ * Componente Hreflang para SEO Multilingüe
+ * Indica a los motores de búsqueda qué versión del contenido mostrar según el idioma del usuario
+ */
+
+export interface Props {
+  currentLocale: string;
+  currentSlug?: string;
+  articleLocalizations?: Array<{ locale: string; slug: string }>;
+  isBlogPage?: boolean;
+}
+
+const { currentLocale, currentSlug = '', articleLocalizations, isBlogPage = false } = Astro.props;
+
+const SITE_URL = 'https://scorusfitness.com';
+const SUPPORTED_LOCALES = ['es', 'en', 'fr', 'de', 'hu'];
+
+function getAlternateUrls() {
+  const urls: Record<string, string> = {};
+  
+  if (isBlogPage && articleLocalizations && articleLocalizations.length > 0) {
+    // Para artículos del blog, usar las localizaciones específicas proporcionadas
+    articleLocalizations.forEach(({ locale, slug }) => {
+      urls[locale] = `${SITE_URL}/${locale}/blog/${slug}`;
+    });
+  } else {
+    // Para otras páginas, asumir que existen en todos los idiomas con la misma estructura
+    SUPPORTED_LOCALES.forEach(locale => {
+      // Construir la URL basándose en el slug actual
+      let path = `/${locale}`;
+      
+      if (currentSlug) {
+        // Si hay slug, añadirlo a la ruta
+        path = `/${locale}/${currentSlug}`;
+      }
+      
+      urls[locale] = `${SITE_URL}${path}`;
+    });
+  }
+  
+  return urls;
+}
+
+const alternateUrls = getAlternateUrls();
+
+// Log para debugging (solo en desarrollo)
+if (import.meta.env.DEV) {
+  console.log('🌍 Hreflang URLs:', alternateUrls);
+}
+---
+
+<!-- Hreflang tags para cada idioma -->
+{Object.entries(alternateUrls).map(([locale, url]) => (
+  <link rel="alternate" hreflang={locale} href={url} />
+))}
+
+<!-- x-default para usuarios sin preferencia de idioma definida (Google recomienda usar el idioma principal) -->
+<link rel="alternate" hreflang="x-default" href={alternateUrls['es']} />
+

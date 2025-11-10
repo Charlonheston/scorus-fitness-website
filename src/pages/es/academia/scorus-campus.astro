@@ -9,13 +9,16 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsScorousCampus } from '@data/faqs';
 
 const currentLang = 'es';
 ---
 
 <Layout
   title="Scorus Campus | Experiencia Inmersiva de 7 Días - Entrenamiento de Élite"
-  description="Programa exclusivo de 7 días con Bernat Scorus, campeón mundial de fisicoculturismo. Incluye alojamiento, entrenamiento intensivo, nutrición personalizada, desarrollo personal y networking profesional."
+  description="Experiencia transformadora de 7 días con Bernat Scorus en Alicante. Programa exclusivo con alojamiento incluido, entrenamiento intensivo personalizado, nutrición optimizada, desarrollo personal y networking. Solo 8 plazas al año."
 >
   <!-- Hero Section -->
   <ServiceDetailHeader
@@ -607,4 +610,15 @@ const currentLang = 'es';
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsScorousCampus}
+    title="Preguntas Frecuentes sobre Scorus Campus"
+    subtitle="Descubre todo sobre esta experiencia intensiva de 7 días"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsScorousCampus} />
+
 </Layout>

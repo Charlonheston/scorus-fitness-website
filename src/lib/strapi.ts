@@ -292,9 +292,14 @@ export async function getArticles(locale: string = 'es'): Promise<StrapiArticle[
         
         // Normalizar imgUrl - puede venir como { data: { attributes: { url: ... } } } o null
         let imgUrl = attrs.imgUrl || article.imgUrl;
-        if (imgUrl && !imgUrl.data && imgUrl.attributes) {
+        if (imgUrl) {
+          if (!imgUrl.data && imgUrl.attributes) {
           // Si viene como objeto directo con attributes, envolver en data
           imgUrl = { data: imgUrl };
+          } else if (!imgUrl.data && !imgUrl.attributes && (imgUrl.id || imgUrl.url)) {
+            // Si viene como objeto directo sin attributes (Strapi v5 con populate), envolver en data.attributes
+            imgUrl = { data: { attributes: imgUrl } };
+          }
         }
 
         // Normalizar localizaciones
@@ -488,9 +493,14 @@ export async function getArticleBySlug(
     
     // Normalizar imgUrl - puede venir como { data: { attributes: { url: ... } } } o null
     let imgUrl = attrs.imgUrl || article.imgUrl;
-    if (imgUrl && !imgUrl.data && imgUrl.attributes) {
+    if (imgUrl) {
+      if (!imgUrl.data && imgUrl.attributes) {
       // Si viene como objeto directo con attributes, envolver en data
       imgUrl = { data: imgUrl };
+      } else if (!imgUrl.data && !imgUrl.attributes && (imgUrl.id || imgUrl.url)) {
+        // Si viene como objeto directo sin attributes (Strapi v5 con populate), envolver en data.attributes
+        imgUrl = { data: { attributes: imgUrl } };
+      }
     }
 
     // Normalizar a formato con attributes incluyendo relaciones
@@ -607,8 +617,13 @@ export async function getArticleById(
     
     // Normalizar imgUrl
     let imgUrl = attrs.imgUrl || article.imgUrl;
-    if (imgUrl && !imgUrl.data && imgUrl.attributes) {
+    if (imgUrl) {
+      if (!imgUrl.data && imgUrl.attributes) {
       imgUrl = { data: imgUrl };
+      } else if (!imgUrl.data && !imgUrl.attributes && (imgUrl.id || imgUrl.url)) {
+        // Si viene como objeto directo sin attributes (Strapi v5 con populate), envolver en data.attributes
+        imgUrl = { data: { attributes: imgUrl } };
+      }
     }
 
     // Normalizar a formato con attributes incluyendo relaciones

@@ -8,6 +8,7 @@ import Header from '@components/layout/Header.astro';
 import Footer from '@components/layout/Footer.astro';
 import SEO from '@components/seo/SEO.astro';
 import StructuredData from '@components/seo/StructuredData.astro';
+import Hreflang from '@components/seo/Hreflang.astro';
 import { getLocalBusinessSchema, getPersonSchema } from '@lib/schema';
 import '@styles/global.css';
 
@@ -44,6 +45,14 @@ const {
 // Schema.org por defecto (LocalBusiness + Person)
 const defaultSchemas = [getLocalBusinessSchema(), getPersonSchema()];
 const finalSchemas = schema ? (Array.isArray(schema) ? [...defaultSchemas, ...schema] : [...defaultSchemas, schema]) : defaultSchemas;
+
+// Extraer el locale actual de la URL
+const pathname = Astro.url.pathname;
+const localeMatch = pathname.match(/^\/(es|en|fr|de|hu)\//);
+const currentLocale = localeMatch ? localeMatch[1] : 'es';
+
+// Construir el slug actual sin el locale
+const slugWithoutLocale = pathname.replace(/^\/(es|en|fr|de|hu)\//, '').replace(/^\//, '');
 ---
 
 <!doctype html>
@@ -62,6 +71,14 @@ const finalSchemas = schema ? (Array.isArray(schema) ? [...defaultSchemas, ...sc
       canonical={canonical}
       noindex={noindex}
       ogType={ogType}
+    />
+    
+    <!-- Hreflang for Multilingual SEO -->
+    <Hreflang
+      currentLocale={currentLocale}
+      currentSlug={currentSlug || slugWithoutLocale}
+      articleLocalizations={articleLocalizations}
+      isBlogPage={isBlogPage}
     />
     
     <!-- Structured Data -->

@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Servicios | Scorus Fitness",
-    "description": "Entrenamiento personal, consultoría online, talleres y más en Alicante"
+    "description": "Servicios de entrenamiento personal, consultoría online, asesoramiento deportivo y formación profesional en Alicante. Programas personalizados con Bernat Scorus, campeón mundial de culturismo."
   },
   "hero": {
     "title": "Servicios",
@@ -83,7 +83,7 @@
   "online_consulting": {
     "meta": {
       "title": "Consulta Online | Scorus Fitness",
-      "description": "Resuelve todas tus dudas sobre entrenamiento, suplementación o nutrición en solo 60 minutos"
+      "description": "Consultoría fitness online de 60 minutos con Bernat Scorus. Resuelve tus dudas sobre entrenamiento, nutrición y suplementación desde cualquier lugar. Sesión vía Zoom con experto campeón mundial."
     },
     "title": "Consulta Online",
     "subtitle": "Resuelve Todas Tus Dudas en Solo 60 Minutos",
@@ -291,7 +291,7 @@
   "personal_training": {
     "meta": {
       "title": "Entrenamiento Personal | Scorus Fitness",
-      "description": "Entrenamiento personal completamente personalizado en Alicante"
+      "description": "Entrenamiento personal one-to-one en Alicante con Bernat Scorus. Programas personalizados de musculación, pérdida de peso y transformación corporal. Evaluación física completa y resultados garantizados."
     },
     "icon": "🏋️",
     "title": "Entrenamiento\nPersonal",
@@ -335,7 +335,7 @@
   "online_counseling": {
     "meta": {
       "title": "Asesoramiento Online | Scorus Fitness",
-      "description": "Sistema 100% efectivo con planes personalizados de 3, 6 y 12 meses. Videoconsultas, seguimiento WhatsApp y descuentos exclusivos."
+      "description": "Coaching online completo con Bernat Scorus. Planes personalizados de entrenamiento y nutrición de 3, 6 o 12 meses. Videoconsultas mensuales, seguimiento diario por WhatsApp y ajustes constantes para máximos resultados."
     },
     "title": "ASESORAMIENTO ONLINE",
     "subtitle": "Un sistema completo y efectivo para tu transformación física y mental",

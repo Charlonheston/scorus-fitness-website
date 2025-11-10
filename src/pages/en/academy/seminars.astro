@@ -9,6 +9,9 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsSeminariosEN } from '@data/faqs-en';
 
 const currentLang = 'en';
 
@@ -116,15 +119,6 @@ const onlineSteps = [
     title: 'Recording',
     desc: 'Unlimited access to the recording after the live session'
   }
-];
-
-const benefits = [
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>', title: 'Deep Knowledge', desc: 'Comprehensive training based on science and real experience' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/></svg>', title: 'Varied Topics', desc: '14 different seminars adapted to your interests' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM3 20a6 6 0 0 1 12 0v1H3v-1z"/></svg>', title: 'Elite Expert', desc: 'Taught by Bernat Scorus, world champion' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c4.97 0 9 4.03 9 9M3 12c0-4.97 4.03-9 9-9m0 18c-4.97 0-9-4.03-9-9m18 0c0 4.97-4.03 9-9 9"/></svg>', title: 'Global Reach', desc: 'Available in 3 languages: Spanish, English and Hungarian' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>', title: 'Immediately Applicable', desc: 'Practical knowledge you can use today' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 0 1-.88-7.903A5 5 0 1 1 15.9 6L16 12m0 0l-4 4m4-4l4 4"/></svg>', title: 'Flexible', desc: 'Choose between in-person or online according to your needs' }
 ];
 
 const topicsCovered = [
@@ -519,4 +513,15 @@ const topicsCovered = [
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsSeminariosEN}
+    title="Seminars Frequently Asked Questions"
+    subtitle="Everything you need to know about our intensive seminars"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsSeminariosEN} />
+
 </Layout>

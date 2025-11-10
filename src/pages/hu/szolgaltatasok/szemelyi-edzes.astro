@@ -9,9 +9,23 @@ import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro'
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import translations from '../../../../public/locales/hu/services.json';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsEntrenamientoPersonalHU } from '@data/faqs-hu';
+import { getOfferSchema } from '@lib/schema';
 
 const t = translations.personal_training;
 const currentLang = 'hu';
+
+// Offer Schema para Rutina Personalizada
+const offerSchema = getOfferSchema({
+  name: 'Személyre Szabott Edzésprogram',
+  price: '30',
+  priceCurrency: 'EUR',
+  description: 'Teljesen személyre szabott edzésprogram, amelyet Bernat Scorus tervezett az Ön céljaihoz, szintjéhez és igényeihez igazítva.',
+  url: 'https://scorusfitness.com/hu/szolgaltatasok/szemelyi-edzes',
+  availability: 'https://schema.org/InStock',
+});
 ---
 
 <Layout
@@ -333,5 +347,19 @@ const currentLang = 'hu';
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsEntrenamientoPersonalHU}
+    title="Gyakran Ismételt Kérdések a Személyi Edzésről"
+    subtitle="Minden, amit a személyre szabott edzésprogramjainkról tudnod kell"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsEntrenamientoPersonalHU} />
+
+  <!-- Offer Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(offerSchema)} />
+
 </Layout>
 

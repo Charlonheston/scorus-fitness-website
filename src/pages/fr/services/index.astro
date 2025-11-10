@@ -7,6 +7,9 @@
 import Layout from '@/layouts/Layout.astro';
 import ServicesPageHeader from '@components/sections/ServicesPageHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsServiciosIndexFR } from '@data/faqs-fr';
 
 const servicesData = {
   seo: {
@@ -33,8 +36,8 @@ const servicesData = {
       ],
     },
     {
-      title: 'Consultation En Ligne',
-      href: '/fr/services/consultation-en-ligne',
+      title: 'Conseil En Ligne',
+      href: '/fr/services/conseil-en-ligne',
       iconType: 'video',
       description: 'Conseils professionnels par appels vidéo pour résoudre vos doutes spécifiques.',
       features: [
@@ -257,4 +260,15 @@ const servicesData = {
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsServiciosIndexFR}
+    title="Questions Fréquemment Posées sur nos Services"
+    subtitle="Tout ce que vous devez savoir sur nos programmes"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsServiciosIndexFR} />
+
 </Layout>

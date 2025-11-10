@@ -11,6 +11,12 @@ import { getCollection } from 'astro:content';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import ButtonGhost from '@components/ui/ButtonGhost.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsHome } from '@data/faqs';
+import { getWebSiteSchema } from '@lib/schema';
+
+const websiteSchema = getWebSiteSchema('es');
 
 // Importar imágenes
 import aboutImage from '../../../public/images/about/bernat-champion.jpg';
@@ -871,6 +877,20 @@ const testimonials = [
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsHome}
+    title="Preguntas Frecuentes"
+    subtitle="Resolvemos las dudas más comunes sobre nuestros servicios y metodología"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsHome} />
+
+  <!-- WebSite Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+
 </Layout>
 
 <style>

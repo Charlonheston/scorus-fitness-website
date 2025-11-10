@@ -6,6 +6,9 @@
 import Layout from '@/layouts/Layout.astro';
 import { CONTACT_INFO } from '@lib/constants';
 import translations from '../../../public/locales/hu/contact.json';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsContactoHU } from '@data/faqs-hu';
 
 const t = translations;
 ---
@@ -133,6 +136,17 @@ const t = translations;
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsContactoHU}
+    title="Gyakran Ismételt Kérdések"
+    subtitle="Minden, amit a Kapcsolatról tudnod kell"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsContactoHU} />
+
 </Layout>
 
 <script is:inline>

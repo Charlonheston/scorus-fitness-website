@@ -7,11 +7,26 @@
 import Layout from '@/layouts/Layout.astro';
 import ServicesPageHeader from '@components/sections/ServicesPageHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import { getServiceSchema } from '@lib/schema';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsServiciosIndex } from '@data/faqs';
 
 const servicesData = {
   seo: {
-    title: "Servicios | Scorus Fitness",
-    description: "Servicios profesionales de entrenamiento personal, consultoría en línea, talleres, cursos de vídeo y seminarios. Transformación física y mental con metodologías probadas."
+    title: "Servicios de Entrenamiento Personal y Fitness | Scorus Fitness Alicante",
+    description: "Servicios profesionales de entrenamiento personal, consultoría online, talleres, cursos de vídeo y seminarios. Transformación física y mental con metodologías probadas por un campeón mundial.",
+    keywords: [
+      'entrenamiento personal',
+      'consultoría fitness',
+      'asesoramiento online',
+      'gimnasio Alicante',
+      'entrenador personal Alicante',
+      'coaching fitness',
+      'transformación física',
+      'scorus campus',
+    ],
   },
   header: {
     tagline: "Scorus Fitness",

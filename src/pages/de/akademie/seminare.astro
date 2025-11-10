@@ -9,6 +9,9 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import FAQs from '@components/faq/FAQs.astro';
+import FAQSchema from '@components/faq/FAQSchema.astro';
+import { faqsSeminariosDE } from '@data/faqs-de';
 
 const currentLang = 'de';
 
@@ -116,15 +119,6 @@ const onlineSteps = [
     title: 'Aufzeichnung',
     desc: 'Unbegrenzter Zugang zur Aufzeichnung nach der Live-Sitzung'
   }
-];
-
-const benefits = [
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"/></svg>', title: 'Tiefes Wissen', desc: 'Umfassende Schulung basierend auf Wissenschaft und echter Erfahrung' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2zm0 0V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v10m-6 0a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2m0 0V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/></svg>', title: 'Vielfältige Themen', desc: '14 verschiedene Seminare, die Ihren Interessen entsprechen' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM3 20a6 6 0 0 1 12 0v1H3v-1z"/></svg>', title: 'Elite-Experte', desc: 'Unterrichtet von Bernat Scorus, Weltmeister' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c4.97 0 9 4.03 9 9M3 12c0-4.97 4.03-9 9-9m0 18c-4.97 0-9-4.03-9-9m18 0c0 4.97-4.03 9-9 9"/></svg>', title: 'Globale Reichweite', desc: 'In 3 Sprachen verfügbar: Spanisch, Englisch und Ungarisch' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>', title: 'Sofort Anwendbar', desc: 'Praktisches Wissen, das Sie heute nutzen können' },
-  { icon: '<svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 0 1-.88-7.903A5 5 0 1 1 15.9 6L16 12m0 0l-4 4m4-4l4 4"/></svg>', title: 'Flexibel', desc: 'Wählen Sie zwischen In-Person oder Online nach Ihren Bedürfnissen' }
 ];
 
 const topicsCovered = [
@@ -404,67 +398,6 @@ const topicsCovered = [
     </div>
   </section>
 
-  <!-- FAQ Section -->
-  <section class="bg-white py-24">
-    <div class="container">
-      <div class="mx-auto max-w-6xl">
-        <div class="mb-16 text-center">
-          <h2 class="mb-4 text-4xl font-black uppercase tracking-tighter text-black md:text-5xl">
-            Häufig <span class="text-red-600">Gestellte Fragen</span>
-          </h2>
-        </div>
-
-        <div class="grid gap-8 md:grid-cols-2">
-          <!-- Für Teilnehmer -->
-          <div class="rounded-xl bg-gradient-to-br from-gray-50 to-white p-8 border-2 border-gray-200">
-            <h3 class="mb-6 text-2xl font-black uppercase text-black">Für Teilnehmer</h3>
-            <div class="space-y-4">
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">Was brauche ich zum Teilnehmen?</h4>
-                <p class="text-sm text-gray-700">Nur Zeit und Verfügbarkeit. Für Online-Seminare: Gerät mit Internet, ruhige Umgebung und Lernwille.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">Wie lange dauern sie?</h4>
-                <p class="text-sm text-gray-700">Online-Seminare dauern zwischen 60 und 120 Minuten. Präsenzseminare haben eine variable Dauer je nach Organisatoranforderungen.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">Kann ich die Aufzeichnung später anschauen?</h4>
-                <p class="text-sm text-gray-700">Ja, bei Online-Seminaren haben Sie unbegrenzten Zugang zur Aufzeichnung nach der Live-Sitzung.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">Erhalte ich Material?</h4>
-                <p class="text-sm text-gray-700">Ja, Zusatzmaterial: PDFs, Bilder, Videos, Podcasts und Links von Interesse.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Für Organisatoren -->
-          <div class="rounded-xl bg-gradient-to-br from-red-50 to-white p-8 border-2 border-red-200">
-            <h3 class="mb-6 text-2xl font-black uppercase text-black">Für Organisatoren</h3>
-            <div class="space-y-4">
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">Was brauchen Sie?</h4>
-                <p class="text-sm text-gray-700">Ein angemessener Raum oder Auditorium, Mikrofon zur Verstärkung und Bildschirm/Projektor für Audiomaterial.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">Welche Sprachen sind verfügbar?</h4>
-                <p class="text-sm text-gray-700">Spanisch, Englisch und Ungarisch. Auch in Spanien und im Ausland verfügbar.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">Wie organisiere ich ein Seminar?</h4>
-                <p class="text-sm text-gray-700">Kontaktieren Sie mich direkt, um das Thema, Datum, Uhrzeit und Veranstaltungsort nach Ihren Bedürfnissen zu koordinieren.</p>
-              </div>
-              <div>
-                <h4 class="font-bold text-red-600 mb-2">Kann ich das Thema anpassen?</h4>
-                <p class="text-sm text-gray-700">Ja, alle Seminare werden an jede Veranstaltung mit personalisiertem Audiomaterial angepasst.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- CTA Section -->
   <section class="bg-gradient-to-b from-black to-gray-900 py-32 text-white">
     <div class="container">
@@ -519,4 +452,15 @@ const topicsCovered = [
       </div>
     </div>
   </section>
+
+  <!-- FAQs Section -->
+  <FAQs 
+    faqs={faqsSeminariosDE}
+    title="Häufig Gestellte Fragen über Seminare"
+    subtitle="Alles, was Sie über unsere Spezialseminare wissen müssen"
+  />
+
+  <!-- FAQPage Schema for SEO -->
+  <FAQSchema faqs={faqsSeminariosDE} />
+
 </Layout>
