@@ -56,13 +56,23 @@ body {
 .bg-gray-800 .text-red-600,
 section.bg-black .text-red-600,
 div.bg-black .text-red-600,
+div.bg-black > * .text-red-600,
+div.bg-black div .text-red-600,
+.bg-black > * .text-red-600,
 footer .text-red-600,
 .bg-black p.text-red-600,
 .bg-black span.text-red-600,
+.bg-black h2 span.text-red-600,
 .bg-black .font-bold.text-red-600,
 .bg-black .text-sm.font-bold.text-red-600,
-.bg-black .uppercase.text-red-600 {
-  color: #ffffff !important; /* BLANCO sobre negro */
+.bg-black .uppercase.text-red-600,
+.bg-black div p.font-bold.text-red-600,
+.bg-black .space-y-2 p.text-red-600,
+/* Forzar TODOS los casos */
+[class*="bg-black"] .text-red-600,
+[class*="bg-black"] span.text-red-600,
+[class*="bg-black"] p.text-red-600 {
+  color: #ffffff !important; /* BLANCO PURO sobre negro */
 }
 
 /* 🔴 TEXTOS ROJOS SOBRE FONDOS BLANCOS → ROJO OSCURO */

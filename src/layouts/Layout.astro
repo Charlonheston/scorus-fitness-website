@@ -167,23 +167,33 @@ const slugWithoutLocale = pathname.replace(/^\/(es|en|fr|de|hu)\//, '').replace(
       /* Texto rojo BLANCO sobre fondos OSCUROS */
       /* Texto rojo NEGRO sobre fondos BLANCOS */
       
-      /* 🟢 TEXTOS ROJOS SOBRE FONDOS OSCUROS → BLANCO */
+      /* 🟢 TEXTOS ROJOS SOBRE FONDOS OSCUROS → BLANCO BRILLANTE */
+      /* TODOS los elementos con text-red-600 en fondos negros */
       .bg-black .text-red-600,
       .bg-gray-900 .text-red-600,
       .bg-gray-800 .text-red-600,
       section.bg-black .text-red-600,
       div.bg-black .text-red-600,
+      div.bg-black > * .text-red-600,
+      .bg-black > div .text-red-600,
       footer .text-red-600,
       .bg-black p.text-red-600,
       .bg-black span.text-red-600,
-      .bg-black h1 .text-red-600,
+      .bg-black h1 span.text-red-600,
+      .bg-black h2 span.text-red-600,
       .bg-black h2 .text-red-600,
       .bg-black h3 .text-red-600,
       .bg-black .font-bold.text-red-600,
+      .bg-black .space-y-2 p.text-red-600,
+      .bg-black div p.font-bold.text-red-600,
       .bg-gray-900 p.text-red-600,
       .bg-gray-900 span.text-red-600,
-      .bg-gray-800 p.text-red-600 {
-        color: #ffffff !important; /* BLANCO - Máximo contraste sobre negro */
+      .bg-gray-800 p.text-red-600,
+      /* Asegurar que SIEMPRE se aplique sobre negro */
+      [class*="bg-black"] .text-red-600,
+      [class*="bg-black"] span.text-red-600,
+      [class*="bg-black"] p.text-red-600 {
+        color: #ffffff !important; /* BLANCO PURO - Máximo contraste */
       }
       
       /* 🔴 TEXTOS ROJOS SOBRE FONDOS BLANCOS → ROJO OSCURO/NEGRO */
