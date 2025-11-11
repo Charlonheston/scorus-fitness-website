@@ -43,6 +43,53 @@ body {
   scroll-behavior: smooth;
 }
 
+/* ==================== Mejoras de Contraste (WCAG AA) ==================== */
+
+/* Mejorar contraste de textos grises en fondos oscuros */
+.bg-black .text-gray-300,
+.bg-gray-900 .text-gray-300 {
+  color: #e5e7eb !important; /* gray-200 - Mejor contraste */
+}
+
+.bg-black .text-gray-400,
+.bg-gray-900 .text-gray-400 {
+  color: #d1d5db !important; /* gray-300 - Mejor contraste */
+}
+
+/* Footer: Mejorar contraste de textos sobre fondo negro */
+footer .text-gray-400 {
+  color: #d1d5db !important; /* gray-300 */
+}
+
+footer .text-gray-500 {
+  color: #9ca3af !important; /* gray-400 */
+}
+
+/* Textos grises en fondos blancos - Hacer más oscuros */
+.bg-white .text-gray-400,
+.bg-gray-50 .text-gray-400 {
+  color: #6b7280 !important; /* gray-500 - Mejor contraste */
+}
+
+.bg-white .text-gray-500,
+.bg-gray-50 .text-gray-500 {
+  color: #4b5563 !important; /* gray-600 - Mejor contraste */
+}
+
+/* Textos de párrafos */
+p.text-gray-300 {
+  color: #d1d5db !important; /* Cuando está en fondo oscuro */
+}
+
+p.text-gray-400 {
+  color: #9ca3af !important;
+}
+
+/* Horarios y textos pequeños en footer */
+.text-gray-800 {
+  color: #1f2937 !important; /* Asegurar buen contraste */
+}
+
 /* ==================== Reset Base ==================== */
 
 @layer base {

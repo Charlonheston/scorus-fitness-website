@@ -168,9 +168,23 @@ const testimonials = [
     <!-- Hero Background Image con overlay -->
     <div class="absolute inset-0">
       <picture class="h-full w-full block">
-        <source srcset="/images/hero/bernat-hero-640w.webp 640w, /images/hero/bernat-hero-1024w.webp 1024w, /images/hero/bernat-hero.webp 1920w" type="image/webp" sizes="100vw" />
-        <img src="/images/hero/bernat-hero.jpg" alt="Bernat Scorus - Entrenamiento Personal" class="h-full w-full object-cover object-center" loading="eager" decoding="async" fetchpriority="high" />
-        </picture>
+        <!-- ⚡ WebP optimizado con sizes específicos para cada breakpoint -->
+        <source 
+          srcset="/images/hero/bernat-hero-640w.webp 640w, /images/hero/bernat-hero-1024w.webp 1024w, /images/hero/bernat-hero.webp 1920w" 
+          type="image/webp" 
+          sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1920px" 
+        />
+        <img 
+          src="/images/hero/bernat-hero-1024w.webp" 
+          alt="Bernat Scorus - Entrenamiento Personal" 
+          class="h-full w-full object-cover object-center" 
+          loading="eager" 
+          decoding="async" 
+          fetchpriority="high"
+          width="1920"
+          height="1080"
+        />
+      </picture>
       <!-- Overlay oscuro para legibilidad del texto -->
       <div class="absolute inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/80"></div>
     </div>
