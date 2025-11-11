@@ -46,7 +46,36 @@ body {
 /* ==================== Mejoras de Contraste (WCAG AA) ==================== */
 /* ⚡ Sobrescribir clases de Tailwind para mejor accesibilidad */
 
-/* SOLUCIÓN GLOBAL: Redefinir todas las clases gray problemáticas */
+/* ========== ROJOS - MÁXIMA PRIORIDAD ========== */
+/* El rojo Tailwind red-600 (#dc2626) no pasa WCAG AA en fondos negros */
+/* Usamos #ff5555 para mejor contraste */
+
+.text-red-600,
+p.text-red-600,
+span.text-red-600,
+h1 .text-red-600,
+h2 .text-red-600,
+h3 .text-red-600,
+h3.text-red-600,
+div.text-red-600,
+section .text-red-600,
+footer .text-red-600,
+.bg-black .text-red-600,
+.font-bold.text-red-600,
+.text-sm.font-bold.text-red-600,
+.text-xs.font-bold.text-red-600 {
+  color: #ff5555 !important; /* Rojo brillante - Contraste WCAG AA */
+}
+
+.text-red-500 {
+  color: #ff6666 !important;
+}
+
+.border-red-600 {
+  border-color: #ff5555 !important;
+}
+
+/* ========== GRISES ========== */
 
 /* text-gray-300 → Siempre usar gray-200 (más claro) */
 .text-gray-300 {
