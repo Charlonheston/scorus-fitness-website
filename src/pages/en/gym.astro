@@ -23,11 +23,6 @@ const gymImages = [
   { src: '/images/gym/gym-03.jpg', alt: 'Scorus Fitness - Machines area with mirrors' },
   { src: '/images/gym/gym-04.jpg', alt: 'Scorus Fitness - Free weights area' },
   { src: '/images/gym/gym-05.jpg', alt: 'Scorus Fitness - Professional equipment' },
-  { src: '/images/gym/gym-06.jpg', alt: 'Scorus Fitness - Lateral view of the gym' },
-  { src: '/images/gym/gym-07.jpg', alt: 'Scorus Fitness - Training zone' },
-  { src: '/images/gym/gym-08.jpg', alt: 'Scorus Fitness - Personal training' },
-  { src: '/images/gym/gym-09.jpg', alt: 'Scorus Fitness - Training environment' },
-  { src: '/images/gym/gym-10.jpg', alt: 'Scorus Fitness - Complete facilities' },
 ];
 
 // ImageGallery Schema for SEO
@@ -147,153 +142,69 @@ const imageGallerySchema = getImageGallerySchema(
         <p class="text-xl text-gray-400">Designed to inspire and boost your training</p>
       </div>
       
-        <!-- Asymmetric avant-garde grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max">
-          <!-- Image 1 - Large (2x1) -->
-          <div class="lg:col-span-2 lg:row-span-1">
-            <div class="group relative h-full min-h-[300px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-2xl hover:shadow-red-600/20">
-              <picture>
-                <source srcset="/images/gym/gym-01.webp" type="image/webp">
-                <img src="/images/gym/gym-01.jpg" alt="Scorus Fitness - Main gym view" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
-              </picture>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div class="absolute bottom-0 left-0 right-0 p-6">
-                  <p class="text-sm font-bold uppercase tracking-wider text-white">Main View</p>
-                </div>
+        <!-- Modern Mosaic Grid: 2 large top + 3 medium bottom -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- First row: 2 large images -->
+          <div class="group relative h-[400px] md:h-[450px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-2xl hover:shadow-red-600/30">
+            <picture>
+              <source srcset="/images/gym/gym-01.webp" type="image/webp">
+              <img src="/images/gym/gym-01.jpg" alt="Scorus Fitness - Main view of the gym" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
+            </picture>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <p class="text-sm font-bold uppercase tracking-wider text-white">Main View</p>
               </div>
             </div>
           </div>
 
-          <!-- Image 2 - Small -->
-          <div>
-            <div class="group relative h-full min-h-[300px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl">
-              <picture>
-                <source srcset="/images/gym/gym-02.webp" type="image/webp">
-                <img src="/images/gym/gym-02.jpg" alt="Scorus Fitness - Wide view" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
-              </picture>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div class="absolute bottom-0 left-0 right-0 p-6">
-                  <p class="text-sm font-bold uppercase tracking-wider text-white">Wide View</p>
-                </div>
+          <div class="group relative h-[400px] md:h-[450px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-2xl hover:shadow-red-600/30">
+            <picture>
+              <source srcset="/images/gym/gym-02.webp" type="image/webp">
+              <img src="/images/gym/gym-02.jpg" alt="Scorus Fitness - Wide view of facilities" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
+            </picture>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <p class="text-sm font-bold uppercase tracking-wider text-white">Wide View</p>
               </div>
             </div>
           </div>
 
-          <!-- Image 3 - Large (2x1) -->
-          <div class="lg:col-span-2">
-            <div class="group relative h-full min-h-[300px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl">
-              <picture>
-                <source srcset="/images/gym/gym-03.webp" type="image/webp">
-                <img src="/images/gym/gym-03.jpg" alt="Scorus Fitness - Machine area" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
-              </picture>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div class="absolute bottom-0 left-0 right-0 p-6">
-                  <p class="text-sm font-bold uppercase tracking-wider text-white">Machine Area</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Image 4 - Small -->
-          <div>
-            <div class="group relative h-full min-h-[300px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl hover:shadow-red-600/20">
-              <picture>
-                <source srcset="/images/gym/gym-04.webp" type="image/webp">
-                <img src="/images/gym/gym-04.jpg" alt="Scorus Fitness - Free weights area" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
-              </picture>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div class="absolute bottom-0 left-0 right-0 p-6">
-                  <p class="text-sm font-bold uppercase tracking-wider text-white">Free Weights</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Image 5 - Extra Large (3x1 - Full width) -->
-          <div class="lg:col-span-3">
-            <div class="group relative h-full min-h-[250px] overflow-hidden rounded-2xl bg-gradient-to-r from-gray-900 via-black to-gray-900 transition-all duration-500 hover:shadow-2xl hover:shadow-red-600/30">
-              <picture>
-                <source srcset="/images/gym/gym-05.webp" type="image/webp">
-                <img src="/images/gym/gym-05.jpg" alt="Scorus Fitness - Professional equipment" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
-              </picture>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div class="absolute bottom-0 left-0 right-0 p-8">
-                  <p class="text-base font-bold uppercase tracking-wider text-white">Elite Professional Equipment</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Image 6 - Small -->
-          <div>
-            <div class="group relative h-full min-h-[300px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl">
-              <picture>
-                <source srcset="/images/gym/gym-06.webp" type="image/webp">
-                <img src="/images/gym/gym-06.jpg" alt="Scorus Fitness - Side view" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
-              </picture>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div class="absolute bottom-0 left-0 right-0 p-6">
-                  <p class="text-sm font-bold uppercase tracking-wider text-white">Side View</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Image 7 - Large (2x1) -->
-          <div class="lg:col-span-2">
-            <div class="group relative h-full min-h-[300px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl hover:shadow-red-600/20">
-              <picture>
-                <source srcset="/images/gym/gym-07.webp" type="image/webp">
-                <img src="/images/gym/gym-07.jpg" alt="Scorus Fitness - Training area" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
-              </picture>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div class="absolute bottom-0 left-0 right-0 p-6">
-                  <p class="text-sm font-bold uppercase tracking-wider text-white">Training Area</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Image 8 - Small -->
-          <div>
-            <div class="group relative h-full min-h-[300px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl">
-              <picture>
-                <source srcset="/images/gym/gym-08.webp" type="image/webp">
-                <img src="/images/gym/gym-08.jpg" alt="Scorus Fitness - Personal training" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
-              </picture>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div class="absolute bottom-0 left-0 right-0 p-6">
-                  <p class="text-sm font-bold uppercase tracking-wider text-white">Personal Training</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Image 9 - Small -->
-          <div>
-            <div class="group relative h-full min-h-[300px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl hover:shadow-red-600/20">
-              <picture>
-                <source srcset="/images/gym/gym-09.webp" type="image/webp">
-                <img src="/images/gym/gym-09.jpg" alt="Scorus Fitness - Ambience" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
-              </picture>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div class="absolute bottom-0 left-0 right-0 p-6">
-                  <p class="text-sm font-bold uppercase tracking-wider text-white">Motivating Atmosphere</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Image 10 - Small -->
-          <div>
-            <div class="group relative h-full min-h-[300px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl">
+          <!-- Second row: 3 medium images -->
+          <div class="md:col-span-2">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="group relative h-[280px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl hover:shadow-red-600/20">
                 <picture>
-                <source srcset="/images/gym/gym-10.webp" type="image/webp">
-                <img src="/images/gym/gym-10.jpg" alt="Scorus Fitness - Complete facilities" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
+                  <source srcset="/images/gym/gym-03.webp" type="image/webp">
+                  <img src="/images/gym/gym-03.jpg" alt="Scorus Fitness - Machines area with mirrors" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
                 </picture>
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <div class="absolute bottom-0 left-0 right-0 p-6">
-                  <p class="text-sm font-bold uppercase tracking-wider text-white">Complete Facilities</p>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <p class="text-xs font-bold uppercase tracking-wider text-white">Machine Area</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="group relative h-[280px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl hover:shadow-red-600/20">
+                <picture>
+                  <source srcset="/images/gym/gym-04.webp" type="image/webp">
+                  <img src="/images/gym/gym-04.jpg" alt="Scorus Fitness - Free weights area" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
+                </picture>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <p class="text-xs font-bold uppercase tracking-wider text-white">Free Weights</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="group relative h-[280px] overflow-hidden rounded-2xl bg-gray-900 transition-all duration-500 hover:shadow-xl hover:shadow-red-600/20">
+                <picture>
+                  <source srcset="/images/gym/gym-05.webp" type="image/webp">
+                  <img src="/images/gym/gym-05.jpg" alt="Scorus Fitness - Professional equipment" class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy" decoding="async">
+                </picture>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div class="absolute bottom-0 left-0 right-0 p-4">
+                    <p class="text-xs font-bold uppercase tracking-wider text-white">Professional Equipment</p>
+                  </div>
                 </div>
               </div>
             </div>

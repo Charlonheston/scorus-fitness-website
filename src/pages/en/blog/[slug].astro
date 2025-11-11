@@ -327,6 +327,18 @@ function shuffleArray<T>(array: T[]): T[] {
 
 const randomServices = shuffleArray(servicesData).slice(0, 3);
 
+// Obtener artículo anterior y siguiente para navegación
+const allArticles = await getArticles('en');
+const sortedArticles = allArticles.sort((a, b) => {
+  const dateA = new Date(a.attributes.date || a.attributes.publishedAt || a.attributes.createdAt);
+  const dateB = new Date(b.attributes.date || b.attributes.publishedAt || b.attributes.createdAt);
+  return dateB.getTime() - dateA.getTime();
+});
+
+const currentIndex = sortedArticles.findIndex(a => a.attributes.slug === article.attributes.slug);
+const previousArticle = currentIndex < sortedArticles.length - 1 ? sortedArticles[currentIndex + 1] : null;
+const nextArticle = currentIndex > 0 ? sortedArticles[currentIndex - 1] : null;
+
 // Mapear nombres de iconos a SVG paths sólidos (Lucide filled)
 function getIconSvg(iconName: string | undefined | null): { path: string; viewBox: string; isSolid?: boolean } | null {
   if (!iconName) return null;
@@ -977,8 +989,53 @@ if (typeof article.attributes.content === 'string') {
             id="blog-article-content"
             class="article-content blog-article-content"
             set:html={htmlContent}
-        />
-      </div>
+          />
+
+          <!-- Navegación entre artículos: Anterior / Siguiente -->
+          {(previousArticle || nextArticle) && (
+            <nav class="mt-16 pt-8 border-t-2 border-gray-200" aria-label="Article navigation">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Artículo Anterior */}
+                {previousArticle ? (
+                  <a 
+                    href={`/en/blog/${previousArticle.attributes.slug}`}
+                    class="group flex flex-col justify-between p-6 rounded-lg border-2 border-gray-200 hover:border-red-600 hover:shadow-lg transition-all duration-300"
+                  >
+                    <div class="flex items-center gap-2 mb-3 text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                      <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                      </svg>
+                      <span>Previous</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors">
+                      {previousArticle.attributes.title}
+                    </h3>
+                  </a>
+                ) : (
+                  <div></div>
+                )}
+
+                {/* Artículo Siguiente */}
+                {nextArticle && (
+                  <a 
+                    href={`/en/blog/${nextArticle.attributes.slug}`}
+                    class="group flex flex-col justify-between p-6 rounded-lg border-2 border-gray-200 hover:border-red-600 hover:shadow-lg transition-all duration-300 text-right md:items-end"
+                  >
+                    <div class="flex items-center gap-2 mb-3 text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                      <span>Next</span>
+                      <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 group-hover:text-red-600 transition-colors">
+                      {nextArticle.attributes.title}
+                    </h3>
+                  </a>
+                )}
+              </div>
+            </nav>
+          )}
+        </div>
 
         <!-- Sidebar Column (Right, narrower) -->
         <aside class="lg:col-span-1 lg:sticky lg:top-32 lg:self-start lg:pt-6">
