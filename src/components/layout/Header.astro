@@ -342,8 +342,6 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    contain: layout style paint;
-    content-visibility: auto;
     
     /* Transiciones suaves y performantes solo en propiedades GPU */
     transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -353,7 +351,6 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
   #logo-white,
   #logo-black {
     transition: opacity 0.2s ease;
-    contain: layout paint;
   }
   
   /* ASEGURAR QUE EL HEADER SE MANTENGA COMPLETAMENTE FIJO */
