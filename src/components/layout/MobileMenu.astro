@@ -4,6 +4,9 @@
  * Diseño 2025: Drawer animado, backdrop blur, smooth transitions
  */
 
+import { Image } from 'astro:assets';
+import logoWhite from '../../../public/images/logos/logo-scorus-white.webp';
+
 // Detectar idioma desde la URL
 const currentPath = Astro.url.pathname;
 const pathParts = currentPath.split('/').filter(Boolean);
@@ -195,10 +198,14 @@ const navItems = navigationConfig[currentLang as Lang]?.items || navigationConfi
 >
   <!-- Header del drawer -->
   <div class="flex items-center justify-between border-b-2 border-red-600 bg-black p-6">
-    <img 
-      src="/images/logos/logo-scorus-white.png" 
+    <Image 
+      src={logoWhite}
       alt="Scorus Fitness" 
       class="h-12 w-auto"
+      width={192}
+      height={48}
+      loading="eager"
+      quality={90}
     />
     <button
       id="mobile-menu-close"

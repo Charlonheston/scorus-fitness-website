@@ -4,9 +4,14 @@
  * Incluye navegación desktop, selector de idioma y trigger para menú móvil
  */
 
+import { Image } from 'astro:assets';
 import Navigation from './Navigation.astro';
 import LanguageSwitcher from '@/components/i18n/LanguageSwitcher.astro';
 import MobileMenu from './MobileMenu.astro';
+
+// Importar logos como assets para optimización automática
+import logoWhite from '../../../public/images/logos/logo-scorus-white.webp';
+import logoBlack from '../../../public/images/logos/logo-scorus.webp';
 
 interface Props {
   // Props para el language switcher en páginas de blog
@@ -38,26 +43,28 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
       <div class="flex items-center flex-shrink-0">
         <a href={`/${currentLang}/`} class="header-link group flex items-center" style="color: white;">
           <!-- Logo Blanco (transparente) - Por defecto visible -->
-          <img 
+          <Image 
             id="logo-white"
-            src="/images/logos/logo-scorus-white.webp" 
+            src={logoWhite}
             alt="Scorus Fitness" 
             class="h-12 w-auto transition-all duration-300 group-hover:opacity-80 sm:h-24"
-            width="auto"
-            height="auto"
+            widths={[96, 192]}
+            sizes="(max-width: 640px) 96px, 192px"
             loading="eager"
             decoding="async"
+            quality={90}
           />
           <!-- Logo Negro (scroll/blog) - Oculto por defecto -->
-          <img 
+          <Image 
             id="logo-black"
-            src="/images/logos/logo-scorus.webp" 
+            src={logoBlack}
             alt="Scorus Fitness" 
             class="hidden h-12 w-auto transition-all duration-300 group-hover:opacity-80 sm:h-24"
-            width="auto"
-            height="auto"
+            widths={[96, 192]}
+            sizes="(max-width: 640px) 96px, 192px"
             loading="eager"
             decoding="async"
+            quality={90}
           />
         </a>
       </div>
