@@ -81,7 +81,7 @@ export const faqsEntrenamientoPersonalHU: FAQ[] = [
   },
   {
     question: 'Hol zajlanak a személyi edzések?',
-    answer: 'Az edzések a privát edzőtermünkben zajlanak az Av. Conrado Albaladejo, 31, Alicante címen. Egy exkluzív, több mint 300 m²-es tér a legmodernebb professzionális felszerelésekkel, privát környezet zavaró tényezők nélkül és kis csoportok, maximum 2-3 fő edzésenként.',
+    answer: 'Az edzések a privát edzőtermünkben zajlanak az Av. Conrado Albaladejo, 31, Alicante címen. Egy exkluzív, több mint 120 m²-es tér a legmodernebb professzionális felszerelésekkel, privát környezet zavaró tényezők nélkül és kis csoportok, maximum 2-3 fő edzésenként.',
   },
   {
     question: 'Milyen célokat érhetek el a személyi edzéssel?',
@@ -162,7 +162,7 @@ export const faqsAsesoramientoOnlineHU: FAQ[] = [
 export const faqsGymHU: FAQ[] = [
   {
     question: 'Mi az a Scorus GYM?',
-    answer: 'A Scorus GYM egy több mint 300 m²-es privát butik edzőterem Alicantéban. Nem egy hagyományos edzőterem: egy exkluzív tér, amelyet valós eredményeket kereső emberek számára terveztek személyre szabott figyelemmel, prémium felszerelésekkel és motiváló környezettel zavaró tényezők nélkül.',
+    answer: 'A Scorus GYM egy több mint 120 m²-es privát butik edzőterem Alicantéban. Nem egy hagyományos edzőterem: egy exkluzív tér, amelyet valós eredményeket kereső emberek számára terveztek személyre szabott figyelemmel, prémium felszerelésekkel és motiváló környezettel zavaró tényezők nélkül.',
   },
   {
     question: 'Hol található a Scorus GYM?',

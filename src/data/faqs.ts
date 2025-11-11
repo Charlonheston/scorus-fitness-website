@@ -11,7 +11,7 @@ export interface FAQ {
 export const faqsHome: FAQ[] = [
   {
     question: '¿Dónde está ubicado Scorus Fitness?',
-    answer: 'Scorus Fitness está ubicado en Av. Conrado Albaladejo, 31, 03540 Alicante, España. Contamos con un gimnasio privado de más de 300m² con equipamiento profesional de última generación.',
+    answer: 'Scorus Fitness está ubicado en Av. Conrado Albaladejo, 31, 03540 Alicante, España. Contamos con un gimnasio privado de más de 120m² con equipamiento profesional de última generación.',
   },
   {
     question: '¿Qué servicios ofrece Scorus Fitness?',
@@ -81,7 +81,7 @@ export const faqsEntrenamientoPersonal: FAQ[] = [
   },
   {
     question: '¿Dónde se realizan las sesiones de entrenamiento personal?',
-    answer: 'Las sesiones se realizan en nuestro gimnasio privado en Av. Conrado Albaladejo, 31, Alicante. Es un espacio exclusivo de más de 300m² con equipamiento profesional de última generación, ambiente privado sin distracciones y grupos reducidos de máximo 2-3 personas por sesión.',
+    answer: 'Las sesiones se realizan en nuestro gimnasio privado en Av. Conrado Albaladejo, 31, Alicante. Es un espacio exclusivo de más de 120m² con equipamiento profesional de última generación, ambiente privado sin distracciones y grupos reducidos de máximo 2-3 personas por sesión.',
   },
   {
     question: '¿Qué objetivos puedo conseguir con el entrenamiento personal?',
@@ -162,7 +162,7 @@ export const faqsAsesoramientoOnline: FAQ[] = [
 export const faqsGym: FAQ[] = [
   {
     question: '¿Qué es Scorus GYM?',
-    answer: 'Scorus GYM es un gimnasio boutique privado de más de 300m² en Alicante. No es un gimnasio convencional: es un espacio exclusivo diseñado para personas que buscan resultados reales con atención personalizada, equipamiento premium y ambiente motivador sin distracciones.',
+    answer: 'Scorus GYM es un gimnasio boutique privado de más de 120m² en Alicante. No es un gimnasio convencional: es un espacio exclusivo diseñado para personas que buscan resultados reales con atención personalizada, equipamiento premium y ambiente motivador sin distracciones.',
   },
   {
     question: '¿Dónde está ubicado Scorus GYM?',

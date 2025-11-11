@@ -11,7 +11,7 @@ export interface FAQ {
 export const faqsHomeDE: FAQ[] = [
   {
     question: 'Wo befindet sich Scorus Fitness?',
-    answer: 'Scorus Fitness befindet sich in der Av. Conrado Albaladejo, 31, 03540 Alicante, Spanien. Wir verfügen über ein privates Fitnessstudio von über 300 m² mit modernster professioneller Ausstattung.',
+    answer: 'Scorus Fitness befindet sich in der Av. Conrado Albaladejo, 31, 03540 Alicante, Spanien. Wir verfügen über ein privates Fitnessstudio von über 120 m² mit modernster professioneller Ausstattung.',
   },
   {
     question: 'Welche Dienstleistungen bietet Scorus Fitness?',
@@ -81,7 +81,7 @@ export const faqsEntrenamientoPersonalDE: FAQ[] = [
   },
   {
     question: 'Wo finden die Personal-Training-Sitzungen statt?',
-    answer: 'Die Sitzungen finden in unserem privaten Fitnessstudio in der Av. Conrado Albaladejo, 31, Alicante statt. Es ist ein exklusiver Raum von über 300 m² mit modernster professioneller Ausrüstung, privater Umgebung ohne Ablenkungen und kleinen Gruppen von maximal 2-3 Personen pro Sitzung.',
+    answer: 'Die Sitzungen finden in unserem privaten Fitnessstudio in der Av. Conrado Albaladejo, 31, Alicante statt. Es ist ein exklusiver Raum von über 120 m² mit modernster professioneller Ausrüstung, privater Umgebung ohne Ablenkungen und kleinen Gruppen von maximal 2-3 Personen pro Sitzung.',
   },
   {
     question: 'Welche Ziele kann ich mit Personal Training erreichen?',
@@ -162,7 +162,7 @@ export const faqsAsesoramientoOnlineDE: FAQ[] = [
 export const faqsGymDE: FAQ[] = [
   {
     question: 'Was ist Scorus GYM?',
-    answer: 'Scorus GYM ist ein privates Boutique-Fitnessstudio von über 300 m² in Alicante. Es ist kein konventionelles Fitnessstudio: Es ist ein exklusiver Raum, der für Menschen konzipiert ist, die echte Ergebnisse mit personalisierter Betreuung, Premium-Ausrüstung und motivierender Umgebung ohne Ablenkungen suchen.',
+    answer: 'Scorus GYM ist ein privates Boutique-Fitnessstudio von über 120 m² in Alicante. Es ist kein konventionelles Fitnessstudio: Es ist ein exklusiver Raum, der für Menschen konzipiert ist, die echte Ergebnisse mit personalisierter Betreuung, Premium-Ausrüstung und motivierender Umgebung ohne Ablenkungen suchen.',
   },
   {
     question: 'Wo befindet sich Scorus GYM?',

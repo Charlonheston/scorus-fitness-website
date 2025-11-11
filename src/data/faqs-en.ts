@@ -11,7 +11,7 @@ export interface FAQ {
 export const faqsHomeEN: FAQ[] = [
   {
     question: 'Where is Scorus Fitness located?',
-    answer: 'Scorus Fitness is located at Av. Conrado Albaladejo, 31, 03540 Alicante, Spain. We have a private gym of over 300m² with state-of-the-art professional equipment.',
+    answer: 'Scorus Fitness is located at Av. Conrado Albaladejo, 31, 03540 Alicante, Spain. We have a private gym of over 120m² with state-of-the-art professional equipment.',
   },
   {
     question: 'What services does Scorus Fitness offer?',
@@ -81,7 +81,7 @@ export const faqsEntrenamientoPersonalEN: FAQ[] = [
   },
   {
     question: 'Where are personal training sessions held?',
-    answer: 'Sessions are held in our private gym at Av. Conrado Albaladejo, 31, Alicante. It\'s an exclusive space of over 300m² with state-of-the-art professional equipment, private environment without distractions, and small groups of maximum 2-3 people per session.',
+    answer: 'Sessions are held in our private gym at Av. Conrado Albaladejo, 31, Alicante. It\'s an exclusive space of over 120m² with state-of-the-art professional equipment, private environment without distractions, and small groups of maximum 2-3 people per session.',
   },
   {
     question: 'What goals can I achieve with personal training?',
@@ -162,7 +162,7 @@ export const faqsAsesoramientoOnlineEN: FAQ[] = [
 export const faqsGymEN: FAQ[] = [
   {
     question: 'What is Scorus GYM?',
-    answer: 'Scorus GYM is a private boutique gym of over 300m² in Alicante. It\'s not a conventional gym: it\'s an exclusive space designed for people seeking real results with personalized attention, premium equipment, and a motivating environment without distractions.',
+    answer: 'Scorus GYM is a private boutique gym of over 120m² in Alicante. It\'s not a conventional gym: it\'s an exclusive space designed for people seeking real results with personalized attention, premium equipment, and a motivating environment without distractions.',
   },
   {
     question: 'Where is Scorus GYM located?',

@@ -11,7 +11,7 @@ export interface FAQ {
 export const faqsHomeFR: FAQ[] = [
   {
     question: 'Où se trouve Scorus Fitness?',
-    answer: 'Scorus Fitness est situé à Av. Conrado Albaladejo, 31, 03540 Alicante, Espagne. Nous disposons d\'une salle de sport privée de plus de 300m² avec des équipements professionnels de dernière génération.',
+    answer: 'Scorus Fitness est situé à Av. Conrado Albaladejo, 31, 03540 Alicante, Espagne. Nous disposons d\'une salle de sport privée de plus de 120m² avec des équipements professionnels de dernière génération.',
   },
   {
     question: 'Quels services propose Scorus Fitness?',
@@ -81,7 +81,7 @@ export const faqsEntrenamientoPersonalFR: FAQ[] = [
   },
   {
     question: 'Où se déroulent les séances d\'entraînement personnel?',
-    answer: 'Les séances se déroulent dans notre salle privée à Av. Conrado Albaladejo, 31, Alicante. C\'est un espace exclusif de plus de 300m² avec équipement professionnel de dernière génération, environnement privé sans distractions et petits groupes de maximum 2-3 personnes par séance.',
+    answer: 'Les séances se déroulent dans notre salle privée à Av. Conrado Albaladejo, 31, Alicante. C\'est un espace exclusif de plus de 120m² avec équipement professionnel de dernière génération, environnement privé sans distractions et petits groupes de maximum 2-3 personnes par séance.',
   },
   {
     question: 'Quels objectifs puis-je atteindre avec l\'entraînement personnel?',
@@ -162,7 +162,7 @@ export const faqsAsesoramientoOnlineFR: FAQ[] = [
 export const faqsGymFR: FAQ[] = [
   {
     question: 'Qu\'est-ce que Scorus GYM?',
-    answer: 'Scorus GYM est une salle de sport boutique privée de plus de 300m² à Alicante. Ce n\'est pas une salle conventionnelle : c\'est un espace exclusif conçu pour personnes cherchant des résultats réels avec attention personnalisée, équipement premium et environnement motivant sans distractions.',
+    answer: 'Scorus GYM est une salle de sport boutique privée de plus de 120m² à Alicante. Ce n\'est pas une salle conventionnelle : c\'est un espace exclusif conçu pour personnes cherchant des résultats réels avec attention personnalisée, équipement premium et environnement motivant sans distractions.',
   },
   {
     question: 'Où se trouve Scorus GYM?',
