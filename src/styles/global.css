@@ -44,50 +44,85 @@ body {
 }
 
 /* ==================== Mejoras de Contraste (WCAG AA) ==================== */
+/* ⚡ Sobrescribir clases de Tailwind para mejor accesibilidad */
 
-/* Mejorar contraste de textos grises en fondos oscuros */
-.bg-black .text-gray-300,
-.bg-gray-900 .text-gray-300 {
-  color: #e5e7eb !important; /* gray-200 - Mejor contraste */
+/* SOLUCIÓN GLOBAL: Redefinir todas las clases gray problemáticas */
+
+/* text-gray-300 → Siempre usar gray-200 (más claro) */
+.text-gray-300 {
+  color: #e5e7eb !important; /* gray-200 - Mejor contraste en fondos oscuros */
 }
 
-.bg-black .text-gray-400,
-.bg-gray-900 .text-gray-400 {
+/* text-gray-400 → Usar gray-300 en fondos oscuros, gray-600 en blancos */
+.text-gray-400 {
   color: #d1d5db !important; /* gray-300 - Mejor contraste */
 }
 
-/* Footer: Mejorar contraste de textos sobre fondo negro */
-footer .text-gray-400 {
+/* text-gray-500 → Usar gray-400 para mejor legibilidad */
+.text-gray-500 {
+  color: #9ca3af !important; /* gray-400 - Mejor contraste */
+}
+
+/* Sobreescribir en contextos específicos de fondo BLANCO */
+section.bg-white .text-gray-400,
+div.bg-white .text-gray-400,
+.bg-gray-50 .text-gray-400 {
+  color: #4b5563 !important; /* gray-600 - Más oscuro para contraste en blanco */
+}
+
+section.bg-white .text-gray-500,
+div.bg-white .text-gray-500,
+.bg-gray-50 .text-gray-500 {
+  color: #374151 !important; /* gray-700 - Más oscuro */
+}
+
+section.bg-white .text-gray-600,
+div.bg-white .text-gray-600 {
+  color: #1f2937 !important; /* gray-800 - Asegurar contraste */
+}
+
+/* Footer específicamente (siempre fondo negro) */
+footer * {
+  /* Forzar colores claros en footer */
+}
+
+footer .text-gray-300,
+footer .text-gray-400,
+footer .text-gray-500 {
+  color: #e5e7eb !important; /* gray-200 siempre en footer */
+}
+
+footer .text-gray-600,
+footer .text-gray-700 {
   color: #d1d5db !important; /* gray-300 */
 }
 
-footer .text-gray-500 {
-  color: #9ca3af !important; /* gray-400 */
-}
-
-/* Textos grises en fondos blancos - Hacer más oscuros */
-.bg-white .text-gray-400,
-.bg-gray-50 .text-gray-400 {
-  color: #6b7280 !important; /* gray-500 - Mejor contraste */
-}
-
-.bg-white .text-gray-500,
-.bg-gray-50 .text-gray-500 {
-  color: #4b5563 !important; /* gray-600 - Mejor contraste */
-}
-
-/* Textos de párrafos */
-p.text-gray-300 {
-  color: #d1d5db !important; /* Cuando está en fondo oscuro */
-}
-
-p.text-gray-400 {
-  color: #9ca3af !important;
-}
-
-/* Horarios y textos pequeños en footer */
+/* Textos pequeños y horarios */
 .text-gray-800 {
-  color: #1f2937 !important; /* Asegurar buen contraste */
+  color: #111827 !important; /* gray-900 - Máximo contraste */
+}
+
+/* Enlaces con poco contraste */
+a.text-gray-400,
+a.text-gray-500 {
+  color: #9ca3af !important; /* gray-400 mínimo */
+}
+
+/* Asegurar que los párrafos tengan buen contraste */
+p.text-gray-400,
+div.text-gray-400 p,
+span.text-gray-400 {
+  color: #d1d5db !important;
+}
+
+/* Textos en fondos oscuros (black, gray-900, gray-800) */
+.bg-black .text-gray-300,
+.bg-black .text-gray-400,
+.bg-gray-900 .text-gray-300,
+.bg-gray-900 .text-gray-400,
+.bg-gray-800 .text-gray-300,
+.bg-gray-800 .text-gray-400 {
+  color: #f3f4f6 !important; /* gray-100 - Máxima claridad */
 }
 
 /* ==================== Reset Base ==================== */
