@@ -106,6 +106,63 @@ const slugWithoutLocale = pathname.replace(/^\/(es|en|fr|de|hu)\//, '').replace(
       /* Prevenir FOUC - Hero debe mostrarse inmediatamente */
       body { opacity: 1 !important; }
       
+      /* ========== MEJORAS DE CONTRASTE CRÍTICAS (WCAG AA) ========== */
+      /* ⚡ Máxima prioridad - Sobrescribir Tailwind directamente */
+      
+      /* Redefinir text-gray-300 para mejor contraste */
+      html body .text-gray-300,
+      html body p.text-gray-300,
+      html body div.text-gray-300,
+      html body span.text-gray-300 {
+        color: #f3f4f6 !important; /* gray-100 - Máximo contraste */
+      }
+      
+      /* Redefinir text-gray-400 para mejor contraste */
+      html body .text-gray-400,
+      html body p.text-gray-400,
+      html body div.text-gray-400,
+      html body span.text-gray-400 {
+        color: #e5e7eb !important; /* gray-200 - Mucho más claro */
+      }
+      
+      /* Redefinir text-gray-500 */
+      html body .text-gray-500,
+      html body p.text-gray-500,
+      html body div.text-gray-500 {
+        color: #d1d5db !important; /* gray-300 - Más claro */
+      }
+      
+      /* Textos en fondos blancos deben ser MÁS OSCUROS */
+      html body .bg-white .text-gray-400,
+      html body .bg-gray-50 .text-gray-400,
+      html body section.bg-white .text-gray-400 {
+        color: #374151 !important; /* gray-700 - Mucho más oscuro */
+      }
+      
+      html body .bg-white .text-gray-500,
+      html body .bg-gray-50 .text-gray-500,
+      html body section.bg-white .text-gray-500 {
+        color: #1f2937 !important; /* gray-800 - Casi negro */
+      }
+      
+      /* Footer siempre con textos claros */
+      html body footer .text-gray-300,
+      html body footer .text-gray-400,
+      html body footer .text-gray-500,
+      html body footer .text-gray-600 {
+        color: #f3f4f6 !important; /* gray-100 - Muy claro */
+      }
+      
+      /* Textos grises genéricos en fondos oscuros */
+      html body .bg-black .text-gray-300,
+      html body .bg-black .text-gray-400,
+      html body .bg-gray-900 .text-gray-300,
+      html body .bg-gray-900 .text-gray-400,
+      html body .bg-gray-800 .text-gray-300,
+      html body .bg-gray-800 .text-gray-400 {
+        color: #ffffff !important; /* Blanco puro para máximo contraste */
+      }
+      
       /* Header crítico - Estado inicial TRANSPARENTE */
       #main-header { 
         position: fixed; 
