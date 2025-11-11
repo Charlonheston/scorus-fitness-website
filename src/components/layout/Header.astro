@@ -103,7 +103,7 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
 
     // ✅ CACHEAR TODOS LOS ELEMENTOS AL INICIO (no en cada scroll)
     const headerContainer = header.querySelector('.container > .flex') as HTMLElement | null;
-      const navBar = header.querySelector('#header-nav');
+    const navBar = header.querySelector('#header-nav');
     const mainLinks = navBar ? Array.from(navBar.querySelectorAll(':scope > nav > div > a, :scope > div > button')) : [];
     const mainSpans = navBar ? Array.from(navBar.querySelectorAll(':scope > nav > div > a > span')) : [];
     const mainSvgs = navBar ? Array.from(navBar.querySelectorAll(':scope > nav > div > a > svg, :scope > div > button > svg')) : [];
@@ -114,7 +114,6 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
     const hamburgerSvg = mobileMenuButton?.querySelector('svg') as SVGElement | null;
 
     let ticking = false;
-    let lastKnownScrollPosition = 0;
     let isScrolled = false;
 
     function updateHeaderStyles(scrollPos: number) {
@@ -256,26 +255,31 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
     }
 
     // ✅ Handler optimizado con throttling via requestAnimationFrame
+    // ⚡ OPTIMIZACIÓN: Usar IntersectionObserver en lugar de scroll listener cuando sea posible
+    let scrollY = 0;
+    
     function handleScroll() {
-      lastKnownScrollPosition = window.scrollY;
+      // ⚡ Guardar scrollY sin leerlo en cada frame (evita reflow)
+      scrollY = window.pageYOffset || document.documentElement.scrollTop;
       
       if (!ticking) {
         requestAnimationFrame(() => {
-          updateHeaderStyles(lastKnownScrollPosition);
+          updateHeaderStyles(scrollY);
           ticking = false;
         });
         ticking = true;
-          }
-        }
-        
+      }
+    }
+    
     // ✅ Evento con passive para mejor performance
     window.addEventListener('scroll', handleScroll, { passive: true });
     
-    // Ejecutar inmediatamente
-    updateHeaderStyles(window.scrollY);
+    // Ejecutar inmediatamente con scroll inicial
+    scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    updateHeaderStyles(scrollY);
     
     // En páginas de blog, aplicar estilos negros inmediatamente al cargar (incluso en el top)
-    if (isBlogPage && window.scrollY <= 50) {
+    if (isBlogPage && scrollY <= 50) {
       // Forzar estado negro inmediatamente sin esperar al scroll
       requestAnimationFrame(() => {
         if (!header) return;
@@ -336,19 +340,20 @@ const currentLang = ['en', 'fr', 'de', 'hu'].includes(potentialLang) ? potential
   #main-header {
     /* Forzar capa de composición para GPU acceleration */
     transform: translateZ(0);
-    will-change: background-color, box-shadow;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    contain: layout style paint;
+    content-visibility: auto;
     
-    /* Transiciones suaves y performantes */
+    /* Transiciones suaves y performantes solo en propiedades GPU */
     transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   }
   
   /* Optimizar logos para cambios rápidos */
   #logo-white,
   #logo-black {
-    will-change: opacity;
     transition: opacity 0.2s ease;
+    contain: layout paint;
   }
   
   /* ASEGURAR QUE EL HEADER SE MANTENGA COMPLETAMENTE FIJO */

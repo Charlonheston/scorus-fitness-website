@@ -84,17 +84,18 @@ const slugWithoutLocale = pathname.replace(/^\/(es|en|fr|de|hu)\//, '').replace(
     <!-- Structured Data -->
     <StructuredData schema={finalSchemas} />
     
+    <!-- ⚡ Optimizaciones de Performance -->
     <!-- DNS Prefetch y Preconnect para recursos externos -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Cargar fuentes web de forma asíncrona con font-display swap -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
+    <!-- ⚡ Cargar fuentes web de forma asíncrona con font-display swap (no bloquean renderizado) -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"></noscript>
     
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"></noscript>
     
     <!-- View Transitions (navegación fluida) -->
