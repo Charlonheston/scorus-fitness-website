@@ -164,69 +164,79 @@ const slugWithoutLocale = pathname.replace(/^\/(es|en|fr|de|hu)\//, '').replace(
       }
       
       /* ========== MEJORAS DE CONTRASTE PARA ROJOS (WCAG AA) ========== */
-      /* El rojo original (red-600: #dc2626) no tiene suficiente contraste con fondo negro */
-      /* Cambiamos a un rojo más brillante y saturado: #ff5555 */
+      /* Texto rojo BLANCO sobre fondos OSCUROS */
+      /* Texto rojo NEGRO sobre fondos BLANCOS */
       
-      /* MÁXIMA ESPECIFICIDAD - Sobrescribir TODOS los rojos */
-      .text-red-600,
-      p.text-red-600,
-      span.text-red-600,
-      h1 .text-red-600,
-      h2 .text-red-600,
-      h3 .text-red-600,
-      h3.text-red-600,
-      div.text-red-600,
-      section .text-red-600,
-      footer .text-red-600,
+      /* 🟢 TEXTOS ROJOS SOBRE FONDOS OSCUROS → BLANCO */
       .bg-black .text-red-600,
-      [class*="text-red-600"] {
-        color: #ff5555 !important; /* Rojo brillante - Mejor contraste WCAG AA */
+      .bg-gray-900 .text-red-600,
+      .bg-gray-800 .text-red-600,
+      section.bg-black .text-red-600,
+      div.bg-black .text-red-600,
+      footer .text-red-600,
+      .bg-black p.text-red-600,
+      .bg-black span.text-red-600,
+      .bg-black h1 .text-red-600,
+      .bg-black h2 .text-red-600,
+      .bg-black h3 .text-red-600,
+      .bg-black .font-bold.text-red-600,
+      .bg-gray-900 p.text-red-600,
+      .bg-gray-900 span.text-red-600,
+      .bg-gray-800 p.text-red-600 {
+        color: #ffffff !important; /* BLANCO - Máximo contraste sobre negro */
       }
       
-      /* Asegurar que los elementos con font-bold también se vean */
-      .font-bold.text-red-600,
-      .text-sm.font-bold.text-red-600,
-      .text-xs.font-bold.text-red-600 {
-        color: #ff5555 !important;
+      /* 🔴 TEXTOS ROJOS SOBRE FONDOS BLANCOS → ROJO OSCURO/NEGRO */
+      .bg-white .text-red-600,
+      .bg-gray-50 .text-red-600,
+      .bg-gray-100 .text-red-600,
+      section.bg-white .text-red-600,
+      div.bg-white .text-red-600,
+      .bg-white p.text-red-600,
+      .bg-white span.text-red-600,
+      .bg-white h1 .text-red-600,
+      .bg-white h2 .text-red-600,
+      .bg-white h3 .text-red-600,
+      .bg-white .font-bold.text-red-600,
+      .bg-gray-50 p.text-red-600,
+      .bg-gray-50 span.text-red-600 {
+        color: #991b1b !important; /* Rojo muy oscuro (red-900) - Buen contraste sobre blanco */
       }
       
-      /* text-red-500 → También mejorar */
-      .text-red-500,
-      [class*="text-red-500"] {
-        color: #ff6666 !important;
+      /* Hover states */
+      .bg-black .hover\:text-red-600:hover,
+      .bg-black a:hover.text-red-600 {
+        color: #f0f0f0 !important;
       }
       
-      /* Hover states para rojos */
-      .hover\:text-red-600:hover,
-      a:hover.text-red-600,
-      [class*="hover:text-red-600"]:hover {
-        color: #ff7777 !important;
+      .bg-white .hover\:text-red-600:hover,
+      .bg-white a:hover.text-red-600 {
+        color: #7f1d1d !important; /* red-950 - Casi negro */
       }
       
-      /* Íconos y SVG rojos */
-      svg.text-red-600,
-      .text-red-600 svg,
-      [class*="text-red-600"] svg {
-        color: #ff5555 !important;
+      /* Íconos SVG */
+      .bg-black svg.text-red-600,
+      .bg-black .text-red-600 svg {
+        color: #ffffff !important;
       }
       
-      /* Backgrounds rojos mantener el original (tienen texto blanco encima) */
-      .bg-red-600,
-      [class*="bg-red-600"] {
+      .bg-white svg.text-red-600,
+      .bg-white .text-red-600 svg {
+        color: #991b1b !important;
+      }
+      
+      /* Backgrounds rojos mantener */
+      .bg-red-600 {
         background-color: #dc2626 !important;
       }
       
-      /* Border colors rojos - También mejorar visibilidad */
-      .border-red-600,
-      [class*="border-red-600"] {
-        border-color: #ff5555 !important;
+      /* Border colors */
+      .bg-black .border-red-600 {
+        border-color: #ef4444 !important;
       }
       
-      /* Shadow colors rojos */
-      .shadow-red-600\/50,
-      [class*="shadow-red-600"] {
-        --tw-shadow-color: rgb(255 85 85 / 0.5) !important;
-        --tw-shadow: var(--tw-shadow-colored) !important;
+      .bg-white .border-red-600 {
+        border-color: #dc2626 !important;
       }
       
       /* Header crítico - Estado inicial TRANSPARENTE */

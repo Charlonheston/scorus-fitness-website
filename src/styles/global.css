@@ -47,32 +47,45 @@ body {
 /* ⚡ Sobrescribir clases de Tailwind para mejor accesibilidad */
 
 /* ========== ROJOS - MÁXIMA PRIORIDAD ========== */
-/* El rojo Tailwind red-600 (#dc2626) no pasa WCAG AA en fondos negros */
-/* Usamos #ff5555 para mejor contraste */
+/* Texto rojo BLANCO sobre fondos OSCUROS */
+/* Texto rojo OSCURO sobre fondos BLANCOS */
 
-.text-red-600,
-p.text-red-600,
-span.text-red-600,
-h1 .text-red-600,
-h2 .text-red-600,
-h3 .text-red-600,
-h3.text-red-600,
-div.text-red-600,
-section .text-red-600,
-footer .text-red-600,
+/* 🟢 TEXTOS ROJOS SOBRE FONDOS OSCUROS → BLANCO */
 .bg-black .text-red-600,
-.font-bold.text-red-600,
-.text-sm.font-bold.text-red-600,
-.text-xs.font-bold.text-red-600 {
-  color: #ff5555 !important; /* Rojo brillante - Contraste WCAG AA */
+.bg-gray-900 .text-red-600,
+.bg-gray-800 .text-red-600,
+section.bg-black .text-red-600,
+div.bg-black .text-red-600,
+footer .text-red-600,
+.bg-black p.text-red-600,
+.bg-black span.text-red-600,
+.bg-black .font-bold.text-red-600,
+.bg-black .text-sm.font-bold.text-red-600,
+.bg-black .uppercase.text-red-600 {
+  color: #ffffff !important; /* BLANCO sobre negro */
 }
 
-.text-red-500 {
-  color: #ff6666 !important;
+/* 🔴 TEXTOS ROJOS SOBRE FONDOS BLANCOS → ROJO OSCURO */
+.bg-white .text-red-600,
+.bg-gray-50 .text-red-600,
+.bg-gray-100 .text-red-600,
+section.bg-white .text-red-600,
+div.bg-white .text-red-600,
+.bg-white p.text-red-600,
+.bg-white span.text-red-600,
+.bg-white .font-bold.text-red-600,
+.bg-white .text-sm.font-bold.text-red-600,
+.bg-white .uppercase.text-red-600 {
+  color: #991b1b !important; /* Rojo oscuro (red-900) sobre blanco */
 }
 
-.border-red-600 {
-  border-color: #ff5555 !important;
+/* Bordes */
+.bg-black .border-red-600 {
+  border-color: #ef4444 !important;
+}
+
+.bg-white .border-red-600 {
+  border-color: #dc2626 !important;
 }
 
 /* ========== GRISES ========== */
