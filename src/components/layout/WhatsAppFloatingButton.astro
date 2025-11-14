@@ -1,0 +1,56 @@
+---
+export interface Props {
+  href?: string;
+  locale?: 'es' | 'en' | 'fr' | 'de' | 'hu';
+}
+
+const { href, locale = 'es' }: Props = Astro.props;
+
+const fallbackMessages = {
+  es: 'Hola Bernat, me gustaría recibir más información sobre tus entrenamientos y cómo podrías ayudarme a mejorar mi forma física. ¿Podemos hablar?',
+  en: "Hi Bernat, I'd love more information about your training programs and how you could help me improve my fitness. Can we talk?",
+  fr: 'Bonjour Bernat, je voudrais en savoir plus sur tes entraînements et comment tu pourrais m’aider à améliorer ma forme. On peut en parler ?',
+  de: 'Hallo Bernat, ich hätte gern mehr Informationen zu deinen Trainingsprogrammen und dazu, wie du mir helfen kannst, fitter zu werden. Können wir sprechen?',
+  hu: 'Szia Bernat! Szeretnék többet megtudni az edzésprogramjaidról és arról, hogyan tudnál segíteni a fittségi szintem javításában. Beszélhetünk?',
+} as const;
+
+const whatsappNumber = '34673975252';
+const fallbackMessage = fallbackMessages[locale] ?? fallbackMessages.es;
+const fallbackHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(fallbackMessage)}`;
+
+const helperTextByLocale = {
+  es: 'Habla con Bernat',
+  en: 'Talk to Bernat',
+  fr: 'Parle avec Bernat',
+  de: 'Sprich mit Bernat',
+  hu: 'Beszélj Bernattal',
+};
+
+const whatsappHref = href ?? fallbackHref;
+const helperText = helperTextByLocale[locale] ?? helperTextByLocale.es;
+---
+
+<a
+  href={whatsappHref}
+  class="whatsapp-float"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Chatea por WhatsApp con Bernat"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 32 32"
+    aria-hidden="true"
+    class="whatsapp-icon"
+  >
+    <path
+      fill="currentColor"
+      d="M16.004 3.002c-7.166 0-13 5.833-13 12.998 0 2.29.61 4.521 1.769 6.485L3 29l6.7-1.742a13.002 13.002 0 0 0 6.304 1.6h.001C23.17 28.858 29 23.023 29 15.998S23.17 3.002 16.004 3.002zm6.51 18.678c-.275.776-1.6 1.473-2.2 1.526-.564.048-1.272.068-2.055-.129-.472-.12-1.077-.35-1.86-.685-3.276-1.413-5.41-4.706-5.576-4.927-.165-.22-1.331-1.773-1.331-3.382 0-1.609.839-2.403 1.135-2.735.296-.332.647-.416.863-.416.215 0 .43.002.62.011.2.01.466-.075.73.557.275.664.935 2.293 1.017 2.46.082.165.137.357.024.577-.113.22-.17.356-.334.547-.165.192-.35.429-.5.576-.165.165-.337.344-.145.677.193.332.86 1.417 1.847 2.292 1.27 1.13 2.34 1.487 2.673 1.652.333.165.524.137.718-.082.192-.22.827-.963 1.049-1.294.22-.332.44-.275.732-.165.296.11 1.884.887 2.208 1.048.325.165.54.247.62.386.082.137.082.792-.193 1.569z"
+    />
+  </svg>
+  <div class="whatsapp-content">
+    <span class="whatsapp-label">WhatsApp</span>
+    <span class="whatsapp-helper">{helperText}</span>
+  </div>
+</a>
+

@@ -6,6 +6,7 @@
 
 import Header from '@components/layout/Header.astro';
 import Footer from '@components/layout/Footer.astro';
+import WhatsAppFloatingButton from '@components/layout/WhatsAppFloatingButton.astro';
 import SEO from '@components/seo/SEO.astro';
 import StructuredData from '@components/seo/StructuredData.astro';
 import Hreflang from '@components/seo/Hreflang.astro';
@@ -48,11 +49,23 @@ const finalSchemas = schema ? (Array.isArray(schema) ? [...defaultSchemas, ...sc
 
 // Extraer el locale actual de la URL
 const pathname = Astro.url.pathname;
+const supportedLocales = ['es', 'en', 'fr', 'de', 'hu'] as const;
+type SupportedLocale = (typeof supportedLocales)[number];
 const localeMatch = pathname.match(/^\/(es|en|fr|de|hu)\//);
-const currentLocale = localeMatch ? localeMatch[1] : 'es';
+const currentLocale: SupportedLocale = localeMatch ? (localeMatch[1] as SupportedLocale) : 'es';
 
 // Construir el slug actual sin el locale
 const slugWithoutLocale = pathname.replace(/^\/(es|en|fr|de|hu)\//, '').replace(/^\//, '');
+
+const localeWhatsAppLinks: Record<string, string> = {
+  es: 'https://wa.link/n410yh',
+  en: 'https://wa.link/vz0ufu',
+  fr: 'https://wa.link/vz0ufu',
+  de: 'https://wa.link/vz0ufu',
+  hu: 'https://wa.link/58cirs',
+};
+
+const whatsappLink = localeWhatsAppLinks[currentLocale] ?? localeWhatsAppLinks.en;
 ---
 
 <!doctype html>
@@ -319,6 +332,7 @@ const slugWithoutLocale = pathname.replace(/^\/(es|en|fr|de|hu)\//, '').replace(
     </main>
     
     <Footer />
+    <WhatsAppFloatingButton locale={currentLocale} href={whatsappLink} />
   </body>
 </html>
 
