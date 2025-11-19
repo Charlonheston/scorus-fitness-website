@@ -149,7 +149,7 @@ const t = translations;
 
 </Layout>
 
-<script is:inline>
+<script is:inline define:vars={{ webhookUrl: import.meta.env.PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL }}>
 window.addEventListener('DOMContentLoaded', () => {
   const el = document.getElementById('contact-translations');
   const translations = el ? JSON.parse(el.textContent || '{}') : {};
@@ -166,9 +166,44 @@ window.addEventListener('DOMContentLoaded', () => {
       }
       const formData = new FormData(form);
       const data = Object.fromEntries(formData);
+      
+      // Détecter la langue de la page actuelle
+      const currentPath = window.location.pathname;
+      let language = 'es';
+      if (currentPath.startsWith('/en/')) language = 'en';
+      else if (currentPath.startsWith('/de/')) language = 'de';
+      else if (currentPath.startsWith('/fr/')) language = 'fr';
+      else if (currentPath.startsWith('/hu/')) language = 'hu';
+      
+      // Envoyer les données à Google Sheets si configuré
+      if (webhookUrl) {
+        try {
+          await fetch(webhookUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: data.name,
+              email: data.email,
+              phone: data.phone || '',
+              service: data.service || '',
+              message: data.message,
+              language: language
+            })
+          });
+        } catch (sheetsError) {
+          console.warn('Erreur lors de l\'envoi à Google Sheets:', sheetsError);
+          // Continuer même si Google Sheets échoue
+        }
+      }
+      
+      // Envoyer à WhatsApp (fonctionnalité existante)
       const message = `\n*Nouvelle demande de contact*\n\n\n📝 *Nom:* ${data.name}\n\n📧 *Email:* ${data.email}\n\n📱 *Téléphone:* ${data.phone || 'Non fourni'}\n\n🎯 *Service:* ${data.service || 'Non spécifié'}\n\n\n💬 *Message:*\n${data.message}`.trim();
       const whatsappLink = `https://wa.me/34673975252?text=${encodeURIComponent(message)}`;
       window.open(whatsappLink, '_blank');
+      
       if (button) {
         button.textContent = `${translations.form?.success || 'Envoyé'}`;
         button.classList.add('!bg-green-600', 'hover:!bg-green-700');

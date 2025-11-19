@@ -12,37 +12,46 @@
  * - size: 'sm' | 'md' | 'lg' (Tamaño, default: 'md')
  */
 
+type ButtonColor = 'red' | 'white' | 'black';
+type ButtonSize = 'sm' | 'md' | 'lg';
+
 interface Props {
   href: string;
   text: string;
   icon?: 'arrow' | 'chevron' | 'external' | 'none';
   class?: string;
-  color?: 'red' | 'white' | 'black';
-  size?: 'sm' | 'md' | 'lg';
+  color?: ButtonColor;
+  size?: ButtonSize;
 }
 
-const { 
-  href, 
-  text, 
-  icon = 'arrow', 
+const {
+  href,
+  text,
+  icon = 'arrow',
   class: className = '',
   color = 'red',
   size = 'md'
 } = Astro.props;
 
-const colorClasses = {
-  red: 'text-red-600 hover:text-red-700',
-  white: 'text-white hover:text-gray-100',
-  black: 'text-gray-900 hover:text-black',
+const colorClasses: Record<ButtonColor, string> = {
+  red: 'text-red-500',
+  white: 'text-white',
+  black: 'text-gray-900',
 };
 
-const sizeClasses = {
-  sm: 'text-sm gap-2 py-2',
-  md: 'text-base gap-3 py-3',
-  lg: 'text-lg gap-3 py-4',
+const colorVars: Record<ButtonColor, string> = {
+  red: '220 38 38',    // rgb values for tailwind red-600
+  white: '255 255 255',
+  black: '15 23 42',   // slate-900ish
 };
 
-const iconSizes = {
+const sizeClasses: Record<ButtonSize, string> = {
+  sm: 'text-xs gap-2 px-4 py-2',
+  md: 'text-sm gap-3 px-6 py-3',
+  lg: 'text-base gap-4 px-8 py-4',
+};
+
+const iconSizes: Record<ButtonSize, string> = {
   sm: 'h-4 w-4',
   md: 'h-5 w-5',
   lg: 'h-6 w-6',
@@ -52,11 +61,13 @@ const iconSizes = {
 <a
   href={href}
   class:list={[
-    'btn-ghost group inline-flex items-center font-bold uppercase tracking-wider transition-all duration-300',
+    'btn-ghost group inline-flex items-center justify-center font-semibold uppercase tracking-[0.25em] transition-all duration-300',
+    'bg-transparent text-center',
     colorClasses[color],
     sizeClasses[size],
     className
   ]}
+  style={`--ghost-color: ${colorVars[color]};`}
 >
   <!-- Texto con underline animado -->
   <span class="relative">
@@ -107,14 +118,49 @@ const iconSizes = {
 
 <style>
   .btn-ghost {
+    --ghost-color: 220 38 38;
     position: relative;
+    isolation: isolate;
+    border-radius: 999px;
+    border: 1px solid rgb(var(--ghost-color) / 0.35);
+    padding-inline: 1.5rem;
+    letter-spacing: 0.25em;
   }
 
-  .btn-ghost:hover {
-    transform: translateX(4px);
+  .btn-ghost::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 20% 20%, rgb(var(--ghost-color) / 0.18), transparent 70%);
+    opacity: 0;
+    transform: scaleX(0.9);
+    transform-origin: left;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    z-index: -1;
   }
 
-  /* Animated underline - Tendencia 2025 */
+  .btn-ghost::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(0, 0, 0, 0.15);
+    opacity: 0.05;
+    z-index: -2;
+  }
+
+  .btn-ghost:hover,
+  .btn-ghost:focus-visible {
+    transform: translateX(6px);
+  }
+
+  .btn-ghost:hover::before,
+  .btn-ghost:focus-visible::before {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
   .btn-underline {
     position: absolute;
     bottom: -6px;
@@ -129,10 +175,8 @@ const iconSizes = {
     width: 100%;
   }
 
-  /* Accesibilidad */
   .btn-ghost:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 6px;
-    border-radius: 2px;
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(var(--ghost-color) / 0.35);
   }
 </style>

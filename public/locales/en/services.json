@@ -82,10 +82,10 @@
 
   "online_consulting": {
     "meta": {
-      "title": "Online Consultation | Scorus Fitness",
+      "title": "Fitness Consulting | Scorus Fitness",
       "description": "Resolve all your doubts about training, supplementation or nutrition in just 60 minutes"
     },
-    "title": "Online Consultation",
+    "title": "Fitness Consulting",
     "subtitle": "Resolve All Your Doubts in Just 60 Minutes",
     "intro_text": "Have you been accumulating doubts about training, supplementation or nutrition for years? At Scorus Fitness, we offer you a 60-minute online consultation to provide you with clear and personalized answers from an expert in fitness and bodybuilding.",
     "how_it_works_title": "How Does Online Consulting Work?",
@@ -113,25 +113,28 @@
         "single": {
           "name": "Individual Session",
           "description": "Resolve all your doubts in just 60 minutes",
-          "price": "60",
-          "old_price": "80",
+          "price": "72.60",
+          "old_price": "96.80",
           "currency": "€",
+          "tax_note": "VAT included",
           "cta": "Book"
         },
         "pack4": {
           "name": "4-Session Pack",
           "description": "Package of 4 60-minute consultation sessions. 240 minutes to resolve all your doubts.",
-          "price": "220",
-          "old_price": "320",
+          "price": "266.20",
+          "old_price": "387.20",
           "currency": "€",
+          "tax_note": "VAT included",
           "cta": "Book"
         },
         "pack8": {
           "name": "8-Session Pack",
           "description": "Package of 8 60-minute consultation sessions. 480 minutes to resolve all your doubts.",
-          "price": "420",
-          "old_price": "640",
+          "price": "508.20",
+          "old_price": "774.40",
           "currency": "€",
+          "tax_note": "VAT included",
           "cta": "Book"
         }
       }
@@ -335,11 +338,13 @@
   "online_counseling": {
     "meta": {
       "title": "Online Counseling | Scorus Fitness",
-      "description": "100% effective system with personalized plans for 3, 6 and 12 months. Video consultations, WhatsApp follow-up and exclusive discounts."
+      "description": "100% effective system with personalized plans for 3, 6 and 12 months. Video consultations, daily follow-up inside the Harbiz app and exclusive discounts."
     },
     "title": "ONLINE COUNSELING",
     "subtitle": "A complete and effective system for your physical and mental transformation",
     "hero_tagline": "Discover a 100% effective system",
+    "hero_label": "Harbiz App",
+    "hero_description": "We run your entire program inside Harbiz so plans, metrics and feedback stay in one place.",
     "benefits": {
       "title": "What's Included?",
       "items": [
@@ -352,12 +357,12 @@
           "description": "Learn and share with others in group sessions"
         },
         {
-          "title": "Personal assistance via WhatsApp",
-          "description": "Direct support to resolve all your doubts"
+          "title": "Personal assistance inside the Harbiz app",
+          "description": "Direct support through the app to resolve all your doubts"
         },
         {
-          "title": "Access to WhatsApp group",
-          "description": "Exclusive community of support and motivation"
+          "title": "Access to a private group in the app",
+          "description": "Exclusive community of support and motivation within Harbiz"
         },
         {
           "title": "Up to 30% discount on Great I Am clothing",
@@ -370,12 +375,12 @@
       ]
     },
     "story": {
-      "title": "My Story",
-      "intro": "I know what it's like to feel fragile and without confidence. At only 50 kg, my family made fun of me calling me «skinny», and my first attempt at the gym was a disaster. Lack of knowledge led me to frustration.",
-      "transformation": "But with the right guidance, in just 8 months I gained 25 kg of muscle and, in 5 years, I doubled my weight from 50 kg to 102 kg naturally. Now, I want to help you achieve the same without making my mistakes.",
-      "family": "My transformation wasn't the only one. My mother, with morbid obesity and high blood pressure, was at risk of losing her life. With my help, she lost 35 kg and recovered her health. Unfortunately, I didn't have the same success with my brother, who also suffered from obesity, but failed to take action.",
-      "results": "I have helped hundreds of people lose between 15 and 80 kg, transforming not only their bodies, but also their lives. If you want personalized training in Alicante based on real results, I am here to guide you through the process.",
-      "cta": "Call me and I'll help you!"
+      "title": "Harbiz: Your coach inside an app",
+      "intro": "Harbiz is the platform where we centralize your online coaching. It’s your control hub: you receive your training and nutrition plan, track adjustments, log progress and chat with me without relying on scattered emails or messaging apps.",
+      "transformation": "The app schedules your video calls, sends automatic reminders, hosts an exercise library and stores every metric we monitor. Because everything is connected, I can review your data and tweak the strategy in real time.",
+      "family": "Beyond the private chat, Harbiz offers an exclusive group where we share feedback, weekly challenges and important updates. Everything stays organized inside the app so you don’t lose context or motivation.",
+      "results": "Athletes carry Harbiz in their pocket: they upload technique videos, get voice feedback and unlock extra resources without leaving the platform. That’s how we keep the same level of coaching even if we’re thousands of kilometers apart.",
+      "cta": "Unlock your Harbiz access and start today"
     },
     "pricing": {
       "title": "Choose your path and transform your body and mind NOW",
@@ -391,7 +396,7 @@
             "Personalized diet and training according to your goals",
             "Adjustments every 4 weeks in diet and training",
             "Initial online 1:1 consultation to assess your status and plan strategies",
-            "Fortnightly WhatsApp assistance",
+            "Fortnightly assistance inside the Harbiz app",
             "1 monthly online consultation",
             "10% discount on AMIX supplementation and Great I Am clothing"
           ],
@@ -410,7 +415,7 @@
             "Fortnightly diet and training reviews",
             "1 monthly video consultation",
             "3 personal training sessions",
-            "Exclusive WhatsApp group",
+            "Exclusive group inside the Harbiz app",
             "20% discount on AMIX supplementation and Great I Am clothing"
           ],
           "cta": "Book"
@@ -425,7 +430,7 @@
           "features": [
             "Everything from the Biannual Pack, plus:",
             "Weekly diet and training adjustments",
-            "Real-time WhatsApp support",
+            "Real-time support through the Harbiz app",
             "Weekly group video consultations",
             "Exclusive access to an online fitness and nutrition course",
             "30% discount on AMIX supplementation and Great I Am clothing",

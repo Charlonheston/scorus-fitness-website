@@ -192,9 +192,19 @@ const offerSchema = getOfferSchema({
                     <span class="text-lg font-bold text-gray-400 line-through">{plan.old_price}{plan.currency}</span>
                   </div>
                 )}
-                <div class="flex items-center justify-center">
-                  <span class="text-5xl font-black text-black">{plan.price}</span>
-                  <span class="ml-2 text-2xl font-bold text-red-600">{plan.currency}</span>
+                <div class="flex flex-col items-center justify-center">
+                  <div class="flex items-center justify-center">
+                    <span class="text-5xl font-black text-black">{plan.price}</span>
+                    <span class="ml-2 text-2xl font-bold text-red-600">{plan.currency}</span>
+                    {plan.duration && (
+                      <span class="ml-2 text-lg font-semibold text-gray-600">{plan.duration}</span>
+                    )}
+                  </div>
+                  {plan.tax_note && (
+                    <p class="mt-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                      {plan.tax_note}
+                    </p>
+                  )}
                 </div>
               </div>
 

@@ -20,9 +20,11 @@ interface Props {
   title: string;
   subtitle: string;
   backgroundImage?: string;
+  tagline?: string;
+  description?: string;
 }
 
-const { backLink, title, subtitle, backgroundImage } = Astro.props;
+const { backLink, title, subtitle, backgroundImage, tagline, description } = Astro.props;
 
 // Generar URL WebP automáticamente (con fallback a JPG si no existe)
 const webpImageUrl = backgroundImage?.replace(/\.(jpg|jpeg|png)$/i, '.webp') || null;
@@ -87,15 +89,27 @@ const webpImageUrl = backgroundImage?.replace(/\.(jpg|jpeg|png)$/i, '.webp') || 
       <div class="flex flex-col md:items-start">
         <!-- Text Content -->
         <div class="flex-1">
+          {tagline && (
+            <p class="mb-4 text-xs font-semibold uppercase tracking-[0.4em] text-red-200">
+              {tagline}
+            </p>
+          )}
+
           <!-- Title (Mobile First) -->
-          <h1 class="mb-6 text-3xl font-black uppercase leading-[1.1] tracking-tighter text-white sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 class="mb-4 text-3xl font-black uppercase leading-[1.1] tracking-tighter text-white sm:text-4xl md:text-5xl lg:text-6xl">
             {title}
           </h1>
 
           <!-- Subtitle (Mobile First) -->
-          <p class="max-w-2xl text-base leading-relaxed text-gray-300 sm:text-lg md:text-xl lg:text-2xl">
+          <p class="max-w-3xl text-base leading-relaxed text-gray-200 sm:text-lg md:text-xl lg:text-2xl">
             {subtitle}
           </p>
+
+          {description && (
+            <p class="mt-4 max-w-3xl text-base leading-relaxed text-gray-300 sm:text-lg md:text-xl">
+              {description}
+            </p>
+          )}
 
           <!-- Red Underline Accent -->
           <div class="mt-8 h-1 w-24 bg-red-600"></div>
