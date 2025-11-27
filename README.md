@@ -60,6 +60,8 @@ npm run dev
 | `npm test`           | Ejecuta tests unitarios con Vitest                  |
 | `npm run test:e2e`   | Ejecuta tests E2E con Playwright                    |
 
+> ℹ️ Pequeño recordatorio: antes de desplegar en Vercel, asegúrate de ejecutar `npm run build` de forma local para verificar que no aparezcan warnings nuevos.
+
 ## 📁 Estructura del Proyecto
 
 ```
