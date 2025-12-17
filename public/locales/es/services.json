@@ -338,13 +338,13 @@
   "online_counseling": {
     "meta": {
       "title": "Asesoramiento Online | Scorus Fitness",
-      "description": "Coaching online completo con Bernat Scorus. Planes personalizados de entrenamiento y nutrición de 3, 6 o 12 meses. Videoconsultas mensuales, seguimiento diario en la app Harbiz y ajustes constantes para máximos resultados."
+      "description": "Coaching online completo con Bernat Scorus. Planes personalizados de entrenamiento y nutrición de 3, 6 o 12 meses. Videoconsultas mensuales, seguimiento diario en Scorus app y ajustes constantes para máximos resultados."
     },
     "title": "ASESORAMIENTO ONLINE",
     "subtitle": "Un sistema completo y efectivo para tu transformación física y mental",
     "hero_tagline": "Descubre un sistema 100% efectivo",
-    "hero_label": "Harbiz App",
-    "hero_description": "Gestiono tu programa desde Harbiz para que tengas planes, métricas y feedback en un solo lugar.",
+    "hero_label": "Scorus app",
+    "hero_description": "Gestiono tu programa desde Scorus app para que tengas planes, métricas y feedback en un solo lugar.",
     "benefits": {
       "title": "¿Qué Incluye?",
       "items": [
@@ -357,12 +357,12 @@
           "description": "Aprende y comparte con otros en sesiones grupales"
         },
         {
-          "title": "Asistencia personal en la app Harbiz",
+          "title": "Asistencia personal en Scorus app",
           "description": "Soporte directo desde la app para resolver todas tus dudas"
         },
         {
           "title": "Acceso a grupo privado en la app",
-          "description": "Comunidad exclusiva de apoyo y motivación dentro de Harbiz"
+          "description": "Comunidad exclusiva de apoyo y motivación dentro de Scorus app"
         },
         {
           "title": "Hasta 30% de descuento en ropa Great I Am",
@@ -375,12 +375,12 @@
       ]
     },
     "story": {
-      "title": "Harbiz: Tu entrenador en la app",
-      "intro": "Harbiz es la plataforma desde la que organizamos todo tu asesoramiento online. Es tu panel de control: allí recibes tu plan de entrenamiento y nutrición, ves los ajustes, registras tus progresos y hablas conmigo sin depender de correos o chats sueltos.",
+      "title": "Scorus app: Tu entrenador en la app",
+      "intro": "Scorus app es la plataforma desde la que organizamos todo tu asesoramiento online. Es tu panel de control: allí recibes tu plan de entrenamiento y nutrición, ves los ajustes, registras tus progresos y hablas conmigo sin depender de correos o chats sueltos.",
       "transformation": "Dentro de la app tienes tus videollamadas calendarizadas, recordatorios automáticos, biblioteca de ejercicios y seguimiento de métricas. Cada bloque está conectado, así puedo evaluar tus avances y ajustar la estrategia en tiempo real.",
-      "family": "Además del chat directo, Harbiz incluye un grupo privado donde compartimos feedback, retos semanales y avisos importantes. Todo queda centralizado y accesible desde el móvil para que no pierdas contexto ni motivación.",
-      "results": "Nuestros atletas llevan Harbiz en el bolsillo: envían vídeos de técnica, reciben notas de voz con correcciones y acceden a recursos extra sin salir de la app. Así mantenemos la calidad del coaching aunque estemos a miles de kilómetros.",
-      "cta": "Activa tu acceso a Harbiz y empieza hoy"
+      "family": "Además del chat directo, Scorus app incluye un grupo privado donde compartimos feedback, retos semanales y avisos importantes. Todo queda centralizado y accesible desde el móvil para que no pierdas contexto ni motivación.",
+      "results": "Nuestros atletas llevan Scorus app en el bolsillo: envían vídeos de técnica, reciben notas de voz con correcciones y acceden a recursos extra sin salir de la app. Así mantenemos la calidad del coaching aunque estemos a miles de kilómetros.",
+      "cta": "Activa tu acceso a Scorus app y empieza hoy"
     },
     "pricing": {
       "title": "Elige tu camino y transforma tu cuerpo y mente AHORA",
@@ -396,7 +396,7 @@
             "Dieta y entrenamiento personalizados según tus objetivos",
             "Ajustes cada 4 semanas en dieta y entrenamiento",
             "Consulta inicial online 1:1 para evaluar tu estado y planificar estrategias",
-            "Asistencia quincenal en la app Harbiz",
+            "Asistencia quincenal en Scorus app",
             "1 consultoría online mensual",
             "10% de descuento en suplementación AMIX y ropa Great I Am"
           ],
@@ -415,7 +415,7 @@
             "Revisiones quincenales de dieta y entrenamiento",
             "1 video consulta mensual",
             "3 entrenamientos personales",
-            "Grupo exclusivo dentro de la app Harbiz",
+            "Grupo exclusivo dentro de Scorus app",
             "20% de descuento en suplementación AMIX y ropa Great I Am"
           ],
           "cta": "Reservar"
@@ -430,7 +430,7 @@
           "features": [
             "Todo lo del Pack Semestral, más:",
             "Ajustes semanales de dieta y entrenamiento",
-            "Soporte en tiempo real dentro de la app Harbiz",
+            "Soporte en tiempo real dentro de Scorus app",
             "Video consultas grupales semanales",
             "Acceso exclusivo a un curso online de fitness y nutrición",
             "30% de descuento en suplementación AMIX y ropa Great I Am",

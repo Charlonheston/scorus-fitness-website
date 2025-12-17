@@ -130,13 +130,13 @@
   "online_counseling": {
     "meta": {
       "title": "Online Tanácsadás | Scorus Fitness",
-      "description": "100%-ban hatékony rendszer 3, 6 és 12 hónapos személyre szabott tervekkel. Videó konzultációk, napi követés a Harbiz alkalmazásban és exkluzív kedvezmények."
+      "description": "100%-ban hatékony rendszer 3, 6 és 12 hónapos személyre szabott tervekkel. Videó konzultációk, napi követés a Scorus appban és exkluzív kedvezmények."
     },
     "title": "ONLINE TANÁCSADÁS",
     "subtitle": "Egy teljes és hatékony rendszer fizikai és mentális átalakulásodhoz",
     "hero_tagline": "Fedezz fel egy 100%-ban hatékony rendszert",
-    "hero_label": "Harbiz alkalmazás",
-    "hero_description": "A teljes programodat Harbizban vezetjük, így a tervek, mérőszámok és visszajelzések egy helyen maradnak.",
+    "hero_label": "Scorus app",
+    "hero_description": "A teljes programodat a Scorus appban vezetjük, így a tervek, mérőszámok és visszajelzések egy helyen maradnak.",
     "benefits": {
       "title": "Mit Tartalmaz?",
       "items": [
@@ -149,12 +149,12 @@
           "description": "Tanulj és oszd meg másokkal csoportos üléseken"
         },
         {
-          "title": "Személyes segítségnyújtás a Harbiz alkalmazásban",
+          "title": "Személyes segítségnyújtás a Scorus appban",
           "description": "Közvetlen támogatás az appon belül minden kérdésedre"
         },
         {
           "title": "Hozzáférés privát csoporthoz az alkalmazásban",
-          "description": "Exkluzív támogató és motiváló közösség a Harbizben"
+          "description": "Exkluzív támogató és motiváló közösség a Scorus appban"
         },
         {
           "title": "Akár 30% kedvezmény Great I Am ruhákból",
@@ -167,12 +167,12 @@
       ]
     },
     "story": {
-      "title": "Harbiz: edző a zsebedben",
-      "intro": "A Harbiz az a platform, ahol az egész online coachingod fut. Itt kapod meg az edzés- és étrendtervet, látod a frissítéseket, rögzíted a haladást és velem is itt kommunikálsz – nincs több szétszórt e-mail vagy chat.",
+      "title": "Scorus app: edző a zsebedben",
+      "intro": "A Scorus app az a platform, ahol az egész online coachingod fut. Itt kapod meg az edzés- és étrendtervet, látod a frissítéseket, rögzíted a haladást és velem is itt kommunikálsz – nincs több szétszórt e-mail vagy chat.",
       "transformation": "Az alkalmazás ütemezi a videóhívásokat, automatikusan emlékeztet, tartalmaz gyakorlat-könyvtárat és minden mérőszámot eltárol. Mivel minden modul összekapcsolt, azonnal látom az adataidat és az alapján igazítom a stratégiát.",
       "family": "A privát chat mellett van egy zárt csoport is, ahol visszajelzéseket, heti kihívásokat és fontos híreket osztunk meg. Minden rendezetten, az appon belül marad, így nem veszted el a motivációt.",
-      "results": "Az ügyfelek szó szerint a zsebükben hordják Harbizt: feltöltik a technikai videókat, hangos üzenetben kapnak korrekciót és extra anyagokat érnek el anélkül, hogy kilépnének az alkalmazásból. Így ugyanazt a prémium coaching élményt kapod távolról is.",
-      "cta": "Kapcsold be a Harbiz hozzáférésed és kezdj bele még ma"
+      "results": "Az ügyfelek szó szerint a zsebükben hordják a Scorus appot: feltöltik a technikai videókat, hangos üzenetben kapnak korrekciót és extra anyagokat érnek el anélkül, hogy kilépnének az alkalmazásból. Így ugyanazt a prémium coaching élményt kapod távolról is.",
+      "cta": "Kapcsold be a Scorus app hozzáférésed és kezdj bele még ma"
     },
     "pricing": {
       "title": "Válaszd ki utadat és alakítsd át tested és elméd MOST",
@@ -188,7 +188,7 @@
             "Személyre szabott étrend és edzés céljaid szerint",
             "Módosítások 4 hetente az étrendben és edzésben",
             "Kezdeti online 1:1 konzultáció állapotod felmérésére és stratégiák tervezésére",
-            "Kétheti támogatás a Harbiz alkalmazásban",
+            "Kétheti támogatás a Scorus appban",
             "1 havi online konzultáció",
             "10% kedvezmény AMIX kiegészítőkből és Great I Am ruhákból"
           ],
@@ -207,7 +207,7 @@
             "Kétheti étrend és edzés felülvizsgálatok",
             "1 havi videó konzultáció",
             "3 személyi edzés",
-            "Exkluzív csoport a Harbiz alkalmazáson belül",
+            "Exkluzív csoport a Scorus appon belül",
             "20% kedvezmény AMIX kiegészítőkből és Great I Am ruhákból"
           ],
           "cta": "Foglalás"
@@ -222,7 +222,7 @@
           "features": [
             "Minden a Féléves Csomagból, plusz:",
             "Heti étrend és edzés módosítások",
-            "Valós idejű támogatás a Harbiz alkalmazásban",
+            "Valós idejű támogatás a Scorus appban",
             "Heti csoportos videó konzultációk",
             "Exkluzív hozzáférés online fitness és táplálkozási tanfolyamhoz",
             "30% kedvezmény AMIX kiegészítőkből és Great I Am ruhákból",

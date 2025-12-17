@@ -199,6 +199,31 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       }
       
+      // Envoyer les données à Mailchimp
+      try {
+        const mailchimpResponse = await fetch('/api/mailchimp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            phone: data.phone || '',
+            service: data.service || '',
+            message: data.message,
+            language: language
+          })
+        });
+        
+        if (!mailchimpResponse.ok) {
+          console.warn('Erreur lors de l\'envoi à Mailchimp:', await mailchimpResponse.text());
+        }
+      } catch (mailchimpError) {
+        console.warn('Erreur lors de l\'envoi à Mailchimp:', mailchimpError);
+        // Continuer même si Mailchimp échoue
+      }
+      
       // Envoyer à WhatsApp (fonctionnalité existante)
       const message = `\n*Nouvelle demande de contact*\n\n\n📝 *Nom:* ${data.name}\n\n📧 *Email:* ${data.email}\n\n📱 *Téléphone:* ${data.phone || 'Non fourni'}\n\n🎯 *Service:* ${data.service || 'Non spécifié'}\n\n\n💬 *Message:*\n${data.message}`.trim();
       const whatsappLink = `https://wa.me/34673975252?text=${encodeURIComponent(message)}`;

@@ -338,13 +338,13 @@
   "online_counseling": {
     "meta": {
       "title": "Online-Beratung | Scorus Fitness",
-      "description": "100% effektives System mit personalisierten Plänen für 3, 6 und 12 Monate. Videokonsultationen, tägliche Betreuung in der Harbiz-App und exklusive Rabatte."
+      "description": "100% effektives System mit personalisierten Plänen für 3, 6 und 12 Monate. Videokonsultationen, tägliche Betreuung in der Scorus App und exklusive Rabatte."
     },
     "title": "ONLINE-BERATUNG",
     "subtitle": "Ein vollständiges und effektives System für Ihre körperliche und mentale Transformation",
     "hero_tagline": "Entdecken Sie ein 100% effektives System",
-    "hero_label": "Harbiz App",
-    "hero_description": "Wir steuern dein gesamtes Programm in Harbiz, damit Pläne, Kennzahlen und Feedback an einem einzigen Ort bleiben.",
+    "hero_label": "Scorus App",
+    "hero_description": "Wir steuern dein gesamtes Programm in der Scorus App, damit Pläne, Kennzahlen und Feedback an einem einzigen Ort bleiben.",
     "benefits": {
       "title": "Was ist Enthalten?",
       "items": [
@@ -357,12 +357,12 @@
           "description": "Lernen und teilen Sie mit anderen in Gruppensitzungen"
         },
         {
-          "title": "Persönliche Unterstützung in der Harbiz-App",
+          "title": "Persönliche Unterstützung in der Scorus App",
           "description": "Direkter Support in der App zur Klärung all Ihrer Fragen"
         },
         {
           "title": "Zugang zu einer privaten Gruppe in der App",
-          "description": "Exklusive Community für Unterstützung und Motivation innerhalb von Harbiz"
+          "description": "Exklusive Community für Unterstützung und Motivation innerhalb der Scorus App"
         },
         {
           "title": "Bis zu 30% Rabatt auf Great I Am Kleidung",
@@ -375,12 +375,12 @@
       ]
     },
     "story": {
-      "title": "Harbiz: Dein Coach in einer App",
-      "intro": "Harbiz ist die Plattform, auf der wir dein gesamtes Online-Coaching bündeln. Es ist dein Kontrollzentrum: Du erhältst Trainings- und Ernährungspläne, siehst Anpassungen, dokumentierst Fortschritte und schreibst mir – alles ohne verstreute E-Mails oder Chats.",
+      "title": "Scorus App: Dein Coach in einer App",
+      "intro": "Scorus App ist die Plattform, auf der wir dein gesamtes Online-Coaching bündeln. Es ist dein Kontrollzentrum: Du erhältst Trainings- und Ernährungspläne, siehst Anpassungen, dokumentierst Fortschritte und schreibst mir – alles ohne verstreute E-Mails oder Chats.",
       "transformation": "Die App plant deine Video-Calls, sendet Erinnerungen, bietet eine Übungsbibliothek und speichert alle Kennzahlen. Weil alles verknüpft ist, kann ich deine Daten einsehen und die Strategie in Echtzeit anpassen.",
-      "family": "Neben dem privaten Chat gibt es in Harbiz eine exklusive Gruppe, in der wir Feedback, Wochen-Challenges und wichtige Updates teilen. So bleibt alles strukturiert, und du behältst Fokus und Motivation.",
-      "results": "Athleten tragen Harbiz in der Tasche: Sie laden Technikvideos hoch, erhalten Sprachnachrichten mit Korrekturen und greifen auf Zusatzmaterial zu – ohne die Plattform zu verlassen. So liefern wir Coaching auf Top-Niveau, selbst über große Distanzen.",
-      "cta": "Aktiviere jetzt deinen Harbiz-Zugang und leg los"
+      "family": "Neben dem privaten Chat gibt es in der Scorus App eine exklusive Gruppe, in der wir Feedback, Wochen-Challenges und wichtige Updates teilen. So bleibt alles strukturiert, und du behältst Fokus und Motivation.",
+      "results": "Athleten tragen die Scorus App in der Tasche: Sie laden Technikvideos hoch, erhalten Sprachnachrichten mit Korrekturen und greifen auf Zusatzmaterial zu – ohne die Plattform zu verlassen. So liefern wir Coaching auf Top-Niveau, selbst über große Distanzen.",
+      "cta": "Aktiviere jetzt deinen Scorus App Zugang und leg los"
     },
     "pricing": {
       "title": "Wählen Sie Ihren Weg und transformieren Sie Ihren Körper und Geist JETZT",
@@ -396,7 +396,7 @@
             "Personalisierte Ernährung und Training nach Ihren Zielen",
             "Anpassungen alle 4 Wochen bei Ernährung und Training",
             "Erste Online-1:1-Konsultation zur Bewertung Ihres Status und Planung von Strategien",
-            "Zweiwöchentliche Unterstützung in der Harbiz-App",
+            "Zweiwöchentliche Unterstützung in der Scorus App",
             "1 monatliche Online-Konsultation",
             "10% Rabatt auf AMIX-Nahrungsergänzung und Great I Am Kleidung"
           ],
@@ -415,7 +415,7 @@
             "Zweiwöchentliche Überprüfungen von Ernährung und Training",
             "1 monatliche Videokonsultation",
             "3 Personal Training Sitzungen",
-            "Exklusive Gruppe in der Harbiz-App",
+            "Exklusive Gruppe in der Scorus App",
             "20% Rabatt auf AMIX-Nahrungsergänzung und Great I Am Kleidung"
           ],
           "cta": "Buchen"
@@ -430,7 +430,7 @@
           "features": [
             "Alles aus dem Halbjahrespaket, plus:",
             "Wöchentliche Anpassungen von Ernährung und Training",
-            "Unterstützung in Echtzeit über die Harbiz-App",
+            "Unterstützung in Echtzeit über die Scorus App",
             "Wöchentliche Gruppenvideokonsultationen",
             "Exklusiver Zugang zu einem Online-Kurs für Fitness und Ernährung",
             "30% Rabatt auf AMIX-Nahrungsergänzung und Great I Am Kleidung",

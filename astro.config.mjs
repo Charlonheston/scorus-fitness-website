@@ -4,10 +4,12 @@ import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import astroI18next from 'astro-i18next';
+import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
   // site: 'https://scorusfitness.com', // Comentado temporalmente - Descomentar cuando tengas tu dominio
+  adapter: vercel(),
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -27,7 +29,7 @@ export default defineConfig({
       },
     }),
   ],
-  output: 'static',
+  output: 'server', // Cambiado a server para permitir API routes
   image: {
     // Optimización de imágenes con Sharp estándar
     service: {

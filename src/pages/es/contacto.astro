@@ -73,6 +73,19 @@ const t = translations;
                   <input type="tel" id="phone" name="phone" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 outline-none transition-colors focus:border-red-600" placeholder={t.form.phone_placeholder} />
                 </div>
               </div>
+              <!-- Casilla de aceptación SMS (obligatoria) -->
+              <div class="flex items-start gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-3">
+                <input
+                  type="checkbox"
+                  id="sms_consent"
+                  name="sms_consent"
+                  required
+                  class="mt-1 h-4 w-4 rounded border-white/40 bg-transparent text-red-600"
+                />
+                <label for="sms_consent" class="text-xs text-white/80">
+                  Acepto recibir comunicaciones por SMS relacionadas con los servicios de Scorus Fitness y confirmo que el número de teléfono indicado es correcto.
+                </label>
+              </div>
               <div>
                 <label for="service" class="mb-2 block text-xs font-bold uppercase tracking-wider text-white/70">{t.form.service}</label>
                 <select id="service" name="service" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition-colors focus:border-red-600">
@@ -92,6 +105,20 @@ const t = translations;
               <button type="submit" class="group inline-flex w-full items-center justify-center rounded-lg bg-red-600 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white transition-all hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/30">
                 {t.form.submit}
               </button>
+            </form>
+            <!-- Formulario oculto para enviar datos a Mailchimp usando el mismo endpoint que el embed -->
+            <form
+              id="mailchimpForm"
+              action="https://scorusfitness.us1.list-manage.com/subscribe/post?u=23467b9e68b325f622e292a10&amp;id=29af210041&amp;f_id=0051c7e1f0"
+              method="post"
+              target="_blank"
+              class="hidden"
+            >
+              <input type="hidden" name="FNAME" id="mc-FNAME" />
+              <input type="hidden" name="LNAME" id="mc-LNAME" />
+              <input type="hidden" name="EMAIL" id="mc-EMAIL" />
+              <!-- Tag "Cliente web oficial SF" -->
+              <input type="hidden" name="tags" value="12555" />
             </form>
           </div>
         </div>
@@ -152,7 +179,16 @@ const t = translations;
 <script is:inline define:vars={{ webhookUrl: import.meta.env.PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL }}>
 window.addEventListener('DOMContentLoaded', () => {
   const el = document.getElementById('contact-translations');
-  const translations = el ? JSON.parse(el.textContent || '{}') : {};
+  let translations = {};
+  if (el) {
+    try {
+      const textContent = el.textContent || '{}';
+      translations = JSON.parse(textContent);
+    } catch (parseError) {
+      console.error('Error al parsear traducciones:', parseError);
+      translations = {};
+    }
+  }
   const formEl = document.getElementById('contactForm');
   formEl?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -199,10 +235,35 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       }
       
-      // Enviar a WhatsApp (funcionalidad existente)
-      const message = `\n*Nueva solicitud de contacto*\n\n\n📝 *Nombre:* ${data.name}\n\n📧 *Email:* ${data.email}\n\n📱 *Teléfono:* ${data.phone || 'No proporcionado'}\n\n🎯 *Servicio:* ${data.service || 'No especificado'}\n\n\n💬 *Mensaje:*\n${data.message}`.trim();
-      const whatsappLink = `https://wa.me/34673975252?text=${encodeURIComponent(message)}`;
-      window.open(whatsappLink, '_blank');
+      // Enviar datos a Mailchimp usando el mismo endpoint que el formulario embed
+      try {
+        const mcForm = document.getElementById('mailchimpForm');
+        if (mcForm) {
+          const nameValue = (data.name || '').toString().trim();
+          const [firstName, ...restName] = nameValue.split(' ');
+          const lastName = restName.join(' ');
+          
+          const mcFName = mcForm.querySelector('#mc-FNAME');
+          const mcLName = mcForm.querySelector('#mc-LNAME');
+          const mcEmail = mcForm.querySelector('#mc-EMAIL');
+
+          if (mcFName) mcFName.value = firstName || '';
+          if (mcLName) mcLName.value = lastName || '';
+          if (mcEmail) mcEmail.value = (data.email || '').toString();
+
+          // Enviar el formulario oculto a Mailchimp
+          mcForm.submit();
+        }
+      } catch (mailchimpError) {
+        console.error('Error al enviar a Mailchimp (form embed):', mailchimpError);
+        // Continuar aunque falle Mailchimp
+      }
+      
+      // Enviar a WhatsApp solo después de que todo se haya enviado correctamente
+      // (Comentado - descomenta si quieres que se abra automáticamente)
+      // const message = `\n*Nueva solicitud de contacto*\n\n\n📝 *Nombre:* ${data.name}\n\n📧 *Email:* ${data.email}\n\n📱 *Teléfono:* ${data.phone || 'No proporcionado'}\n\n🎯 *Servicio:* ${data.service || 'No especificado'}\n\n\n💬 *Mensaje:*\n${data.message}`.trim();
+      // const whatsappLink = `https://wa.me/34673975252?text=${encodeURIComponent(message)}`;
+      // window.open(whatsappLink, '_blank');
       
       if (button) {
         button.textContent = `${translations.form?.success || 'Enviado'}`;
@@ -233,4 +294,4 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-<script type="application/json" id="contact-translations">{JSON.stringify(t)}</script>
+<script type="application/json" id="contact-translations" set:html={JSON.stringify(t)}></script>
