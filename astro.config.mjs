@@ -55,14 +55,6 @@ export default defineConfig({
       // Optimizar chunks
       rollupOptions: {
         output: {
-          // Organizar assets por tipo
-          assetFileNames: (assetInfo) => {
-            let extType = assetInfo.name.split('.').at(-1);
-            if (/png|jpe?g|gif|svg|webp|avif/i.test(extType)) {
-              extType = 'img';
-            }
-            return `assets/${extType}/[name]-[hash][extname]`;
-          },
           // Optimizar chunks de código
           manualChunks: {
             'react-vendor': ['react', 'react-dom'],
