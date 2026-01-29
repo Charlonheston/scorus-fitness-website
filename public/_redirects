@@ -1,3 +1,6 @@
+# Sitemap redirect
+/sitemap.xml  /sitemap-index.xml  301
+
 # Serve WebP when browser supports it
 /images/*.jpg  /images/:splat.webp  200!  Accept=image/webp
 /images/*.jpeg /images/:splat.webp  200!  Accept=image/webp
