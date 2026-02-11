@@ -133,12 +133,31 @@ export function getPersonSchema(): SchemaBase & Record<string, any> {
     '@type': 'Person',
     '@id': `${SITE_CONFIG.url}/#person`,
     name: 'Bernat Scorus',
+    givenName: 'Bernat',
+    familyName: 'Scorus',
     jobTitle: 'Entrenador Personal y Culturista Profesional',
+    description: 'Bernat Scorus es entrenador personal y nutricionista, campeón del mundo en físico culturismo con 25 años de experiencia y más de 4,000 clientes satisfechos.',
+    image: `${SITE_CONFIG.url}/images/bernat/bernat-scorus.jpg`,
     worksFor: {
+      '@type': 'Organization',
       '@id': `${SITE_CONFIG.url}/#organization`,
+      name: 'Scorus Fitness',
     },
-    url: SITE_CONFIG.url,
-    sameAs: [SOCIAL_LINKS.instagram, SOCIAL_LINKS.youtube],
+    url: `${SITE_CONFIG.url}/es/biografia`,
+    knowsAbout: [
+      'Entrenamiento personal',
+      'Nutrición deportiva',
+      'Culturismo',
+      'Preparación física',
+      'Suplementación deportiva',
+    ],
+    sameAs: [
+      'https://www.instagram.com/bernatscorus/',
+      'https://www.youtube.com/@ScorusFitness',
+      'https://www.tiktok.com/@scorusfitness_',
+      'https://www.facebook.com/ScorusFitness',
+      'https://www.linkedin.com/in/bernat-richard-scorus-58478b92/',
+    ],
   };
 }
 
@@ -333,12 +352,13 @@ export function getCourseSchema(course: {
  * Schema para WebSite (para sitelinks de búsqueda en Google)
  */
 export function getWebSiteSchema(lang: string = 'es'): SchemaBase & Record<string, any> {
+  // Formato correcto para inLanguage según schema.org
   const langMap: Record<string, string> = {
-    es: 'es_ES',
-    en: 'en_US',
-    fr: 'fr_FR',
-    de: 'de_DE',
-    hu: 'hu_HU',
+    es: 'es',
+    en: 'en',
+    fr: 'fr',
+    de: 'de',
+    hu: 'hu',
   };
 
   return {
@@ -346,11 +366,19 @@ export function getWebSiteSchema(lang: string = 'es'): SchemaBase & Record<strin
     '@type': 'WebSite',
     '@id': `${SITE_CONFIG.url}/#website`,
     name: SITE_CONFIG.name,
+    alternateName: 'ScorusFitness',
     description: 'Entrenador personal y nutricionista con 25 años de experiencia. Campeón del mundo en culturismo. Servicios personalizados de entrenamiento y asesoramiento online.',
     url: SITE_CONFIG.url,
-    inLanguage: langMap[lang] || 'es_ES',
+    image: `${SITE_CONFIG.url}/og-image.jpg`,
+    inLanguage: langMap[lang] || 'es',
     publisher: {
+      '@type': 'Organization',
       '@id': `${SITE_CONFIG.url}/#organization`,
+      name: 'Scorus Fitness',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_CONFIG.url}/images/logos/logo-scorus.png`,
+      },
     },
     potentialAction: {
       '@type': 'SearchAction',

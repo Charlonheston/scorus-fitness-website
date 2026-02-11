@@ -10,11 +10,18 @@ export interface Props {
 
 const { schema } = Astro.props;
 
+// Función para eliminar @context de schemas individuales (se define a nivel @graph)
+function removeContext(obj: Record<string, any>): Record<string, any> {
+  const { '@context': _, ...rest } = obj;
+  return rest;
+}
+
 // Si es un array, usar @graph para agrupar múltiples schemas
+// Eliminar @context de cada schema individual ya que se define a nivel global
 const schemaData = Array.isArray(schema) 
   ? {
       '@context': 'https://schema.org',
-      '@graph': schema
+      '@graph': schema.map(s => removeContext(s))
     }
   : schema;
 
