@@ -10,6 +10,10 @@ export interface SiteConfig {
   links: {
     instagram: string;
     youtube: string;
+    tiktok?: string;
+    facebook?: string;
+    linkedin?: string;
+    whatsapp?: string;
   };
 }
 
@@ -30,12 +34,18 @@ export interface ContactInfo {
   email: string;
   schedule: {
     weekdays: string;
-    hours: string;
+    saturday?: string;
+    sunday?: string;
+    hours?: string;
   };
 }
 
 export interface SocialLinks {
   instagram: string;
   youtube: string;
+  tiktok?: string;
+  facebook?: string;
+  linkedin?: string;
+  whatsapp?: string;
 }
 

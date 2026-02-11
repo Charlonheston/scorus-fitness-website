@@ -2,6 +2,9 @@
 User-agent: *
 Allow: /
 
+# Bloquear rutas de API y recursos internos
+Disallow: /api/
+
 # Sitemaps
 Sitemap: https://scorusfitness.com/sitemap.xml
 

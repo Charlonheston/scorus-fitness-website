@@ -11,7 +11,7 @@ interface SchemaBase {
 
 /**
  * Schema para LocalBusiness (Scorus Fitness)
- * Datos actualizados desde Google My Business
+ * Datos actualizados desde Google My Business - Febrero 2026
  */
 export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
   return {
@@ -20,15 +20,22 @@ export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
     '@id': `${SITE_CONFIG.url}/#organization`,
     name: 'Entrenador Personal en Alicante - ScorusFitness',
     alternateName: SITE_CONFIG.name,
-    description: 'Entrenador personal y nutricionista con 25 años de experiencia. Campeón del mundo en físico culturismo. Más de 4,000 clientes entrenados.',
+    description: 'En ScorusFitness, te ofrecemos los servicios de Bernat Scorus, entrenador personal y nutricionista, quien es campeón del mundo en físico culturismo y cuenta con 25 años de experiencia en el sector, habiendo trabajado con más de 4,000 clientes satisfechos. Ofrecemos planes personalizados que incluyen rutinas de entrenamiento y dietas adaptadas a tus necesidades, consultas online, y entrenamiento personal.',
     url: SITE_CONFIG.url,
     telephone: '+34673975252',
     email: CONTACT_INFO.email,
     priceRange: '€€',
+    foundingDate: '2014-10',
+    // Categorías de negocio
+    additionalType: [
+      'https://schema.org/HealthAndBeautyBusiness',
+      'https://schema.org/SportsActivityLocation',
+    ],
+    // Dirección
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Av. Conrado Albaladejo, 31',
-      addressLocality: 'Alicante',
+      streetAddress: 'Avenida Conrado Albaladejo 31',
+      addressLocality: 'Alicante (Alacant)',
       addressRegion: 'Alicante',
       postalCode: '03540',
       addressCountry: 'ES',
@@ -38,6 +45,12 @@ export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
       latitude: 38.3452,
       longitude: -0.4810,
     },
+    // Zona de servicio
+    areaServed: {
+      '@type': 'Place',
+      name: 'Playa de San Juan, Alicante, España',
+    },
+    // Horarios de Google My Business
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
@@ -52,6 +65,7 @@ export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
         closes: '14:00',
       },
     ],
+    // Valoraciones de Google
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5.0',
@@ -59,9 +73,50 @@ export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
       bestRating: '5',
       worstRating: '1',
     },
+    // Idiomas disponibles
+    availableLanguage: ['es', 'en'],
+    // Características del negocio
+    amenityFeature: [
+      { '@type': 'LocationFeatureSpecification', name: 'Ducha', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Aseos', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'Aparcamiento en la calle gratuito', value: true },
+    ],
+    // Servicios ofrecidos
+    makesOffer: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Entrenamiento Personal',
+          description: 'Entrenamiento personalizado en instalaciones o al aire libre',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Asesoramiento Nutricional',
+          description: 'Dietas personalizadas adaptadas a tus objetivos',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Clases Online',
+          description: 'Consultas y entrenamiento online',
+        },
+      },
+    ],
+    // Políticas
+    isAccessibleForFree: false,
+    // Redes sociales actualizadas
     sameAs: [
-      SOCIAL_LINKS.instagram,
-      SOCIAL_LINKS.youtube,
+      'https://www.instagram.com/bernatscorus/',
+      'https://www.youtube.com/@ScorusFitness',
+      'https://www.tiktok.com/@scorusfitness_',
+      'https://www.facebook.com/ScorusFitness',
+      'https://www.linkedin.com/in/bernat-richard-scorus-58478b92/',
       'https://www.facebook.com/scorusfitness',
       'https://www.linkedin.com/in/bernatscorus',
       'https://www.tiktok.com/@scorusfitness',
@@ -328,6 +383,66 @@ export function getImageGallerySchema(images: Array<{
       description: img.description,
     })),
   };
+}
+
+/**
+ * Schema para AggregateRating de un servicio
+ */
+export interface AggregateRatingData {
+  ratingValue: string;
+  reviewCount: string;
+  bestRating?: string;
+  worstRating?: string;
+}
+
+export function getAggregateRatingSchema(rating: AggregateRatingData): Record<string, any> {
+  return {
+    '@type': 'AggregateRating',
+    ratingValue: rating.ratingValue,
+    reviewCount: rating.reviewCount,
+    bestRating: rating.bestRating || '5',
+    worstRating: rating.worstRating || '1',
+  };
+}
+
+/**
+ * Schema para Service con AggregateRating incluido
+ */
+export function getServiceWithRatingSchema(params: {
+  name: string;
+  description: string;
+  url: string;
+  image?: string;
+  aggregateRating: AggregateRatingData;
+  priceRange?: string;
+}): SchemaBase & Record<string, any> {
+  const schema: SchemaBase & Record<string, any> = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: params.name,
+    description: params.description,
+    url: params.url,
+    provider: {
+      '@type': 'LocalBusiness',
+      '@id': `${SITE_CONFIG.url}/#localbusiness`,
+      name: SITE_CONFIG.name,
+    },
+    areaServed: {
+      '@type': 'City',
+      name: 'Alicante',
+    },
+    aggregateRating: getAggregateRatingSchema(params.aggregateRating),
+  };
+
+  if (params.image) {
+    schema.image = params.image;
+  }
+
+  if (params.priceRange) {
+    schema.priceRange = params.priceRange;
+  }
+
+  return schema;
 }
 
 

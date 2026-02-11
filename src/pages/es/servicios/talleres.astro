@@ -10,11 +10,32 @@ import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro'
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
 import WorkshopIcon from '@components/ui/WorkshopIcon.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 import FAQs from '@components/faq/FAQs.astro';
 import FAQSchema from '@components/faq/FAQSchema.astro';
 import { faqsTalleres } from '@data/faqs';
+import { getServiceWithRatingSchema } from '@lib/schema';
 
 const currentLang = 'es';
+
+// Breadcrumbs para SEO
+const breadcrumbItems = [
+  { name: 'Servicios', url: '/es/servicios' },
+  { name: 'Talleres', url: '/es/servicios/talleres' },
+];
+
+// Service Schema con AggregateRating para SEO
+const serviceSchema = getServiceWithRatingSchema({
+  name: 'Talleres de Culturismo y Fitness',
+  description: '10 talleres especializados en culturismo y fitness. Formación intensiva práctica y teórica con Bernat Scorus.',
+  url: 'https://scorusfitness.com/es/servicios/talleres',
+  image: 'https://scorusfitness.com/images/services/workshops-hero.jpg',
+  priceRange: '€€',
+  aggregateRating: {
+    ratingValue: '4.8',
+    reviewCount: '56',
+  },
+});
 
 type IconType = 'fundamental' | 'nutrition' | 'supplementation' | 'chest' | 'back' | 'shoulders' | 'arms' | 'legs' | 'cardio' | 'planning' | 'building' | 'check' | 'book' | 'profile';
 
@@ -140,6 +161,11 @@ const benefits = [
     subtitle="10 talleres intensivos diseñados para dominar culturismo, nutrición y entrenamiento. Presencial u online."
     backgroundImage="/images/services/workshops-hero.webp"
   />
+
+  <!-- Breadcrumbs -->
+  <div class="container pt-8">
+    <Breadcrumbs items={breadcrumbItems} currentLang="es" />
+  </div>
 
   <!-- Intro Section -->
   <section class="bg-white py-24">
@@ -396,5 +422,8 @@ const benefits = [
 
   <!-- FAQPage Schema for SEO -->
   <FAQSchema faqs={faqsTalleres} />
+
+  <!-- Service Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
 
 </Layout>

@@ -7,11 +7,31 @@
 import Layout from '@/layouts/Layout.astro';
 import VideoCourseCarousel from '@/components/sections/VideoCourseCarousel.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 import CTAFinal from '@components/sections/CTAFinal.astro';
 import FAQs from '@components/faq/FAQs.astro';
 import FAQSchema from '@components/faq/FAQSchema.astro';
 import { faqsVideoCursos } from '@data/faqs';
-import { getCourseSchema } from '@lib/schema';
+import { getCourseSchema, getServiceWithRatingSchema } from '@lib/schema';
+
+// Breadcrumbs para SEO
+const breadcrumbItems = [
+  { name: 'Servicios', url: '/es/servicios' },
+  { name: 'Video Cursos', url: '/es/servicios/video-cursos' },
+];
+
+// Service Schema con AggregateRating para SEO
+const serviceSchema = getServiceWithRatingSchema({
+  name: 'Video Cursos Online de Fitness',
+  description: 'Cursos online de culturismo, nutrición y entrenamiento con Bernat Scorus. Aprende a tu ritmo con videos HD y certificado.',
+  url: 'https://scorusfitness.com/es/servicios/video-cursos',
+  image: 'https://scorusfitness.com/images/academia/video-cursos.jpeg',
+  priceRange: '€',
+  aggregateRating: {
+    ratingValue: '4.9',
+    reviewCount: '124',
+  },
+});
 
 const coursesData = {
   seo: {
@@ -136,6 +156,11 @@ const courseSchemas = coursesData.courses.map(course => getCourseSchema({
       </div>
     </div>
   </section>
+
+  <!-- Breadcrumbs -->
+  <div class="container pt-8 bg-white">
+    <Breadcrumbs items={breadcrumbItems} currentLang="es" />
+  </div>
 
   <!-- Key Features Section -->
   <section class="bg-white py-20 md:py-32">
@@ -426,5 +451,8 @@ const courseSchemas = coursesData.courses.map(course => getCourseSchema({
   {courseSchemas.map(schema => (
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   ))}
+
+  <!-- Service Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
 
 </Layout>

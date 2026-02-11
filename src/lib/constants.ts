@@ -10,24 +10,33 @@ export const SITE_CONFIG: SiteConfig = {
   url: 'https://scorusfitness.com',
   ogImage: 'https://scorusfitness.com/og-image.jpg',
   links: {
-    instagram: 'https://instagram.com/bernatscorus',
-    youtube: 'https://youtube.com/@ScorusFitness',
+    instagram: 'https://www.instagram.com/bernatscorus/',
+    youtube: 'https://www.youtube.com/@ScorusFitness',
+    tiktok: 'https://www.tiktok.com/@scorusfitness_',
+    facebook: 'https://www.facebook.com/ScorusFitness',
+    linkedin: 'https://www.linkedin.com/in/bernat-richard-scorus-58478b92/',
+    whatsapp: 'https://wa.me/34673975252',
   },
 };
 
 export const CONTACT_INFO: ContactInfo = {
-  address: 'Av. Conrado Albaladejo, 31 – 03540 Alicante, España',
+  address: 'Avenida Conrado Albaladejo 31, 03540 Alicante (Alacant), Alicante',
   phone: '+34 673 97 52 52',
   email: 'info@scorusfitness.com',
   schedule: {
-    weekdays: 'Lunes - Viernes',
-    hours: '10:00 - 14:00; 15:00 - 22:00',
+    weekdays: 'Lunes - Viernes: 7:00 - 20:30',
+    saturday: 'Sábado: 7:00 - 14:00',
+    sunday: 'Domingo: Cerrado',
   },
 };
 
 export const SOCIAL_LINKS: SocialLinks = {
-  instagram: 'https://instagram.com/bernatscorus',
-  youtube: 'https://youtube.com/@ScorusFitness',
+  instagram: 'https://www.instagram.com/bernatscorus/',
+  youtube: 'https://www.youtube.com/@ScorusFitness',
+  tiktok: 'https://www.tiktok.com/@scorusfitness_',
+  facebook: 'https://www.facebook.com/ScorusFitness',
+  linkedin: 'https://www.linkedin.com/in/bernat-richard-scorus-58478b92/',
+  whatsapp: 'https://wa.me/34673975252',
 };
 
 // Metadatos default para SEO

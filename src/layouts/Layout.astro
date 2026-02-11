@@ -10,6 +10,7 @@ import WhatsAppFloatingButton from '@components/layout/WhatsAppFloatingButton.as
 import SEO from '@components/seo/SEO.astro';
 import StructuredData from '@components/seo/StructuredData.astro';
 import Hreflang from '@components/seo/Hreflang.astro';
+import Analytics from '@components/seo/Analytics.astro';
 import { getLocalBusinessSchema, getPersonSchema } from '@lib/schema';
 import '@styles/global.css';
 
@@ -321,6 +322,9 @@ const whatsappLink = localeWhatsAppLinks[currentLocale] ?? localeWhatsAppLinks.e
         background-color: #000;
       }
     </style>
+
+    <!-- Google Analytics 4 -->
+    <Analytics />
   </head>
   <body class="flex min-h-screen flex-col">
     <Header 

@@ -8,11 +8,31 @@ import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
 import ButtonSecondary from '@components/ui/ButtonSecondary.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 import translations from '../../../../public/locales/es/services.json';
 import FAQs from '@components/faq/FAQs.astro';
 import FAQSchema from '@components/faq/FAQSchema.astro';
 import { faqsEntrenamientoPersonal } from '@data/faqs';
-import { getOfferSchema } from '@lib/schema';
+import { getOfferSchema, getServiceWithRatingSchema } from '@lib/schema';
+
+// Breadcrumbs para SEO
+const breadcrumbItems = [
+  { name: 'Servicios', url: '/es/servicios' },
+  { name: 'Entrenamiento Personal', url: '/es/servicios/entrenamiento-personal' },
+];
+
+// Service Schema con AggregateRating para SEO
+const serviceSchema = getServiceWithRatingSchema({
+  name: 'Entrenamiento Personal',
+  description: 'Programas personalizados de entrenamiento adaptados a tus objetivos específicos por Bernat Scorus, campeón del mundo en culturismo.',
+  url: 'https://scorusfitness.com/es/servicios/entrenamiento-personal',
+  image: 'https://scorusfitness.com/images/services/personal-training.jpg',
+  priceRange: '€€',
+  aggregateRating: {
+    ratingValue: '5.0',
+    reviewCount: '167',
+  },
+});
 
 const t = translations.personal_training;
 const currentLang = 'es';
@@ -42,6 +62,11 @@ const offerSchema = getOfferSchema({
     subtitle="Programas personalizados diseñados específicamente para alcanzar tus objetivos de forma segura y efectiva."
     backgroundImage="/images/services/personal-training.jpg"
   />
+
+  <!-- Breadcrumbs -->
+  <div class="container pt-8">
+    <Breadcrumbs items={breadcrumbItems} currentLang="es" />
+  </div>
 
   <!-- Intro Section -->
   <section class="bg-white py-24">
@@ -369,5 +394,8 @@ const offerSchema = getOfferSchema({
 
   <!-- Offer Schema for SEO -->
   <script type="application/ld+json" set:html={JSON.stringify(offerSchema)} />
+
+  <!-- Service Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
 
 </Layout>

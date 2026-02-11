@@ -1,0 +1,42 @@
+---
+/**
+ * Componente de Google Analytics 4
+ * 
+ * Para activar GA4:
+ * 1. Crea una propiedad en Google Analytics (analytics.google.com)
+ * 2. Obtén tu Measurement ID (formato: G-XXXXXXXXXX)
+ * 3. Añade la variable de entorno PUBLIC_GA_MEASUREMENT_ID en tu .env
+ * 
+ * Ejemplo en .env:
+ * PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+ */
+
+const GA_MEASUREMENT_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const isDev = import.meta.env.DEV;
+---
+
+{GA_MEASUREMENT_ID && !isDev && (
+  <>
+    <!-- Google Analytics 4 -->
+    <script
+      async
+      src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+    />
+    <script define:vars={{ GA_MEASUREMENT_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', GA_MEASUREMENT_ID, {
+        page_path: window.location.pathname,
+        anonymize_ip: true,
+        cookie_flags: 'SameSite=None;Secure',
+      });
+    </script>
+  </>
+)}
+
+{!GA_MEASUREMENT_ID && !isDev && (
+  <!-- GA4: Configura PUBLIC_GA_MEASUREMENT_ID en .env para activar analytics -->
+)}

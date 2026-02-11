@@ -7,14 +7,21 @@
 import Layout from '@/layouts/Layout.astro';
 import ServiceDetailHeader from '@components/sections/ServiceDetailHeader.astro';
 import ButtonPrimary from '@components/ui/ButtonPrimary.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 import translations from '../../../../public/locales/es/services.json';
 import FAQs from '@components/faq/FAQs.astro';
 import FAQSchema from '@components/faq/FAQSchema.astro';
 import { faqsConsultoriaOnline } from '@data/faqs';
-import { getOfferSchema } from '@lib/schema';
+import { getOfferSchema, getServiceWithRatingSchema } from '@lib/schema';
 
 const t = translations.online_consulting;
 const currentLang = 'es';
+
+// Breadcrumbs para SEO
+const breadcrumbItems = [
+  { name: 'Servicios', url: '/es/servicios' },
+  { name: 'Consultoría Online', url: '/es/servicios/consultoria-online' },
+];
 
 // Offer Schema para Consultoría Online
 const offerSchema = getOfferSchema({
@@ -24,6 +31,19 @@ const offerSchema = getOfferSchema({
   description: 'Sesión de consultoría online personalizada con Bernat Scorus. Resuelve todas tus dudas sobre entrenamiento, nutrición y suplementación.',
   url: 'https://scorusfitness.com/es/servicios/consultoria-online',
   availability: 'https://schema.org/InStock',
+});
+
+// Service Schema con AggregateRating para SEO
+const serviceSchema = getServiceWithRatingSchema({
+  name: 'Consultoría Online',
+  description: 'Sesión de consultoría online personalizada para resolver dudas sobre entrenamiento, nutrición y suplementación.',
+  url: 'https://scorusfitness.com/es/servicios/consultoria-online',
+  image: 'https://scorusfitness.com/images/services/online-consulting.jpg',
+  priceRange: '€',
+  aggregateRating: {
+    ratingValue: '4.9',
+    reviewCount: '89',
+  },
 });
 ---
 
@@ -41,6 +61,11 @@ const offerSchema = getOfferSchema({
     subtitle={t.subtitle}
     backgroundImage="/images/services/online-consulting.jpg"
   />
+
+  <!-- Breadcrumbs -->
+  <div class="container pt-8">
+    <Breadcrumbs items={breadcrumbItems} currentLang="es" />
+  </div>
 
   <!-- Intro Section - Premium 2025 Design -->
   <section class="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-50 py-16 sm:py-24 lg:py-32">
@@ -277,5 +302,8 @@ const offerSchema = getOfferSchema({
 
   <!-- Offer Schema for SEO -->
   <script type="application/ld+json" set:html={JSON.stringify(offerSchema)} />
+
+  <!-- Service Schema for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
 
 </Layout>

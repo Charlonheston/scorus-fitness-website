@@ -38,6 +38,26 @@ const {
 const canonicalURL = canonical ? new URL(canonical, SITE_CONFIG.url) : new URL(Astro.url.pathname, SITE_CONFIG.url);
 const imageURL = new URL(image, SITE_CONFIG.url);
 
+// Detectar el idioma actual desde la URL
+const pathname = Astro.url.pathname;
+const localeMatch = pathname.match(/^\/(es|en|fr|de|hu)\//);
+const currentLocale = localeMatch ? localeMatch[1] : 'es';
+
+// Mapeo de locale a formato Open Graph
+const ogLocaleMap: Record<string, string> = {
+  es: 'es_ES',
+  en: 'en_US',
+  fr: 'fr_FR',
+  de: 'de_DE',
+  hu: 'hu_HU',
+};
+const ogLocale = ogLocaleMap[currentLocale] || 'es_ES';
+
+// Locales alternativos para og:locale:alternate
+const alternateLocales = Object.entries(ogLocaleMap)
+  .filter(([key]) => key !== currentLocale)
+  .map(([, value]) => value);
+
 // Construir robots meta
 const robotsContent = [];
 if (noindex) robotsContent.push('noindex');
@@ -59,7 +79,10 @@ const robotsMeta = robotsContent.length > 0 ? robotsContent.join(', ') : 'index,
 <meta property="og:description" content={description} />
 <meta property="og:image" content={imageURL} />
 <meta property="og:site_name" content={SITE_CONFIG.name} />
-<meta property="og:locale" content="es_ES" />
+<meta property="og:locale" content={ogLocale} />
+{alternateLocales.map((altLocale) => (
+  <meta property="og:locale:alternate" content={altLocale} />
+))}
 
 {ogType === 'article' && publishedTime && (
   <meta property="article:published_time" content={publishedTime.toISOString()} />

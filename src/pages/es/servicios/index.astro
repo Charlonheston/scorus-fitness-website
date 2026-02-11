@@ -94,6 +94,14 @@ const servicesData = {
   <!-- Header Section -->
   <ServicesPageHeader {...servicesData.header} />
 
+  <!-- Breadcrumbs -->
+  <div class="container pt-8">
+    <Breadcrumbs 
+      items={[{ name: 'Servicios', url: '/es/servicios' }]} 
+      currentLang="es" 
+    />
+  </div>
+
   <!-- Services Grid Section -->
   <section class="bg-white py-24">
     <div class="container">
