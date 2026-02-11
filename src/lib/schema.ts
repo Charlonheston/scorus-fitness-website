@@ -16,20 +16,22 @@ interface SchemaBase {
 export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
   return {
     '@context': 'https://schema.org',
-    '@type': 'SportsActivityLocation',
-    '@id': `${SITE_CONFIG.url}/#organization`,
+    '@type': 'LocalBusiness',
+    '@id': `${SITE_CONFIG.url}/#localbusiness`,
     name: 'Entrenador Personal en Alicante - ScorusFitness',
     alternateName: SITE_CONFIG.name,
     description: 'En ScorusFitness, te ofrecemos los servicios de Bernat Scorus, entrenador personal y nutricionista, quien es campeón del mundo en físico culturismo y cuenta con 25 años de experiencia en el sector, habiendo trabajado con más de 4,000 clientes satisfechos. Ofrecemos planes personalizados que incluyen rutinas de entrenamiento y dietas adaptadas a tus necesidades, consultas online, y entrenamiento personal.',
     url: SITE_CONFIG.url,
     telephone: '+34673975252',
     email: CONTACT_INFO.email,
+    image: `${SITE_CONFIG.url}/images/logos/logo-scorus.png`,
+    logo: `${SITE_CONFIG.url}/images/logos/logo-scorus.png`,
     priceRange: '€€',
     foundingDate: '2014-10',
-    // Categorías de negocio
+    // Categorías de negocio más específicas
     additionalType: [
-      'https://schema.org/HealthAndBeautyBusiness',
       'https://schema.org/SportsActivityLocation',
+      'https://schema.org/HealthAndBeautyBusiness',
     ],
     // Dirección
     address: {
@@ -110,16 +112,13 @@ export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
     ],
     // Políticas
     isAccessibleForFree: false,
-    // Redes sociales actualizadas
+    // Redes sociales (URLs oficiales de Google My Business)
     sameAs: [
       'https://www.instagram.com/bernatscorus/',
       'https://www.youtube.com/@ScorusFitness',
       'https://www.tiktok.com/@scorusfitness_',
       'https://www.facebook.com/ScorusFitness',
       'https://www.linkedin.com/in/bernat-richard-scorus-58478b92/',
-      'https://www.facebook.com/scorusfitness',
-      'https://www.linkedin.com/in/bernatscorus',
-      'https://www.tiktok.com/@scorusfitness',
     ],
   };
 }
