@@ -88,7 +88,7 @@ Implementado en todas las páginas:
   "name": "Bernat Scorus",
   "jobTitle": "Entrenador Personal y Culturista Profesional",
   "sameAs": [
-    "https://instagram.com/bernatscorus",
+    "https://www.instagram.com/scorusfitness_/",
     "https://youtube.com/@ScorusFitness"
   ]
 }

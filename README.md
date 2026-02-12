@@ -164,6 +164,6 @@ Copyright © 2024 Scorus Fitness. Todos los derechos reservados.
 
 - **Web**: [scorusfitness.com](https://scorusfitness.com)
 - **Email**: info@scorusfitness.com
-- **Instagram**: [@bernatscorus](https://instagram.com/bernatscorus)
+- **Instagram**: [@scorusfitness_](https://www.instagram.com/scorusfitness_/)
 - **YouTube**: [@ScorusFitness](https://youtube.com/@ScorusFitness)
 

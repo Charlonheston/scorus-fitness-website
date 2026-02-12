@@ -10,7 +10,7 @@ export const SITE_CONFIG: SiteConfig = {
   url: 'https://scorusfitness.com',
   ogImage: 'https://scorusfitness.com/og-image.jpg',
   links: {
-    instagram: 'https://www.instagram.com/bernatscorus/',
+    instagram: 'https://www.instagram.com/scorusfitness_/',
     youtube: 'https://www.youtube.com/@ScorusFitness',
     tiktok: 'https://www.tiktok.com/@scorusfitness_',
     facebook: 'https://www.facebook.com/ScorusFitness',
@@ -31,7 +31,7 @@ export const CONTACT_INFO: ContactInfo = {
 };
 
 export const SOCIAL_LINKS: SocialLinks = {
-  instagram: 'https://www.instagram.com/bernatscorus/',
+  instagram: 'https://www.instagram.com/scorusfitness_/',
   youtube: 'https://www.youtube.com/@ScorusFitness',
   tiktok: 'https://www.tiktok.com/@scorusfitness_',
   facebook: 'https://www.facebook.com/ScorusFitness',

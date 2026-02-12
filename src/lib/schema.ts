@@ -16,8 +16,8 @@ interface SchemaBase {
 export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
   return {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    '@id': `${SITE_CONFIG.url}/#localbusiness`,
+    '@type': 'SportsActivityLocation',
+    '@id': `${SITE_CONFIG.url}/#organization`,
     name: 'Entrenador Personal en Alicante - ScorusFitness',
     alternateName: SITE_CONFIG.name,
     description: 'En ScorusFitness, te ofrecemos los servicios de Bernat Scorus, entrenador personal y nutricionista, quien es campeón del mundo en físico culturismo y cuenta con 25 años de experiencia en el sector, habiendo trabajado con más de 4,000 clientes satisfechos. Ofrecemos planes personalizados que incluyen rutinas de entrenamiento y dietas adaptadas a tus necesidades, consultas online, y entrenamiento personal.',
@@ -114,7 +114,7 @@ export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
     isAccessibleForFree: false,
     // Redes sociales (URLs oficiales de Google My Business)
     sameAs: [
-      'https://www.instagram.com/bernatscorus/',
+      'https://www.instagram.com/scorusfitness_/',
       'https://www.youtube.com/@ScorusFitness',
       'https://www.tiktok.com/@scorusfitness_',
       'https://www.facebook.com/ScorusFitness',
@@ -151,7 +151,7 @@ export function getPersonSchema(): SchemaBase & Record<string, any> {
       'Suplementación deportiva',
     ],
     sameAs: [
-      'https://www.instagram.com/bernatscorus/',
+      'https://www.instagram.com/scorusfitness_/',
       'https://www.youtube.com/@ScorusFitness',
       'https://www.tiktok.com/@scorusfitness_',
       'https://www.facebook.com/ScorusFitness',
