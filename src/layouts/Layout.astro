@@ -11,6 +11,7 @@ import SEO from '@components/seo/SEO.astro';
 import StructuredData from '@components/seo/StructuredData.astro';
 import Hreflang from '@components/seo/Hreflang.astro';
 import Analytics from '@components/seo/Analytics.astro';
+import VercelAnalytics from '@vercel/analytics/astro';
 import { getLocalBusinessSchema, getPersonSchema } from '@lib/schema';
 import '@styles/global.css';
 
@@ -340,6 +341,7 @@ const whatsappLink = localeWhatsAppLinks[currentLocale] ?? localeWhatsAppLinks.e
     
     <Footer />
     <WhatsAppFloatingButton locale={currentLocale} href={whatsappLink} />
+    <VercelAnalytics />
   </body>
 </html>
 
