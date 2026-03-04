@@ -19,7 +19,7 @@ interface SchemaBase {
 export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
   return {
     '@context': 'https://schema.org',
-    '@type': 'SportsActivityLocation',
+    '@type': 'LocalBusiness',
     '@id': `${SITE_CONFIG.url}/#localbusiness`,
     mainEntityOfPage: SITE_CONFIG.url,
     name: 'Entrenador Personal en Alicante - ScorusFitness',
@@ -622,7 +622,7 @@ export function getServiceWithRatingSchema(params: {
     description: params.description,
     url: params.url,
     provider: {
-      '@type': 'SportsActivityLocation',
+      '@type': 'LocalBusiness',
       '@id': `${SITE_CONFIG.url}/#localbusiness`,
       name: SITE_CONFIG.name,
     },
