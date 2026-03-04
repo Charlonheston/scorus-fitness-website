@@ -132,8 +132,7 @@ export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
     ],
 
     // --- Idiomas de servicio (según GMB: inglés y español) ---
-    knowsLanguage: ['es', 'en'],
-    availableLanguage: [
+    knowsLanguage: [
       { '@type': 'Language', name: 'Spanish', alternateName: 'es' },
       { '@type': 'Language', name: 'English', alternateName: 'en' },
     ],
@@ -310,9 +309,7 @@ export function getPersonSchema(): SchemaBase & Record<string, any> {
     description: 'Bernat Scorus es entrenador personal y nutricionista, campeón del mundo en físico culturismo con 25 años de experiencia y más de 4,000 clientes satisfechos.',
     image: `${SITE_CONFIG.url}/images/bernat/bernat-scorus.jpg`,
     worksFor: {
-      '@type': 'Organization',
       '@id': `${SITE_CONFIG.url}/#localbusiness`,
-      name: 'Scorus Fitness',
     },
     url: `${SITE_CONFIG.url}/es/biografia`,
     knowsAbout: [
@@ -543,13 +540,7 @@ export function getWebSiteSchema(lang: string = 'es'): SchemaBase & Record<strin
     image: `${SITE_CONFIG.url}/og-image.jpg`,
     inLanguage: langMap[lang] || 'es',
     publisher: {
-      '@type': 'Organization',
       '@id': `${SITE_CONFIG.url}/#localbusiness`,
-      name: 'Scorus Fitness',
-      logo: {
-        '@type': 'ImageObject',
-        url: `${SITE_CONFIG.url}/images/logos/logo-scorus.png`,
-      },
     },
     potentialAction: {
       '@type': 'SearchAction',
@@ -622,9 +613,7 @@ export function getServiceWithRatingSchema(params: {
     description: params.description,
     url: params.url,
     provider: {
-      '@type': 'LocalBusiness',
       '@id': `${SITE_CONFIG.url}/#localbusiness`,
-      name: SITE_CONFIG.name,
     },
     areaServed: {
       '@type': 'City',
