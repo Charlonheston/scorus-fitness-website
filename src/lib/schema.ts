@@ -309,7 +309,9 @@ export function getPersonSchema(): SchemaBase & Record<string, any> {
     description: 'Bernat Scorus es entrenador personal y nutricionista, campeón del mundo en físico culturismo con 25 años de experiencia y más de 4,000 clientes satisfechos.',
     image: `${SITE_CONFIG.url}/images/bernat/bernat-scorus.jpg`,
     worksFor: {
-      '@id': `${SITE_CONFIG.url}/#localbusiness`,
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: SITE_CONFIG.url,
     },
     url: `${SITE_CONFIG.url}/es/biografia`,
     knowsAbout: [
@@ -354,7 +356,13 @@ export function getBlogPostingSchema(post: {
       name: post.author,
     },
     publisher: {
-      '@id': `${SITE_CONFIG.url}/#localbusiness`,
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: SITE_CONFIG.url,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_CONFIG.url}/images/logos/logo-scorus.webp`,
+      },
     },
     url: post.url,
     mainEntityOfPage: {
@@ -381,7 +389,9 @@ export function getServiceSchema(service: {
     image: service.image,
     url: service.url,
     provider: {
-      '@id': `${SITE_CONFIG.url}/#localbusiness`,
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: SITE_CONFIG.url,
     },
   };
 }
@@ -490,7 +500,9 @@ export function getEducationalOrganizationSchema(): SchemaBase & Record<string, 
       'Programas de formación y educación profesional en fitness, culturismo y entrenamiento. Talleres, seminarios y programas de transformación.',
     url: `${SITE_CONFIG.url}/es/academia`,
     provider: {
-      '@id': `${SITE_CONFIG.url}/#localbusiness`,
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: SITE_CONFIG.url,
     },
   };
 }
@@ -511,7 +523,9 @@ export function getCourseSchema(course: {
     description: course.description,
     url: course.url,
     provider: {
-      '@id': course.provider || `${SITE_CONFIG.url}/#localbusiness`,
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: SITE_CONFIG.url,
     },
   };
 }
@@ -540,7 +554,13 @@ export function getWebSiteSchema(lang: string = 'es'): SchemaBase & Record<strin
     image: `${SITE_CONFIG.url}/og-image.jpg`,
     inLanguage: langMap[lang] || 'es',
     publisher: {
-      '@id': `${SITE_CONFIG.url}/#localbusiness`,
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: SITE_CONFIG.url,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_CONFIG.url}/images/logos/logo-scorus.webp`,
+      },
     },
     potentialAction: {
       '@type': 'SearchAction',
@@ -613,7 +633,9 @@ export function getServiceWithRatingSchema(params: {
     description: params.description,
     url: params.url,
     provider: {
-      '@id': `${SITE_CONFIG.url}/#localbusiness`,
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: SITE_CONFIG.url,
     },
     areaServed: {
       '@type': 'City',
