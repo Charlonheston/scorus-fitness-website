@@ -10,7 +10,7 @@ export const SITE_CONFIG: SiteConfig = {
   url: 'https://scorusfitness.com',
   ogImage: 'https://scorusfitness.com/og-image.jpg',
   links: {
-    instagram: 'https://www.instagram.com/scorusfitness_/',
+    instagram: 'https://www.instagram.com/bernatscorus/',
     youtube: 'https://www.youtube.com/@ScorusFitness',
     tiktok: 'https://www.tiktok.com/@scorusfitness_',
     facebook: 'https://www.facebook.com/ScorusFitness',
@@ -24,14 +24,14 @@ export const CONTACT_INFO: ContactInfo = {
   phone: '+34 673 97 52 52',
   email: 'info@scorusfitness.com',
   schedule: {
-    weekdays: 'Lunes - Viernes: 7:00 - 20:30',
+    weekdays: 'Lunes - Viernes: 7:00 - 22:00',
     saturday: 'Sábado: 7:00 - 14:00',
     sunday: 'Domingo: Cerrado',
   },
 };
 
 export const SOCIAL_LINKS: SocialLinks = {
-  instagram: 'https://www.instagram.com/scorusfitness_/',
+  instagram: 'https://www.instagram.com/bernatscorus/',
   youtube: 'https://www.youtube.com/@ScorusFitness',
   tiktok: 'https://www.tiktok.com/@scorusfitness_',
   facebook: 'https://www.facebook.com/ScorusFitness',

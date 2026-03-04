@@ -11,54 +11,111 @@ interface SchemaBase {
 
 /**
  * Schema para LocalBusiness (Scorus Fitness)
- * Datos actualizados desde Google My Business - Febrero 2026
+ * Datos alineados con Google Business Profile - Marzo 2026
+ *
+ * TODO: Rellenar legalName, taxID y companyRegistration con los datos fiscales reales.
+ * TODO: Actualizar las URLs de image con fotos reales del gimnasio/entrenamiento.
  */
 export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
   return {
     '@context': 'https://schema.org',
     '@type': 'SportsActivityLocation',
-    '@id': `${SITE_CONFIG.url}/#organization`,
+    '@id': `${SITE_CONFIG.url}/#localbusiness`,
+    mainEntityOfPage: SITE_CONFIG.url,
     name: 'Entrenador Personal en Alicante - ScorusFitness',
     alternateName: SITE_CONFIG.name,
-    description: 'En ScorusFitness, te ofrecemos los servicios de Bernat Scorus, entrenador personal y nutricionista, quien es campeón del mundo en físico culturismo y cuenta con 25 años de experiencia en el sector, habiendo trabajado con más de 4,000 clientes satisfechos. Ofrecemos planes personalizados que incluyen rutinas de entrenamiento y dietas adaptadas a tus necesidades, consultas online, y entrenamiento personal.',
+    description:
+      'Transforma tu cuerpo en ScorusFitness Alicante con la metodología de Bernat Scorus, Campeón del Mundo de Culturismo. Con 25 años de experiencia y 4,000 clientes, ofrecemos un servicio de entrenamiento personal, nutrición y seguimiento online de élite. Especialistas en planes a medida para aumento de masa muscular y fuerza, adelgazamiento y pérdida de grasa, rehabilitación y preparación de oposiciones, y nutrición avanzada.',
     url: SITE_CONFIG.url,
-    telephone: '+34673975252',
+    telephone: CONTACT_INFO.phone,
     email: CONTACT_INFO.email,
-    image: `${SITE_CONFIG.url}/images/logos/logo-scorus.png`,
-    logo: `${SITE_CONFIG.url}/images/logos/logo-scorus.png`,
-    priceRange: '€€',
-    foundingDate: '2014-10',
-    // Categorías de negocio más específicas
+    slogan:
+      'Empieza hoy tu cambio con un referente mundial del fitness. Entrenamiento personal, nutrición y seguimiento online de élite en Alicante.',
+
+    // --- Datos legales ---
+    legalName: 'SCORUSFITNESS SL.',
+    taxID: 'B13802780',
+
+    // --- Categorías de negocio (GMB) ---
     additionalType: [
       'https://schema.org/SportsActivityLocation',
       'https://schema.org/HealthAndBeautyBusiness',
     ],
-    // Dirección
+
+    // --- Imágenes como ImageObject ---
+    image: [
+      {
+        '@type': 'ImageObject',
+        '@id': `${SITE_CONFIG.url}/#image-gym-1`,
+        url: `${SITE_CONFIG.url}/images/gym/gym-scorus-fitness-alicante.webp`,
+        name: 'Centro de entrenamiento personal Scorus Fitness en Alicante',
+        caption:
+          'Interior del centro privado de entrenamiento personal Scorus Fitness con equipamiento profesional en Playa de San Juan, Alicante.',
+        inLanguage: 'es',
+      },
+      {
+        '@type': 'ImageObject',
+        '@id': `${SITE_CONFIG.url}/#image-training-1`,
+        url: `${SITE_CONFIG.url}/images/services/entrenamiento-personal-alicante.webp`,
+        name: 'Sesión de entrenamiento personal con Bernat Scorus',
+        caption:
+          'Bernat Scorus, campeón del mundo de culturismo, dirigiendo una sesión de entrenamiento personal en sus instalaciones de Alicante.',
+        inLanguage: 'es',
+      },
+    ],
+    logo: {
+      '@type': 'ImageObject',
+      '@id': `${SITE_CONFIG.url}/#logo-image`,
+      url: `${SITE_CONFIG.url}/images/logos/logo-scorus.webp`,
+      name: 'Logo Scorus Fitness',
+      caption:
+        'Logo oficial de Scorus Fitness, centro de entrenamiento personal en Alicante.',
+      inLanguage: 'es',
+    },
+
+    // --- Económicos y pagos ---
+    priceRange: '€€',
+    currenciesAccepted: 'EUR',
+    paymentAccepted: ['BankTransfer', 'Bizum'],
+
+    // --- Fechas ---
+    foundingDate: '2014-10',
+
+    // --- Dirección completa (alineada con GMB) ---
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Avenida Conrado Albaladejo 31',
       addressLocality: 'Alicante (Alacant)',
-      addressRegion: 'Alicante',
       postalCode: '03540',
-      addressCountry: 'ES',
+      addressRegion: 'Comunidad Valenciana',
+      addressCountry: {
+        '@type': 'Country',
+        name: 'ES',
+      },
     },
     geo: {
       '@type': 'GeoCoordinates',
       latitude: 38.3452,
-      longitude: -0.4810,
+      longitude: -0.481,
     },
-    // Zona de servicio
-    areaServed: {
-      '@type': 'Place',
-      name: 'Playa de San Juan, Alicante, España',
-    },
-    // Horarios de Google My Business
+
+    // --- Zona de servicio ---
+    areaServed: [
+      { '@type': 'City', name: 'Alicante' },
+      {
+        '@type': 'Place',
+        name: 'Playa de San Juan, Alicante (Alacant), Alicante, España',
+      },
+    ],
+
+    // --- Horarios (alineados con GMB) ---
+    openingHours: ['Mo-Fr 07:00-22:00', 'Sa 07:00-14:00'],
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
         opens: '07:00',
-        closes: '20:30',
+        closes: '22:00',
       },
       {
         '@type': 'OpeningHoursSpecification',
@@ -66,59 +123,174 @@ export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
         opens: '07:00',
         closes: '14:00',
       },
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: 'Sunday',
+        opens: '00:00',
+        closes: '00:00',
+      },
     ],
-    // Valoraciones de Google
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '5.0',
-      reviewCount: '167',
-      bestRating: '5',
-      worstRating: '1',
-    },
-    // Idiomas disponibles
-    availableLanguage: ['es', 'en'],
-    // Características del negocio
+
+    // --- Idiomas de servicio (según GMB: inglés y español) ---
+    knowsLanguage: ['es', 'en'],
+    availableLanguage: [
+      { '@type': 'Language', name: 'Spanish', alternateName: 'es' },
+      { '@type': 'Language', name: 'English', alternateName: 'en' },
+    ],
+
+    // --- Características del local (según GMB) ---
     amenityFeature: [
       { '@type': 'LocationFeatureSpecification', name: 'Ducha', value: true },
       { '@type': 'LocationFeatureSpecification', name: 'Aseos', value: true },
-      { '@type': 'LocationFeatureSpecification', name: 'Aparcamiento en la calle gratuito', value: true },
+      {
+        '@type': 'LocationFeatureSpecification',
+        name: 'Aparcamiento en la calle gratuito',
+        value: true,
+      },
+      {
+        '@type': 'LocationFeatureSpecification',
+        name: 'Aparcamiento propio',
+        value: false,
+      },
+      {
+        '@type': 'LocationFeatureSpecification',
+        name: 'Accesibilidad silla de ruedas',
+        value: false,
+      },
+      {
+        '@type': 'LocationFeatureSpecification',
+        name: 'Servicios en las instalaciones',
+        value: true,
+      },
+      {
+        '@type': 'LocationFeatureSpecification',
+        name: 'Servicios al aire libre',
+        value: true,
+      },
+      {
+        '@type': 'LocationFeatureSpecification',
+        name: 'Clases online',
+        value: true,
+      },
+      {
+        '@type': 'LocationFeatureSpecification',
+        name: 'Espacio seguro LGBTQ+',
+        value: true,
+      },
     ],
-    // Servicios ofrecidos
+
+    // --- Se necesita cita ---
+    potentialAction: {
+      '@type': 'ReserveAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_CONFIG.url}/es/contacto`,
+        actionPlatform: [
+          'https://schema.org/DesktopWebPlatform',
+          'https://schema.org/MobileWebPlatform',
+        ],
+      },
+      result: {
+        '@type': 'Reservation',
+        name: 'Reservar cita de entrenamiento personal',
+      },
+    },
+
+    // --- Servicios ofrecidos ---
     makesOffer: [
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
           name: 'Entrenamiento Personal',
-          description: 'Entrenamiento personalizado en instalaciones o al aire libre',
+          description:
+            'Sesiones de entrenamiento personalizado one-to-one en centro privado o al aire libre.',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Asesoramiento Nutricional',
-          description: 'Dietas personalizadas adaptadas a tus objetivos',
+          name: 'Nutrición y Dietética',
+          description:
+            'Planes de nutrición avanzada y dietas personalizadas adaptadas a tus objetivos.',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Clases Online',
-          description: 'Consultas y entrenamiento online',
+          name: 'Seguimiento Online',
+          description:
+            'Asesoramiento y entrenamiento online personalizado desde cualquier lugar.',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Aumento de Masa Muscular y Fuerza',
+          description:
+            'Programas específicos para ganancia muscular y desarrollo de fuerza.',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Adelgazamiento y Pérdida de Grasa',
+          description:
+            'Planes de entrenamiento y nutrición orientados a la pérdida de grasa.',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Rehabilitación y Preparación de Oposiciones',
+          description:
+            'Programas adaptados para rehabilitación física y preparación de pruebas de oposiciones.',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Talleres y Seminarios',
+          description:
+            'Talleres grupales y seminarios sobre entrenamiento, nutrición y culturismo.',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Programa RE-BORN',
+          description:
+            'Programa de transformación física integral con entrenamiento y nutrición.',
         },
       },
     ],
-    // Políticas
+
     isAccessibleForFree: false,
-    // Redes sociales (URLs oficiales de Google My Business)
+
+    // --- Fundador ---
+    founder: {
+      '@type': 'Person',
+      '@id': `${SITE_CONFIG.url}/#person`,
+      name: 'Bernat Scorus',
+    },
+
+    // --- Redes sociales y perfiles externos ---
     sameAs: [
-      'https://www.instagram.com/scorusfitness_/',
-      'https://www.youtube.com/@ScorusFitness',
-      'https://www.tiktok.com/@scorusfitness_',
-      'https://www.facebook.com/ScorusFitness',
-      'https://www.linkedin.com/in/bernat-richard-scorus-58478b92/',
+      SOCIAL_LINKS.instagram,
+      SOCIAL_LINKS.youtube,
+      SOCIAL_LINKS.tiktok,
+      SOCIAL_LINKS.facebook,
+      SOCIAL_LINKS.linkedin,
+      'https://www.paginasamarillas.es/f/playa-de-san-juan/scorusfitness_231625922_000000001.html',
+      'https://tuentrenador360.com/profesional/entrenador-personal-en-alicante-scorusfitness-alicante/',
+      'https://www.einforma.com/informacion-empresa/scorusfitness',
     ],
   };
 }
@@ -139,7 +311,7 @@ export function getPersonSchema(): SchemaBase & Record<string, any> {
     image: `${SITE_CONFIG.url}/images/bernat/bernat-scorus.jpg`,
     worksFor: {
       '@type': 'Organization',
-      '@id': `${SITE_CONFIG.url}/#organization`,
+      '@id': `${SITE_CONFIG.url}/#localbusiness`,
       name: 'Scorus Fitness',
     },
     url: `${SITE_CONFIG.url}/es/biografia`,
@@ -151,11 +323,11 @@ export function getPersonSchema(): SchemaBase & Record<string, any> {
       'Suplementación deportiva',
     ],
     sameAs: [
-      'https://www.instagram.com/scorusfitness_/',
-      'https://www.youtube.com/@ScorusFitness',
-      'https://www.tiktok.com/@scorusfitness_',
-      'https://www.facebook.com/ScorusFitness',
-      'https://www.linkedin.com/in/bernat-richard-scorus-58478b92/',
+      SOCIAL_LINKS.instagram,
+      SOCIAL_LINKS.youtube,
+      SOCIAL_LINKS.tiktok,
+      SOCIAL_LINKS.facebook,
+      SOCIAL_LINKS.linkedin,
     ],
   };
 }
@@ -185,7 +357,7 @@ export function getBlogPostingSchema(post: {
       name: post.author,
     },
     publisher: {
-      '@id': `${SITE_CONFIG.url}/#organization`,
+      '@id': `${SITE_CONFIG.url}/#localbusiness`,
     },
     url: post.url,
     mainEntityOfPage: {
@@ -212,7 +384,7 @@ export function getServiceSchema(service: {
     image: service.image,
     url: service.url,
     provider: {
-      '@id': `${SITE_CONFIG.url}/#organization`,
+      '@id': `${SITE_CONFIG.url}/#localbusiness`,
     },
   };
 }
@@ -321,7 +493,7 @@ export function getEducationalOrganizationSchema(): SchemaBase & Record<string, 
       'Programas de formación y educación profesional en fitness, culturismo y entrenamiento. Talleres, seminarios y programas de transformación.',
     url: `${SITE_CONFIG.url}/es/academia`,
     provider: {
-      '@id': `${SITE_CONFIG.url}/#organization`,
+      '@id': `${SITE_CONFIG.url}/#localbusiness`,
     },
   };
 }
@@ -342,7 +514,7 @@ export function getCourseSchema(course: {
     description: course.description,
     url: course.url,
     provider: {
-      '@id': course.provider || `${SITE_CONFIG.url}/#organization`,
+      '@id': course.provider || `${SITE_CONFIG.url}/#localbusiness`,
     },
   };
 }
@@ -372,7 +544,7 @@ export function getWebSiteSchema(lang: string = 'es'): SchemaBase & Record<strin
     inLanguage: langMap[lang] || 'es',
     publisher: {
       '@type': 'Organization',
-      '@id': `${SITE_CONFIG.url}/#organization`,
+      '@id': `${SITE_CONFIG.url}/#localbusiness`,
       name: 'Scorus Fitness',
       logo: {
         '@type': 'ImageObject',
@@ -450,7 +622,7 @@ export function getServiceWithRatingSchema(params: {
     description: params.description,
     url: params.url,
     provider: {
-      '@type': 'LocalBusiness',
+      '@type': 'SportsActivityLocation',
       '@id': `${SITE_CONFIG.url}/#localbusiness`,
       name: SITE_CONFIG.name,
     },

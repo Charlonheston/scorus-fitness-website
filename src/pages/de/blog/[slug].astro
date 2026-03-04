@@ -8,6 +8,7 @@
 import Layout from '@layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import { getArticleBySlug, getArticles, type StrapiArticle } from '@lib/strapi';
+import { getBlogPostingSchema } from '@lib/schema';
 import { formatDate } from '@lib/utils';
 
 export async function getStaticPaths() {
@@ -652,6 +653,18 @@ if (typeof article.attributes.content === 'string') {
   articleHeadings = extractHeadings(article.attributes.content);
   htmlContent = markdownToHtml(article.attributes.content);
 }
+
+const blogPostSchema = getBlogPostingSchema({
+  title: article.attributes.title,
+  description: excerpt || (typeof article.attributes.content === 'string'
+    ? article.attributes.content.replace(/<[^>]*>/g, '').substring(0, 160)
+    : 'Blog-Artikel'),
+  publishedDate: publishedDate,
+  modifiedDate: article.attributes.updatedAt ? new Date(article.attributes.updatedAt) : undefined,
+  author: author ? (author.attributes?.name || (author as any).name || 'Bernat Scorus') : 'Bernat Scorus',
+  image: imageUrl || undefined,
+  url: `https://scorusfitness.com/de/blog/${article.attributes.slug}`,
+});
 ---
 
 <Layout
@@ -663,6 +676,7 @@ if (typeof article.attributes.content === 'string') {
   currentSlug={article.attributes.slug}
   isBlogPage={true}
   data-blog-page="true"
+  schema={blogPostSchema}
 >
   <!-- Main Content Area -->
   <section class="bg-white pt-40 py-8">
