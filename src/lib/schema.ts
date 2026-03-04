@@ -276,8 +276,14 @@ export function getLocalBusinessSchema(): SchemaBase & Record<string, any> {
     // --- Fundador ---
     founder: {
       '@type': 'Person',
-      '@id': `${SITE_CONFIG.url}/#person`,
-      name: 'Bernat Scorus',
+      name: 'Bernat Richard Scorus',
+      givenName: 'Bernat',
+      familyName: 'Scorus',
+      jobTitle: 'Certified Personal Trainer & Nutritionist',
+      description:
+        'Campeón del Mundo de Culturismo (NABBA 2006). Más de 27 años de experiencia en entrenamiento personal y nutrición deportiva. Escritor para revistas Iron Man y Muscular Development.',
+      url: `${SITE_CONFIG.url}/es/biografia`,
+      image: `${SITE_CONFIG.url}/images/bernat/bernat-scorus.jpg`,
     },
 
     // --- Redes sociales y perfiles externos ---
@@ -302,27 +308,90 @@ export function getPersonSchema(): SchemaBase & Record<string, any> {
     '@context': 'https://schema.org',
     '@type': 'Person',
     '@id': `${SITE_CONFIG.url}/#person`,
-    name: 'Bernat Scorus',
+    name: 'Bernat Richard Scorus',
     givenName: 'Bernat',
+    additionalName: 'Richard',
     familyName: 'Scorus',
-    jobTitle: 'Entrenador Personal y Culturista Profesional',
-    description: 'Bernat Scorus es entrenador personal y nutricionista, campeón del mundo en físico culturismo con 25 años de experiencia y más de 4,000 clientes satisfechos.',
+    jobTitle: 'Certified Personal Trainer & Nutritionist',
+    description:
+      'Campeón del Mundo de Culturismo (NABBA 2006). Entrenador personal certificado y nutricionista con más de 27 años de experiencia y más de 4,000 clientes satisfechos. Escritor para revistas Iron Man y Muscular Development.',
     image: `${SITE_CONFIG.url}/images/bernat/bernat-scorus.jpg`,
+    url: `${SITE_CONFIG.url}/es/biografia`,
+    telephone: CONTACT_INFO.phone,
+    email: CONTACT_INFO.email,
+    birthPlace: {
+      '@type': 'Place',
+      name: 'Hungary',
+    },
+    nationality: {
+      '@type': 'Country',
+      name: 'HU',
+    },
     worksFor: {
       '@type': 'Organization',
       name: SITE_CONFIG.name,
       url: SITE_CONFIG.url,
     },
-    url: `${SITE_CONFIG.url}/es/biografia`,
+    workLocation: {
+      '@type': 'Place',
+      name: 'Alicante, Comunidad Valenciana, España',
+    },
     knowsAbout: [
       'Entrenamiento personal',
       'Nutrición deportiva',
       'Culturismo',
       'Preparación física',
       'Suplementación deportiva',
+      'Prevención de enfermedades',
+      'Preparación de competiciones',
+    ],
+    knowsLanguage: [
+      { '@type': 'Language', name: 'Spanish', alternateName: 'es' },
+      { '@type': 'Language', name: 'English', alternateName: 'en' },
+      { '@type': 'Language', name: 'Hungarian', alternateName: 'hu' },
+    ],
+    hasCredential: [
+      {
+        '@type': 'EducationalOccupationalCredential',
+        name: 'Especialista en Ciencias del Entrenamiento y Lesiones Deportivas',
+        credentialCategory: 'certificate',
+        recognizedBy: {
+          '@type': 'Organization',
+          name: 'ICNS - Institución Científica de Nutrición y Salud',
+        },
+      },
+      {
+        '@type': 'EducationalOccupationalCredential',
+        name: 'Fisicoculturismo y Fitness',
+        credentialCategory: 'degree',
+        recognizedBy: {
+          '@type': 'Organization',
+          name: 'Semmelweis University (Budapest)',
+        },
+      },
+    ],
+    award: [
+      'Campeón del Mundo Absoluto NABBA (2006)',
+      'NAC Mr. Universo 2º plaza (2009)',
+      'Arnold Classic Columbus Ohio (2011)',
+      'Arnold Classic Europe (2012)',
+      'IFBB Amateur Mr. Olympia Master 2º plaza (2019)',
+      'Campeón Junior Nacional de Hungría (2000)',
+      'Campeón de Hungría +100kg (2001)',
+      'Campeón de Austria +100kg (2005)',
+    ],
+    alumniOf: [
+      {
+        '@type': 'EducationalOrganization',
+        name: 'ICNS - Institución Científica de Nutrición y Salud',
+      },
+      {
+        '@type': 'EducationalOrganization',
+        name: 'Semmelweis University',
+      },
     ],
     sameAs: [
-      SOCIAL_LINKS.instagram,
+      'https://www.instagram.com/bernatscorus/',
       SOCIAL_LINKS.youtube,
       SOCIAL_LINKS.tiktok,
       SOCIAL_LINKS.facebook,
@@ -332,17 +401,30 @@ export function getPersonSchema(): SchemaBase & Record<string, any> {
 }
 
 /**
- * Schema para BlogPosting
+ * Schema para BlogPosting con datos de autor enriquecidos desde Strapi
  */
+export interface BlogPostAuthor {
+  name: string;
+  title?: string;
+  bio?: string;
+  avatarUrl?: string;
+  socialLinks?: Array<{ url: string; platform: string }>;
+}
+
 export function getBlogPostingSchema(post: {
   title: string;
   description: string;
   publishedDate: Date;
   modifiedDate?: Date;
-  author: string;
+  author: string | BlogPostAuthor;
   image?: string;
   url: string;
 }): SchemaBase & Record<string, any> {
+  const authorData =
+    typeof post.author === 'string'
+      ? { '@type': 'Person' as const, name: post.author }
+      : buildAuthorSchema(post.author);
+
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -351,10 +433,7 @@ export function getBlogPostingSchema(post: {
     image: post.image || SITE_CONFIG.ogImage,
     datePublished: post.publishedDate.toISOString(),
     dateModified: (post.modifiedDate || post.publishedDate).toISOString(),
-    author: {
-      '@type': 'Person',
-      name: post.author,
-    },
+    author: authorData,
     publisher: {
       '@type': 'Organization',
       name: SITE_CONFIG.name,
@@ -370,6 +449,32 @@ export function getBlogPostingSchema(post: {
       '@id': post.url,
     },
   };
+}
+
+function buildAuthorSchema(author: BlogPostAuthor): Record<string, any> {
+  const schema: Record<string, any> = {
+    '@type': 'Person',
+    name: author.name,
+    url: `${SITE_CONFIG.url}/es/biografia`,
+  };
+
+  if (author.title) {
+    schema.jobTitle = author.title;
+  }
+
+  if (author.bio) {
+    schema.description = author.bio;
+  }
+
+  if (author.avatarUrl) {
+    schema.image = author.avatarUrl;
+  }
+
+  if (author.socialLinks && author.socialLinks.length > 0) {
+    schema.sameAs = author.socialLinks.map((link) => link.url);
+  }
+
+  return schema;
 }
 
 /**

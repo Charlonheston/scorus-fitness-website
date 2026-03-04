@@ -661,7 +661,17 @@ const blogPostSchema = getBlogPostingSchema({
     : 'Blog article'),
   publishedDate: publishedDate,
   modifiedDate: article.attributes.updatedAt ? new Date(article.attributes.updatedAt) : undefined,
-  author: author ? (author.attributes?.name || (author as any).name || 'Bernat Scorus') : 'Bernat Scorus',
+  author: (() => {
+    if (!author) return 'Bernat Scorus';
+    const a = author.attributes || author as any;
+    return {
+      name: a.name || 'Bernat Scorus',
+      title: a.title,
+      bio: a.bio,
+      avatarUrl: authorAvatarUrl || undefined,
+      socialLinks: processedSocialLinks.map((s: any) => ({ url: s.url, platform: s.platform })),
+    };
+  })(),
   image: imageUrl || undefined,
   url: `https://scorusfitness.com/en/blog/${article.attributes.slug}`,
 });
