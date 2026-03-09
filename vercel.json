@@ -50,7 +50,7 @@
     { "source": "/5-ejercicios-para-adelgazar-brazos/:path*", "destination": "/es/blog", "permanent": true },
     { "source": "/hipopresivos-suelo-pelvico/:path*", "destination": "/es/servicios/talleres", "permanent": true },
     { "source": "/prueba-laura/:path*", "destination": "/es", "permanent": true },
-    { "source": "/wellcome-to-my-new-official-website/:path*", "destination": "/es/blog", "permanent": true },
+    { "source": "/wellcome-to-my-new-official-website/:path*", "destination": "/en/blog", "permanent": true },
     { "source": "/bienvenids-a-mi-nueva-pagina-web-oficial/:path*", "destination": "/es/blog", "permanent": true },
 
     { "source": "/en/author/:path*", "destination": "/en/blog", "permanent": true },
@@ -62,11 +62,14 @@
     { "source": "/en/personalized-diet/:path*", "destination": "/en/services/online-consulting", "permanent": true },
     { "source": "/en/personal-training-with-laura/:path*", "destination": "/en/services/personal-training", "permanent": true },
     { "source": "/en/laura-perez-rodriguez/:path*", "destination": "/en", "permanent": true },
+    { "source": "/en/feed", "destination": "/en/blog", "permanent": true },
+    { "source": "/en/feed/", "destination": "/en/blog", "permanent": true },
     { "source": "/en/feed/:path*", "destination": "/en/blog", "permanent": true },
 
     { "source": "/hu/nem-versenyzok/:path*", "destination": "/hu", "permanent": true },
     { "source": "/hu/szemelyre-szabott-kepzes/:path*", "destination": "/hu/szolgaltatasok/szemelyi-edzes", "permanent": true },
     { "source": "/hu/szemelyre-szabott-etrend/:path*", "destination": "/hu/szolgaltatasok/online-tanacsadas", "permanent": true },
+    { "source": "/hu/szemelyi-edzes-lauraval/:path*", "destination": "/hu/szolgaltatasok/szemelyi-edzes", "permanent": true },
     { "source": "/hu/laura-perez-rodriguez/:path*", "destination": "/hu", "permanent": true },
     { "source": "/hu/uj-ev-uj-igeretek/:path*", "destination": "/hu/blog", "permanent": true },
 
@@ -157,6 +160,12 @@
     { "source": "/rolam/", "destination": "/hu/eletrajz", "permanent": true },
     { "source": "/legal-notice/", "destination": "/en", "permanent": true },
     { "source": "/uj-ev-uj-igeretek/", "destination": "/hu/blog", "permanent": true },
+    { "source": "/689", "destination": "/es/blog", "permanent": true },
+    { "source": "/689/", "destination": "/es/blog", "permanent": true },
+    { "source": "/689/:path*", "destination": "/es/blog", "permanent": true },
+    { "source": "/receta-de-pizza-fit/", "destination": "/es/blog", "permanent": true },
+    { "source": "/seminario-presencial-en-india-2019/", "destination": "/es/academia/seminarios", "permanent": true },
+    { "source": "/las-10-reglas-perder-peso-manera-saludable/:path*", "destination": "/es/blog", "permanent": true },
 
     { "source": "/es/services/entrainement-personnel", "destination": "/es/servicios/entrenamiento-personal", "permanent": true },
     { "source": "/es/services/personal-training", "destination": "/es/servicios/entrenamiento-personal", "permanent": true },
@@ -275,7 +284,10 @@
 
     { "source": "/en/academia/:path*", "destination": "/en/academy", "permanent": true },
     { "source": "/fr/academia/:path*", "destination": "/fr/academie", "permanent": true },
-    { "source": "/de/academia/:path*", "destination": "/de/akademie", "permanent": true }
+    { "source": "/de/academia/:path*", "destination": "/de/akademie", "permanent": true },
+    { "source": "/de/eletrajz", "destination": "/de/biografie", "permanent": true },
+    { "source": "/en/biografia", "destination": "/en/biography", "permanent": true },
+    { "source": "/:path+/", "destination": "/:path+", "permanent": true }
   ],
   "rewrites": [
     {
