@@ -1,0 +1,664 @@
+---
+const steps = [
+  {
+    title: '¿Qué te gustaría trabajar?',
+    shortTitle: 'Objetivo',
+    groups: [
+      {
+        name: 'goal',
+        label: 'Tu objetivo principal',
+        error: 'Elige un objetivo para continuar.',
+        options: [
+          { value: 'fat-loss', label: 'Perder grasa' },
+          { value: 'muscle', label: 'Ganar músculo' },
+          { value: 'restart', label: 'Retomar el entrenamiento' },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Un plan que parta de tu rutina.',
+    shortTitle: 'Rutina',
+    groups: [
+      {
+        name: 'experience',
+        label: 'Tu experiencia entrenando',
+        error: 'Elige la opción que describa tu experiencia.',
+        options: [
+          { value: 'beginner', label: 'Estoy empezando' },
+          { value: 'returning', label: 'He entrenado, pero sin continuidad' },
+          { value: 'regular', label: 'Entreno con regularidad' },
+        ],
+      },
+      {
+        name: 'location',
+        label: 'Dónde entrenarías',
+        error: 'Elige dónde entrenarías.',
+        options: [
+          { value: 'gym', label: 'En un gimnasio' },
+          { value: 'home', label: 'En casa' },
+          { value: 'both', label: 'Combino ambos' },
+        ],
+      },
+      {
+        name: 'days',
+        label: 'Días que podrías dedicar cada semana',
+        error: 'Elige cuántos días tendrías disponibles.',
+        options: [
+          { value: '2', label: '2 días' },
+          { value: '3', label: '3 días' },
+          { value: '4-plus', label: '4 días o más' },
+        ],
+      },
+      {
+        name: 'duration',
+        label: 'Tiempo disponible por sesión',
+        error: 'Elige el tiempo que tendrías por sesión.',
+        options: [
+          { value: 'up-to-30', label: 'Hasta 30 minutos' },
+          { value: '30-45', label: 'Entre 30 y 45 minutos' },
+          { value: '45-plus', label: 'Más de 45 minutos' },
+        ],
+      },
+    ],
+  },
+  {
+    title: '¿Cómo quieres que te acompañemos?',
+    shortTitle: 'Acompañamiento',
+    groups: [
+      {
+        name: 'support',
+        label: 'El acompañamiento que buscas',
+        error: 'Elige una preferencia de acompañamiento.',
+        options: [
+          { value: 'core', label: 'Estructura y seguimiento (Core)' },
+          { value: 'individual', label: 'Mayor acceso individual a Bernat' },
+          { value: 'guidance', label: 'Prefiero que me orientéis' },
+        ],
+      },
+    ],
+  },
+];
+
+const summaryFields = steps.flatMap((step) => step.groups);
+---
+
+<section id="valoracion" class="qualification" aria-labelledby="qualification-title">
+  <div class="qualification-layout">
+    <div class="qualification-intro">
+      <p class="eyebrow">TU OBJETIVO. TU RUTINA.</p>
+      <h2 id="qualification-title">Tu próximo paso empieza aquí.</h2>
+      <p class="intro-copy">
+        Define qué buscas, cuánto tiempo tienes y cómo te gustaría trabajar con Bernat.
+      </p>
+      <div class="preview-note" id="qualification-preview">
+        <strong>Formulario de prueba, sin envío.</strong>
+        <p>
+          Usa respuestas de ejemplo para explorar los tres pasos. No pedimos nombre, email ni
+          teléfono. Al terminar verás un resumen en esta página; tus respuestas no se envían ni se
+          guardan al salir.
+        </p>
+      </div>
+    </div>
+
+    <scorus-qualification class="qualification-widget">
+      <noscript>
+        <p class="preview-note">
+          Activa JavaScript para probar el formulario. Esta vista previa no envía datos.
+        </p>
+      </noscript>
+
+      <form novalidate hidden aria-describedby="qualification-preview" data-qualification-form>
+        <ol class="step-progress" aria-label="Pasos del formulario">
+          {
+            steps.map((step, index) => (
+              <li data-progress-step aria-current={index === 0 ? 'step' : undefined}>
+                <span class="step-number" aria-hidden="true">
+                  0{index + 1}
+                </span>
+                <span>{step.shortTitle}</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        {
+          steps.map((step, stepIndex) => (
+            <div
+              class="form-step"
+              data-form-step
+              hidden={stepIndex !== 0}
+              role="group"
+              aria-labelledby={`qualification-step-${stepIndex + 1}`}
+            >
+              <p class="step-count">Paso {stepIndex + 1} de 3</p>
+              <h3 id={`qualification-step-${stepIndex + 1}`} tabindex="-1" data-step-heading>
+                {step.title}
+              </h3>
+              <p class="required-note">Selecciona una opción en cada pregunta.</p>
+
+              {step.groups.map((group) => (
+                <fieldset data-choice-group>
+                  <legend>{group.label}</legend>
+                  <div class="choice-list">
+                    {group.options.map((option) => (
+                      <label class="choice">
+                        <input
+                          type="radio"
+                          name={group.name}
+                          value={option.value}
+                          required
+                          data-answer-label={option.label}
+                        />
+                        <span>{option.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <p
+                    class="field-error"
+                    id={`qualification-${group.name}-error`}
+                    data-field-error
+                    hidden
+                  >
+                    {group.error}
+                  </p>
+                </fieldset>
+              ))}
+
+              {stepIndex === 2 && (
+                <div class="age-confirmation" data-age-group>
+                  <label class="age-label">
+                    <input type="checkbox" name="adult" required />
+                    <span>Confirmo que tengo 18 años o más.</span>
+                  </label>
+                  <p class="field-error" id="qualification-age-error" data-field-error hidden>
+                    Confirma que tienes 18 años o más para ver el resumen.
+                  </p>
+                </div>
+              )}
+            </div>
+          ))
+        }
+
+        <p class="step-error" data-step-error role="alert" hidden>
+          Revisa las respuestas señaladas para continuar.
+        </p>
+
+        <div class="form-actions">
+          <button type="button" class="button-secondary" data-back hidden>Atrás</button>
+          <button type="submit" class="button-primary" data-continue>Siguiente</button>
+        </div>
+        <p class="form-footnote">Puedes volver atrás y cambiar tus respuestas.</p>
+      </form>
+
+      <div
+        class="qualification-summary"
+        data-summary
+        hidden
+        aria-labelledby="qualification-summary-title"
+      >
+        <p class="eyebrow">TUS RESPUESTAS</p>
+        <h3 id="qualification-summary-title" tabindex="-1" data-summary-heading>
+          Este es tu punto de partida.
+        </h3>
+        <p class="summary-preview">Vista previa: este resumen no se ha enviado a Bernat.</p>
+        <p class="summary-description">
+          Recoge las opciones que has elegido. No confirma una plaza ni recomienda un plan.
+        </p>
+        <dl class="summary-list">
+          {
+            summaryFields.map((field) => (
+              <div>
+                <dt>{field.label}</dt>
+                <dd data-summary-field={field.name}>—</dd>
+              </div>
+            ))
+          }
+          <div>
+            <dt>Mayoría de edad</dt>
+            <dd data-summary-adult>—</dd>
+          </div>
+        </dl>
+        <div class="summary-actions">
+          <button type="button" class="button-primary" data-edit>Editar mis respuestas</button>
+          <button type="button" class="button-secondary" data-restart>Empezar de nuevo</button>
+        </div>
+      </div>
+    </scorus-qualification>
+  </div>
+</section>
+
+<script>
+  class ScorusQualification extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.initialized === 'true') return;
+
+      const form = this.querySelector<HTMLFormElement>('[data-qualification-form]');
+      const panels = Array.from(this.querySelectorAll<HTMLElement>('[data-form-step]'));
+      const progress = Array.from(this.querySelectorAll<HTMLElement>('[data-progress-step]'));
+      const back = this.querySelector<HTMLButtonElement>('[data-back]');
+      const next = this.querySelector<HTMLButtonElement>('[data-continue]');
+      const error = this.querySelector<HTMLElement>('[data-step-error]');
+      const summary = this.querySelector<HTMLElement>('[data-summary]');
+      const edit = this.querySelector<HTMLButtonElement>('[data-edit]');
+      const restart = this.querySelector<HTMLButtonElement>('[data-restart]');
+
+      if (!form || panels.length !== 3 || !back || !next || !error || !summary || !edit || !restart)
+        return;
+      this.dataset.initialized = 'true';
+      let currentStep = 0;
+
+      const setGroupError = (group: HTMLElement, invalid: boolean) => {
+        group.classList.toggle('has-error', invalid);
+        const message = group.querySelector<HTMLElement>('[data-field-error]');
+        if (message) message.hidden = !invalid;
+        group.querySelectorAll<HTMLInputElement>('input').forEach((input) => {
+          if (invalid) {
+            input.setAttribute('aria-invalid', 'true');
+            if (message) input.setAttribute('aria-describedby', message.id);
+          } else {
+            input.removeAttribute('aria-invalid');
+            input.removeAttribute('aria-describedby');
+          }
+        });
+      };
+
+      const clearErrors = () => {
+        form
+          .querySelectorAll<HTMLElement>('[data-choice-group], [data-age-group]')
+          .forEach((group) => {
+            setGroupError(group, false);
+          });
+        error.hidden = true;
+      };
+
+      const showStep = (index: number, moveFocus = true) => {
+        currentStep = index;
+        summary.hidden = true;
+        form.hidden = false;
+        panels.forEach((panel, panelIndex) => {
+          panel.hidden = panelIndex !== index;
+        });
+        progress.forEach((item, itemIndex) => {
+          if (itemIndex === index) item.setAttribute('aria-current', 'step');
+          else item.removeAttribute('aria-current');
+        });
+        back.hidden = index === 0;
+        next.textContent = index === panels.length - 1 ? 'Ver mi resumen' : 'Siguiente';
+        clearErrors();
+        if (moveFocus) panels[index]?.querySelector<HTMLElement>('[data-step-heading]')?.focus();
+      };
+
+      const validateStep = () => {
+        const panel = panels[currentStep];
+        if (!panel) return false;
+        const invalidInputs: HTMLInputElement[] = [];
+        panel
+          .querySelectorAll<HTMLElement>('[data-choice-group], [data-age-group]')
+          .forEach((group) => {
+            const invalid = !group.querySelector<HTMLInputElement>('input:checked');
+            setGroupError(group, invalid);
+            const firstInput = group.querySelector<HTMLInputElement>('input');
+            if (invalid && firstInput) invalidInputs.push(firstInput);
+          });
+        error.hidden = invalidInputs.length === 0;
+        invalidInputs[0]?.focus();
+        return invalidInputs.length === 0;
+      };
+
+      form.addEventListener('change', (event) => {
+        if (!(event.target instanceof HTMLInputElement)) return;
+        const group = event.target.closest<HTMLElement>('[data-choice-group], [data-age-group]');
+        if (group && group.classList.contains('has-error')) {
+          setGroupError(group, !group.querySelector('input:checked'));
+        }
+        error.hidden = !panels[currentStep]?.querySelector('.has-error');
+      });
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (!validateStep()) return;
+        if (currentStep < panels.length - 1) {
+          showStep(currentStep + 1);
+          return;
+        }
+
+        summary.querySelectorAll<HTMLElement>('[data-summary-field]').forEach((output) => {
+          const name = output.dataset.summaryField;
+          const selected = Array.from(
+            form.querySelectorAll<HTMLInputElement>('input[type="radio"]:checked')
+          ).find((input) => input.name === name);
+          output.textContent = selected?.dataset.answerLabel ?? 'Sin respuesta';
+        });
+        const ageSummary = summary.querySelector<HTMLElement>('[data-summary-adult]');
+        if (ageSummary) ageSummary.textContent = '18 años o más (confirmado en esta prueba)';
+        form.hidden = true;
+        summary.hidden = false;
+        summary.querySelector<HTMLElement>('[data-summary-heading]')?.focus();
+      });
+
+      back.addEventListener('click', () => showStep(Math.max(0, currentStep - 1)));
+      edit.addEventListener('click', () => showStep(0));
+      restart.addEventListener('click', () => {
+        form.reset();
+        summary
+          .querySelectorAll<HTMLElement>('[data-summary-field], [data-summary-adult]')
+          .forEach((output) => {
+            output.textContent = '—';
+          });
+        showStep(0);
+      });
+
+      showStep(0, false);
+    }
+  }
+
+  if (!customElements.get('scorus-qualification')) {
+    customElements.define('scorus-qualification', ScorusQualification);
+  }
+</script>
+
+<style>
+  .qualification {
+    background: #f2f1ed;
+    color: #171717;
+    padding: clamp(3.5rem, 7vw, 7rem) clamp(1.25rem, 5vw, 4.5rem);
+    scroll-margin-top: 6rem;
+  }
+
+  .qualification-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: start;
+    gap: clamp(2rem, 6vw, 6rem);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .qualification [hidden] {
+    display: none !important;
+  }
+  .eyebrow {
+    margin: 0 0 1.25rem;
+    color: #a8201b;
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.13em;
+  }
+  h2 {
+    margin: 0;
+    font-size: clamp(2.35rem, 4.5vw, 4rem);
+    font-weight: 750;
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+  }
+  .intro-copy {
+    margin: 1.5rem 0 2rem;
+    max-width: 32rem;
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: #4b4945;
+  }
+  .preview-note {
+    border-left: 3px solid #c52620;
+    padding: 0.1rem 0 0.1rem 1.15rem;
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+  .preview-note strong {
+    display: block;
+    font-weight: 750;
+  }
+  .preview-note p {
+    margin: 0.4rem 0 0;
+    color: #4b4945;
+  }
+  .qualification-widget {
+    display: block;
+    min-width: 0;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    background: #fff;
+    border: 1px solid #c5c1b9;
+  }
+  .step-progress {
+    display: grid;
+    grid-template-columns: 0.8fr 0.8fr 1.3fr;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    gap: 0.75rem;
+  }
+  .step-progress li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 2px solid #c5c1b9;
+    padding-top: 0.7rem;
+    font-size: 0.7rem;
+    line-height: 1.35;
+    color: #58554f;
+    overflow-wrap: anywhere;
+  }
+  .step-progress li[aria-current='step'] {
+    color: #a8201b;
+    border-color: #c52620;
+    font-weight: 750;
+  }
+  .step-number {
+    font-size: 0.85rem;
+    font-weight: 750;
+  }
+  .step-count {
+    margin: 0 0 0.6rem;
+    color: #58554f;
+    font-size: 0.75rem;
+  }
+  h3 {
+    margin: 0;
+    font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+    line-height: 1.16;
+    letter-spacing: -0.035em;
+    font-weight: 750;
+  }
+  .required-note {
+    margin: 0.8rem 0 1.75rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #58554f;
+  }
+  fieldset {
+    min-width: 0;
+    border: 0;
+    padding: 0;
+    margin: 0 0 1.5rem;
+  }
+  legend {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 750;
+    line-height: 1.5;
+  }
+  .choice-list {
+    display: grid;
+    gap: 0.55rem;
+  }
+  .choice {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-height: 3.2rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid #b8b4ac;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    background: #fff;
+  }
+  .choice:hover {
+    border-color: #171717;
+    background: #f8f7f4;
+  }
+  .choice:has(input:checked) {
+    border-color: #c52620;
+    background: #fff3f0;
+    box-shadow: inset 3px 0 0 #c52620;
+  }
+  input {
+    flex: 0 0 auto;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: 0;
+    accent-color: #c52620;
+  }
+  .age-confirmation {
+    padding-top: 0.2rem;
+  }
+  .age-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.65rem 0;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  .age-label input {
+    margin-top: 0.1rem;
+  }
+  .field-error,
+  .step-error {
+    color: #a8201b;
+    font-size: 0.82rem;
+    font-weight: 650;
+    line-height: 1.5;
+    margin: 0.65rem 0 0;
+  }
+  .has-error .choice {
+    border-color: #a8201b;
+  }
+  .step-error {
+    margin: 1rem 0;
+  }
+  .form-actions,
+  .summary-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+  .form-actions {
+    justify-content: flex-end;
+  }
+  button {
+    appearance: none;
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 750;
+    line-height: 1.4;
+    border: 1px solid transparent;
+    border-radius: 0;
+    padding: 0.95rem 1.2rem;
+    min-height: 3rem;
+    cursor: pointer;
+  }
+  .button-primary {
+    background: #c52620;
+    color: #fff;
+    border-color: #c52620;
+  }
+  .button-primary:hover {
+    background: #a8201b;
+    border-color: #a8201b;
+  }
+  .button-secondary {
+    background: transparent;
+    color: #171717;
+    border-color: #b8b4ac;
+  }
+  .button-secondary:hover {
+    background: #f2f1ed;
+    border-color: #171717;
+  }
+  :is(button, input):focus-visible {
+    outline: 3px solid #171717;
+    outline-offset: 4px;
+  }
+  h3:focus-visible {
+    outline: 2px solid #171717;
+    outline-offset: 5px;
+  }
+  .form-footnote {
+    margin: 1rem 0 0;
+    color: #58554f;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-align: right;
+  }
+  .summary-preview {
+    margin: 1.25rem 0 0.75rem;
+    padding: 0.9rem 1rem;
+    background: #f2f1ed;
+    border-left: 3px solid #c52620;
+    font-size: 0.875rem;
+    font-weight: 750;
+    line-height: 1.5;
+  }
+  .summary-description {
+    margin: 0 0 1.5rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #4b4945;
+  }
+  .summary-list {
+    margin: 0;
+  }
+  .summary-list > div {
+    padding: 0.95rem 0;
+    border-bottom: 1px solid #d9d6cf;
+  }
+  .summary-list dt {
+    margin: 0 0 0.3rem;
+    color: #58554f;
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+  .summary-list dd {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 650;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 850px) {
+    .qualification-layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+      max-width: 660px;
+    }
+    .qualification-intro {
+      max-width: 38rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .qualification {
+      padding-inline: 1rem;
+    }
+    .qualification-widget {
+      padding: 1rem;
+    }
+    .step-progress {
+      gap: 0.5rem;
+    }
+    .summary-actions {
+      flex-direction: column;
+    }
+    .summary-actions button {
+      width: 100%;
+    }
+  }
+</style>

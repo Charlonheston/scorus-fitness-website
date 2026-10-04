@@ -1,0 +1,1097 @@
+---
+import QualificationForm from '../../components/scorus-team/QualificationForm.astro';
+
+const steps = [
+  {
+    number: '01',
+    title: 'Partimos de tu vida real.',
+    text: 'Objetivo, experiencia, horarios y material disponible. El punto de partida es lo que puedes sostener cada semana.',
+  },
+  {
+    number: '02',
+    title: 'Entrenas con dirección.',
+    text: 'Tu planificación, las indicaciones de los ejercicios y tus registros, organizados en Scorus App.',
+  },
+  {
+    number: '03',
+    title: 'Revisamos y ajustamos.',
+    text: 'Bernat supervisa tu evolución y adapta el programa a tus registros, dificultades y cambios de rutina.',
+  },
+];
+const faqs = [
+  {
+    question: '¿Necesito experiencia entrenando?',
+    answer:
+      'El programa se adapta a tu punto de partida. En la valoración inicial se revisan tu experiencia, disponibilidad y objetivo para concretar el acompañamiento adecuado.',
+  },
+  {
+    question: '¿Puedo entrenar en casa?',
+    answer:
+      'Cuéntanos qué material tienes y cuántos días puedes entrenar. Bernat revisará si puede preparar un programa adecuado para tu situación antes de confirmar la contratación.',
+  },
+  {
+    question: '¿Los 197 € son una suscripción sin permanencia?',
+    answer:
+      'Core es un programa de seis meses. Se abona en seis cuotas de 197 €, IVA incluido: el compromiso total es de 1.182 €. La continuidad se acuerda mediante una nueva contratación manual.',
+  },
+  {
+    question: '¿Cuándo recibiría mi programa?',
+    answer:
+      'El plazo habitual de preparación es de 48–72 horas laborables desde que se recibe toda la información inicial necesaria. El inicio del servicio se vincula a la activación de tu plan en la app.',
+  },
+  {
+    question: '¿Quién supervisa mi entrenamiento?',
+    answer:
+      'Bernat revisa la información inicial y supervisa la planificación y los ajustes. La aplicación sirve para organizar el entrenamiento, los registros y la comunicación.',
+  },
+  {
+    question: '¿Hay atención personal inmediata?',
+    answer:
+      'La atención es asíncrona. En Core, la respuesta habitual es de 24–48 horas dentro de los días de atención. Las dudas que necesitan revisar tu programa pueden requerir más tiempo.',
+  },
+];
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#121313" />
+    <title>Scorus Team · Entrena con dirección | Vista previa</title>
+    <meta
+      name="description"
+      content="Primera propuesta de Scorus Team: entrenamiento online adaptado a tu vida, con planificación y seguimiento de Bernat Scorus."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <div class="site-preview-note">
+      <span>Vista previa de la propuesta</span><span
+        >Formulario de prueba · Sin envíos ni pagos</span
+      >
+    </div>
+    <header class="site-header">
+      <a href="#inicio" class="wordmark" aria-label="Scorus Team, inicio"
+        >SCORUS<span>TEAM</span><i aria-hidden="true"></i></a
+      >
+      <nav aria-label="Navegación principal">
+        <a href="#metodo">El método</a>
+        <a href="#core">El programa</a>
+        <a href="#preguntas">Dudas frecuentes</a>
+      </nav>
+      <a class="header-cta" href="#valoracion"
+        >Conoce tu punto de partida <span aria-hidden="true">↗</span></a
+      >
+    </header>
+
+    <main id="contenido">
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <div class="hero-image">
+          <img
+            src="/images/about/bernat-about.webp"
+            alt="Bernat Scorus, entrenador de Scorus Team"
+            width="1200"
+            height="1600"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="hero-inner wrap">
+          <div class="eyebrow">
+            <span class="red-line" aria-hidden="true"></span> Asesoría online con Bernat Scorus
+          </div>
+          <h1 id="hero-title">TU VIDA.<br />TU RITMO.<br /><span>TU PROGRESO.</span></h1>
+          <p class="hero-description">
+            Un plan de entrenamiento que encaja en tu vida. Con dirección, seguimiento y una persona
+            detrás de cada ajuste.
+          </p>
+          <a class="button button-red" href="#valoracion"
+            >Descubre cómo empezar <span aria-hidden="true">↗</span></a
+          >
+          <p class="hero-caption">Scorus Core · 6 meses de acompañamiento</p>
+          <div class="hero-bottom">
+            <span>ENTRENA CON UN PLAN.</span><a href="#metodo"
+              >Conoce el método <span aria-hidden="true">↓</span></a
+            >
+          </div>
+        </div>
+        <div class="photo-caption">
+          <span>BERNAT SCORUS</span><span>Tu entrenador. También online.</span>
+        </div>
+      </section>
+
+      <section class="context wrap" aria-labelledby="context-title">
+        <p class="eyebrow dark-label">Para una vida con mucho más que entrenar</p>
+        <div class="context-grid">
+          <h2 id="context-title">Hacerlo posible.<br /><span>Y mantenerlo.</span></h2>
+          <div class="context-copy">
+            <p>Trabajo, familia, viajes. Entrenar tiene que encontrar su lugar en tu semana.</p><p>
+              Scorus Team está pensado para quienes quieren recuperar la constancia, organizar su
+              entrenamiento y avanzar con un criterio claro.
+            </p><a class="text-link" href="#core"
+              >Conoce el acompañamiento <span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+        <div class="principles">
+          <span>Adaptado a tus horarios</span><span>En gimnasio o en casa, según tu material</span
+          ><span>Supervisado por Bernat</span>
+        </div>
+      </section>
+
+      <section class="method" id="metodo" aria-labelledby="method-title">
+        <div class="wrap">
+          <div class="section-top">
+            <p class="eyebrow">El método Scorus</p><span class="section-index" aria-hidden="true"
+              >01 — 03</span
+            >
+          </div>
+          <h2 id="method-title">Saber qué hacer.<br />Entender cómo avanzas.</h2>
+          <div class="steps">
+            {
+              steps.map((step) => (
+                <article class="step">
+                  <>
+                    <span class="step-number">{step.number}</span>
+                    <h3>{step.title}</h3>
+                    <p>{step.text}</p>
+                  </>
+                </article>
+              ))
+            }
+          </div>
+          <div class="app-line">
+            <span class="app-icon" aria-hidden="true">S<span>↗</span></span><div>
+              <strong>Tu entrenamiento, organizado en Scorus App.</strong><p>
+                Planificación, vídeos de ejercicios, registros y comunicación en un mismo lugar.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="coach wrap" aria-labelledby="coach-title">
+        <div class="coach-photo">
+          <img
+            src="/images/about/biography/bernat-coaching.webp"
+            width="1920"
+            height="1080"
+            loading="lazy"
+            alt="Bernat Scorus explicando conceptos de entrenamiento en una presentación"
+          /><span>CRITERIO. EXPERIENCIA. SEGUIMIENTO.</span>
+        </div>
+        <div class="coach-copy">
+          <p class="eyebrow dark-label">La persona detrás del programa</p><h2 id="coach-title">
+            Entrenas online.<br />Bernat está detrás.
+          </h2><p>
+            Tu planificación parte de una valoración de tus objetivos, tu experiencia y tu
+            disponibilidad. Bernat revisa esa información y supervisa los cambios a lo largo del
+            proceso.
+          </p><p>
+            El seguimiento se apoya en lo que registras y comunicas: entrenamientos, evolución y
+            dificultades. Así, cada ajuste tiene un motivo.
+          </p><div class="coach-signature">
+            Bernat Scorus <span>Entrenador · Scorus Fitness</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="program" id="core" aria-labelledby="core-title">
+        <div class="wrap program-grid">
+          <div class="program-copy">
+            <p class="eyebrow">Tu programa de acompañamiento</p><h2 id="core-title">
+              SCORUS<br /><span>CORE.</span>
+            </h2><p class="program-intro">
+              Seis meses para entrenar con estructura, registrar tu evolución y ajustar el camino.
+            </p><ul>
+              <li>Evaluación inicial de tu situación y disponibilidad.</li><li>
+                Plan de entrenamiento adaptado a tu nivel y material.
+              </li><li>Acceso a Scorus App y vídeos de ejercicios.</li><li>
+                Seguimiento y ajustes supervisados por Bernat.
+              </li>
+            </ul><p class="phase-note">
+              Las primeras 12 semanas forman la fase inicial del programa. El acompañamiento
+              continúa durante los seis meses.
+            </p>
+          </div>
+          <div class="price-panel">
+            <p class="price-label">PROGRAMA DE 6 MESES</p><p class="price">
+              197<span>€/mes</span>
+            </p><p class="price-tax">IVA incluido · 6 cuotas mensuales</p><div class="price-total">
+              <span>Compromiso total</span><strong>1.182 €</strong>
+            </div><a class="button button-red" href="#valoracion"
+              >Explora si encaja contigo <span aria-hidden="true">↗</span></a
+            ><p class="renewal">Renovación manual al finalizar el programa.</p><div
+              class="elite-note"
+            >
+              <h3>¿Buscas más acceso individual?</h3><p>
+                Elite añade una videollamada individual cada cuatro semanas y prioridad de atención.
+                Podemos revisar esa preferencia al conocer tu situación.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq wrap" id="preguntas" aria-labelledby="faq-title">
+        <div>
+          <p class="eyebrow dark-label">Antes de dar el paso</p><h2 id="faq-title">
+            Las cosas,{' '}<br />claras.
+          </h2>
+        </div><div class="faq-list">
+          {
+            faqs.map((item) => (
+              <details>
+                <>
+                  <summary>
+                    {item.question}
+                    <span aria-hidden="true">+</span>
+                  </summary>
+                  <p>{item.answer}</p>
+                </>
+              </details>
+            ))
+          }
+        </div>
+      </section>
+
+      <QualificationForm />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <a class="wordmark" href="#inicio" aria-label="Scorus Team, volver al inicio"
+          >SCORUS<span>TEAM</span><i aria-hidden="true"></i></a
+        ><p>Entrena con dirección.</p><span>Propuesta de lanzamiento · Octubre 2026</span>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: light;
+    --ink: #171717;
+    --paper: #f2f1ed;
+    --red: #c52620;
+  }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 28px;
+  }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  input:focus-visible {
+    outline: 3px solid #f16157;
+    outline-offset: 5px;
+  }
+  .wrap {
+    width: min(1200px, calc(100% - 112px));
+    margin-inline: auto;
+  }
+  .skip-link {
+    position: fixed;
+    left: 12px;
+    top: -80px;
+    z-index: 100;
+    background: white;
+    color: black;
+    padding: 12px;
+  }
+  .skip-link:focus {
+    top: 12px;
+  }
+  .site-preview-note {
+    padding: 9px 28px;
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    background: #e9e5dc;
+    color: #4d4940;
+    font-size: 11px;
+    line-height: 1.5;
+    letter-spacing: 0.035em;
+  }
+  .site-preview-note span:first-child {
+    font-weight: 700;
+  }
+  .site-header {
+    height: 94px;
+    padding: 0 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    background: #121313;
+    color: #fff;
+    border-bottom: 1px solid #ffffff20;
+  }
+  .wordmark {
+    position: relative;
+    font-size: 21px;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -0.055em;
+    white-space: nowrap;
+  }
+  .wordmark span {
+    font-weight: 400;
+    margin-left: 5px;
+  }
+  .wordmark i {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-left: 5px;
+    background: #e4312a;
+    transform: skew(-14deg);
+  }
+  nav {
+    display: flex;
+    gap: 30px;
+    font-size: 13px;
+    color: #c2c3c1;
+  }
+  nav a:hover,
+  .hero-bottom a:hover {
+    color: #fff;
+  }
+  .header-cta {
+    font-size: 12px;
+    border-bottom: 1px solid #858784;
+    padding: 9px 0;
+  }
+  .header-cta span {
+    margin-left: 12px;
+    font-size: 18px;
+  }
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #121313;
+    color: #fff;
+    min-height: 730px;
+  }
+  .hero-image {
+    position: absolute;
+    inset: 0 0 0 44%;
+    z-index: -2;
+  }
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 17%;
+  }
+  .hero-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, #121313 0%, #12131322 40%, #12131300 90%),
+      linear-gradient(0deg, #121313 0%, transparent 28%);
+  }
+  .hero-inner {
+    position: relative;
+    padding-top: 67px;
+  }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+  .red-line {
+    display: block;
+    width: 30px;
+    height: 2px;
+    background: #f1483c;
+  }
+  h1 {
+    font-size: clamp(54px, 6.9vw, 101px);
+    font-weight: 900;
+    letter-spacing: -0.065em;
+    line-height: 0.97;
+    margin: 35px 0 27px;
+  }
+  h1 > span {
+    color: #ed483a;
+  }
+  .hero-description {
+    max-width: 425px;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #d0d0cb;
+  }
+  .button {
+    min-height: 56px;
+    padding: 18px 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 38px;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.5;
+    transition: background 0.15s;
+  }
+  .button span {
+    font-size: 22px;
+    line-height: 1;
+  }
+  .button-red {
+    background: var(--red);
+    color: #fff;
+  }
+  .button-red:hover {
+    background: #a41c17;
+  }
+  .hero .button {
+    margin-top: 31px;
+  }
+  .hero-caption {
+    color: #a5a6a2;
+    margin-top: 15px;
+    font-size: 11px;
+  }
+  .hero-bottom {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding: 50px 0 26px;
+    color: #aaa;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+  .hero-bottom a {
+    letter-spacing: 0;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  .photo-caption {
+    position: absolute;
+    right: 56px;
+    bottom: 51px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+  .photo-caption span:last-child {
+    letter-spacing: 0;
+    color: #bfbfb9;
+  }
+  .context {
+    padding-block: 95px 54px;
+  }
+  .dark-label {
+    color: #8e342d;
+  }
+  h2 {
+    font-size: clamp(35px, 4.2vw, 57px);
+    line-height: 1.09;
+    letter-spacing: -0.05em;
+    font-weight: 700;
+  }
+  .context-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 70px;
+    margin-top: 26px;
+  }
+  .context h2 span {
+    color: #75736e;
+  }
+  .context-copy {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #565650;
+  }
+  .context-copy p + p {
+    margin-top: 14px;
+  }
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #20221f;
+    border-bottom: 1px solid #a4a39b;
+    padding-block: 15px 8px;
+  }
+  .principles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 56px;
+    padding-top: 27px;
+    border-top: 1px solid #c9c7be;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .principles span::before {
+    content: '+';
+    color: #aa271f;
+    margin-right: 12px;
+  }
+  .method {
+    background: #e4e3dd;
+    padding: 80px 0;
+  }
+  .section-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #5e6057;
+    margin-bottom: 23px;
+  }
+  .section-index {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 45px;
+    margin-top: 55px;
+  }
+  .step {
+    border-top: 1px solid #aeafa4;
+    padding-top: 20px;
+  }
+  .steps .step-number {
+    font-size: 14px;
+    color: #9d2e27;
+  }
+  .step h3 {
+    margin: 25px 0 15px;
+    font-size: 20px;
+    letter-spacing: -0.025em;
+  }
+  .step p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #575952;
+  }
+  .app-line {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 48px;
+    padding-top: 35px;
+    border-top: 1px solid #bebfb3;
+  }
+  .app-icon {
+    width: 53px;
+    height: 53px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 25px;
+    background: #171917;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .app-icon span {
+    color: #fa6a5c;
+    font-size: 21px;
+  }
+  .app-line strong {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .app-line p {
+    margin-top: 7px;
+    color: #575952;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .coach {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 75px;
+    padding-block: 100px;
+    align-items: center;
+  }
+  .coach-photo {
+    position: relative;
+  }
+  .coach-photo img {
+    width: 100%;
+    height: 460px;
+    object-fit: cover;
+    object-position: 49% 50%;
+    filter: grayscale(1);
+  }
+  .coach-photo > span {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    padding: 15px 0;
+    color: #65665c;
+  }
+  .coach-copy h2 {
+    margin: 22px 0 26px;
+  }
+  .coach-copy > p:not(.eyebrow) {
+    font-size: 14px;
+    line-height: 1.9;
+    color: #595951;
+    margin-top: 15px;
+  }
+  .coach-signature {
+    margin-top: 33px;
+    padding-top: 25px;
+    border-top: 1px solid #cbc8bf;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .coach-signature span {
+    display: block;
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: 400;
+    color: #64665d;
+  }
+  .program {
+    background: #171917;
+    color: #f6f6ef;
+    padding: 88px 0;
+  }
+  .program-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 100px;
+    align-items: start;
+  }
+  .program .eyebrow {
+    color: #b7b9b1;
+  }
+  .program h2 {
+    font-size: clamp(55px, 7vw, 95px);
+    font-weight: 900;
+    line-height: 0.97;
+    margin: 28px 0;
+  }
+  .program h2 span {
+    color: #ed483a;
+  }
+  .program-intro {
+    font-size: 17px;
+    line-height: 1.7;
+    max-width: 400px;
+    color: #d3d4ca;
+  }
+  .program ul {
+    list-style: none;
+    padding: 24px 0 0;
+    margin: 0;
+  }
+  .program li {
+    padding: 11px 0;
+    font-size: 13px;
+    color: #e0e1d8;
+  }
+  .program li::before {
+    content: '↗';
+    color: #f16d60;
+    margin-right: 14px;
+  }
+  .phase-note {
+    font-size: 11px;
+    line-height: 1.8;
+    color: #a8aba0;
+    margin-top: 27px;
+    max-width: 430px;
+  }
+  .price-panel {
+    background: #f2f1ed;
+    color: #171917;
+    padding: 35px;
+    border-top: 4px solid #ce362b;
+  }
+  .price-label {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+  }
+  .price {
+    font-size: 83px;
+    font-weight: 700;
+    letter-spacing: -0.065em;
+    margin-top: 27px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .price span {
+    font-size: 21px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-left: 7px;
+  }
+  .price-tax {
+    font-size: 12px;
+    color: #64655d;
+    margin: 17px 0 28px;
+  }
+  .price-total {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #c7c7bc;
+    padding-top: 19px;
+    font-size: 13px;
+  }
+  .price-total strong {
+    font-size: 17px;
+  }
+  .price-panel .button {
+    width: 100%;
+    margin-top: 26px;
+    gap: 12px;
+  }
+  .renewal {
+    font-size: 10px;
+    line-height: 1.6;
+    color: #63655c;
+    margin-top: 15px;
+    text-align: center;
+  }
+  .elite-note {
+    border-top: 1px solid #cecec5;
+    padding-top: 22px;
+    margin-top: 27px;
+  }
+  .elite-note h3 {
+    font-size: 14px;
+  }
+  .elite-note p {
+    font-size: 12px;
+    line-height: 1.8;
+    color: #68695f;
+    margin-top: 10px;
+  }
+  .faq {
+    display: grid;
+    grid-template-columns: 0.75fr 1.25fr;
+    gap: 90px;
+    padding-block: 95px;
+  }
+  .faq h2 {
+    margin-top: 23px;
+  }
+  .faq-list details {
+    border-top: 1px solid #c5c5ba;
+  }
+  .faq-list details:last-child {
+    border-bottom: 1px solid #c5c5ba;
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 23px 0;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary span {
+    color: #99352c;
+    font-size: 22px;
+    font-weight: 400;
+    transition: transform 0.2s;
+  }
+  details[open] summary span {
+    transform: rotate(45deg);
+  }
+  details > p {
+    font-size: 13px;
+    line-height: 1.9;
+    padding: 0 25px 25px 0;
+    color: #56584f;
+  }
+  .site-footer {
+    padding: 37px 0;
+    background: #171917;
+    color: #fff;
+  }
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+  }
+  .footer-inner p {
+    font-size: 12px;
+    color: #b5b6ae;
+  }
+  .footer-inner > span {
+    font-size: 10px;
+    color: #b5b6ae;
+  }
+  @media (min-width: 1600px) {
+    .hero-image {
+      right: 6%;
+    }
+  }
+  @media (max-width: 1050px) {
+    .site-header {
+      padding-inline: 32px;
+    }
+    nav {
+      gap: 20px;
+    }
+    .header-cta {
+      display: none;
+    }
+    .wrap {
+      width: calc(100% - 64px);
+    }
+    .hero {
+      min-height: 680px;
+    }
+    .hero-inner {
+      padding-top: 60px;
+    }
+    .hero-description {
+      max-width: 360px;
+    }
+    .photo-caption {
+      right: 32px;
+    }
+    .program-grid {
+      gap: 45px;
+    }
+    .price-panel {
+      padding: 28px;
+    }
+    .context-grid,
+    .coach,
+    .faq {
+      gap: 45px;
+    }
+    .steps {
+      gap: 27px;
+    }
+  }
+  @media (max-width: 700px) {
+    .site-preview-note {
+      padding: 8px 14px;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      font-size: 10px;
+    }
+    .site-header {
+      height: 73px;
+      padding-inline: 23px;
+    }
+    .wordmark {
+      font-size: 19px;
+    }
+    nav {
+      font-size: 11px;
+      gap: 17px;
+    }
+    nav a:last-child {
+      display: none;
+    }
+    .wrap {
+      width: calc(100% - 46px);
+    }
+    .hero {
+      min-height: 760px;
+    }
+    .hero-inner {
+      padding-top: 38px;
+    }
+    .eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.13em;
+    }
+    .hero-image {
+      inset: 0 -24% 0 6%;
+      opacity: 0.78;
+    }
+    .hero-image img {
+      object-position: 54% 10%;
+    }
+    .hero-image::after {
+      background:
+        linear-gradient(0deg, #121313 7%, #121313bd 42%, #12131333 83%),
+        linear-gradient(90deg, #12131380, transparent);
+    }
+    h1 {
+      font-size: clamp(40px, 12vw, 78px);
+      margin-top: 160px;
+      letter-spacing: -0.06em;
+    }
+    .hero-description {
+      font-size: 15px;
+      max-width: 350px;
+      line-height: 1.7;
+    }
+    .hero .button {
+      margin-top: 25px;
+    }
+    .hero-bottom {
+      padding-top: 32px;
+      font-size: 8px;
+      gap: 25px;
+    }
+    .photo-caption {
+      display: none;
+    }
+    .context {
+      padding-block: 62px 40px;
+    }
+    h2 {
+      font-size: 37px;
+    }
+    .context-grid,
+    .steps,
+    .coach,
+    .program-grid,
+    .faq {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .context-grid {
+      gap: 26px;
+      margin-top: 20px;
+    }
+    .context-copy {
+      font-size: 15px;
+    }
+    .principles {
+      margin-top: 32px;
+      gap: 15px;
+      flex-direction: column;
+      font-size: 11px;
+    }
+    .method {
+      padding-block: 55px;
+    }
+    .steps {
+      margin-top: 35px;
+      gap: 25px;
+    }
+    .step {
+      padding-top: 15px;
+    }
+    .step h3 {
+      margin: 13px 0 10px;
+    }
+    .step p {
+      max-width: 460px;
+    }
+    .app-line {
+      gap: 16px;
+      margin-top: 30px;
+    }
+    .app-line strong {
+      font-size: 13px;
+    }
+    .app-line p {
+      font-size: 12px;
+    }
+    .coach {
+      padding-block: 55px;
+      gap: 28px;
+    }
+    .coach-photo img {
+      height: 310px;
+    }
+    .coach-copy h2 {
+      margin-top: 18px;
+    }
+    .program {
+      padding-block: 55px;
+    }
+    .program h2 {
+      font-size: clamp(54px, 18vw, 75px);
+    }
+    .program-grid {
+      gap: 35px;
+    }
+    .price-panel {
+      padding: 30px 25px;
+    }
+    .price {
+      font-size: 82px;
+    }
+    .faq {
+      padding-block: 55px;
+      gap: 30px;
+    }
+    .faq h2 br {
+      display: none;
+    }
+    summary {
+      font-size: 13px;
+    }
+    .footer-inner {
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-inner > span {
+      width: 100%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+    }
+  }
+</style>
