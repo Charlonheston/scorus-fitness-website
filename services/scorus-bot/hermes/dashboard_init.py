@@ -1,5 +1,6 @@
 """Native Hermes dashboard for a private Scorus sales-testing profile."""
 import os
+import ipaddress
 from pathlib import Path
 import yaml
 
@@ -9,6 +10,19 @@ config=home/'config.yaml'
 if not config.exists():
     config.write_text(yaml.safe_dump({'model':{'default':'','provider':'custom','base_url':''},'memory':{'memory_enabled':False,'user_profile_enabled':False},'display':{'interface':'tui'},'dashboard':{'public_url':os.environ['HERMES_DASHBOARD_PUBLIC_URL']},'toolsets':[]},allow_unicode=True))
     config.chmod(0o600)
+# Caddy reaches this container through its own Docker host gateway. Trust that
+# single address so forwarded HTTPS produces Secure session cookies; never '*'.
+routes=Path('/proc/net/route').read_text().splitlines()[1:]
+gateway=next((bytes.fromhex(line.split()[2])[::-1] for line in routes if line.split()[1]=='00000000'),None)
+if gateway is None:
+    raise RuntimeError('Cannot identify the local Docker proxy address.')
+address=ipaddress.ip_address(gateway)
+if not address.is_private:
+    raise RuntimeError('The dashboard proxy must be the private Docker host gateway.')
+settings=yaml.safe_load(config.read_text()) or {}
+settings['dashboard']={**settings.get('dashboard',{}),'trusted_proxies':[str(address)]}
+config.write_text(yaml.safe_dump(settings,allow_unicode=True))
+config.chmod(0o600)
 skill=Path('/runtime/scorus-commercial.md').read_text()
 catalog=Path('/runtime/catalog.json').read_text()
 instructions=skill+'\n\nPERFIL DE PRUEBAS COMERCIALES\nEste chat sirve para revisar la conversación de venta. No está conectado a WhatsApp, agenda, pagos ni expedientes reales. Puedes explicar el producto y preparar una recomendación, pero no confirmar reservas, aprobaciones, pagos o accesos. Si piden una acción externa, explica que requiere el panel de gestión y una conexión verificada.\n\nOFERTA OFICIAL\n'+catalog

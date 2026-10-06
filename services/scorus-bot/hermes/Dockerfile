@@ -18,6 +18,7 @@ RUN mkdir -p /home/scorus/.hermes && chown -R scorus:scorus /home/scorus
 WORKDIR /runtime
 COPY services/scorus-bot/hermes /runtime
 COPY src/data/scorus-team.json /runtime/catalog.json
+RUN python /runtime/patch_dashboard_login.py
 USER scorus
 CMD ["python","/runtime/dashboard_init.py"]
 

@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {request} from '@playwright/test';
+// Run from the repository: node services/scorus-bot/deploy/login_acceptance.mjs <private-access.json>
+// The private access file is never committed. Only safe status flags are printed.
+assert.ok(process.argv[2],'Supply the private Scorus access file path.');
+const a=JSON.parse(await readFile(process.argv[2],'utf8'));
+const context=await request.newContext();
+const initialModel=await (await context.get(a.hermes_url+'api/model/info')).json();
+const page=await context.get(a.hermes_url+'login?next=%2F');
+assert.equal(page.status(),200);
+const html=await page.text();
+const endpoint=html.match(/fetch\('([^']*password-login)'/)[1];
+const next=html.match(/name="next" value="([^"]*)"/)[1];
+assert.equal(endpoint,'/scorus-hermes/auth/password-login');assert.equal(next,'/scorus-hermes/');
+assert.ok(html.includes("url('/scorus-hermes/fonts/"));
+const destination=new URL(endpoint,a.hermes_url).href;
+const headers={Origin:'https://webhook.pegateway.xyz'};
+const denied=await context.post(destination,{headers,data:{provider:'basic',username:a.hermes_user,password:'incorrect-test-password',next}});
+assert.equal(denied.status(),401);
+const response=await context.post(destination,{headers,data:{provider:'basic',username:a.hermes_user,password:a.hermes_password,next}});
+assert.equal(response.status(),200);
+const result=await response.json();assert.equal(result.next,'/scorus-hermes/');
+const cookies=await context.storageState();assert.ok(cookies.cookies.length>0);assert.ok(cookies.cookies.every(cookie=>cookie.secure&&cookie.httpOnly&&cookie.path==='/scorus-hermes'));
+const destinationPage=await context.get(new URL(result.next,a.hermes_url).href,{maxRedirects:0});assert.equal(destinationPage.status(),200);assert.ok((await destinationPage.text()).includes('Hermes'));
+const sensitive=await context.get(a.hermes_url+'api/config');assert.equal(sensitive.status(),200);
+const model=await context.get(a.hermes_url+'api/model/info');const modelInfo=await model.json();assert.equal(modelInfo.provider,initialModel.provider);assert.equal(modelInfo.model,initialModel.model);
+const anonymous=await request.newContext();const protectedApi=await anonymous.get(a.hermes_url+'api/config');assert.equal(protectedApi.status(),401);
+console.log(JSON.stringify({rendered_login_endpoint:endpoint,rendered_return_path:next,incorrect_password:denied.status(),valid_credentials:response.status(),dashboard:destinationPage.status(),private_api:sensitive.status(),anonymous_private_api:protectedApi.status(),secure_scoped_cookies:true,model_configuration_preserved:true}));
+await context.dispose();await anonymous.dispose();
