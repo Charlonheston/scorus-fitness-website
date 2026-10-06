@@ -6,7 +6,7 @@ from tools.mcp_tool_discovery import discover_mcp_tools
 
 body=json.load(sys.stdin)
 discover_mcp_tools(allowed_mcp_names=['scorus'])
-agent=AIAgent(model=os.environ.get('HERMES_MODEL') or 'scorus-probe',api_key=os.environ.get('HERMES_MODEL_KEY') or 'private-probe',base_url=os.environ.get('HERMES_MODEL_URL') or 'http://backend:4280/not-a-model',provider='custom',enabled_toolsets=['scorus'],max_iterations=8,max_tokens=1000,quiet_mode=True,save_trajectories=False,skip_memory=True,skip_context_files=True,skip_background_review=True,load_soul_identity=False,checkpoints_enabled=False,run_budget_seconds=120)
+agent=AIAgent(model=os.environ.get('HERMES_MODEL') or 'scorus-probe',api_key=os.environ.get('HERMES_MODEL_KEY') or 'private-probe',base_url=os.environ.get('HERMES_MODEL_URL') or 'http://backend:4280/not-a-model',provider=os.environ.get('HERMES_RUNTIME_PROVIDER','custom'),enabled_toolsets=['scorus'],max_iterations=8,max_tokens=1000,quiet_mode=True,save_trajectories=False,skip_memory=True,skip_context_files=True,skip_background_review=True,load_soul_identity=False,checkpoints_enabled=False,run_budget_seconds=120)
 tools=[tool['function']['name'] for tool in agent.tools]
 allowed={'mcp__scorus__'+name for name in ('get_offer','get_profile','update_profile','get_slots','book_call','prepare_checkout','request_human','get_client_status')}
 assert set(tools)==allowed, 'Hermes tool permissions do not match the Scorus allowlist'

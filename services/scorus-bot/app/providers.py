@@ -134,7 +134,7 @@ def book(db,lead,kind,start_time,tz,email):
 def send_whatsapp(db,lead,payload):
     cfg=settings(db)
     require(lead.consent.get('contact') and not lead.opted_out,'Sin autorización de contacto.')
-    if cfg['mode']=='test': require(lead.phone in cfg['test_recipients'],'Destinatario fuera de la lista de pruebas.')
+    if cfg['mode']=='test': require(lead.phone in cfg['test_recipients'] or (cfg.get('test_allow_inbound_any') and 0<time.time()-lead.last_inbound<DAY),'Prueba sin entrada reciente ni destinatario autorizado.')
     else: require(cfg['launch_approved'],'Producción pendiente de validación.')
     transport=os.getenv('WHATSAPP_TRANSPORT','evolution')
     if transport=='evolution':

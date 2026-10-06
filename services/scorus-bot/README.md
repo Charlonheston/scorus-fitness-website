@@ -4,7 +4,7 @@ Hermes v2026.9.24 (f97608f178d1ffeca59860195ab7da295f7c8e5f), backend FastAPI y 
 
 ## Arranque
 
-Desde la raíz del repositorio, copiar `.env.example` y `.env.hermes.example` a sus archivos sin `.example`, generar secretos diferentes y arrancar `docker compose -f services/scorus-bot/compose.yaml up -d --build`. En el host preparado, `deploy/bootstrap.py` realiza la generación sin imprimir claves. Modelo y endpoint se configuran en `.env.hermes`; proveedor compatible con Chat Completions y herramientas. La clave del modelo pertenece exclusivamente al contenedor Hermes. Reiniciar solo Hermes después de cambiarla.
+Desde la raíz del repositorio, copiar `.env.example`, `.env.hermes.example` y `.env.dashboard.example` a sus archivos sin `.example`, generar secretos diferentes y arrancar `docker compose -f services/scorus-bot/compose.yaml up -d --build`. En el host preparado, `deploy/bootstrap.py` y `deploy/dashboard_bootstrap.py` realizan la generación sin imprimir claves. El panel nativo permite iniciar sesión con ChatGPT/Codex y seleccionar un modelo de la cuenta; las credenciales se guardan únicamente en el volumen privado de Hermes de Scorus. También se admite configuración por clave en `.env.hermes`.
 
 El backend escucha en 127.0.0.1:4280; TLS público mediante Caddy. Hermes, Evolution y PostgreSQL no exponen puertos públicos. `/admin` utiliza credenciales individuales de Carlo/Bernat y exige protección de origen en las acciones. Los accesos generados están fuera del repositorio en `/opt/scorus-bot/access.private.json`.
 
@@ -14,13 +14,15 @@ La web utiliza `SCORUS_BACKEND_URL` y `SCORUS_FORM_API_KEY`, ambas variables de 
 
 ## Operación
 
-1. Vincular el teléfono de pruebas desde el panel; añadir teléfonos destinatarios de prueba distintos del emisor.
+1. Vincular el teléfono de pruebas desde el panel. La opción «responder a entradas desde cualquier móvil» permite probar desde distintos teléfonos: cada interlocutor mantiene su propio expediente y solo se permiten respuestas durante las 24 horas posteriores a su entrada. La lista explícita de destinatarios sigue disponible para pruebas proactivas.
 2. Configurar modelo, Stripe de pruebas, Calendly y sus firmas de webhook. Publicar bloques y asignar tipos de evento en el panel.
 3. Confirmar tarifas, condiciones, facturación y procedimiento Harbiz. Core 6 está confirmado; las otras tarifas están desactivadas para contratación hasta aprobación.
 4. Flujo: valoración registrada como realizada → aprobación Bernat → checkout → webhook firmado de pago → alta Harbiz confirmada → onboarding completo → activación manual. La activación empieza la duración, separada del calendario de cuotas.
 5. El bot solo accede a herramientas MCP ligadas al interlocutor mediante un token firmado de cinco minutos. Cada turno Hermes tiene proceso y directorio temporal propios, sin memoria global ni herramientas de sistema.
 
 El panel permite atención humana, respuesta manual, reanudación, alta y activación. Responder desde el propio teléfono también pausa el bot. Los ecos del agente se distinguen por ID de proveedor, con 15 segundos para reconciliar carreras. Identidades LID sin teléfono comprobado no se vinculan mediante nombres: generan incidencia.
+
+La interfaz oficial de Hermes se publica con contraseña propia en `https://webhook.pegateway.xyz/scorus-hermes/`, mediante el puerto local 4281 y `deploy/dashboard_caddy.py`. Sirve para configurar el modelo, revisar la skill comercial y probar el guion en su chat. Ese chat técnico no puede confirmar reservas ni pagos reales. Las conversaciones de WhatsApp, las aprobaciones de Bernat y las gestiones se consultan en el panel Scorus. El gateway nativo de Hermes permanece apagado porque el transporte utilizado es Evolution y el worker propio.
 
 Pagos y agenda se confirman mediante proveedores. Checkout usa idempotencia y reserva persistida. Las cuotas terminan mediante schedule Stripe con fecha final y `end_behavior=cancel`. Nunca hay nueva renovación sin aceptación. Cambios por enlace Calendly requieren reconciliación y revisión si no se puede validar automáticamente el derecho o nuevo horario. Impagos, reclamaciones y devoluciones generan revisión humana; no hay suspensión o reembolso automático.
 
@@ -37,7 +39,7 @@ La cola reside en PostgreSQL. Un envío de resultado incierto o reinicio durante
 
 ## Pruebas, backups y producción
 
-`pytest services/scorus-bot/tests` con `PYTHONPATH=services/scorus-bot`. Las pruebas usan SQLite sin red; `deploy/postgres_acceptance.py` ejecuta también las reservas concurrentes en una base PostgreSQL temporal aislada. `deploy/backup.sh` guarda dumps, sesiones Evolution y configuración privada con 14 días de retención operativa; `scorus-backup.timer` programa su ejecución diaria. `deploy/restore_probe.py` comprueba la restauración en una base temporal. Mantener una copia cifrada fuera del host antes del lanzamiento comercial.
+`pytest services/scorus-bot/tests` con `PYTHONPATH=services/scorus-bot`. Las pruebas usan SQLite sin red; `deploy/postgres_acceptance.py` ejecuta también las reservas concurrentes en una base PostgreSQL temporal aislada. `deploy/backup.sh` guarda dumps, sesiones Evolution, el volumen Hermes (incluida su autorización privada) y configuración con 14 días de retención operativa; `scorus-backup.timer` programa su ejecución diaria. `deploy/restore_probe.py` comprueba la restauración en una base temporal. Mantener una copia cifrada fuera del host antes del lanzamiento comercial.
 
 Modo inicial `test`: no se permite activar producción desde el panel. El cambio requiere número definitivo verificado, credenciales de su entorno, `SCORUS_MODE=production`, revisión de las condiciones/privacidad y todas las validaciones del panel. Cambiar de modo vuelve a cerrar el formulario y desactiva lanzamiento. Mantener separadas las pruebas y clientes reales al migrar el número.
 

@@ -61,9 +61,11 @@ def init():
     Base.metadata.create_all(engine)
     with Session.begin() as db:
         if not db.get(Config, 'settings'):
-            db.add(Config(id='settings', data={'mode':'test','launch_approved':False,'catalog_approved':['core-6'],'terms_url':'','privacy_url':'','terms_version':'','billing_approved':False,'harbiz_procedure_approved':False,'templates_approved':False,'public_form_enabled':False,'capacity':10,'event_types':{},'template_names':{},'published_blocks':[],'test_recipients':[]}))
+            db.add(Config(id='settings', data={'mode':'test','launch_approved':False,'catalog_approved':['core-6'],'terms_url':'','privacy_url':'','terms_version':'','billing_approved':False,'harbiz_procedure_approved':False,'templates_approved':False,'public_form_enabled':False,'capacity':10,'event_types':{},'template_names':{},'published_blocks':[],'test_recipients':[],'test_allow_inbound_any':False}))
         else:
             cfg=db.get(Config,'settings')
+            if 'test_allow_inbound_any' not in cfg.data:
+                cfg.data={**cfg.data,'test_allow_inbound_any':False}
             mode=os.getenv('SCORUS_MODE','test')
             if cfg.data['mode']!=mode:
                 cfg.data={**cfg.data,'mode':mode,'launch_approved':False,'public_form_enabled':False}

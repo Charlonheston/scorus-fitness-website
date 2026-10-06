@@ -77,12 +77,35 @@ services:
     restart: unless-stopped
     mem_limit: 320m
   hermes:
+    init: true
     build:
       context: ../..
       dockerfile: services/scorus-bot/hermes/Dockerfile
+      target: bridge
     env_file: .env.hermes
     environment:
       SCORUS_INTERNAL_URL: http://backend:4280
+      HERMES_HOME: /home/scorus/.hermes
+      HERMES_SETTINGS_HOME: /home/scorus/.hermes
+    volumes: [scorus_hermes_dashboard:/home/scorus/.hermes]
+    tmpfs: ["/tmp:size=160m,mode=1777"]
+    read_only: true
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    restart: unless-stopped
+    mem_limit: 1g
+  hermes-dashboard:
+    init: true
+    build:
+      context: ../..
+      dockerfile: services/scorus-bot/hermes/Dockerfile
+      target: dashboard
+    env_file: .env.dashboard
+    environment:
+      HERMES_HOME: /home/scorus/.hermes
+      HERMES_DASHBOARD_PUBLIC_URL: https://webhook.pegateway.xyz/scorus-hermes
+    volumes: [scorus_hermes_dashboard:/home/scorus/.hermes]
+    ports: ["127.0.0.1:4281:9119"]
     tmpfs: ["/tmp:size=160m,mode=1777"]
     read_only: true
     security_opt: [no-new-privileges:true]
@@ -93,3 +116,4 @@ volumes:
   scorus_db:
   scorus_evolution_db:
   scorus_evolution_instances:
+  scorus_hermes_dashboard:

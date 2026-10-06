@@ -216,3 +216,18 @@ def test_metrics_distinguish_unknown_cost_and_response_time():
         db.flush();metrics=snapshot(db)
         assert metrics['response_seconds']==60 and metrics['model_tokens']==300
         assert metrics['estimated_model_cost_usd'] is None
+
+def test_open_inbound_testing_keeps_phone_conversations_separate(monkeypatch):
+    from app.main import inbound
+    from app import providers
+    with Session.begin() as db:
+        cfg=db.get(Config,'settings');cfg.data={**cfg.data,'mode':'test','test_recipients':[],'test_allow_inbound_any':True}
+        inbound(db,'+34600200001','Hola, busco perder grasa','open-a');db.flush()
+        inbound(db,'+34600200002','Hola, busco ganar músculo','open-b');db.flush()
+        a=db.query(Lead).filter_by(phone='+34600200001').one();b=db.query(Lead).filter_by(phone='+34600200002').one()
+        assert a.id!=b.id
+        assert db.query(Job).filter_by(key='respond:open-a').one().lead_id==a.id
+        assert db.query(Job).filter_by(key='respond:open-b').one().lead_id==b.id
+        a.last_inbound=time.time()-2*DAY
+        monkeypatch.setattr(providers,'api',lambda *args,**kwargs:pytest.fail('No outbound after the test reply window'))
+        with pytest.raises(RuleError):providers.send_whatsapp(db,a,{'text':'Late test reply'})

@@ -134,7 +134,7 @@ def inbound(db,phone,text,external_id,from_me=False):
         return
     if not lead:
         cfg=settings(db)
-        if cfg['mode']=='test' and phone not in cfg['test_recipients']: return
+        if cfg['mode']=='test' and not cfg.get('test_allow_inbound_any') and phone not in cfg['test_recipients']: return
         if cfg['mode']=='production' and not cfg['launch_approved']: return
         lead=Lead(phone=phone,name='Contacto WhatsApp',consent={'contact':True,'marketing':False,'source':'whatsapp_inbound','at':time.time()},profile={})
         db.add(lead);db.flush()
@@ -333,8 +333,9 @@ async def panel_action(lead_id:str,request:Request,user=Depends(admin)):
 async def panel_settings(request:Request,user=Depends(admin)):
     payload=await request.json()
     require(user=='carlo','La configuración del sistema corresponde a Carlo.')
-    allowed={'launch_approved','catalog_approved','terms_url','privacy_url','terms_version','billing_approved','harbiz_procedure_approved','templates_approved','public_form_enabled','capacity','event_types','template_names','published_blocks','test_recipients'}
+    allowed={'launch_approved','catalog_approved','terms_url','privacy_url','terms_version','billing_approved','harbiz_procedure_approved','templates_approved','public_form_enabled','capacity','event_types','template_names','published_blocks','test_recipients','test_allow_inbound_any'}
     require(set(payload)<=allowed,'Configuración no permitida.')
+    if 'test_allow_inbound_any' in payload: require(type(payload['test_allow_inbound_any']) is bool,'La recepción abierta de pruebas requiere una confirmación booleana.')
     if 'capacity' in payload: require(type(payload['capacity']) is int and 0<=payload['capacity']<=10,'Capacidad máxima inicial: diez.')
     if 'catalog_approved' in payload: require(isinstance(payload['catalog_approved'],list) and set(payload['catalog_approved'])<=set(PROGRAMS),'Catálogo inválido.')
     if 'test_recipients' in payload: payload['test_recipients']=[phone_number(p) for p in payload['test_recipients']]

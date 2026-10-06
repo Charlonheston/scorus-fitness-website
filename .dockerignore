@@ -6,6 +6,7 @@ dist
 .scorus-deploy
 **/.env
 **/.env.hermes
+**/.env.dashboard
 **/__pycache__
 **/*.pyc
 public
