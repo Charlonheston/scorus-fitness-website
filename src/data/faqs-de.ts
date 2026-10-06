@@ -46,15 +46,15 @@ export const faqsServiciosIndexDE: FAQ[] = [
   },
   {
     question: 'Welcher Service ist am besten für mich, wenn ich Anfänger bin?',
-    answer: 'Für Anfänger empfehlen wir, mit einer 60-minütigen Online-Beratung zu beginnen, um Ihre Situation und Ziele zu bewerten. Wenn Sie in Alicante leben, ist persönliches Training ideal, um von Anfang an die richtige Technik zu lernen. Wenn Sie Online bevorzugen, gibt Ihnen vierteljährliches Online-Coaching eine vollständige Nachverfolgung.',
+    answer: "Für Anfänger empfehlen wir, mit einer 60-minütigen Online-Beratung zu beginnen, um Ihre Situation und Ziele zu bewerten. Wenn Sie in Alicante leben, ist persönliches Training ideal, um von Anfang an die richtige Technik zu lernen. Für das Online-Training prüft Bernat, ob das sechsmonatige Programm Scorus Core zu Ihrer Situation passt. Aktuelle Details finden Sie auf Spanisch unter /es/scorus-team.",
   },
   {
-    question: 'Bieten Sie personalisierte Ernährungspläne an?',
-    answer: 'Ja, alle unsere Personal-Training- und Online-Coaching-Dienste umfassen personalisierte Ernährungspläne, die an Ihre Ziele (Muskelaufbau, Fettabbau usw.) und Ihren Lebensstil (vegan, glutenfrei, keto, FODMAP und mehr) angepasst sind.',
+    question: "Enthält Scorus Core einen Ernährungsplan?",
+    answer: "Enthalten sind Hinweise zu Ernährung und Gewohnheiten, abgestimmt auf Ihr Ziel, Ihre Vorlieben und Ihren Alltag. Sie ersetzen keine klinische Ernährungstherapie.",
   },
   {
     question: 'Was ist der Unterschied zwischen Beratung und Online-Coaching?',
-    answer: 'Online-Beratung besteht aus einmaligen 60-minütigen Sitzungen, um spezifische Zweifel zu Training, Ernährung oder Nahrungsergänzung zu klären. Online-Coaching ist ein vollständiges 3-, 6- oder 12-Monats-Programm mit personalisiertem Trainings- und Ernährungsplan, kontinuierlicher Nachverfolgung, regelmäßigen Videoberatungen und WhatsApp-Support.',
+    answer: "Online-Beratung besteht aus einmaligen 60-minütigen Sitzungen, um spezifische Zweifel zu Training, Ernährung oder Nahrungsergänzung zu klären. Scorus Core ist ein sechsmonatiges Online-Trainingsprogramm mit Planung, Aufzeichnungen in Scorus App und Betreuung unter Bernats Aufsicht. Aktuelle Details finden Sie auf Spanisch unter /es/scorus-team.",
   },
   {
     question: 'Was beinhaltet der Personal Training-Service?',
@@ -104,7 +104,7 @@ export const faqsConsultoriaOnlineDE: FAQ[] = [
   },
   {
     question: 'Wie viel kostet eine Online-Beratung?',
-    answer: 'Eine individuelle 60-minütige Sitzung kostet 60 €. Wir bieten auch ein 4-Sitzungen-Paket für 220 € (20 € Ersparnis) und ein 8-Sitzungen-Paket für 420 € (60 € Ersparnis) an. Beratungskunden erhalten 10% Rabatt auf unser Online-Coaching-Programm.',
+    answer: "Eine individuelle 60-minütige Sitzung kostet 60 €. Wir bieten auch ein 4-Sitzungen-Paket für 220 € (20 € Ersparnis) und ein 8-Sitzungen-Paket für 420 € (60 € Ersparnis) an.",
   },
   {
     question: 'Welche Themen kann ich in der Sitzung konsultieren?',
@@ -130,32 +130,32 @@ export const faqsConsultoriaOnlineDE: FAQ[] = [
 
 export const faqsAsesoramientoOnlineDE: FAQ[] = [
   {
-    question: 'Was beinhaltet das Online-Coaching?',
-    answer: 'Beinhaltet personalisierten Trainingsplan, an Ihre Ziele angepassten Ernährungsplan, kontinuierliche Nachverfolgung mit regelmäßigen Anpassungen, individuelle und Gruppen-Videoberatungen, WhatsApp-Unterstützung, Zugang zu exklusiver Gruppe und Rabatte auf AMIX-Nahrungsergänzung und Great I Am-Kleidung (10-30% je nach Plan).',
+    question: "Was beinhaltet Scorus Core?",
+    answer: "Eine erste Einschätzung, Training passend zu Ihrem Niveau, Zeitplan und Ihrer Ausrüstung, Hinweise zu Ernährung und Gewohnheiten, Zugang zu Scorus App, Trainingsaufzeichnungen und Anpassungen unter Bernats Aufsicht. Die wöchentliche Gruppensitzung ist zum Start des kostenpflichtigen Angebots vorgesehen.",
   },
   {
-    question: 'Was ist der Unterschied zwischen den drei Plänen?',
-    answer: 'KICKSTART (3 Monate, 174 €/Monat): Anpassungen alle 4 Wochen, zweiwöchentliche Unterstützung, 10% Rabatt. TRANSFORMATION (6 Monate, 164 €/Monat): zweiwöchentliche Überprüfungen, monatliche Videoberatung, 3 Personal-Training-Sitzungen, 20% Rabatt. ELITE (12 Monate, 164 €/Monat): wöchentliche Anpassungen, Echtzeit-Support, wöchentliche Gruppen-Videoberatungen, Online-Kurs, persönliches Wochenende, 30% Rabatt.',
+    question: "Was kostet Core und wie lange dauert es?",
+    answer: "Core dauert sechs Monate und wird in sechs Monatsraten von 197 € inklusive Mehrwertsteuer bezahlt. Die Gesamtverpflichtung beträgt 1.182 €. Die ersten 12 Wochen bilden die Anfangsphase. Die Verlängerung erfolgt manuell.",
   },
   {
-    question: 'Kann ich Online-Coaching machen, wenn ich außerhalb Spaniens lebe?',
-    answer: 'Ja, Online-Coaching ist für jedes Land verfügbar. Alle Kommunikationen erfolgen per Videoanruf, WhatsApp und Online-Plattform. Trainings- und Ernährungspläne werden an Ihren Standort, Lebensmittelverfügbarkeit und Zeitpläne angepasst.',
+    question: "Was bietet Elite zusätzlich?",
+    answer: "Elite ergänzt einen individuellen Videoanruf mit Bernat alle vier Wochen und bevorzugte Betreuung. Der Preis muss vor Vertragsabschluss bestätigt werden; dieses Angebot nennt keinen Elite-Preis.",
   },
   {
-    question: 'Wie funktioniert die kontinuierliche Nachverfolgung?',
-    answer: 'Je nach Plan erhalten Sie Anpassungen Ihrer Ernährung und Ihres Trainings alle 4 Wochen (Kickstart), alle 2 Wochen (Transformation) oder wöchentlich (Elite). Die Nachverfolgung umfasst die Analyse Ihres Fortschritts mit Fotos, Maßen und Gewicht sowie personalisierte Anpassungen basierend auf Ihren Ergebnissen.',
+    question: "Wie funktioniert die Betreuung?",
+    answer: "Die Betreuung erfolgt asynchron: übliche Antwortzeit von 24–48 Stunden bei Core und 24 Stunden bei Elite, jeweils an Betreuungstagen. Bernat prüft Ihre Aufzeichnungen und Rückmeldungen, um Anpassungen zu betreuen.",
   },
   {
-    question: 'Benötige ich spezielle Ausrüstung für Online-Coaching?',
-    answer: 'Nicht unbedingt. Trainingspläne werden an Ihre Situation angepasst: vollständiges Fitnessstudio, einfaches Fitnessstudio oder Training zu Hause mit minimaler Ausrüstung. Sie geben im Anfangsformular an, welche Ausrüstung Sie verfügbar haben, und wir entwerfen Ihre Routine entsprechend.',
+    question: "Kann ich zu Hause trainieren?",
+    answer: "Beschreiben Sie Ihre Ausrüstung, Erfahrung und verfügbare Zeit. Bernat prüft vor der Bestätigung, ob er ein geeignetes Programm erstellen kann.",
   },
   {
-    question: 'Welche Rabatte erhalte ich auf Nahrungsergänzung?',
-    answer: 'Online-Coaching-Kunden erhalten exklusive Rabatte: 10% auf AMIX-Nahrungsergänzung und Great I Am-Kleidung (Kickstart-Plan), 20% (Transformation-Plan) oder 30% (Elite-Plan). Diese Rabatte gelten für die gesamte Dauer Ihres Plans.',
+    question: "Gibt es Gruppentermine, eine Community und Rabatte?",
+    answer: "Ein wöchentlicher Gruppentermin ist zum kostenpflichtigen Start geplant. Community und Belohnungen sind noch nicht aktiv; Rabatte auf Nahrungsergänzung oder Kleidung werden in diesem Angebot nicht zugesagt.",
   },
   {
-    question: 'Beinhaltet der Elite-Plan persönliche Sitzungen?',
-    answer: 'Ja, der jährliche Elite-Plan beinhaltet ein komplettes Wochenende oder einen ganzen Samstag persönlich mit Bernat in Alicante. Es ist eine exklusive Erfahrung, um Sie persönlich kennenzulernen, Ihre Technik zu perfektionieren und Ihre Motivation zu steigern.',
+    question: "Wo finde ich das aktuelle Angebot?",
+    answer: "Die aktuellen Details finden Sie auf Spanisch unter /es/scorus-team. Die Seite zeigt das geplante Angebot und ein Demoformular ohne Datenversand oder Zahlung.",
   },
 ];
 

@@ -46,15 +46,15 @@ export const faqsServiciosIndex: FAQ[] = [
   },
   {
     question: '¿Qué servicio es mejor para mí si soy principiante?',
-    answer: 'Para principiantes recomendamos comenzar con una consultoría online de 60 minutos para evaluar tu situación y objetivos. Si vives en Alicante, el entrenamiento personal presencial es ideal para aprender técnica correcta desde el inicio. Si prefieres online, el asesoramiento online trimestral te da un seguimiento completo.',
+    answer: "Para principiantes recomendamos comenzar con una consultoría online de 60 minutos para evaluar tu situación y objetivos. Si vives en Alicante, el entrenamiento personal presencial es ideal para aprender técnica correcta desde el inicio. Para entrenamiento online, Bernat valora si Scorus Core, de seis meses, encaja con tu situación.",
   },
   {
-    question: '¿Ofrecen planes de nutrición personalizados?',
-    answer: 'Sí, todos nuestros servicios de entrenamiento personal y asesoramiento online incluyen planes de nutrición personalizados adaptados a tus objetivos (aumento muscular, pérdida de grasa, etc.) y a tu estilo de vida (vegana, sin gluten, keto, FODMAP y más).',
+    question: "¿Scorus Core incluye un plan de nutrición?",
+    answer: "Incluye orientación de alimentación y hábitos vinculada a tu objetivo, preferencias y rutina. No sustituye tratamiento nutricional clínico.",
   },
   {
     question: '¿Cuál es la diferencia entre consultoría y asesoramiento online?',
-    answer: 'La consultoría online son sesiones puntuales de 60 minutos para resolver dudas específicas sobre entrenamiento, nutrición o suplementación. El asesoramiento online es un programa completo de 3, 6 o 12 meses con plan de entrenamiento y nutrición personalizado, seguimiento continuo, videoconsultas regulares y soporte por WhatsApp.',
+    answer: "La consultoría online son sesiones puntuales de 60 minutos para resolver dudas específicas sobre entrenamiento, nutrición o suplementación. Scorus Core es el programa de entrenamiento online de seis meses, con planificación, registros en Scorus App y seguimiento supervisado por Bernat. La propuesta actual está en /es/scorus-team.",
   },
   {
     question: '¿Qué incluye el servicio de entrenamiento personal?',
@@ -104,7 +104,7 @@ export const faqsConsultoriaOnline: FAQ[] = [
   },
   {
     question: '¿Cuánto cuesta una consultoría online?',
-    answer: 'Una sesión individual de 60 minutos cuesta 60€. También ofrecemos Pack de 4 sesiones por 220€ (ahorro de 20€) y Pack de 8 sesiones por 420€ (ahorro de 60€). Los clientes de consultoría obtienen 10% de descuento en nuestro programa de Coaching Online.',
+    answer: "Una sesión individual de 60 minutos cuesta 60€. También ofrecemos Pack de 4 sesiones por 220€ (ahorro de 20€) y Pack de 8 sesiones por 420€ (ahorro de 60€).",
   },
   {
     question: '¿Qué temas puedo consultar en la sesión?',
@@ -130,32 +130,32 @@ export const faqsConsultoriaOnline: FAQ[] = [
 
 export const faqsAsesoramientoOnline: FAQ[] = [
   {
-    question: '¿Qué incluye el asesoramiento online?',
-    answer: 'Incluye plan de entrenamiento personalizado, plan nutricional adaptado a tus objetivos, seguimiento continuo con ajustes regulares, videoconsultas individuales y grupales, asistencia por WhatsApp, acceso a grupo exclusivo, y descuentos en suplementación AMIX y ropa Great I Am (10-30% según plan).',
+    question: "¿Qué incluye Scorus Core?",
+    answer: "Evaluación inicial, planificación de entrenamiento adaptada a tu nivel, horarios y material, orientación de alimentación y hábitos, acceso a Scorus App, registros y ajustes supervisados por Bernat. La sesión grupal semanal está prevista para activarse con el lanzamiento de pago.",
   },
   {
-    question: '¿Cuál es la diferencia entre los tres planes?',
-    answer: 'KICKSTART (3 meses, 174€/mes): ajustes cada 4 semanas, asistencia quincenal, 10% descuento. TRANSFORMACIÓN (6 meses, 164€/mes): revisiones quincenales, videoconsulta mensual, 3 entrenamientos personales, 20% descuento. ÉLITE (12 meses, 164€/mes): ajustes semanales, soporte en tiempo real, videoconsultas grupales semanales, curso online, fin de semana presencial, 30% descuento.',
+    question: "¿Cuánto cuesta y cuánto dura Core?",
+    answer: "Core dura seis meses y se abona en seis cuotas de 197 € al mes, IVA incluido. El compromiso total es de 1.182 €. Las primeras 12 semanas son la fase inicial; la renovación al finalizar es manual.",
   },
   {
-    question: '¿Puedo hacer asesoramiento online si vivo fuera de España?',
-    answer: 'Sí, el asesoramiento online está disponible para cualquier país. Todas las comunicaciones son por videollamada, WhatsApp y plataforma online. Los planes de entrenamiento y nutrición se adaptan a tu ubicación, disponibilidad de alimentos y horarios.',
+    question: "¿Qué añade Elite?",
+    answer: "Elite añade una videollamada individual con Bernat cada cuatro semanas y prioridad de atención. Su precio debe confirmarse antes de contratar; no se publica una tarifa de Elite en esta propuesta.",
   },
   {
-    question: '¿Cómo funciona el seguimiento continuo?',
-    answer: 'Dependiendo del plan, recibes ajustes en tu dieta y entrenamiento cada 4 semanas (Kickstart), cada 2 semanas (Transformación) o semanalmente (Élite). El seguimiento incluye análisis de tu progreso con fotos, medidas y peso, y ajustes personalizados según tus resultados.',
+    question: "¿Cómo funciona la atención?",
+    answer: "La atención es asíncrona: respuesta habitual de 24–48 horas en Core y de 24 horas en Elite, dentro de los días de atención. Bernat revisa los registros y la información que comunicas para supervisar los ajustes.",
   },
   {
-    question: '¿Necesito equipamiento especial para el asesoramiento online?',
-    answer: 'No necesariamente. Los planes de entrenamiento se adaptan a tu situación: gimnasio completo, gimnasio básico o entrenamiento en casa con material mínimo. Indicamos en el formulario inicial qué equipamiento tienes disponible y diseñamos tu rutina en consecuencia.',
+    question: "¿Puedo entrenar en casa?",
+    answer: "Indica tu material, experiencia y disponibilidad. Bernat revisará si puede preparar un programa adecuado para tu situación antes de confirmar la contratación.",
   },
   {
-    question: '¿Qué descuentos obtengo en suplementación?',
-    answer: 'Los clientes de asesoramiento online obtienen descuentos exclusivos: 10% en suplementación AMIX y ropa Great I Am (plan Kickstart), 20% (plan Transformación) o 30% (plan Élite). Estos descuentos se aplican durante toda la duración de tu plan.',
+    question: "¿Hay sesión grupal, comunidad y descuentos?",
+    answer: "La sesión grupal semanal está prevista para el lanzamiento de pago. La comunidad y las recompensas no están activas; no se ofrecen descuentos en suplementos o ropa como parte de esta propuesta.",
   },
   {
-    question: '¿El plan Élite incluye sesiones presenciales?',
-    answer: 'Sí, el plan Élite anual incluye un fin de semana completo o un sábado entero presencial con Bernat en Alicante. Es una experiencia exclusiva para conocerte en persona, perfeccionar tu técnica y potenciar tu motivación.',
+    question: "¿Dónde puedo ver la propuesta actual?",
+    answer: "Puedes consultar el programa y sus condiciones en /es/scorus-team. La página presenta una propuesta de lanzamiento y un formulario de demostración sin envíos ni pagos.",
   },
 ];
 

@@ -46,15 +46,15 @@ export const faqsServiciosIndexFR: FAQ[] = [
   },
   {
     question: 'Quel service est le meilleur pour moi si je suis débutant?',
-    answer: 'Pour les débutants, nous recommandons de commencer par une consultation en ligne de 60 minutes pour évaluer votre situation et vos objectifs. Si vous habitez à Alicante, l\'entraînement personnel en présentiel est idéal pour apprendre la bonne technique dès le début. Si vous préférez en ligne, le coaching en ligne trimestriel vous offre un suivi complet.',
+    answer: "Pour les débutants, nous recommandons de commencer par une consultation en ligne de 60 minutes pour évaluer votre situation et vos objectifs. Si vous habitez à Alicante, l'entraînement personnel en présentiel est idéal pour apprendre la bonne technique dès le début. Pour l’entraînement en ligne, Bernat évalue si Scorus Core, un programme de six mois, convient à votre situation. Les détails actualisés sont disponibles en espagnol sur /es/scorus-team.",
   },
   {
-    question: 'Proposez-vous des plans de nutrition personnalisés?',
-    answer: 'Oui, tous nos services d\'entraînement personnel et de coaching en ligne incluent des plans de nutrition personnalisés adaptés à vos objectifs (gain musculaire, perte de graisse, etc.) et à votre style de vie (végétalien, sans gluten, keto, FODMAP, et plus).',
+    question: "Scorus Core comprend-il un plan nutritionnel ?",
+    answer: "Le programme comprend des conseils sur l’alimentation et les habitudes adaptés à votre objectif, vos préférences et votre quotidien. Il ne remplace pas un traitement nutritionnel clinique.",
   },
   {
     question: 'Quelle est la différence entre consultation et coaching en ligne?',
-    answer: 'La consultation en ligne consiste en des séances ponctuelles de 60 minutes pour résoudre des doutes spécifiques sur l\'entraînement, la nutrition ou la supplémentation. Le coaching en ligne est un programme complet de 3, 6 ou 12 mois avec plan d\'entraînement et nutrition personnalisé, suivi continu, consultations vidéo régulières et support WhatsApp.',
+    answer: "La consultation en ligne consiste en des séances ponctuelles de 60 minutes pour résoudre des doutes spécifiques sur l'entraînement, la nutrition ou la supplémentation. Scorus Core est un programme d’entraînement en ligne de six mois avec planification, suivi dans Scorus App et supervision de Bernat. Les détails actualisés sont disponibles en espagnol sur /es/scorus-team.",
   },
   {
     question: 'Qu\'inclut le service d\'entraînement personnel?',
@@ -104,7 +104,7 @@ export const faqsConsultoriaOnlineFR: FAQ[] = [
   },
   {
     question: 'Combien coûte une consultation en ligne?',
-    answer: 'Une séance individuelle de 60 minutes coûte 60€. Nous proposons également un Pack de 4 séances pour 220€ (économie de 20€) et un Pack de 8 séances pour 420€ (économie de 60€). Les clients de consultation obtiennent 10% de réduction sur notre programme de Coaching en ligne.',
+    answer: "Une séance individuelle de 60 minutes coûte 60€. Nous proposons également un Pack de 4 séances pour 220€ (économie de 20€) et un Pack de 8 séances pour 420€ (économie de 60€).",
   },
   {
     question: 'Quels sujets puis-je consulter lors de la séance?',
@@ -130,32 +130,32 @@ export const faqsConsultoriaOnlineFR: FAQ[] = [
 
 export const faqsAsesoramientoOnlineFR: FAQ[] = [
   {
-    question: 'Qu\'inclut le coaching en ligne?',
-    answer: 'Inclut plan d\'entraînement personnalisé, plan nutritionnel adapté à vos objectifs, suivi continu avec ajustements réguliers, consultations vidéo individuelles et de groupe, assistance WhatsApp, accès au groupe exclusif, et réductions sur supplémentation AMIX et vêtements Great I Am (10-30% selon plan).',
+    question: "Que comprend Scorus Core ?",
+    answer: "Une évaluation initiale, un programme adapté à votre niveau, vos horaires et votre matériel, des conseils sur l’alimentation et les habitudes, l’accès à Scorus App, le suivi des entraînements et des ajustements supervisés par Bernat. La séance collective hebdomadaire est prévue au lancement de l’offre payante.",
   },
   {
-    question: 'Quelle est la différence entre les trois plans?',
-    answer: 'KICKSTART (3 mois, 174€/mois) : ajustements toutes les 4 semaines, assistance bimensuelle, 10% de réduction. TRANSFORMATION (6 mois, 164€/mois) : révisions bimensuelles, consultation vidéo mensuelle, 3 séances d\'entraînement personnel, 20% de réduction. ELITE (12 mois, 164€/mois) : ajustements hebdomadaires, support en temps réel, consultations vidéo de groupe hebdomadaires, cours en ligne, week-end en présentiel, 30% de réduction.',
+    question: "Quel est le prix et la durée de Core ?",
+    answer: "Core dure six mois, réglés en six mensualités de 197 € TTC, soit un engagement total de 1 182 €. Les 12 premières semaines constituent la phase initiale. Le renouvellement à la fin est manuel.",
   },
   {
-    question: 'Puis-je faire du coaching en ligne si je vis hors d\'Espagne?',
-    answer: 'Oui, le coaching en ligne est disponible pour n\'importe quel pays. Toutes les communications se font par appel vidéo, WhatsApp et plateforme en ligne. Les plans d\'entraînement et de nutrition s\'adaptent à votre localisation, disponibilité d\'aliments et horaires.',
+    question: "Que propose Elite en plus ?",
+    answer: "Elite ajoute un appel vidéo individuel avec Bernat toutes les quatre semaines et un suivi prioritaire. Son prix doit être confirmé avant toute souscription ; cette proposition ne publie pas de tarif Elite.",
   },
   {
-    question: 'Comment fonctionne le suivi continu?',
-    answer: 'Selon le plan, vous recevez des ajustements de votre régime et entraînement toutes les 4 semaines (Kickstart), toutes les 2 semaines (Transformation) ou hebdomadairement (Elite). Le suivi inclut l\'analyse de vos progrès avec photos, mesures et poids, et ajustements personnalisés selon vos résultats.',
+    question: "Comment fonctionne le suivi ?",
+    answer: "Le suivi est asynchrone : réponse habituelle sous 24–48 heures pour Core et sous 24 heures pour Elite, pendant les jours de suivi. Bernat analyse vos enregistrements et vos retours pour superviser les ajustements.",
   },
   {
-    question: 'Ai-je besoin d\'équipement spécial pour le coaching en ligne?',
-    answer: 'Pas nécessairement. Les plans d\'entraînement s\'adaptent à votre situation : salle complète, salle basique ou entraînement à domicile avec équipement minimal. Vous indiquez dans le formulaire initial quel équipement vous avez disponible et nous concevons votre routine en conséquence.',
+    question: "Puis-je m’entraîner à domicile ?",
+    answer: "Indiquez votre matériel, votre expérience et vos disponibilités. Bernat vérifiera s’il peut préparer un programme adapté avant de confirmer votre inscription.",
   },
   {
-    question: 'Quelles réductions puis-je obtenir sur la supplémentation?',
-    answer: 'Les clients de coaching en ligne obtiennent des réductions exclusives : 10% sur supplémentation AMIX et vêtements Great I Am (plan Kickstart), 20% (plan Transformation) ou 30% (plan Elite). Ces réductions s\'appliquent pendant toute la durée de votre plan.',
+    question: "Y a-t-il une séance de groupe, une communauté et des réductions ?",
+    answer: "Une séance de groupe hebdomadaire est prévue pour le lancement payant. La communauté et les récompenses ne sont pas actives ; aucune réduction sur les compléments ou les vêtements n’est proposée dans cette offre.",
   },
   {
-    question: 'Le plan Elite inclut-il des séances en présentiel?',
-    answer: 'Oui, le plan Elite annuel inclut un week-end complet ou un samedi entier en présentiel avec Bernat à Alicante. C\'est une expérience exclusive pour vous rencontrer en personne, perfectionner votre technique et booster votre motivation.',
+    question: "Où consulter la proposition actualisée ?",
+    answer: "Les détails actualisés sont disponibles en espagnol sur /es/scorus-team. Cette page présente la proposition de lancement et un formulaire de démonstration sans envoi de données ni paiement.",
   },
 ];
 

@@ -46,15 +46,15 @@ export const faqsServiciosIndexEN: FAQ[] = [
   },
   {
     question: 'Which service is best for me if I\'m a beginner?',
-    answer: 'For beginners, we recommend starting with a 60-minute online consultation to evaluate your situation and goals. If you live in Alicante, in-person personal training is ideal for learning proper technique from the start. If you prefer online, quarterly online coaching gives you complete follow-up.',
+    answer: "For beginners, we recommend starting with a 60-minute online consultation to evaluate your situation and goals. If you live in Alicante, in-person personal training is ideal for learning proper technique from the start. For online training, Bernat assesses whether the six-month Scorus Core programme fits your situation. Updated details are available in Spanish at /es/scorus-team.",
   },
   {
-    question: 'Do you offer personalized nutrition plans?',
-    answer: 'Yes, all our personal training and online coaching services include personalized nutrition plans adapted to your goals (muscle gain, fat loss, etc.) and your lifestyle (vegan, gluten-free, keto, FODMAP, and more).',
+    question: "Does Scorus Core include a nutrition plan?",
+    answer: "It includes guidance on food and habits tailored to your goal, preferences and routine. It does not replace clinical nutritional treatment.",
   },
   {
     question: 'What is the difference between consulting and online coaching?',
-    answer: 'Online consulting consists of one-time 60-minute sessions to resolve specific doubts about training, nutrition, or supplementation. Online coaching is a complete 3, 6, or 12-month program with personalized training and nutrition plan, continuous follow-up, regular video consultations, and WhatsApp support.',
+    answer: "Online consulting consists of one-time 60-minute sessions to resolve specific doubts about training, nutrition, or supplementation. Scorus Core is a six-month online training programme with planning, Scorus App logs and follow-up supervised by Bernat. Updated programme details are available in Spanish at /es/scorus-team.",
   },
   {
     question: 'What does personal training include?',
@@ -104,7 +104,7 @@ export const faqsConsultoriaOnlineEN: FAQ[] = [
   },
   {
     question: 'How much does online consulting cost?',
-    answer: 'An individual 60-minute session costs €60. We also offer a 4-session pack for €220 (€20 savings) and an 8-session pack for €420 (€60 savings). Consulting clients get a 10% discount on our Online Coaching program.',
+    answer: "An individual 60-minute session costs €60. We also offer a 4-session pack for €220 (€20 savings) and an 8-session pack for €420 (€60 savings).",
   },
   {
     question: 'What topics can I consult about in the session?',
@@ -130,32 +130,32 @@ export const faqsConsultoriaOnlineEN: FAQ[] = [
 
 export const faqsAsesoramientoOnlineEN: FAQ[] = [
   {
-    question: 'What does online coaching include?',
-    answer: 'Includes personalized training plan, nutrition plan adapted to your goals, continuous follow-up with regular adjustments, individual and group video consultations, WhatsApp assistance, access to exclusive group, and discounts on AMIX supplementation and Great I Am clothing (10-30% depending on plan).',
+    question: "What does Scorus Core include?",
+    answer: "An initial assessment, training tailored to your level, schedule and equipment, guidance on food and habits, Scorus App access, training logs and adjustments supervised by Bernat. The weekly group session is planned to start with the paid launch.",
   },
   {
-    question: 'What is the difference between the three plans?',
-    answer: 'KICKSTART (3 months, €174/month): adjustments every 4 weeks, biweekly assistance, 10% discount. TRANSFORMATION (6 months, €164/month): biweekly reviews, monthly video consultation, 3 personal training sessions, 20% discount. ELITE (12 months, €164/month): weekly adjustments, real-time support, weekly group video consultations, online course, in-person weekend, 30% discount.',
+    question: "How much does Core cost and how long does it last?",
+    answer: "Core lasts six months, paid in six monthly instalments of €197 including VAT: a total commitment of €1,182. The first 12 weeks are the initial phase. Renewal at the end is manual.",
   },
   {
-    question: 'Can I do online coaching if I live outside Spain?',
-    answer: 'Yes, online coaching is available for any country. All communications are via video call, WhatsApp, and online platform. Training and nutrition plans are adapted to your location, food availability, and schedules.',
+    question: "What does Elite add?",
+    answer: "Elite adds an individual video call with Bernat every four weeks and priority support. Its price must be confirmed before purchase; this proposal does not publish an Elite price.",
   },
   {
-    question: 'How does continuous follow-up work?',
-    answer: 'Depending on the plan, you receive adjustments to your diet and training every 4 weeks (Kickstart), every 2 weeks (Transformation), or weekly (Elite). Follow-up includes analysis of your progress with photos, measurements, and weight, and personalized adjustments based on your results.',
+    question: "How does support work?",
+    answer: "Support is asynchronous: usual replies within 24–48 hours for Core and 24 hours for Elite, on support days. Bernat reviews your logs and feedback to supervise adjustments.",
   },
   {
-    question: 'Do I need special equipment for online coaching?',
-    answer: 'Not necessarily. Training plans are adapted to your situation: full gym, basic gym, or home training with minimal equipment. You indicate in the initial form what equipment you have available and we design your routine accordingly.',
+    question: "Can I train at home?",
+    answer: "Tell Bernat about your equipment, experience and availability. He will assess whether he can prepare a suitable programme before confirming enrolment.",
   },
   {
-    question: 'What discounts do I get on supplementation?',
-    answer: 'Online coaching clients get exclusive discounts: 10% on AMIX supplementation and Great I Am clothing (Kickstart plan), 20% (Transformation plan), or 30% (Elite plan). These discounts apply for the entire duration of your plan.',
+    question: "Are group sessions, a community and discounts included?",
+    answer: "A weekly group session is planned for the paid launch. The community and rewards are not active; supplement or clothing discounts are not offered as part of this proposal.",
   },
   {
-    question: 'Does the Elite plan include in-person sessions?',
-    answer: 'Yes, the annual Elite plan includes a complete weekend or full Saturday in person with Bernat in Alicante. It\'s an exclusive experience to meet you in person, perfect your technique, and boost your motivation.',
+    question: "Where can I read the updated proposal?",
+    answer: "Updated details are available in Spanish at /es/scorus-team. The page presents the launch proposal and a demo form that does not submit information or take payments.",
   },
 ];
 

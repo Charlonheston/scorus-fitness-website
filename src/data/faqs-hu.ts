@@ -46,15 +46,15 @@ export const faqsServiciosIndexHU: FAQ[] = [
   },
   {
     question: 'Melyik szolgáltatás a legjobb számomra, ha kezdő vagyok?',
-    answer: 'Kezdőknek azt javasoljuk, hogy kezdjenek egy 60 perces online konzultációval a helyzetük és céljaik értékeléséhez. Ha Alicantéban él, a személyi edzés ideális a megfelelő technika megtanulásához az elejétől. Ha az online-t részesíti előnyben, a negyedéves online coaching teljes nyomonkövetést biztosít.',
+    answer: "Kezdőknek azt javasoljuk, hogy kezdjenek egy 60 perces online konzultációval a helyzetük és céljaik értékeléséhez. Ha Alicantéban él, a személyi edzés ideális a megfelelő technika megtanulásához az elejétől. Online edzés esetén Bernat felméri, hogy a hat hónapos Scorus Core program megfelel-e az Ön helyzetének. Az aktuális részletek spanyolul érhetők el: /es/scorus-team.",
   },
   {
-    question: 'Kínálnak személyre szabott táplálkozási terveket?',
-    answer: 'Igen, minden személyi edzési és online coaching szolgáltatásunk tartalmaz személyre szabott táplálkozási terveket, amelyek alkalmazkodnak a célokhoz (izomtömeg növelés, zsírégetés stb.) és az életmódhoz (vegán, gluténmentes, keto, FODMAP és egyebek).',
+    question: "Tartalmaz a Scorus Core étrendet?",
+    answer: "A program az Ön céljához, preferenciáihoz és napi rutinjához igazított étkezési és szokásbeli útmutatást tartalmaz. Ez nem helyettesíti a klinikai táplálkozásterápiát.",
   },
   {
     question: 'Mi a különbség a tanácsadás és az online coaching között?',
-    answer: 'Az online tanácsadás egyszeri 60 perces alkalmakból áll, ahol konkrét kérdéseket oldunk meg az edzéssel, táplálkozással vagy kiegészítésekkel kapcsolatban. Az online coaching egy teljes 3, 6 vagy 12 hónapos program személyre szabott edzés- és táplálkozási tervvel, folyamatos nyomonkövetéssel, rendszeres videó konzultációkkal és WhatsApp támogatással.',
+    answer: "Az online tanácsadás egyszeri 60 perces alkalmakból áll, ahol konkrét kérdéseket oldunk meg az edzéssel, táplálkozással vagy kiegészítésekkel kapcsolatban. A Scorus Core hat hónapos online edzésprogram edzéstervezéssel, Scorus Appban vezetett naplóval és Bernat felügyeletével. Az aktuális részletek spanyolul érhetők el: /es/scorus-team.",
   },
   {
     question: 'Mit tartalmaz a személyi edzés szolgáltatás?',
@@ -104,7 +104,7 @@ export const faqsConsultoriaOnlineHU: FAQ[] = [
   },
   {
     question: 'Mennyibe kerül egy online tanácsadás?',
-    answer: 'Egy egyéni 60 perces alkalom 60 €-ba kerül. Kínálunk 4 alkalmas csomagot is 220 €-ért (20 € megtakarítás) és 8 alkalmas csomagot 420 €-ért (60 € megtakarítás). A tanácsadási ügyfelek 10% kedvezményt kapnak az Online Coaching programunkra.',
+    answer: "Egy egyéni 60 perces alkalom 60 €-ba kerül. Kínálunk 4 alkalmas csomagot is 220 €-ért (20 € megtakarítás) és 8 alkalmas csomagot 420 €-ért (60 € megtakarítás).",
   },
   {
     question: 'Milyen témákról konzultálhatok az alkalmon?',
@@ -130,32 +130,32 @@ export const faqsConsultoriaOnlineHU: FAQ[] = [
 
 export const faqsAsesoramientoOnlineHU: FAQ[] = [
   {
-    question: 'Mit tartalmaz az online coaching?',
-    answer: 'Tartalmazza a személyre szabott edzéstervet, a célokhoz igazított táplálkozási tervet, folyamatos nyomonkövetést rendszeres módosításokkal, egyéni és csoportos videó konzultációkat, WhatsApp támogatást, hozzáférést az exkluzív csoporthoz és kedvezményeket az AMIX kiegészítésekre és Great I Am ruházatra (10-30% a terv szerint).',
+    question: "Mit tartalmaz a Scorus Core?",
+    answer: "Kezdeti felmérést, az Ön szintjéhez, időbeosztásához és felszereléséhez igazított edzéstervet, étkezési és szokásbeli útmutatást, Scorus App-hozzáférést, edzésnaplót és Bernat által felügyelt módosításokat. A heti csoportos alkalom a fizetős program indulásával van tervben.",
   },
   {
-    question: 'Mi a különbség a három terv között?',
-    answer: 'KICKSTART (3 hónap, 174 €/hó): módosítások 4 hetente, kétheti támogatás, 10% kedvezmény. TRANSFORMATION (6 hónap, 164 €/hó): kétheti felülvizsgálatok, havi videó konzultáció, 3 személyi edzés, 20% kedvezmény. ELITE (12 hónap, 164 €/hó): heti módosítások, valós idejű támogatás, heti csoportos videó konzultációk, online kurzus, személyes hétvége, 30% kedvezmény.',
+    question: "Mennyibe kerül a Core, és meddig tart?",
+    answer: "A Core hat hónapig tart, hat havi, egyenként 197 € összegű, áfát tartalmazó részlettel. A teljes vállalt összeg 1 182 €. Az első 12 hét a kezdeti szakasz. A lejárat utáni megújítás manuális.",
   },
   {
-    question: 'Vehetek igénybe online coachinget, ha Spanyolországon kívül élek?',
-    answer: 'Igen, az online coaching minden országban elérhető. Minden kommunikáció videóhíváson, WhatsAppon és online platformon keresztül történik. Az edzés- és táplálkozási tervek alkalmazkodnak a tartózkodási helyhez, élelmiszerek elérhetőségéhez és ütemtervekhez.',
+    question: "Mit ad hozzá az Elite?",
+    answer: "Az Elite négyhetente egyéni videóhívást biztosít Bernattal és elsőbbségi támogatást ad. Az árat szerződéskötés előtt meg kell erősíteni; ez az ajánlat nem közöl Elite-díjat.",
   },
   {
-    question: 'Hogyan működik a folyamatos nyomonkövetés?',
-    answer: 'A tervtől függően módosításokat kap az étrendhez és edzéshez 4 hetente (Kickstart), 2 hetente (Transformation) vagy hetente (Elite). A nyomonkövetés magában foglalja a haladás elemzését fotókkal, mérésekkel és súllyal, valamint személyre szabott módosításokat az eredményei alapján.',
+    question: "Hogyan működik a támogatás?",
+    answer: "A támogatás aszinkron: a szokásos válaszidő Core esetén 24–48 óra, Elite esetén 24 óra, a támogatási napokon. Bernat az edzésnapló és a visszajelzések alapján felügyeli a módosításokat.",
   },
   {
-    question: 'Szükséges speciális felszerelés az online coachinghoz?',
-    answer: 'Nem feltétlenül. Az edzéstervek alkalmazkodnak a helyzetéhez: teljes edzőterem, alapvető edzőterem vagy otthoni edzés minimális felszereléssel. A kezdeti űrlapon jelzi, milyen felszereléssel rendelkezik, és ennek megfelelően tervezzük meg a rutinját.',
+    question: "Edzhetek otthon?",
+    answer: "Adja meg a felszerelését, tapasztalatát és rendelkezésre álló idejét. Bernat a jelentkezés megerősítése előtt felméri, hogy készíthet-e megfelelő programot.",
   },
   {
-    question: 'Milyen kedvezményeket kapok a kiegészítésekre?',
-    answer: 'Az online coaching ügyfelek exkluzív kedvezményeket kapnak: 10% az AMIX kiegészítésekre és Great I Am ruházatra (Kickstart terv), 20% (Transformation terv) vagy 30% (Elite terv). Ezek a kedvezmények a terv teljes időtartama alatt érvényesek.',
+    question: "Van csoportos alkalom, közösség és kedvezmény?",
+    answer: "A fizetős indulástól heti csoportos alkalom van tervben. A közösség és a jutalmak még nem aktívak; a jelenlegi ajánlat nem tartalmaz étrend-kiegészítőkre vagy ruházatra szóló kedvezményeket.",
   },
   {
-    question: 'Az Elite terv tartalmaz személyes edzéseket?',
-    answer: 'Igen, az éves Elite terv tartalmaz egy teljes hétvégét vagy egy teljes szombatot személyesen Bernattal Alicantéban. Ez egy exkluzív élmény, hogy személyesen találkozzon Önnel, tökéletesítse a technikáját és növelje a motivációját.',
+    question: "Hol olvasható az aktuális ajánlat?",
+    answer: "Az aktuális részletek spanyolul érhetők el a /es/scorus-team oldalon. Az oldal az indulási ajánlatot és egy adatküldés, illetve fizetés nélküli demóűrlapot mutat be.",
   },
 ];
 

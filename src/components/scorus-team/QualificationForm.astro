@@ -14,6 +14,17 @@ const steps = [
           { value: 'restart', label: 'Retomar el entrenamiento' },
         ],
       },
+      {
+        name: 'obstacle',
+        label: 'Qué te cuesta más ahora',
+        error: 'Elige la dificultad principal de este ejemplo.',
+        options: [
+          { value: 'direction', label: 'Saber qué hacer y cómo progresar' },
+          { value: 'consistency', label: 'Mantener la constancia' },
+          { value: 'time', label: 'Encajar el entrenamiento en mi semana' },
+          { value: 'unsure', label: 'Todavía no lo tengo claro' },
+        ],
+      },
     ],
   },
   {
@@ -71,9 +82,19 @@ const steps = [
         label: 'El acompañamiento que buscas',
         error: 'Elige una preferencia de acompañamiento.',
         options: [
-          { value: 'core', label: 'Estructura y seguimiento (Core)' },
-          { value: 'individual', label: 'Mayor acceso individual a Bernat' },
+          { value: 'core', label: 'Core: estructura y seguimiento' },
+          { value: 'individual', label: 'Elite: más atención individual' },
           { value: 'guidance', label: 'Prefiero que me orientéis' },
+        ],
+      },
+      {
+        name: 'timing',
+        label: 'Cuándo te gustaría empezar',
+        error: 'Elige un plazo orientativo para este ejemplo.',
+        options: [
+          { value: 'soon', label: 'En las próximas dos semanas' },
+          { value: 'month', label: 'En el próximo mes' },
+          { value: 'exploring', label: 'Estoy explorando opciones, sin fecha todavía' },
         ],
       },
     ],
@@ -89,14 +110,15 @@ const summaryFields = steps.flatMap((step) => step.groups);
       <p class="eyebrow">TU OBJETIVO. TU RUTINA.</p>
       <h2 id="qualification-title">Tu próximo paso empieza aquí.</h2>
       <p class="intro-copy">
-        Define qué buscas, cuánto tiempo tienes y cómo te gustaría trabajar con Bernat.
+        Tu objetivo, lo que te frena y el tiempo que tienes. Así empezaríamos a conocer qué
+        acompañamiento buscas.
       </p>
       <div class="preview-note" id="qualification-preview">
         <strong>Formulario de prueba, sin envío.</strong>
         <p>
           Usa respuestas de ejemplo para explorar los tres pasos. No pedimos nombre, email ni
-          teléfono. Al terminar verás un resumen en esta página; tus respuestas no se envían ni se
-          guardan al salir.
+          teléfono. Al terminar verás un resumen en esta página. No se envía información a Bernat ni
+          se guardan respuestas en ningún servicio.
         </p>
       </div>
     </div>
@@ -108,7 +130,13 @@ const summaryFields = steps.flatMap((step) => step.groups);
         </p>
       </noscript>
 
-      <form novalidate hidden aria-describedby="qualification-preview" data-qualification-form>
+      <form
+        novalidate
+        hidden
+        autocomplete="off"
+        aria-describedby="qualification-preview"
+        data-qualification-form
+      >
         <ol class="step-progress" aria-label="Pasos del formulario">
           {
             steps.map((step, index) => (
@@ -136,6 +164,20 @@ const summaryFields = steps.flatMap((step) => step.groups);
                 {step.title}
               </h3>
               <p class="required-note">Selecciona una opción en cada pregunta.</p>
+
+              {stepIndex === 2 && (
+                <div class="program-note">
+                  <p>
+                    <strong>Core</strong> es un programa de 6 meses: 197 €/mes, IVA incluido.
+                    Importe total: 1.182 € en 6 cuotas; renovación manual al finalizar.
+                  </p>
+                  <p>
+                    <strong>Elite</strong> añade una llamada individual cada 4 semanas y prioridad
+                    de atención. Su precio está pendiente de confirmar.
+                  </p>
+                  <p>Tu elección en esta prueba no implica una contratación ni un pago.</p>
+                </div>
+              )}
 
               {step.groups.map((group) => (
                 <fieldset data-choice-group>
@@ -169,10 +211,10 @@ const summaryFields = steps.flatMap((step) => step.groups);
                 <div class="age-confirmation" data-age-group>
                   <label class="age-label">
                     <input type="checkbox" name="adult" required />
-                    <span>Confirmo que tengo 18 años o más.</span>
+                    <span>En este ejemplo, la persona tiene 18 años o más.</span>
                   </label>
                   <p class="field-error" id="qualification-age-error" data-field-error hidden>
-                    Confirma que tienes 18 años o más para ver el resumen.
+                    Marca la mayoría de edad del ejemplo para ver el resumen.
                   </p>
                 </div>
               )}
@@ -203,7 +245,8 @@ const summaryFields = steps.flatMap((step) => step.groups);
         </h3>
         <p class="summary-preview">Vista previa: este resumen no se ha enviado a Bernat.</p>
         <p class="summary-description">
-          Recoge las opciones que has elegido. No confirma una plaza ni recomienda un plan.
+          Recoge las opciones que has elegido para esta prueba. No confirma una plaza, una fecha de
+          inicio ni la contratación de un programa.
         </p>
         <dl class="summary-list">
           {
@@ -465,6 +508,24 @@ const summaryFields = steps.flatMap((step) => step.groups);
     font-size: 0.82rem;
     line-height: 1.5;
     color: #58554f;
+  }
+  .program-note {
+    padding: 1rem;
+    margin: 0 0 1.75rem;
+    border-left: 3px solid #c52620;
+    background: #f8f7f4;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: #4b4945;
+  }
+  .program-note p {
+    margin: 0;
+  }
+  .program-note p + p {
+    margin-top: 0.7rem;
+  }
+  .program-note strong {
+    color: #171717;
   }
   fieldset {
     min-width: 0;

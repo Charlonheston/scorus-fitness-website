@@ -4,25 +4,75 @@ import QualificationForm from '../../components/scorus-team/QualificationForm.as
 const steps = [
   {
     number: '01',
-    title: 'Partimos de tu vida real.',
-    text: 'Objetivo, experiencia, horarios y material disponible. El punto de partida es lo que puedes sostener cada semana.',
+    title: 'Conocemos tu punto de partida.',
+    text: 'Revisamos tu objetivo, experiencia, hábitos, horarios y material. Con esa información, Bernat prepara una planificación que puedas llevar a tu semana real.',
   },
   {
     number: '02',
     title: 'Entrenas con dirección.',
-    text: 'Tu planificación, las indicaciones de los ejercicios y tus registros, organizados en Scorus App.',
+    text: 'Abres Scorus App y encuentras tu sesión, las indicaciones y los vídeos de los ejercicios. Registras lo que haces y compartes las dudas que aparecen al ponerlo en práctica.',
   },
   {
     number: '03',
     title: 'Revisamos y ajustamos.',
-    text: 'Bernat supervisa tu evolución y adapta el programa a tus registros, dificultades y cambios de rutina.',
+    text: 'Bernat revisa tus entrenamientos, tu evolución y tus dificultades. Los ajustes parten de esos registros: cargas, sensaciones, hábitos y cambios de disponibilidad.',
+  },
+];
+const included = [
+  {
+    title: 'Valoración inicial y objetivo compartido.',
+    text: 'Tu experiencia, disponibilidad, hábitos y material marcan el punto de partida de la planificación.',
+  },
+  {
+    title: 'Entrenamiento personalizado.',
+    text: 'Sesiones adaptadas a tu nivel y a los días que puedes dedicar, con indicaciones para progresar y ajustar el esfuerzo.',
+  },
+  {
+    title: 'Alimentación y hábitos.',
+    text: 'Orientación nutricional vinculada a tu objetivo, tus preferencias y tu rutina, para que puedas llevarla a la práctica.',
+  },
+  {
+    title: 'Seguimiento de tu evolución.',
+    text: 'Registros de entrenamiento, peso, medidas y fotos de progreso cuando proceda. Bernat los revisa para orientar los ajustes.',
+  },
+  {
+    title: 'Scorus App y recursos educativos.',
+    text: 'Tu planificación, vídeos de ejercicios y contenidos para entender mejor el entrenamiento y la alimentación.',
+  },
+  {
+    title: 'Contacto para resolver dudas.',
+    text: 'Acompañamiento asíncrono con respuesta habitual en 24–48 horas dentro de los días de atención.',
+  },
+  {
+    title: 'Videollamada grupal semanal.',
+    text: 'Un espacio con Bernat para resolver dudas, aprender de situaciones comunes y mantener el foco durante el programa.',
   },
 ];
 const faqs = [
   {
+    question: '¿Qué resultados puedo esperar?',
+    answer:
+      'Trabajaremos sobre un objetivo concreto: perder grasa, desarrollar músculo, recuperar fuerza o volver a entrenar con constancia. La evolución depende de tu punto de partida, tu salud y la continuidad con el plan. No se promete un número de kilos ni una transformación en una fecha fija.',
+  },
+  {
+    question: '¿Por qué seis meses si habláis de 12 semanas?',
+    answer:
+      'Las primeras 12 semanas sirven para establecer la rutina, practicar la técnica, encontrar un ritmo sostenible y hacer los primeros ajustes importantes. El programa continúa hasta completar seis meses para consolidar hábitos y adaptar el entrenamiento y la alimentación a cómo vayas evolucionando.',
+  },
+  {
     question: '¿Necesito experiencia entrenando?',
     answer:
       'El programa se adapta a tu punto de partida. En la valoración inicial se revisan tu experiencia, disponibilidad y objetivo para concretar el acompañamiento adecuado.',
+  },
+  {
+    question: '¿Cómo serán las videollamadas?',
+    answer:
+      'Core incluye una videollamada grupal semanal, que se activará al comenzar el programa comercial con clientes de pago. El horario se coordinará con el grupo; todavía no hay un día fijo. Elite añade una videollamada individual con Bernat cada cuatro semanas.',
+  },
+  {
+    question: '¿Y si tengo una lesión o una condición médica?',
+    answer:
+      'Coméntalo antes de contratar para valorar si el servicio encaja y si necesitas la intervención de un profesional sanitario. El programa es de entrenamiento y hábitos; no sustituye un diagnóstico, una rehabilitación ni un tratamiento médico o nutricional clínico.',
   },
   {
     question: '¿Puedo entrenar en casa?',
@@ -47,7 +97,7 @@ const faqs = [
   {
     question: '¿Hay atención personal inmediata?',
     answer:
-      'La atención es asíncrona. En Core, la respuesta habitual es de 24–48 horas dentro de los días de atención. Las dudas que necesitan revisar tu programa pueden requerir más tiempo.',
+      'La atención es asíncrona. En Core, la respuesta habitual es de 24–48 horas dentro de los días de atención; Elite tiene prioridad, con respuesta habitual en 24 horas dentro de esos días. No es un servicio de atención permanente. Las consultas que requieren revisar el programa pueden necesitar más tiempo.',
   },
 ];
 Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
@@ -63,7 +113,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     <title>Scorus Team · Entrena con dirección | Vista previa</title>
     <meta
       name="description"
-      content="Primera propuesta de Scorus Team: entrenamiento online adaptado a tu vida, con planificación y seguimiento de Bernat Scorus."
+      content="Conoce Scorus Team: seis meses de entrenamiento, alimentación y seguimiento con Bernat Scorus. Descubre el método, qué incluye Core y el acompañamiento Elite."
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
@@ -105,8 +155,8 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
           </div>
           <h1 id="hero-title">TU VIDA.<br />TU RITMO.<br /><span>TU PROGRESO.</span></h1>
           <p class="hero-description">
-            Un plan de entrenamiento que encaja en tu vida. Con dirección, seguimiento y una persona
-            detrás de cada ajuste.
+            Perder grasa. Recuperar fuerza. Ganar músculo. Trabaja tu objetivo con un plan de
+            entrenamiento, alimentación y seguimiento de Bernat que encaje en tu vida.
           </p>
           <a class="button button-red" href="#valoracion"
             >Descubre cómo empezar <span aria-hidden="true">↗</span></a
@@ -129,8 +179,9 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
           <h2 id="context-title">Hacerlo posible.<br /><span>Y mantenerlo.</span></h2>
           <div class="context-copy">
             <p>Trabajo, familia, viajes. Entrenar tiene que encontrar su lugar en tu semana.</p><p>
-              Scorus Team está pensado para quienes quieren recuperar la constancia, organizar su
-              entrenamiento y avanzar con un criterio claro.
+              Si tienes entre 35 y 55 años, has entrenado antes y quieres volver a cuidarte con
+              continuidad, esta propuesta está especialmente pensada para ti. También valoramos
+              otros puntos de partida: lo importante es tu objetivo y lo que puedes sostener.
             </p><a class="text-link" href="#core"
               >Conoce el acompañamiento <span aria-hidden="true">↗</span></a
             >
@@ -140,6 +191,30 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
           <span>Adaptado a tus horarios</span><span>En gimnasio o en casa, según tu material</span
           ><span>Supervisado por Bernat</span>
         </div>
+        <div class="fit-grid">
+          <article>
+            <span>01 / RETOMAR</span><h3>Has perdido la rutina.</h3><p>
+              Quieres volver a entrenar sin tener que decidir cada semana por dónde empezar.
+            </p>
+          </article>
+          <article>
+            <span>02 / AVANZAR</span><h3>Entrenas, pero te falta dirección.</h3><p>
+              Buscas un plan con progresión y alguien que revise cómo lo estás llevando a la
+              práctica.
+            </p>
+          </article>
+          <article>
+            <span>03 / SOSTENER</span><h3>Tu agenda cambia.</h3><p>
+              Necesitas organizar el entrenamiento y la alimentación alrededor del trabajo, la
+              familia o los viajes.
+            </p>
+          </article>
+        </div>
+        <p class="fit-note">
+          El programa requiere que entrenes, registres tu evolución y compartas las dificultades. El
+          acompañamiento tiene sentido cuando podemos trabajar juntos sobre lo que ocurre en tu día
+          a día.
+        </p>
       </section>
 
       <section class="method" id="metodo" aria-labelledby="method-title">
@@ -166,7 +241,8 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
           <div class="app-line">
             <span class="app-icon" aria-hidden="true">S<span>↗</span></span><div>
               <strong>Tu entrenamiento, organizado en Scorus App.</strong><p>
-                Planificación, vídeos de ejercicios, registros y comunicación en un mismo lugar.
+                Antes de entrenar, consulta la sesión y sus vídeos. Después, registra lo realizado.
+                Entre revisiones, comparte dudas y consulta los recursos del programa.
               </p>
             </div>
           </div>
@@ -187,13 +263,26 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
           <p class="eyebrow dark-label">La persona detrás del programa</p><h2 id="coach-title">
             Entrenas online.<br />Bernat está detrás.
           </h2><p>
-            Tu planificación parte de una valoración de tus objetivos, tu experiencia y tu
-            disponibilidad. Bernat revisa esa información y supervisa los cambios a lo largo del
-            proceso.
+            Bernat lleva más de 30 años vinculado al entrenamiento y al culturismo. Su trayectoria
+            como campeón del mundo absoluto en 2006 y subcampeón de Kae Sun Pro Mr. Universe NAC en
+            2009 convive con el trabajo diario acompañando a personas con objetivos, niveles y
+            rutinas muy diferentes.
           </p><p>
-            El seguimiento se apoya en lo que registras y comunicas: entrenamientos, evolución y
-            dificultades. Así, cada ajuste tiene un motivo.
-          </p><div class="coach-signature">
+            En Scorus Team aplica esa experiencia a tu situación: revisa la valoración inicial,
+            supervisa la planificación y decide los ajustes a partir de tu evolución. Tú aportas tus
+            registros y tus sensaciones; Bernat, el criterio para interpretar lo que está pasando.
+          </p><p>
+            El objetivo es que progreses y entiendas mejor cómo entrenar y cuidarte, con
+            herramientas que puedas seguir utilizando en tu vida.
+          </p><a class="text-link" href="/es/biografia"
+            >Conoce su trayectoria <span aria-hidden="true">↗</span></a
+          ><div class="coach-credentials" aria-label="Trayectoria de Bernat">
+            <div><strong>30+</strong><span>Años en el entrenamiento y el culturismo</span></div>
+            <div>
+              <strong>Campeón mundial</strong><span>Absoluto · N.A.B.B.A. Int. Inc. · 2006</span>
+            </div>
+            <div><strong>Subcampeón</strong><span>Kae Sun Pro Mr. Universe NAC · 2009</span></div>
+          </div><div class="coach-signature">
             Bernat Scorus <span>Entrenador · Scorus Fitness</span>
           </div>
         </div>
@@ -205,16 +294,22 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
             <p class="eyebrow">Tu programa de acompañamiento</p><h2 id="core-title">
               SCORUS<br /><span>CORE.</span>
             </h2><p class="program-intro">
-              Seis meses para entrenar con estructura, registrar tu evolución y ajustar el camino.
-            </p><ul>
-              <li>Evaluación inicial de tu situación y disponibilidad.</li><li>
-                Plan de entrenamiento adaptado a tu nivel y material.
-              </li><li>Acceso a Scorus App y vídeos de ejercicios.</li><li>
-                Seguimiento y ajustes supervisados por Bernat.
-              </li>
+              Seis meses de entrenamiento, alimentación y seguimiento. Una estructura que se revisa
+              contigo mientras avanzas.
+            </p><ul class="included-list">
+              {
+                included.map((item) => (
+                  <li>
+                    <>
+                      <strong>{item.title}</strong>
+                      <p>{item.text}</p>
+                    </>
+                  </li>
+                ))
+              }
             </ul><p class="phase-note">
-              Las primeras 12 semanas forman la fase inicial del programa. El acompañamiento
-              continúa durante los seis meses.
+              La videollamada grupal semanal se activará con el inicio del programa comercial. El
+              horario se coordinará con los participantes.
             </p>
           </div>
           <div class="price-panel">
@@ -227,13 +322,75 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
             ><p class="renewal">Renovación manual al finalizar el programa.</p><div
               class="elite-note"
             >
-              <h3>¿Buscas más acceso individual?</h3><p>
-                Elite añade una videollamada individual cada cuatro semanas y prioridad de atención.
-                Podemos revisar esa preferencia al conocer tu situación.
-              </p>
+              <h3>Primero, conocer tu situación.</h3><p>
+                Antes de contratar, revisamos tu objetivo, tu disponibilidad y si el programa encaja
+                contigo. El pago confirma la plaza; los seis meses empiezan cuando se activa tu plan
+                personalizado en la app.
+              </p><a class="text-link" href="#acompanamiento"
+                >Compara Core y Elite <span aria-hidden="true">↓</span></a
+              >
             </div>
           </div>
         </div>
+        <div class="wrap journey" aria-labelledby="journey-title">
+          <p class="eyebrow">Un proceso de seis meses</p><h3 id="journey-title">
+            Empezar con una base. Darle continuidad.
+          </h3>
+          <div class="journey-grid">
+            <article>
+              <span>AL INCORPORARTE</span><h4>Conocerte y preparar tu plan.</h4><p>
+                Completas la información inicial. Bernat la revisa y prepara tu programa,
+                habitualmente en 48–72 horas laborables desde que dispone de toda la información
+                necesaria.
+              </p>
+            </article>
+            <article>
+              <span>PRIMERAS 12 SEMANAS</span><h4>Construir tu rutina.</h4><p>
+                Trabajamos la técnica, la constancia y la progresión. Ajustamos el entrenamiento y
+                la alimentación a lo que sucede al ponerlos en práctica.
+              </p>
+            </article>
+            <article>
+              <span>HASTA COMPLETAR LOS 6 MESES</span><h4>Consolidar y seguir ajustando.</h4><p>
+                Revisamos lo que funciona, adaptamos la planificación a tu evolución y a los cambios
+                de agenda, y seguimos desarrollando hábitos que puedas mantener.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="support wrap" id="acompanamiento" aria-labelledby="support-title">
+        <p class="eyebrow dark-label">Dos formas de acompañarte</p><h2 id="support-title">
+          El mismo método.<br />Distinto acceso individual.
+        </h2>
+        <div class="support-grid">
+          <article>
+            <p class="plan-kicker">SCORUS CORE</p><h3>Estructura y seguimiento.</h3><p>
+              Para trabajar con una planificación personalizada, revisiones, recursos en la app y un
+              espacio grupal semanal con Bernat.
+            </p><ul>
+              <li>Todo lo descrito en el programa Core.</li><li>
+                Videollamada grupal semanal al iniciar el programa comercial.
+              </li><li>Respuesta habitual en 24–48 h, dentro de los días de atención.</li>
+            </ul><p class="support-price">197 €/mes · 6 meses · 1.182 € en total, IVA incluido.</p>
+          </article>
+          <article>
+            <p class="plan-kicker">SCORUS ELITE</p><h3>Más tiempo a solas con Bernat.</h3><p>
+              Para quien valora un espacio individual periódico donde revisar el proceso y
+              profundizar en sus dudas.
+            </p><ul>
+              <li>Incluye todo el acompañamiento Core.</li><li>
+                Una videollamada individual cada cuatro semanas.
+              </li><li>
+                Prioridad de atención: respuesta habitual en 24 h, dentro de los días de atención.
+              </li>
+            </ul><p class="support-price">Precio y condiciones por confirmar antes de contratar.</p>
+          </article>
+        </div>
+        <a class="text-link" href="#valoracion"
+          >Explora qué acompañamiento buscas <span aria-hidden="true">↗</span></a
+        >
       </section>
 
       <section class="faq wrap" id="preguntas" aria-labelledby="faq-title">
@@ -576,6 +733,37 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     color: #aa271f;
     margin-right: 12px;
   }
+  .fit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 35px;
+    margin-top: 45px;
+  }
+  .fit-grid article {
+    padding-top: 20px;
+    border-top: 1px solid #c9c7be;
+  }
+  .fit-grid article > span {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: #8e342d;
+  }
+  .fit-grid h3 {
+    margin: 18px 0 12px;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  .fit-grid p,
+  .fit-note {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #565650;
+  }
+  .fit-note {
+    margin-top: 32px;
+    max-width: 880px;
+  }
   .method {
     background: #e4e3dd;
     padding: 80px 0;
@@ -696,6 +884,25 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     font-weight: 400;
     color: #64665d;
   }
+  .coach-credentials {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 30px;
+  }
+  .coach-credentials strong {
+    display: block;
+    font-size: 17px;
+    letter-spacing: -0.04em;
+    line-height: 1.25;
+  }
+  .coach-credentials span {
+    display: block;
+    font-size: 10px;
+    line-height: 1.5;
+    margin-top: 7px;
+    color: #64665d;
+  }
   .program {
     background: #171917;
     color: #f6f6ef;
@@ -740,6 +947,27 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     color: #f16d60;
     margin-right: 14px;
   }
+  .program .included-list li {
+    position: relative;
+    padding: 18px 0 18px 28px;
+    border-bottom: 1px solid #ffffff20;
+    line-height: 1.6;
+  }
+  .included-list li::before {
+    position: absolute;
+    left: 0;
+    top: 18px;
+  }
+  .included-list strong {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .included-list p {
+    margin-top: 7px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #b9bcb1;
+  }
   .phase-note {
     font-size: 11px;
     line-height: 1.8;
@@ -748,6 +976,8 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     max-width: 430px;
   }
   .price-panel {
+    position: sticky;
+    top: 24px;
     background: #f2f1ed;
     color: #171917;
     padding: 35px;
@@ -812,6 +1042,100 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     line-height: 1.8;
     color: #68695f;
     margin-top: 10px;
+  }
+  .elite-note .text-link {
+    font-size: 12px;
+    gap: 16px;
+  }
+  .journey {
+    margin-top: 65px;
+    padding-top: 40px;
+    border-top: 1px solid #ffffff30;
+  }
+  .journey h3 {
+    font-size: clamp(25px, 3vw, 38px);
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+    margin-top: 16px;
+    font-weight: 600;
+  }
+  .journey-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    margin-top: 35px;
+  }
+  .journey-grid article > span {
+    font-size: 9px;
+    line-height: 1.6;
+    letter-spacing: 0.1em;
+    color: #f16d60;
+  }
+  .journey h4 {
+    font-size: 17px;
+    line-height: 1.4;
+    margin: 14px 0 12px;
+    font-weight: 600;
+  }
+  .journey-grid p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #b9bcb1;
+  }
+  .support {
+    padding-block: 85px;
+    border-bottom: 1px solid #c9c7be;
+  }
+  .support h2 {
+    margin-top: 23px;
+  }
+  .support-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 50px;
+    margin-top: 42px;
+  }
+  .support-grid article {
+    padding-top: 24px;
+    border-top: 2px solid #b4b4a7;
+  }
+  .support-grid article:last-child {
+    border-top-color: var(--red);
+  }
+  .plan-kicker {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #8e342d;
+  }
+  .support-grid h3 {
+    font-size: 24px;
+    letter-spacing: -0.035em;
+    line-height: 1.25;
+    margin: 18px 0;
+  }
+  .support-grid article > p:not(.plan-kicker),
+  .support-grid li {
+    font-size: 14px;
+    color: #565650;
+    line-height: 1.8;
+  }
+  .support-grid ul {
+    padding-left: 18px;
+    margin: 22px 0;
+  }
+  .support-grid li {
+    padding-left: 5px;
+    margin-top: 8px;
+  }
+  .support-grid .support-price {
+    padding-top: 20px;
+    border-top: 1px solid #c9c7be;
+    font-size: 12px !important;
+    font-weight: 600;
+  }
+  .support > .text-link {
+    margin-top: 22px;
   }
   .faq {
     display: grid;
@@ -996,9 +1320,12 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
       font-size: 37px;
     }
     .context-grid,
+    .fit-grid,
     .steps,
     .coach,
     .program-grid,
+    .journey-grid,
+    .support-grid,
     .faq {
       grid-template-columns: minmax(0, 1fr);
     }
@@ -1048,6 +1375,30 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     .coach-photo img {
       height: 310px;
     }
+    .fit-grid {
+      gap: 22px;
+      margin-top: 32px;
+    }
+    .coach-credentials {
+      gap: 12px;
+    }
+    .coach-credentials strong {
+      font-size: 15px;
+    }
+    .journey {
+      margin-top: 42px;
+      padding-top: 32px;
+    }
+    .journey-grid {
+      gap: 28px;
+    }
+    .support {
+      padding-block: 55px;
+    }
+    .support-grid {
+      gap: 35px;
+      margin-top: 32px;
+    }
     .coach-copy h2 {
       margin-top: 18px;
     }
@@ -1062,6 +1413,7 @@ Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     }
     .price-panel {
       padding: 30px 25px;
+      position: static;
     }
     .price {
       font-size: 82px;
