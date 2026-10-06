@@ -20,5 +20,6 @@ hermes=directory/'.env.hermes'
 if not hermes.exists():
     hermes.write_text('HERMES_BRIDGE_KEY='+values['HERMES_BRIDGE_KEY']+'\nHERMES_MODEL_URL=\nHERMES_MODEL=\nHERMES_MODEL_KEY=\n');hermes.chmod(0o600)
 access=Path('/opt/scorus-bot/access.private.json')
-access.write_text(json.dumps({'panel_user':'carlo','panel_password':values['ADMIN_CARLO_PASSWORD'],'bernat_user':'bernat','bernat_password':values['ADMIN_BERNAT_PASSWORD'],'form_api_key':values['FORM_API_KEY']},indent=2));access.chmod(0o600)
+previous=json.loads(access.read_text()) if access.exists() else {}
+access.write_text(json.dumps({**previous,'panel_user':'carlo','panel_password':values['ADMIN_CARLO_PASSWORD'],'bernat_user':'bernat','bernat_password':values['ADMIN_BERNAT_PASSWORD'],'form_api_key':values['FORM_API_KEY']},indent=2));access.chmod(0o600)
 print('Scorus credentials initialized; existing business credentials unchanged.')
