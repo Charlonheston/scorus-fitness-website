@@ -117,6 +117,7 @@ def test_mcp_rejects_cross_client_args():
     from sqlalchemy.orm import sessionmaker
     shared_session=sessionmaker(shared,expire_on_commit=False)
     with shared_session.begin() as db:
+        db.add(Config(id='settings',data={'pacing':{}}))
         db.add(Lead(id='a',name='A',phone='+34600000001',consent={'contact':True}))
         db.add(Lead(id='b',name='B',phone='+34600000002',consent={'contact':True}))
     with patch('app.main.Session',shared_session):

@@ -146,7 +146,7 @@ def send_whatsapp(db,lead,payload):
         require(mine is not None and mine.get('connectionStatus')=='open','Teléfono Scorus todavía sin vincular.')
         expected=os.getenv('TEST_PHONE') if cfg['mode']=='test' else os.getenv('PRODUCTION_PHONE')
         require(bool(expected) and mine.get('ownerJid','').split('@')[0]==expected.lstrip('+'),'El número vinculado no coincide con el configurado para este entorno.')
-        return api('POST',url+'/message/sendText/'+instance,headers={'apikey':key},json={'number':lead.phone.lstrip('+'),'text':payload['text'],'delay':1200,'linkPreview':False})
+        return api('POST',url+'/message/sendText/'+instance,headers={'apikey':key},json={'number':lead.phone.lstrip('+'),'text':payload['text'],'delay':0,'linkPreview':False})
     require(transport=='cloud','Transporte desconocido.')
     key=os.getenv('META_ACCESS_TOKEN',''); require(bool(key),'Meta no configurado.')
     body={'messaging_product':'whatsapp','to':lead.phone.lstrip('+'),'type':'text','text':{'body':payload['text']}}
@@ -156,3 +156,24 @@ def send_whatsapp(db,lead,payload):
         body={**body,'type':'template','template':{'name':name,'language':{'code':lead.language},'components':[{'type':'body','parameters':[{'type':'text','text':p} for p in payload['params']]}] if payload.get('params') else []}}
         body.pop('text',None)
     return api('POST',f"https://graph.facebook.com/{os.getenv('META_API_VERSION','v23.0')}/{os.getenv('META_PHONE_ID','')}/messages",headers={'Authorization':'Bearer '+key},json=body)
+
+def evolution_chat(action,payload):
+    if os.getenv('WHATSAPP_TRANSPORT','evolution')!='evolution':return
+    return api('POST',os.getenv('EVOLUTION_URL','http://evolution:8080')+'/chat/'+action+'/'+os.getenv('EVOLUTION_INSTANCE','scorus-test'),headers={'apikey':os.getenv('EVOLUTION_API_KEY','')},json=payload)
+
+def mark_read(records):
+    keys=[r.data['provider_key'] for r in records if r.data.get('provider_key')]
+    if keys:evolution_chat('markMessageAsRead',{'readMessages':keys})
+
+def presence(phone,status,seconds=0):
+    # Evolution clears presence at the end of this brief provider-side duration.
+    evolution_chat('sendPresence',{'number':phone.lstrip('+'),'delay':int(seconds*1000),'presence':status})
+
+def connection_state():
+    if os.getenv('WHATSAPP_TRANSPORT','evolution')!='evolution':return 'open'
+    items=api('GET',os.getenv('EVOLUTION_URL','http://evolution:8080')+'/instance/fetchInstances',headers={'apikey':os.getenv('EVOLUTION_API_KEY','')})
+    mine=next((i for i in items if i.get('name')==os.getenv('EVOLUTION_INSTANCE','scorus-test')),None)
+    if not mine:return 'close'
+    expected=os.getenv('TEST_PHONE') if os.getenv('SCORUS_MODE','test')=='test' else os.getenv('PRODUCTION_PHONE')
+    if not expected or mine.get('ownerJid','').split('@')[0]!=expected.lstrip('+'):return 'mismatch'
+    return mine.get('connectionStatus','close')

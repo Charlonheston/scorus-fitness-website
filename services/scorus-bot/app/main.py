@@ -8,12 +8,15 @@ from pathlib import Path
 from contextlib import asynccontextmanager
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse, Response
+from starlette.concurrency import run_in_threadpool
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 import stripe
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import select, text as sql_text
 from .store import Config, Job, Lead, Record, Session, add_record, enqueue, init
-from .domain import CATALOG, PROGRAMS, DAY, RuleError, activate, approve, cancel_sales, handoff, latest_contract, message, paid_contract, phone_number, require, schedule_followups, settings, token_lead
+from .domain import CATALOG, PROGRAMS, DAY, RuleError, activate, approve, cancel_sales, handoff, latest_contract, message, paid_contract, phone_number, require, schedule_followups, settings, token_scope
 from .providers import book, checkout, slots
+from .queueing import delivery, pacing, queue_snapshot, queue_turn, validate_pacing
 
 @asynccontextmanager
 async def lifespan(app):
@@ -127,8 +130,11 @@ async def calendly_webhook(request:Request):
         except IntegrityError: db.rollback()
     return {'received':True}
 
-def inbound(db,phone,text,external_id,from_me=False):
-    lead=db.query(Lead).filter_by(phone=phone).first()
+def inbound(db,phone,text,external_id,from_me=False,provider_key=None):
+    if db.bind.dialect.name=='postgresql':
+        lock=int.from_bytes(hashlib.sha256(phone.encode()).digest()[:8],'big',signed=True)
+        db.execute(sql_text('SELECT pg_advisory_xact_lock(:key)'),{'key':lock})
+    lead=db.query(Lead).filter_by(phone=phone).with_for_update().first()
     if from_me:
         if lead: handoff(db,lead,'Respuesta manual desde el teléfono; pausar asistente.')
         return
@@ -142,7 +148,7 @@ def inbound(db,phone,text,external_id,from_me=False):
     if re.search(r'\b(hello|hi|please|programme|program|assessment|thank you)\b',text,re.I):lead.language='en'
     if re.search(r'\b(szia|ár|szeretnék|köszönöm|edzés|programom|időpont)\b',text,re.I):lead.language='hu'
     cancel_sales(db,lead); lead.last_inbound=time.time()
-    record=Record(id='inbound:'+external_id,kind='message',lead_id=lead.id,data={'direction':'in','text':text[:6000]})
+    record=Record(id='inbound:'+external_id,kind='message',lead_id=lead.id,data={'direction':'in','text':text[:6000],'provider_key':provider_key,'answered':False})
     db.add(record)
     stop=bool(re.fullmatch(r'\s*(stop|baja|no me escribas(?: más)?|no quiero más mensajes|unsubscribe|leiratkozás)\s*[.!]?\s*',text,re.I))
     sensitive=bool(re.search(r'lesi[oó]n|dolor|embaraz|medicaci[oó]n|devoluci[oó]n|reembolso|reclamaci[oó]n|cancelar.*contrato|pausar.*programa|injur|refund|pregnan|fájdalom|visszatérítés',text,re.I))
@@ -154,14 +160,48 @@ def inbound(db,phone,text,external_id,from_me=False):
         lead.state='not_interested'; return
     if sensitive: handoff(db,lead,'Consulta profesional o excepción: revisar conversación.'); return
     if lead.paused or lead.opted_out: return
-    enqueue(db,'respond:'+external_id,'respond',lead.id,{'message_id':record.id,'generation':lead.generation})
+    queue_turn(db,lead,external_id)
+    return lead
 
 @app.post('/webhooks/evolution')
 async def evolution_webhook(request:Request):
     bearer(request,'EVOLUTION_WEBHOOK_SECRET')
     event=await request.json()
+    return await run_in_threadpool(evolution_event,event)
+
+def evolution_event(event):
     require(event.get('instance')==os.getenv('EVOLUTION_INSTANCE','scorus-test'),'Instancia ajena a Scorus.')
-    if event.get('event') not in ('messages.upsert','MESSAGES_UPSERT'): return {'received':True}
+    event_kind=event.get('event','').lower().replace('_','.')
+    if event_kind=='connection.update':
+        with Session.begin() as db:
+            runtime=delivery(db,lock=True);state=event.get('data',{}).get('state','close');old=runtime.data
+            runtime.data={**old,'connection':state,'connected_since':old.get('connected_since',0) if state=='open' and old.get('connection')=='open' else time.time() if state=='open' else 0}
+        return {'received':True}
+    if event_kind=='messages.update':
+        data=event.get('data',{})
+        with Session.begin() as db:
+            for item in data if isinstance(data,list) else [data]:
+                provider_id=(item.get('key') or {}).get('id') or item.get('keyId') or item.get('id')
+                if not provider_id:continue
+                record=db.get(Record,'sent:'+provider_id);status=(item.get('update') or {}).get('status') or item.get('status')
+                receipt=db.get(Record,'receipt:'+provider_id)
+                if not receipt:db.add(Record(id='receipt:'+provider_id,kind='receipt',data={'status':status}))
+                else:receipt.data={**receipt.data,'status':status}
+                if record:record.data={**record.data,'delivery_status':status}
+        return {'received':True}
+    if event_kind=='call':
+        item=event.get('data',{});remote=item.get('from','');digits=remote.split('@')[0].split(':')[0]
+        if item.get('status') not in ('offer','ringing') or not re.fullmatch(r'[1-9]\d{7,14}',digits):return {'received':True}
+        with Session.begin() as db:
+            lead=db.query(Lead).filter_by(phone='+'+digits).with_for_update().first()
+            if lead and not lead.opted_out:
+                last=db.query(Record).filter_by(kind='call',lead_id=lead.id).filter(Record.created>time.time()-DAY).first()
+                if not last:
+                    add_record(db,'call',lead.id,{'reason':'Llamada entrante; revisar si necesita atención humana.'})
+                    if not lead.paused and lead.consent.get('contact'):
+                        message(db,lead,'Soy el asistente virtual de Scorus Team. Para organizar tu valoración, escríbenos por aquí.',f'call:{lead.id}:{int(time.time()//DAY)}')
+        return {'received':True}
+    if event_kind!='messages.upsert': return {'received':True}
     data=event.get('data',{})
     for item in data if isinstance(data,list) else [data]:
         key=item.get('key',{}); remote=key.get('remoteJid','')
@@ -180,11 +220,14 @@ async def evolution_webhook(request:Request):
                 # Our own sends generate fromMe too. Delivery echoes are reconciled by provider ID.
                 sent=db.query(Record).filter_by(id='sent:'+key.get('id','')).first()
                 if not sent: enqueue(db,'manual:'+key.get('id',''),'manual_echo','',{'phone':'+'+digits,'provider_id':key.get('id')},time.time()+15)
-            elif text: inbound(db,'+'+digits,text,key['id'])
+            elif text: inbound(db,'+'+digits,text,key['id'],provider_key={'id':key['id'],'remoteJid':remote,'fromMe':False})
             elif msg.get('audioMessage'):
-                lead=db.query(Lead).filter_by(phone='+'+digits).first()
-                if lead and not lead.opted_out:
-                    enqueue(db,'audio:'+key['id'],'audio',lead.id,{'message':item})
+                lead=inbound(db,'+'+digits,'[Nota de voz recibida; contenido pendiente de transcripción]',key['id'],provider_key={'id':key['id'],'remoteJid':remote,'fromMe':False})
+                if lead and not lead.paused and not lead.opted_out:
+                    for job in db.query(Job).filter_by(lead_id=lead.id,kind='respond',status='pending'):job.status='cancelled'
+                    enqueue(db,'audio:'+key['id'],'audio',lead.id,{'message':item,'record_id':'inbound:'+key['id'],'generation':lead.generation})
+            elif any(k in msg for k in ('imageMessage','videoMessage','documentMessage','stickerMessage')):
+                inbound(db,'+'+digits,'[Contenido multimedia recibido; no leído. Pide la consulta por texto u ofrece atención de Bernat.]',key['id'],provider_key={'id':key['id'],'remoteJid':remote,'fromMe':False})
             try: db.commit()
             except IntegrityError: db.rollback()
     return {'received':True}
@@ -228,19 +271,44 @@ TOOLS={
 @app.post('/mcp')
 async def mcp(request:Request):
     token=request.headers.get('authorization','').removeprefix('Bearer ')
-    lead_id=token_lead(token,os.getenv('MCP_SECRET',''))
-    body=await request.json(); method=body.get('method'); rpc_id=body.get('id')
+    scope=token_scope(token,os.getenv('MCP_SECRET',''));lead_id=scope['lead']
+    body=await request.json()
+    return await run_in_threadpool(mcp_rpc,scope,body)
+
+def mcp_rpc(scope,body):
+    lead_id=scope['lead'];method=body.get('method'); rpc_id=body.get('id')
     if rpc_id is None: return Response(status_code=202)
     if method=='initialize': result={'protocolVersion':'2025-03-26','capabilities':{'tools':{}},'serverInfo':{'name':'scorus','version':CATALOG['version']}}
     elif method=='ping': result={}
     elif method=='tools/list': result={'tools':[{'name':name,'description':desc,'inputSchema':{'type':'object','properties':props,'required':list(props),'additionalProperties':False}} for name,(desc,props) in TOOLS.items()]}
     elif method=='tools/call':
         params=body.get('params',{}); name=params.get('name'); args=params.get('arguments',{})
+        operation_id=None;operation_started=False
         try:
             require(name in TOOLS and isinstance(args,dict) and set(args)==set(TOOLS[name][1]),'Herramienta o argumentos no permitidos.')
             with Session() as db:
-                lead=db.get(Lead,lead_id); require(lead is not None,'Expediente inexistente.')
+                lead=db.execute(select(Lead).where(Lead.id==lead_id).with_for_update()).scalar_one_or_none(); require(lead is not None,'Expediente inexistente.')
                 require(not lead.paused and not lead.opted_out,'Conversación pausada o sin permiso.')
+                require(not pacing(db)['automatic_paused'],'Salida automática pausada por Carlo.')
+                if scope.get('turn'):
+                    turn=db.get(Job,scope['turn'])
+                    require(turn is not None and turn.lead_id==lead.id and turn.status=='running' and turn.owner==scope.get('owner') and turn.lease_until>time.time() and lead.generation==scope.get('generation'),'Turno desactualizado o caducado.')
+                else:require(name in ('get_offer','get_profile','get_client_status'),'La acción requiere un turno vigente.')
+                operation=None
+                if name in ('book_call','prepare_checkout'):
+                    fingerprint=json.dumps([lead.id,name,args,lead.profile.get('approved_at')],sort_keys=True)
+                    op_id='mcp-operation:'+hashlib.sha256(fingerprint.encode()).hexdigest();operation_id=op_id
+                    operation=db.get(Record,op_id)
+                    if operation and operation.data.get('status')!='failed':
+                        require(operation.data.get('status')=='done','Operación pendiente de revisión; no repetir.')
+                        return JSONResponse({'jsonrpc':'2.0','id':rpc_id,'result':{'content':[{'type':'text','text':json.dumps(operation.data['result'],ensure_ascii=False)}],'isError':False}})
+                    if not operation:
+                        operation=Record(id=op_id,kind='operation',lead_id=lead.id,data={'tool':name,'status':'pending'});db.add(operation)
+                    else:operation.data={**operation.data,'status':'pending'}
+                    db.commit()
+                    operation_started=True
+                    db.refresh(lead)
+                    require(lead.generation==scope.get('generation') and not lead.paused and not lead.opted_out,'Turno invalidado antes de ejecutar.')
                 if name=='get_offer': data=CATALOG
                 elif name=='get_profile': data={'name':lead.name,'answers':lead.profile,'state':lead.state}
                 elif name=='update_profile':
@@ -258,9 +326,21 @@ async def mcp(request:Request):
                     contract=latest_contract(db,lead)
                     data={'state':lead.state,'contract':contract.data if contract else None,'bookings':[r.data for r in db.query(Record).filter_by(kind='booking',lead_id=lead.id)]}
                 add_record(db,'audit',lead.id,{'action':'mcp','tool':name})
+                if operation:operation.data={**operation.data,'status':'done','result':data}
                 db.commit()
             result={'content':[{'type':'text','text':json.dumps(data,ensure_ascii=False)}],'isError':False}
-        except RuleError as error: result={'content':[{'type':'text','text':str(error)}],'isError':True}
+        except RuleError as error:
+            if operation_id and operation_started:
+                with Session.begin() as db:
+                    operation=db.get(Record,operation_id)
+                    if operation and operation.data.get('status')=='pending':operation.data={**operation.data,'status':'failed'}
+            result={'content':[{'type':'text','text':str(error)}],'isError':True}
+        except Exception:
+            with Session.begin() as db:
+                add_record(db,'alert',lead_id,{'reason':'Herramienta no confirmada; comprobar operaciones antes de repetir.','tool':name,'operation_id':operation_id})
+                lead=db.get(Lead,lead_id)
+                if lead:handoff(db,lead,'Operación comercial pendiente de verificar.',notify=False)
+            result={'content':[{'type':'text','text':'Operación pendiente de revisión humana; no está confirmada.'}],'isError':True}
     else: return JSONResponse({'jsonrpc':'2.0','id':rpc_id,'error':{'code':-32601,'message':'Método no disponible.'}})
     return JSONResponse({'jsonrpc':'2.0','id':rpc_id,'result':result})
 
@@ -279,6 +359,7 @@ def panel_data(lead_id:str|None=None,user=Depends(admin)):
         data={'settings':cfg,'catalog':CATALOG,'leads':[{'id':l.id,'name':l.name,'phone':l.phone,'email':l.email,'state':l.state,'paused':l.paused,'profile':l.profile,'attribution':l.attribution,'opted_out':l.opted_out} for l in leads],'records':[{'id':r.id,'kind':r.kind,'lead_id':r.lead_id,'data':r.data,'created':r.created} for r in records],'jobs':[{'id':j.id,'kind':j.kind,'status':j.status,'error':j.error} for j in db.query(Job).filter(Job.status.in_(['failed','review'])).limit(50)],'integrations':{key:bool(os.getenv(key)) for key in ('EVOLUTION_API_KEY','STRIPE_SECRET_KEY','CALENDLY_TOKEN','HERMES_BRIDGE_KEY')}}
         from .metrics import snapshot
         data['metrics']=snapshot(db)
+        data['queue']=queue_snapshot(db)
         try:
             import httpx
             model=httpx.get(os.getenv('HERMES_URL','http://hermes:8642')+'/health',timeout=3)
@@ -297,7 +378,7 @@ def connect_whatsapp(request:Request,user=Depends(admin)):
 async def panel_action(lead_id:str,request:Request,user=Depends(admin)):
     payload=await request.json();action=payload.get('action')
     with Session() as db:
-        lead=db.get(Lead,lead_id);require(lead is not None,'Expediente no encontrado.')
+        lead=db.execute(select(Lead).where(Lead.id==lead_id).with_for_update()).scalar_one_or_none();require(lead is not None,'Expediente no encontrado.')
         if action=='takeover': handoff(db,lead,'Atención humana solicitada desde el panel.')
         elif action=='release': lead.paused=False
         elif action=='approve': approve(db,lead,payload['program'],user)
@@ -319,6 +400,8 @@ async def panel_action(lead_id:str,request:Request,user=Depends(admin)):
             lead.paused=True;cancel_sales(db,lead)
             job=message(db,lead,payload['text'],f'admin:{time.time_ns()}')
             job.data={**job.data,'human':True}
+            from .queueing import unanswered
+            for rec in unanswered(db,lead.id):rec.data={**rec.data,'answered':True,'handled_by':'human'}
         elif action=='followup':
             require(not lead.paused and not lead.opted_out,'Seguimiento no permitido.')
             schedule_followups(db,lead)
@@ -333,8 +416,10 @@ async def panel_action(lead_id:str,request:Request,user=Depends(admin)):
 async def panel_settings(request:Request,user=Depends(admin)):
     payload=await request.json()
     require(user=='carlo','La configuración del sistema corresponde a Carlo.')
-    allowed={'launch_approved','catalog_approved','terms_url','privacy_url','terms_version','billing_approved','harbiz_procedure_approved','templates_approved','public_form_enabled','capacity','event_types','template_names','published_blocks','test_recipients','test_allow_inbound_any'}
+    allowed={'launch_approved','catalog_approved','terms_url','privacy_url','terms_version','billing_approved','harbiz_procedure_approved','templates_approved','public_form_enabled','capacity','event_types','template_names','published_blocks','test_recipients','test_allow_inbound_any','pacing','resume_transport'}
     require(set(payload)<=allowed,'Configuración no permitida.')
+    if 'pacing' in payload:validate_pacing(payload['pacing'])
+    if 'resume_transport' in payload:require(payload['resume_transport'] is True,'Reanudación inválida.')
     if 'test_allow_inbound_any' in payload: require(type(payload['test_allow_inbound_any']) is bool,'La recepción abierta de pruebas requiere una confirmación booleana.')
     if 'capacity' in payload: require(type(payload['capacity']) is int and 0<=payload['capacity']<=10,'Capacidad máxima inicial: diez.')
     if 'catalog_approved' in payload: require(isinstance(payload['catalog_approved'],list) and set(payload['catalog_approved'])<=set(PROGRAMS),'Catálogo inválido.')
@@ -346,7 +431,11 @@ async def panel_settings(request:Request,user=Depends(admin)):
     for key in ('event_types','template_names'):
         if key in payload: require(isinstance(payload[key],dict) and all(isinstance(v,str) for v in payload[key].values()),'Mapa inválido.')
     with Session() as db:
-        cfg=db.get(Config,'settings');new={**cfg.data,**payload}
+        cfg=db.execute(select(Config).where(Config.id=='settings').with_for_update()).scalar_one()
+        if payload.pop('resume_transport',False):
+            runtime=delivery(db,lock=True);runtime.data={**runtime.data,'restricted':False,'pause_until':0,'failures':[]}
+        if 'pacing' in payload:payload['pacing']={**pacing(db),**payload['pacing']}
+        new={**cfg.data,**payload}
         if new['public_form_enabled']: require(new['privacy_url'],'Publica primero la información de privacidad.')
         if new['launch_approved']:
             require(os.getenv('SCORUS_MODE','test')=='production','Primero configura el número definitivo y el entorno de producción.')

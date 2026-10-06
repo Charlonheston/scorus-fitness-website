@@ -3,6 +3,7 @@ import json
 import os
 import subprocess
 import tempfile
+import asyncio
 from pathlib import Path
 from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
@@ -37,7 +38,13 @@ def health(request):
     except Exception: configured=False
     return JSONResponse({'status':'ok','model_configured':configured})
 
+inference_slots=asyncio.Semaphore(2)
+
 async def respond(request:Request):
+    async with inference_slots:
+        return await run_response(request)
+
+async def run_response(request:Request):
     secret=os.getenv('HERMES_BRIDGE_KEY','')
     if not secret or not hmac.compare_digest(request.headers.get('authorization',''),'Bearer '+secret):raise HTTPException(401)
     body=await request.json()

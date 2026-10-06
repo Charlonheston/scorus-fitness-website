@@ -37,22 +37,25 @@ def phone_number(value):
 def cancel_sales(db, lead):
     lead.generation += 1
     for job in db.query(Job).filter(Job.lead_id==lead.id, Job.status=='pending').all():
-        if job.kind=='followup' or job.data.get('commercial'):
+        if job.kind in ('followup','hold_reminder','respond') or job.data.get('commercial') or job.data.get('guard_generation'):
             job.status='cancelled'
 
-def handoff(db, lead, reason):
+def handoff(db, lead, reason, notify=True):
     already_paused=lead.paused
     cancel_sales(db, lead)
     lead.paused = True
     add_record(db,'task',lead.id,{'type':'human','reason':reason,'status':'open'})
     add_record(db,'audit',lead.id,{'action':'handoff','reason':reason})
-    if not already_paused and not lead.opted_out:
+    if notify and not already_paused and not lead.opted_out:
         from .i18n import text
         job=message(db,lead,text('handoff',lead),f'handoff:{lead.id}:{lead.generation}','human_handoff')
         job.data={**job.data,'system':True}
 
 def message(db, lead, text, key, template='', params=None, commercial=False, due=None):
-    return enqueue(db,key,'send',lead.id,{'text':text,'template':template,'params':params or [],'commercial':commercial,'generation':lead.generation},due)
+    category='marketing' if commercial else 'service'
+    if template=='payment_reminder': category='transactional'
+    job=enqueue(db,key,'send',lead.id,{'text':text,'template':template,'params':params or [],'commercial':commercial,'category':category,'generation':lead.generation},due)
+    return job
 
 def create_lead(db, payload):
     cfg=settings(db)
@@ -74,12 +77,12 @@ def create_lead(db, payload):
     return lead
 
 def schedule_followups(db, lead):
-    if lead.paused or lead.opted_out or lead.state in ('paid','active','ended'):
+    if not lead.consent.get('marketing') or lead.paused or lead.opted_out or lead.state in ('paid','active','ended','not_interested'):
         return
     for index,days in enumerate((1,3,7,14),1):
         if index+lead.followups>4:
             break
-        enqueue(db,f'followup:{lead.id}:{lead.generation}:{index}','followup',lead.id,{'generation':lead.generation,'index':index},time.time()+days*DAY)
+        enqueue(db,f'followup:{lead.id}:{lead.generation}:{index}','followup',lead.id,{'generation':lead.generation,'index':index,'expires_at':time.time()+(days+1)*DAY},time.time()+days*DAY)
 
 def within_sales_window(ts):
     local=datetime.fromtimestamp(ts,ZoneInfo('Europe/Madrid'))
@@ -166,12 +169,12 @@ def activate(db, lead, actor):
         enqueue(db,f'renewal:{contract.id}:{days}','renewal',lead.id,{'contract_id':contract.id,'days':days},end.timestamp()-days*DAY)
     enqueue(db,f'end:{contract.id}','end_service',lead.id,{'contract_id':contract.id},end.timestamp())
 
-def scoped_token(lead_id, secret, expires=None):
-    body=base64.urlsafe_b64encode(json.dumps({'lead':lead_id,'exp':expires or int(time.time())+300}).encode()).decode().rstrip('=')
+def scoped_token(lead_id, secret, expires=None, **scope):
+    body=base64.urlsafe_b64encode(json.dumps({'lead':lead_id,'exp':expires or int(time.time())+300,**scope}).encode()).decode().rstrip('=')
     sig=hmac.new(secret.encode(),body.encode(),hashlib.sha256).hexdigest()
     return body+'.'+sig
 
-def token_lead(token, secret):
+def token_scope(token, secret):
     require(bool(secret),'MCP no configurado.')
     try:
         body,sig=token.split('.')
@@ -179,6 +182,9 @@ def token_lead(token, secret):
         require(hmac.compare_digest(sig,expected),'Token inválido.')
         data=json.loads(base64.urlsafe_b64decode(body+'='*(-len(body)%4)))
         require(data['exp']>time.time(),'Token caducado.')
-        return data['lead']
+        require(isinstance(data.get('lead'),str),'Token inválido.')
+        return data
     except (ValueError,KeyError,TypeError):
         raise RuleError('Token inválido.')
+
+def token_lead(token, secret):return token_scope(token,secret)['lead']
