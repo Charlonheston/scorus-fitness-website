@@ -127,6 +127,9 @@ def process(db,job):
                 uncertain=db.query(Job).filter_by(kind='send',lead_id=target.id,status='review').first()
                 handoff(db,target,'Envío pendiente de verificar.' if uncertain else 'Respuesta manual desde WhatsApp.',notify=False)
                 if not uncertain:
+                    identifier='manual-message:'+job.data['provider_id']
+                    if job.data.get('text') and not db.get(Record,identifier):
+                        db.add(Record(id=identifier,kind='message',lead_id=target.id,data={'direction':'out','text':job.data['text'],'provider_id':job.data['provider_id'],'human':True}))
                     for rec in unanswered(db,target.id):rec.data={**rec.data,'answered':True,'handled_by':'human'}
     elif job.kind=='respond':respond(db,job,lead)
     elif job.kind=='audio':audio(db,job,lead)

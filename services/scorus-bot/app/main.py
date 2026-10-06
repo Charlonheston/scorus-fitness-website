@@ -219,7 +219,7 @@ def evolution_event(event):
             if from_me:
                 # Our own sends generate fromMe too. Delivery echoes are reconciled by provider ID.
                 sent=db.query(Record).filter_by(id='sent:'+key.get('id','')).first()
-                if not sent: enqueue(db,'manual:'+key.get('id',''),'manual_echo','',{'phone':'+'+digits,'provider_id':key.get('id')},time.time()+15)
+                if not sent: enqueue(db,'manual:'+key.get('id',''),'manual_echo','',{'phone':'+'+digits,'provider_id':key.get('id'),'text':(text or '[Respuesta multimedia desde el teléfono]')[:6000]},time.time())
             elif text: inbound(db,'+'+digits,text,key['id'],provider_key={'id':key['id'],'remoteJid':remote,'fromMe':False})
             elif msg.get('audioMessage'):
                 lead=inbound(db,'+'+digits,'[Nota de voz recibida; contenido pendiente de transcripción]',key['id'],provider_key={'id':key['id'],'remoteJid':remote,'fromMe':False})

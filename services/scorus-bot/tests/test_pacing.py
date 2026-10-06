@@ -164,6 +164,19 @@ def test_manual_echo_waits_for_inflight_send_then_reconciles(monkeypatch):
         db.add(Record(id='sent:late-provider',kind='message',lead_id=lead.id,data={'direction':'out','text':'Text'}));db.flush()
         send.status='done';worker.process(db,echo);assert not lead.paused
 
+def test_phone_reply_is_paused_and_preserved_without_fixed_delay(monkeypatch):
+    from app.main import evolution_event
+    monkeypatch.setenv('EVOLUTION_INSTANCE','scorus-test')
+    with Session.begin() as db:
+        lead=contact(db);inbound(db,lead.phone,'Consulta pendiente','before-human')
+    evolution_event({'instance':'scorus-test','event':'MESSAGES_UPSERT','data':{'key':{'id':'human-phone','remoteJid':'34600900001@s.whatsapp.net','fromMe':True},'message':{'conversation':'Hola, soy Bernat. Lo reviso contigo.'}}})
+    assert worker.once('maintenance')
+    with Session() as db:
+        assert db.get(Lead,lead.id).paused
+        assert db.get(Record,'manual-message:human-phone').data['human']
+        assert db.get(Record,'inbound:before-human').data['answered']
+        assert db.query(Job).filter_by(kind='respond',status='pending').count()==0
+
 def test_paused_global_control_keeps_inbound_but_prevents_actions():
     with Session.begin() as db:
         lead=contact(db);cfg=db.get(Config,'settings');cfg.data={**cfg.data,'pacing':{**pacing(db),'automatic_paused':True}}
