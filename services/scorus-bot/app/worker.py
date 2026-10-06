@@ -3,6 +3,8 @@ import json
 import logging
 import os
 import time
+import signal
+import threading
 from concurrent.futures import ThreadPoolExecutor
 import httpx
 from sqlalchemy import select
@@ -309,7 +311,10 @@ def poll_connection():
 def run():
     pools={'respond':ThreadPoolExecutor(2),'send':ThreadPoolExecutor(1),'maintenance':ThreadPoolExecutor(1)}
     futures={};heartbeat=0;connection_poll=0
-    while True:
+    stopping=threading.Event()
+    signal.signal(signal.SIGTERM,lambda *_:stopping.set())
+    signal.signal(signal.SIGINT,lambda *_:stopping.set())
+    while not stopping.is_set() or futures:
         try:
             for future in list(futures):
                 if future.done():
@@ -322,6 +327,7 @@ def run():
             if now-heartbeat>=15:heartbeat=now
             if now-connection_poll>=15:poll_connection();connection_poll=now
             for lane,pool in pools.items():
+                if stopping.is_set():continue
                 local_limit=2 if lane=='respond' else 1
                 if sum(1 for f,(j,o) in futures.items() if getattr(f,'scorus_lane',None)==lane)>=local_limit:continue
                 with Session.begin() as db:claimed=claim(db,lane)
@@ -329,6 +335,7 @@ def run():
                     future=pool.submit(execute_claim,*claimed);future.scorus_lane=lane;futures[future]=claimed
             time.sleep(.5)
         except Exception:log.exception('Worker cycle failed');time.sleep(2)
+    for pool in pools.values():pool.shutdown(wait=True)
 
 if __name__=='__main__':
     logging.basicConfig(level=logging.INFO);init();recovery()

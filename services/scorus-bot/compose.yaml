@@ -64,6 +64,7 @@ services:
     restart: unless-stopped
     mem_limit: 320m
   worker:
+    init: true
     build:
       context: ../..
       dockerfile: services/scorus-bot/Dockerfile
