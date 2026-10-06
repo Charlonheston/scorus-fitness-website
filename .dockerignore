@@ -1,0 +1,12 @@
+.git
+node_modules
+dist
+.vercel
+.astro
+.scorus-deploy
+**/.env
+**/.env.hermes
+**/__pycache__
+**/*.pyc
+public
+videos biografia

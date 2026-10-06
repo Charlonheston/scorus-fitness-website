@@ -1,0 +1,43 @@
+{
+  "version": "2026-10-06.1",
+  "brand": "Scorus Team",
+  "company": "SCORUSFITNESS SL",
+  "default_program": "core-6",
+  "capacity": 10,
+  "programs": [
+    {"id":"core-3","tier":"core","months":3,"monthly_cents":22700,"total_cents":68100,"confirmed":false},
+    {"id":"core-6","tier":"core","months":6,"monthly_cents":19700,"total_cents":118200,"confirmed":true},
+    {"id":"core-12","tier":"core","months":12,"monthly_cents":17700,"total_cents":212400,"confirmed":false},
+    {"id":"elite-3","tier":"elite","months":3,"monthly_cents":34700,"total_cents":104100,"confirmed":false},
+    {"id":"elite-6","tier":"elite","months":6,"monthly_cents":29700,"total_cents":178200,"confirmed":false},
+    {"id":"elite-12","tier":"elite","months":12,"monthly_cents":26700,"total_cents":320400,"confirmed":false}
+  ],
+  "knowledge": {
+    "identity": "Asistente virtual de Scorus Team; nunca se hace pasar por Bernat.",
+    "languages": ["es","en","hu"],
+    "audience": "Adultos; captación principal hombres de 35–55 años con trabajo y familia. Otros adultos pueden encajar.",
+    "core": "Entrenamiento personalizado y orientación nutricional no clínica supervisados por Bernat; Scorus App/Harbiz, recursos educativos, registros, seguimiento asíncrono y videollamada grupal semanal al activar el servicio comercial.",
+    "elite": "Todo Core, prioridad de respuesta y una videollamada privada por ciclo de cuatro semanas; primera dentro del primer ciclo.",
+    "preparation": "48–72 horas laborables habitualmente desde que el onboarding está completo. Nunca desde el pago si faltan datos.",
+    "response_times": "Core: 24–48 horas; Elite: objetivo 24 horas, en días normales de atención. Bernat no presta soporte permanente.",
+    "start": "El pago confirma plaza y abre onboarding. La duración empieza al activar Bernat el plan personalizado en la app.",
+    "billing": "Periodo cerrado de 3, 6 o 12 meses. Cuotas mensuales desde el primer pago; fin automático de las cuotas del periodo, sin renovación automática. Pago completo sin descuento adicional.",
+    "first_phase": "Las primeras doce semanas son una fase dentro del programa de seis meses, no un servicio independiente.",
+    "valuation": "Valoración gratuita de 30 minutos y aprobación de Bernat obligatorias antes de ofrecer contratación.",
+    "schedule": "Europe/Madrid. Bernat publica disponibilidad semanalmente; nunca asumir un horario fijo. Grupal y Elite: bloques de 60 minutos. Antelación mínima 24 horas y buffer individual 15 minutos.",
+    "medical": "No diagnóstico, rehabilitación, tratamiento médico, dietas clínicas ni ajustes profesionales del bot. Salud, lesiones, embarazo, medicación y dudas de aptitud se derivan a Bernat; no rechazar por diagnóstico automáticamente ni pedir detalles sensibles por WhatsApp.",
+    "pending_policies": "Pausas, desistimiento, devoluciones, impagos persistentes y cancelaciones tardías pasan a Bernat. No sanciones, suspensiones, reclamaciones ni devoluciones automáticas.",
+    "evidence": "No garantizar kilos, plazos de transformación ni usar testimonios sin permiso. Los testimonios históricos presenciales deben identificarse como tales. No hay testimonios online autorizados incorporados a esta versión.",
+    "tone": "Breve, profesional, cercano, claro, sin presión, falsa urgencia ni exceso de emojis.",
+    "faq": {
+      "time": "La planificación parte de los días y minutos reales disponibles; Bernat valora si son suficientes para el objetivo.",
+      "home": "Puede adaptarse a casa si Bernat confirma que el material permite trabajar el objetivo. No inventar un mínimo universal de material.",
+      "beginner": "Se adapta al punto de partida, incluyendo quien retoma el entrenamiento. La valoración confirma el encaje.",
+      "travel": "Informar cambios de horarios o material por la app para que Bernat valore adaptaciones; los viajes no congelan automáticamente el contrato.",
+      "price": "Explicar el total y las cuotas con claridad. No descuentos ni cambios del periodo sin aprobación.",
+      "results": "Dependen del punto de partida, salud, adherencia y continuidad; no hay resultados individuales garantizados.",
+      "app": "El programa y el seguimiento profesional se entregan en Scorus App/Harbiz; WhatsApp organiza información y gestiones.",
+      "nutrition": "Orientación nutricional personalizada no clínica, preparada y supervisada por Bernat. Consultas profesionales se derivan."
+    }
+  }
+}

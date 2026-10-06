@@ -1,4 +1,6 @@
 ---
+import catalog from '../../data/scorus-team.json';
+const core = catalog.programs.find((program) => program.id === catalog.default_program)!;
 const steps = [
   {
     title: '¿Qué te gustaría trabajar?',
@@ -17,7 +19,7 @@ const steps = [
       {
         name: 'obstacle',
         label: 'Qué te cuesta más ahora',
-        error: 'Elige la dificultad principal de este ejemplo.',
+        error: 'Elige tu dificultad principal.',
         options: [
           { value: 'direction', label: 'Saber qué hacer y cómo progresar' },
           { value: 'consistency', label: 'Mantener la constancia' },
@@ -90,7 +92,7 @@ const steps = [
       {
         name: 'timing',
         label: 'Cuándo te gustaría empezar',
-        error: 'Elige un plazo orientativo para este ejemplo.',
+        error: 'Elige un plazo orientativo.',
         options: [
           { value: 'soon', label: 'En las próximas dos semanas' },
           { value: 'month', label: 'En el próximo mes' },
@@ -111,14 +113,13 @@ const summaryFields = steps.flatMap((step) => step.groups);
       <h2 id="qualification-title">Tu próximo paso empieza aquí.</h2>
       <p class="intro-copy">
         Tu objetivo, lo que te frena y el tiempo que tienes. Así empezaríamos a conocer qué
-        acompañamiento buscas.
+        acompañamiento buscas. Bernat valorará contigo si el programa encaja antes de contratar.
       </p>
       <div class="preview-note" id="qualification-preview">
-        <strong>Formulario de prueba, sin envío.</strong>
+        <strong>Solicita tu valoración con Bernat.</strong>
         <p>
-          Usa respuestas de ejemplo para explorar los tres pasos. No pedimos nombre, email ni
-          teléfono. Al terminar verás un resumen en esta página. No se envía información a Bernat ni
-          se guardan respuestas en ningún servicio.
+          Completa los tres pasos y, cuando esté abierta la solicitud, podremos contactar contigo
+          por WhatsApp. No confirma una plaza ni implica un pago. Evita incluir información de salud.
         </p>
       </div>
     </div>
@@ -126,7 +127,7 @@ const summaryFields = steps.flatMap((step) => step.groups);
     <scorus-qualification class="qualification-widget">
       <noscript>
         <p class="preview-note">
-          Activa JavaScript para probar el formulario. Esta vista previa no envía datos.
+          Activa JavaScript para completar la solicitud de valoración.
         </p>
       </noscript>
 
@@ -168,14 +169,14 @@ const summaryFields = steps.flatMap((step) => step.groups);
               {stepIndex === 2 && (
                 <div class="program-note">
                   <p>
-                    <strong>Core</strong> es un programa de 6 meses: 197 €/mes, IVA incluido.
-                    Importe total: 1.182 € en 6 cuotas; renovación manual al finalizar.
+                    <strong>Core</strong> es un programa de {core.months} meses: {core.monthly_cents / 100} €/mes, IVA incluido.
+                    Importe total: {(core.total_cents / 100).toLocaleString('es-ES')} € en {core.months} cuotas; renovación manual al finalizar.
                   </p>
                   <p>
                     <strong>Elite</strong> añade una llamada individual cada 4 semanas y prioridad
                     de atención. Su precio está pendiente de confirmar.
                   </p>
-                  <p>Tu elección en esta prueba no implica una contratación ni un pago.</p>
+                  <p>Tu elección no implica una contratación ni un pago.</p>
                 </div>
               )}
 
@@ -208,15 +209,28 @@ const summaryFields = steps.flatMap((step) => step.groups);
               ))}
 
               {stepIndex === 2 && (
+                <>
+                <div class="contact-fields">
+                  <label>Tu nombre<input type="text" name="name" minlength="2" maxlength="100" autocomplete="name" required data-contact-input /></label>
+                  <label>Teléfono de WhatsApp con prefijo<input type="tel" name="phone" placeholder="+34 600 000 000" autocomplete="tel" maxlength="30" required data-contact-input /></label>
+                  <label class="honeypot" aria-hidden="true">Deja este campo vacío<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+                </div>
                 <div class="age-confirmation" data-age-group>
                   <label class="age-label">
                     <input type="checkbox" name="adult" required />
-                    <span>En este ejemplo, la persona tiene 18 años o más.</span>
+                    <span>Tengo 18 años o más.</span>
                   </label>
                   <p class="field-error" id="qualification-age-error" data-field-error hidden>
-                    Marca la mayoría de edad del ejemplo para ver el resumen.
+                    Confirma que tienes 18 años o más.
                   </p>
                 </div>
+                <div class="age-confirmation" data-age-group>
+                  <label class="age-label"><input type="checkbox" name="contact_consent" required /><span>Autorizo a Scorus Team a responder a mi solicitud por WhatsApp. <a data-privacy-link hidden target="_blank" rel="noopener">Información de privacidad</a>.</span></label>
+                  <p class="field-error" data-field-error hidden>Autoriza el contacto para enviar tu solicitud.</p>
+                </div>
+                <label class="age-label marketing-consent"><input type="checkbox" name="marketing_consent" /><span>También quiero recibir novedades y ofertas por WhatsApp (opcional).</span></label>
+                <p class="preview-note" data-service-status role="status">Comprobando disponibilidad de la solicitud…</p>
+                </>
               )}
             </div>
           ))
@@ -243,10 +257,10 @@ const summaryFields = steps.flatMap((step) => step.groups);
         <h3 id="qualification-summary-title" tabindex="-1" data-summary-heading>
           Este es tu punto de partida.
         </h3>
-        <p class="summary-preview">Vista previa: este resumen no se ha enviado a Bernat.</p>
+        <p class="summary-preview">Solicitud recibida.</p>
         <p class="summary-description">
-          Recoge las opciones que has elegido para esta prueba. No confirma una plaza, una fecha de
-          inicio ni la contratación de un programa.
+          El equipo revisará tu solicitud. La valoración y aprobación de Bernat son necesarias
+          antes de contratar. Este envío no confirma una plaza ni una fecha de inicio.
         </p>
         <dl class="summary-list">
           {
@@ -290,6 +304,14 @@ const summaryFields = steps.flatMap((step) => step.groups);
         return;
       this.dataset.initialized = 'true';
       let currentStep = 0;
+      let serviceEnabled = false;
+      const serviceStatus = this.querySelector<HTMLElement>('[data-service-status]');
+      fetch('/api/scorus/status').then((response) => response.json()).then((status) => {
+        serviceEnabled = Boolean(status.form_enabled);
+        const privacy = this.querySelector<HTMLAnchorElement>('[data-privacy-link]');
+        if (privacy && typeof status.privacy_url === 'string' && status.privacy_url.startsWith('https://scorusfitness.com/')) { privacy.href = status.privacy_url; privacy.hidden = false; }
+        if (serviceStatus) serviceStatus.textContent = serviceEnabled ? (status.test_mode ? 'Solicitud en pruebas: solo se contactará con los destinatarios autorizados.' : 'Te atenderá el asistente virtual de Scorus Team. Podrás pedir hablar con Bernat.') : 'La solicitud de valoración todavía no está abierta. Puedes consultar la propuesta y volver cuando esté disponible.';
+      }).catch(() => { if (serviceStatus) serviceStatus.textContent = 'La solicitud no está disponible en este momento.'; });
 
       const setGroupError = (group: HTMLElement, invalid: boolean) => {
         group.classList.toggle('has-error', invalid);
@@ -327,7 +349,7 @@ const summaryFields = steps.flatMap((step) => step.groups);
           else item.removeAttribute('aria-current');
         });
         back.hidden = index === 0;
-        next.textContent = index === panels.length - 1 ? 'Ver mi resumen' : 'Siguiente';
+        next.textContent = index === panels.length - 1 ? 'Solicitar mi valoración' : 'Siguiente';
         clearErrors();
         if (moveFocus) panels[index]?.querySelector<HTMLElement>('[data-step-heading]')?.focus();
       };
@@ -346,6 +368,11 @@ const summaryFields = steps.flatMap((step) => step.groups);
           });
         error.hidden = invalidInputs.length === 0;
         invalidInputs[0]?.focus();
+        if (!invalidInputs.length) {
+          for (const input of panel.querySelectorAll<HTMLInputElement>('[data-contact-input]')) {
+            if (!input.checkValidity()) { input.reportValidity(); return false; }
+          }
+        }
         return invalidInputs.length === 0;
       };
 
@@ -358,13 +385,31 @@ const summaryFields = steps.flatMap((step) => step.groups);
         error.hidden = !panels[currentStep]?.querySelector('.has-error');
       });
 
-      form.addEventListener('submit', (event) => {
+      form.addEventListener('submit', async (event) => {
         event.preventDefault();
         if (!validateStep()) return;
         if (currentStep < panels.length - 1) {
           showStep(currentStep + 1);
           return;
         }
+
+        if (!serviceEnabled) { if (serviceStatus) { serviceStatus.textContent = 'La solicitud de valoración todavía no está abierta. No se han enviado tus datos.'; serviceStatus.focus(); } return; }
+        next.disabled = true; next.textContent = 'Enviando…';
+        const values = new FormData(form);
+        const answers: Record<string, string> = {};
+        for (const key of ['goal','obstacle','experience','location','days','duration','support','timing']) answers[key] = String(values.get(key) || '');
+        const attribution: Record<string, string> = {};
+        const parameters = new URLSearchParams(location.search);
+        for (const key of ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','campaign_id','adset_id','ad_id','fbclid']) { const value = parameters.get(key); if (value) attribution[key] = value.slice(0,200); }
+        try {
+          const response = await fetch('/api/scorus/leads', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name:values.get('name'),phone:values.get('phone'),adult:values.get('adult')==='on',contact_consent:values.get('contact_consent')==='on',marketing_consent:values.get('marketing_consent')==='on',consent_version:'2026-10-06.1',answers,attribution,website:values.get('website')||''}) });
+          const result = await response.json();
+          if (!response.ok || !result.accepted) throw new Error(result.error || 'No se ha podido enviar la solicitud.');
+        } catch (failure) {
+          if (serviceStatus) serviceStatus.textContent = failure instanceof Error ? failure.message : 'No se han podido enviar tus datos.';
+          next.disabled = false; next.textContent = 'Solicitar mi valoración'; return;
+        }
+        next.disabled = false; next.textContent = 'Solicitar mi valoración';
 
         summary.querySelectorAll<HTMLElement>('[data-summary-field]').forEach((output) => {
           const name = output.dataset.summaryField;
@@ -374,7 +419,7 @@ const summaryFields = steps.flatMap((step) => step.groups);
           output.textContent = selected?.dataset.answerLabel ?? 'Sin respuesta';
         });
         const ageSummary = summary.querySelector<HTMLElement>('[data-summary-adult]');
-        if (ageSummary) ageSummary.textContent = '18 años o más (confirmado en esta prueba)';
+        if (ageSummary) ageSummary.textContent = '18 años o más';
         form.hidden = true;
         summary.hidden = false;
         summary.querySelector<HTMLElement>('[data-summary-heading]')?.focus();
@@ -402,6 +447,11 @@ const summaryFields = steps.flatMap((step) => step.groups);
 </script>
 
 <style>
+  .contact-fields label { display:block; margin:1rem 0; font-weight:600; }
+  .contact-fields input { display:block; width:100%; border:1px solid #c7c9c3; background:white; border-radius:.5rem; padding:.85rem; margin-top:.5rem; color:#171717; }
+  .honeypot { position:absolute; left:-10000px; }
+  .marketing-consent { margin:1rem 0; }
+  [data-service-status] { margin-top:1rem; }
   .qualification {
     background: #f2f1ed;
     color: #171717;

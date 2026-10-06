@@ -1,0 +1,95 @@
+name: scorus
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: scorus
+      POSTGRES_USER: scorus
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
+    volumes: [scorus_db:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U scorus -d scorus"]
+      interval: 5s
+      retries: 20
+    restart: unless-stopped
+    mem_limit: 320m
+  evolution-db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: evolution
+      POSTGRES_USER: evolution
+      POSTGRES_PASSWORD: ${EVOLUTION_DB_PASSWORD:?}
+    volumes: [scorus_evolution_db:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U evolution -d evolution"]
+      interval: 5s
+      retries: 20
+    restart: unless-stopped
+    mem_limit: 320m
+  evolution:
+    image: evoapicloud/evolution-api:v2.3.7
+    environment:
+      SERVER_URL: http://evolution:8080
+      AUTHENTICATION_API_KEY: ${EVOLUTION_API_KEY:?}
+      AUTHENTICATION_EXPOSE_IN_FETCH_INSTANCES: "false"
+      DATABASE_ENABLED: "true"
+      DATABASE_PROVIDER: postgresql
+      DATABASE_CONNECTION_URI: postgresql://evolution:${EVOLUTION_DB_PASSWORD}@evolution-db:5432/evolution?schema=public
+      DATABASE_CONNECTION_CLIENT_NAME: scorus
+      DATABASE_SAVE_DATA_INSTANCE: "true"
+      DATABASE_SAVE_DATA_NEW_MESSAGE: "false"
+      DATABASE_SAVE_DATA_CONTACTS: "false"
+      DATABASE_SAVE_DATA_CHATS: "false"
+      DATABASE_SAVE_DATA_HISTORIC: "false"
+      CACHE_REDIS_ENABLED: "false"
+      CACHE_LOCAL_ENABLED: "true"
+      LOG_LEVEL: ERROR,WARN
+      LOG_BAILEYS: error
+      TZ: Europe/Madrid
+    volumes: [scorus_evolution_instances:/evolution/instances]
+    depends_on:
+      evolution-db: {condition: service_healthy}
+    restart: unless-stopped
+    mem_limit: 640m
+  backend:
+    build:
+      context: ../..
+      dockerfile: services/scorus-bot/Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://scorus:${POSTGRES_PASSWORD}@db:5432/scorus
+    ports: ["127.0.0.1:4280:4280"]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: unless-stopped
+    mem_limit: 320m
+  worker:
+    build:
+      context: ../..
+      dockerfile: services/scorus-bot/Dockerfile
+    command: [python, -m, app.worker]
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://scorus:${POSTGRES_PASSWORD}@db:5432/scorus
+    depends_on:
+      db: {condition: service_healthy}
+      backend: {condition: service_started}
+    restart: unless-stopped
+    mem_limit: 320m
+  hermes:
+    build:
+      context: ../..
+      dockerfile: services/scorus-bot/hermes/Dockerfile
+    env_file: .env.hermes
+    environment:
+      SCORUS_INTERNAL_URL: http://backend:4280
+    tmpfs: ["/tmp:size=160m,mode=1777"]
+    read_only: true
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    restart: unless-stopped
+    mem_limit: 1g
+volumes:
+  scorus_db:
+  scorus_evolution_db:
+  scorus_evolution_instances:

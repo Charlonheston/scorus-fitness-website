@@ -1,0 +1,7 @@
+[Unit]
+Description=Private backup of Scorus bot and Evolution
+After=docker.service
+[Service]
+Type=oneshot
+ExecStart=/bin/sh /opt/scorus-bot/repo/services/scorus-bot/deploy/backup.sh
+UMask=0077

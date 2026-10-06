@@ -20,6 +20,11 @@ lerna-debug.log*
 .env
 .env.production
 .env.local
+.env.hermes
+__pycache__/
+*.pyc
+*.db
+.scorus-deploy/
 
 # macOS-specific files
 .DS_Store
@@ -43,3 +48,5 @@ playwright/.cache/
 # misc
 *.log
 .cache/
+.vercel
+.env*
