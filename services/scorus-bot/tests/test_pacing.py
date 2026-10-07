@@ -269,9 +269,10 @@ def test_uncertain_mcp_operation_stays_pending_and_never_reexecutes(monkeypatch)
     monkeypatch.setattr(main,'checkout',failed)
     with Session.begin() as db:
         lead=contact(db);inbound(db,lead.phone,'Pago elegido','uncertain-input')
+        lead.profile={**lead.profile,'approved_program':'core-6','approved_at':1}
     due_all('respond');job_id,owner=get_claim('respond')
     with Session() as db:scope={'lead':lead.id,'turn':job_id,'owner':owner,'generation':db.get(Lead,lead.id).generation}
-    body={'id':1,'method':'tools/call','params':{'name':'prepare_checkout','arguments':{'payment_mode':'full'}}}
+    body={'id':1,'method':'tools/call','params':{'name':'prepare_checkout','arguments':{'program_id':'core-6','payment_mode':'full','confirmed':True}}}
     assert 'isError":true' in mcp_rpc(scope,body).body.decode()
     with Session.begin() as db:
         current=db.get(Lead,lead.id);current.paused=False;scope['generation']=current.generation

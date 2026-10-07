@@ -18,7 +18,7 @@ from app.domain import CATALOG, PROGRAMS, DAY, RuleError, activate, approve, can
 def clean():
     Base.metadata.drop_all(engine);init()
     with Session.begin() as db:
-        cfg=db.get(Config,'settings');cfg.data={**cfg.data,'mode':'production','public_form_enabled':True,'terms_url':'https://scorusfitness.com/es/condiciones','privacy_url':'https://scorusfitness.com/es/privacidad','terms_version':'test-1','billing_approved':True,'catalog_approved':list(PROGRAMS)}
+        cfg=db.get(Config,'settings');cfg.data={**cfg.data,'mode':'production','sales_mode':'valuation','public_form_enabled':True,'terms_url':'https://scorusfitness.com/es/condiciones','privacy_url':'https://scorusfitness.com/es/privacidad','terms_version':'test-1','billing_approved':True,'catalog_approved':list(PROGRAMS)}
 
 def make_lead(db,number='+34600000001'):
     return create_lead(db,{'name':'Test Client','phone':number,'adult':True,'contact_consent':True,'marketing_consent':False,'consent_version':'2026-10-06.1','answers':{'goal':'muscle'},'attribution':{'utm_campaign':'test'}})

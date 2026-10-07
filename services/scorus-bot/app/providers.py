@@ -23,10 +23,11 @@ def settings_mode_matches_key(key):
     return key.startswith('sk_test_') if os.getenv('SCORUS_MODE','test')=='test' else key.startswith('sk_live_')
 
 def checkout(db, lead, payment_mode):
+    client=stripe_client() # Missing credentials must not occupy a client place.
     contract=prepare_contract(db,lead,payment_mode)
     if contract.data.get('checkout_url'): return {'url':contract.data['checkout_url'],'expires':contract.data['hold_until']}
     db.commit()
-    client=stripe_client(); program=contract.data['price']; cfg=settings(db)
+    program=contract.data['price']; cfg=settings(db)
     amount=program['total_cents'] if payment_mode=='full' else program['monthly_cents']
     price={'currency':'eur','unit_amount':amount,'product_data':{'name':f"Scorus {program['tier'].title()} · {program['months']} meses",'description':f"Compromiso total {program['total_cents']/100:.2f} EUR, IVA incluido. Renovación manual."}}
     if payment_mode=='installments': price['recurring']={'interval':'month'}
@@ -42,7 +43,7 @@ def checkout(db, lead, payment_mode):
     for hours in (12,23):
         enqueue(db,f'hold:{contract.id}:{hours}','hold_reminder',lead.id,{'contract_id':contract.id},contract.created+hours*3600)
     enqueue(db,f'hold:{contract.id}:expire','expire_hold',lead.id,{'contract_id':contract.id},contract.data['hold_until'])
-    return {'url':session.url,'expires':contract.data['hold_until']}
+    return {'status':'checkout_ready','url':session.url,'expires':contract.data['hold_until']}
 
 def cap_installments(contract):
     client=stripe_client()

@@ -113,7 +113,12 @@ def latest_contract(db, lead):
 def prepare_contract(db, lead, payment_mode):
     cfg=settings(db,lock=True)
     require(not lead.paused and not lead.opted_out, 'Conversación bajo atención humana o sin permiso de contacto.')
-    require(lead.state=='approved', 'La contratación requiere valoración y aprobación de Bernat.')
+    require(lead.state=='approved', 'Primero debe quedar registrada la aceptación comercial del programa.')
+    if cfg.get('sales_mode','autonomous')=='autonomous':
+        from .sales import qualify
+        qualify(lead)
+        offer=db.get(Record,lead.profile.get('accepted_offer',''))
+        require(offer is not None and offer.lead_id==lead.id and offer.kind=='sales_offer' and offer.data.get('accepted_at') and offer.data.get('expires_at',0)>time.time() and offer.data.get('catalog_version')==CATALOG['version'] and offer.data.get('terms_version')==cfg['terms_version'] and offer.data.get('program')==lead.profile.get('approved_program') and offer.data.get('payment_mode')==payment_mode,'Se necesita una oferta vigente aceptada expresamente por el cliente.')
     pid=lead.profile.get('approved_program')
     require(pid in cfg['catalog_approved'], 'Esta tarifa todavía necesita confirmación de Bernat.')
     require(cfg['billing_approved'] and cfg['terms_url'] and cfg['terms_version'], 'La contratación todavía no tiene condiciones y facturación validadas.')

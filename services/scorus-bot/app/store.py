@@ -80,7 +80,7 @@ def init():
                 cfg.data={**cfg.data,'mode':mode,'launch_approved':False,'public_form_enabled':False}
         from .queueing import DEFAULT_PACING
         cfg=db.get(Config,'settings')
-        cfg.data={**cfg.data,'pacing':{**DEFAULT_PACING,**cfg.data.get('pacing',{})}}
+        cfg.data={**cfg.data,'sales_mode':cfg.data.get('sales_mode','autonomous'),'pacing':{**DEFAULT_PACING,**cfg.data.get('pacing',{})}}
         if not db.get(Config,'delivery'):
             db.add(Config(id='delivery',data={'connection':'unknown','connected_since':0,'last_send':0,'contacts':{},'attempts':[],'failures':[],'pause_until':0,'restricted':False,'typing_job':''}))
         # Legacy history was not marked as answered. Do not replay old questions.

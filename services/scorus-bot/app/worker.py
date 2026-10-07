@@ -65,7 +65,8 @@ def respond(db,job,lead):
     previous=next((r for r in history if r.data.get('direction')=='out'),None)
     target=response_target(len(prompt),not previous or time.time()-previous.created>=21600)
     first=batch[0].created;owner=job.owner
-    context={'name':lead.name,'answers':lead.profile,'state':lead.state}
+    from .sales import readiness
+    context={'name':lead.name,'answers':lead.profile,'state':lead.state,'commercial':readiness(db)}
     cfg=pacing(db);token=scoped_token(lead.id,os.getenv('MCP_SECRET',''),turn=job.id,generation=lead.generation,owner=owner)
     job.data={**job.data,'message_ids':ids,'first_inbound':first};db.commit()
     if cfg['read_receipts']:
@@ -81,8 +82,14 @@ def respond(db,job,lead):
     if lead.paused or lead.opted_out or pacing(db)['automatic_paused'] or lead.generation!=job.data['generation']:
         add_record(db,'turn',lead.id,{'status':'discarded','job':job.id});return
     reply=result.get('reply','').strip();require(bool(reply) and len(reply)<=4000,'Hermes no devolvió una respuesta válida.')
+    # The exact contractual quote is rendered in code, never reconstructed by the model.
+    proposals=db.query(Record).filter_by(kind='sales_offer',lead_id=lead.id).order_by(Record.created.desc()).all()
+    proposal=next((r for r in proposals if r.data.get('source_turn')==job.id and not r.data.get('accepted_at')),None)
+    if proposal:
+        from .sales import quote_text
+        reply=quote_text(proposal.data,lead.language)
     sent=message(db,lead,reply,'reply:'+job.id,due=max(time.time(),first+target-(typing_seconds(reply) if cfg['typing'] else 0)))
-    sent.data={**sent.data,'guard_generation':True,'message_ids':ids,'first_inbound':first,'category':'conversation'}
+    sent.data={**sent.data,'guard_generation':True,'message_ids':ids,'first_inbound':first,'category':'conversation','turn_id':job.id}
     add_record(db,'turn',lead.id,{'status':'prepared','job':job.id,'batch_count':len(ids),'target_seconds':target})
 
 def audio(db,job,lead):
@@ -220,6 +227,9 @@ def dispatch(db,job,lead):
         for identifier in job.data.get('message_ids',[]):
             rec=db.get(Record,identifier)
             if rec:rec.data={**rec.data,'answered':True,'answered_by':job.id}
+        for offer in db.query(Record).filter_by(kind='sales_offer',lead_id=lead.id):
+            if offer.data.get('source_turn')==job.data.get('turn_id') and job.data.get('turn_id'):
+                offer.data={**offer.data,'delivered_at':time.time(),'sent_message_id':'sent:'+provider_id}
         job.data={**job.data,'provider_id':provider_id,'dispatching':False}
         for attempt in db.query(Record).filter_by(kind='send_attempt',lead_id=lead.id):
             if attempt.data.get('job_id')==job.id:attempt.data={**attempt.data,'status':'accepted','provider_id':provider_id}

@@ -17,6 +17,7 @@ from .store import Config, Job, Lead, Record, Session, add_record, enqueue, init
 from .domain import CATALOG, PROGRAMS, DAY, RuleError, activate, approve, cancel_sales, handoff, latest_contract, message, paid_contract, phone_number, require, schedule_followups, settings, token_scope
 from .providers import book, checkout, slots
 from .queueing import delivery, pacing, queue_snapshot, queue_turn, validate_pacing
+from .sales import HUMAN_CATEGORIES, flag_health, offer_summary, readiness, request_review
 
 @asynccontextmanager
 async def lifespan(app):
@@ -151,14 +152,13 @@ def inbound(db,phone,text,external_id,from_me=False,provider_key=None):
     record=Record(id='inbound:'+external_id,kind='message',lead_id=lead.id,data={'direction':'in','text':text[:6000],'provider_key':provider_key,'answered':False})
     db.add(record)
     stop=bool(re.fullmatch(r'\s*(stop|baja|no me escribas(?: más)?|no quiero más mensajes|unsubscribe|leiratkozás)\s*[.!]?\s*',text,re.I))
-    sensitive=bool(re.search(r'lesi[oó]n|dolor|embaraz|medicaci[oó]n|devoluci[oó]n|reembolso|reclamaci[oó]n|cancelar.*contrato|pausar.*programa|injur|refund|pregnan|fájdalom|visszatérítés',text,re.I))
     if stop:
         lead.opted_out=True
         add_record(db,'audit',lead.id,{'action':'opt_out'})
         return
     if re.fullmatch(r'\s*(no|no gracias|no me interesa|not interested|nem érdekel)[.!]?\s*',text,re.I):
         lead.state='not_interested'; return
-    if sensitive: handoff(db,lead,'Consulta profesional o excepción: revisar conversación.'); return
+    flag_health(db,lead,text)
     if lead.paused or lead.opted_out: return
     queue_turn(db,lead,external_id)
     return lead
@@ -260,11 +260,11 @@ async def meta_webhook(request:Request):
 TOOLS={
     'get_offer':('Consultar catálogo y reglas oficiales.',{}),
     'get_profile':('Consultar solo el expediente del interlocutor.',{}),
-    'update_profile':('Completar cualificación sin alterar teléfono, precio, aprobación ni contrato.',{'answers':{'type':'object'}}),
+    'update_profile':('Guardar nombre, correo y cualificación explícitamente aportados por el cliente, sin alterar precio, aprobación ni contrato.',{'answers':{'type':'object'}}),
     'get_slots':('Consultar horarios publicados y autorizados.',{'kind':{'type':'string','enum':['valuation','elite','group']}}),
     'book_call':('Reservar un horario que el usuario haya elegido explícitamente.',{'kind':{'type':'string','enum':['valuation','elite','group']},'start_time':{'type':'string'},'timezone':{'type':'string'},'email':{'type':'string'}}),
-    'prepare_checkout':('Preparar pago solo después de valoración y aprobación registradas.',{'payment_mode':{'type':'string','enum':['full','installments']}}),
-    'request_human':('Pasar conversación a Bernat y pausar automatizaciones.',{'reason':{'type':'string'}}),
+    'prepare_checkout':('Cierre autónomo: primero oferta exacta; después aceptación explícita del cliente y checkout verificado. Sin valoración obligatoria.',{'program_id':{'type':'string','enum':list(PROGRAMS)},'payment_mode':{'type':'string','enum':['full','installments']},'confirmed':{'type':'boolean'}}),
+    'request_human':('Derivar únicamente una petición profesional concreta, reclamación, excepción contractual o solicitud expresa de hablar con una persona. Información, precios y recomendación Core/Elite son atribuciones del asistente.',{'category':{'type':'string','enum':list(HUMAN_CATEGORIES)},'reason':{'type':'string'}}),
     'get_client_status':('Consultar contrato, alta y reservas propias.',{})
 }
 
@@ -294,8 +294,11 @@ def mcp_rpc(scope,body):
                     turn=db.get(Job,scope['turn'])
                     require(turn is not None and turn.lead_id==lead.id and turn.status=='running' and turn.owner==scope.get('owner') and turn.lease_until>time.time() and lead.generation==scope.get('generation'),'Turno desactualizado o caducado.')
                 else:require(name in ('get_offer','get_profile','get_client_status'),'La acción requiere un turno vigente.')
-                operation=None
-                if name in ('book_call','prepare_checkout'):
+                operation=None;data=None
+                if name=='prepare_checkout' and settings(db).get('sales_mode','autonomous')=='autonomous':
+                    require(type(args['confirmed']) is bool,'Confirmación inválida.')
+                    data,_=offer_summary(db,lead,args['program_id'],args['payment_mode'],args['confirmed'],scope.get('turn'))
+                if name in ('book_call','prepare_checkout') and data is None:
                     fingerprint=json.dumps([lead.id,name,args,lead.profile.get('approved_at')],sort_keys=True)
                     op_id='mcp-operation:'+hashlib.sha256(fingerprint.encode()).hexdigest();operation_id=op_id
                     operation=db.get(Record,op_id)
@@ -309,20 +312,36 @@ def mcp_rpc(scope,body):
                     operation_started=True
                     db.refresh(lead)
                     require(lead.generation==scope.get('generation') and not lead.paused and not lead.opted_out,'Turno invalidado antes de ejecutar.')
-                if name=='get_offer': data=CATALOG
+                if name=='get_offer': data={**CATALOG,'commercial':readiness(db)}
                 elif name=='get_profile': data={'name':lead.name,'answers':lead.profile,'state':lead.state}
                 elif name=='update_profile':
-                    require(isinstance(args['answers'],dict) and set(args['answers'])<= {'goal','obstacle','experience','location','days','duration','support','timing','material','timezone','adult'},'Campos no permitidos.')
+                    require(isinstance(args['answers'],dict) and set(args['answers'])<= {'name','email','goal','obstacle','experience','location','days','duration','support','timing','material','timezone','adult'},'Campos no permitidos.')
                     require(all(isinstance(v,str) and len(v)<=200 for v in args['answers'].values()),'Valores no válidos.')
                     if 'adult' in args['answers']:
                         require(args['answers']['adult'] in ('true','false'),'Confirmación de edad inválida.')
                         lead.consent={**lead.consent,'adult':args['answers']['adult']=='true'}
+                    if 'name' in args['answers']:
+                        require(bool(args['answers']['name'].strip()),'Nombre vacío.')
+                        lead.name=args['answers']['name'].strip()
+                    if 'email' in args['answers']:
+                        require(bool(re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+',args['answers']['email'])),'Correo inválido.')
+                        lead.email=args['answers']['email']
                     lead.profile={**lead.profile,**args['answers']}; data={'updated':True}
-                elif name=='get_slots': data=slots(db,lead,args['kind'])
+                elif name=='get_slots':
+                    from .providers import eligibility
+                    eligibility(db,lead,args['kind'])
+                    if not (os.getenv('CALENDLY_TOKEN') and settings(db)['event_types'].get(args['kind']) and settings(db)['published_blocks']):
+                        key='calendar-setup:'+lead.id
+                        if not db.get(Record,key):db.add(Record(id=key,kind='alert',lead_id=lead.id,data={'type':'setup','status':'open','reason':'Agenda pendiente de Calendly y bloques publicados. La atención comercial continúa.'}))
+                        data={'status':'configuration_pending','slots':[],'next_action':'Agenda aún sin conectar o publicar. Recoge preferencia y zona horaria sin prometer reserva. Continúa la venta: esta llamada es opcional para contratar.'}
+                    else:data=slots(db,lead,args['kind'])
                 elif name=='book_call': data=book(db,lead,args['kind'],args['start_time'],args['timezone'],args['email'])
-                elif name=='prepare_checkout': data=checkout(db,lead,args['payment_mode'])
-                elif name=='request_human': handoff(db,lead,args['reason'][:500]);data={'handed_off':True}
-                else:
+                elif name=='prepare_checkout':
+                    if data is None:
+                        require(lead.profile.get('approved_program')==args['program_id'],'El programa no coincide con la oferta aceptada.')
+                        data=checkout(db,lead,args['payment_mode'])
+                elif name=='request_human': data=request_review(db,lead,args['category'],args['reason'])
+                elif name=='get_client_status':
                     contract=latest_contract(db,lead)
                     data={'state':lead.state,'contract':contract.data if contract else None,'bookings':[r.data for r in db.query(Record).filter_by(kind='booking',lead_id=lead.id)]}
                 add_record(db,'audit',lead.id,{'action':'mcp','tool':name})
@@ -339,8 +358,9 @@ def mcp_rpc(scope,body):
             with Session.begin() as db:
                 add_record(db,'alert',lead_id,{'reason':'Herramienta no confirmada; comprobar operaciones antes de repetir.','tool':name,'operation_id':operation_id})
                 lead=db.get(Lead,lead_id)
-                if lead:handoff(db,lead,'Operación comercial pendiente de verificar.',notify=False)
-            result={'content':[{'type':'text','text':'Operación pendiente de revisión humana; no está confirmada.'}],'isError':True}
+                if lead and operation_id:handoff(db,lead,'Operación comercial pendiente de verificar.',notify=False)
+            explanation='Operación pendiente de revisión humana; no está confirmada.' if operation_id else 'Consulta temporalmente no disponible. No confirmar datos sin verificar; continúa la atención comercial y ofrece reintentar esta consulta.'
+            result={'content':[{'type':'text','text':explanation}],'isError':True}
     else: return JSONResponse({'jsonrpc':'2.0','id':rpc_id,'error':{'code':-32601,'message':'Método no disponible.'}})
     return JSONResponse({'jsonrpc':'2.0','id':rpc_id,'result':result})
 
@@ -380,7 +400,17 @@ async def panel_action(lead_id:str,request:Request,user=Depends(admin)):
     with Session() as db:
         lead=db.execute(select(Lead).where(Lead.id==lead_id).with_for_update()).scalar_one_or_none();require(lead is not None,'Expediente no encontrado.')
         if action=='takeover': handoff(db,lead,'Atención humana solicitada desde el panel.')
-        elif action=='release': lead.paused=False
+        elif action=='release':
+            lead.paused=False
+            for task in db.query(Record).filter_by(kind='task',lead_id=lead.id):
+                if task.data.get('type')=='human' and task.data.get('status')=='open':task.data={**task.data,'status':'done','completed_by':user}
+            from .queueing import unanswered
+            pending=unanswered(db,lead.id)
+            if pending and not lead.opted_out:queue_turn(db,lead,'release:'+str(time.time_ns()))
+        elif action=='professional_clearance':
+            lead.profile={**lead.profile,'professional_review_required':False,'professional_reviewed_by':user}
+            for task in db.query(Record).filter_by(kind='task',lead_id=lead.id):
+                if task.data.get('type')=='professional_review':task.data={**task.data,'status':'done','completed_by':user}
         elif action=='approve': approve(db,lead,payload['program'],user)
         elif action=='valuation_complete':
             booking=db.get(Record,payload['booking_id']); require(booking is not None and booking.lead_id==lead.id and booking.kind=='booking' and booking.data['type']=='valuation','Reserva inválida.')
@@ -416,8 +446,9 @@ async def panel_action(lead_id:str,request:Request,user=Depends(admin)):
 async def panel_settings(request:Request,user=Depends(admin)):
     payload=await request.json()
     require(user=='carlo','La configuración del sistema corresponde a Carlo.')
-    allowed={'launch_approved','catalog_approved','terms_url','privacy_url','terms_version','billing_approved','harbiz_procedure_approved','templates_approved','public_form_enabled','capacity','event_types','template_names','published_blocks','test_recipients','test_allow_inbound_any','pacing','resume_transport'}
+    allowed={'sales_mode','launch_approved','catalog_approved','terms_url','privacy_url','terms_version','billing_approved','harbiz_procedure_approved','templates_approved','public_form_enabled','capacity','event_types','template_names','published_blocks','test_recipients','test_allow_inbound_any','pacing','resume_transport'}
     require(set(payload)<=allowed,'Configuración no permitida.')
+    if 'sales_mode' in payload:require(payload['sales_mode'] in ('autonomous','valuation'),'Modo comercial inválido.')
     if 'pacing' in payload:validate_pacing(payload['pacing'])
     if 'resume_transport' in payload:require(payload['resume_transport'] is True,'Reanudación inválida.')
     if 'test_allow_inbound_any' in payload: require(type(payload['test_allow_inbound_any']) is bool,'La recepción abierta de pruebas requiere una confirmación booleana.')
