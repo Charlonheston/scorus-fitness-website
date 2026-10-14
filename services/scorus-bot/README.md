@@ -1,8 +1,10 @@
 # Scorus Team · WhatsApp y gestión comercial
 
-Hermes v2026.9.24 (f97608f178d1ffeca59860195ab7da295f7c8e5f), backend FastAPI y PostgreSQL. Por indicación de Carlo, el transporte inicial es Evolution v2.3.7 en contenedores, bases de datos y volúmenes independientes del negocio de barcos. Teléfono de pruebas: +447418602158. No se comparten conversaciones, sesiones, credenciales Evolution ni herramientas del negocio de barcos.
+Hermes v2026.9.24 (f97608f178d1ffeca59860195ab7da295f7c8e5f), backend FastAPI y PostgreSQL. Por indicación de Carlo, el transporte inicial es Evolution v2.3.7 en contenedores, bases de datos y volúmenes independientes del negocio de barcos. El teléfono de pruebas se configura de forma privada en `TEST_PHONE`; no se publica en el repositorio. No se comparten conversaciones, sesiones, credenciales Evolution ni herramientas del negocio de barcos.
 
 ## Arranque
+
+Configurar `TEST_PHONE` en el archivo privado `.env` con el teléfono autorizado y su prefijo internacional antes de vincular WhatsApp. El archivo de ejemplo deja este dato vacío para mantenerlo fuera del repositorio público.
 
 Desde la raíz del repositorio, copiar `.env.example`, `.env.hermes.example` y `.env.dashboard.example` a sus archivos sin `.example`, generar secretos diferentes y arrancar `docker compose -f services/scorus-bot/compose.yaml up -d --build`. En el host preparado, `deploy/bootstrap.py` y `deploy/dashboard_bootstrap.py` realizan la generación sin imprimir claves. El panel nativo permite iniciar sesión con ChatGPT/Codex y seleccionar un modelo de la cuenta; las credenciales se guardan únicamente en el volumen privado de Hermes de Scorus. También se admite configuración por clave en `.env.hermes`.
 
