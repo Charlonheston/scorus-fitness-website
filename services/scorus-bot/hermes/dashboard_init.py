@@ -3,6 +3,7 @@ import os
 import ipaddress
 from pathlib import Path
 import yaml
+from sales_profile import load_sales_profile
 
 home=Path(os.environ['HERMES_HOME'])
 home.mkdir(parents=True,exist_ok=True)
@@ -23,7 +24,7 @@ settings=yaml.safe_load(config.read_text()) or {}
 settings['dashboard']={**settings.get('dashboard',{}),'trusted_proxies':[str(address)]}
 config.write_text(yaml.safe_dump(settings,allow_unicode=True))
 config.chmod(0o600)
-skill=Path('/runtime/scorus-commercial.md').read_text()
+skill=load_sales_profile()
 catalog=Path('/runtime/catalog.json').read_text()
 instructions=skill+'\n\nPERFIL DE PRUEBAS COMERCIALES\nEste chat sirve para revisar la conversación de venta. No está conectado a WhatsApp, agenda, pagos ni expedientes reales. Puedes explicar el producto y preparar una recomendación, pero no confirmar reservas, aprobaciones, pagos o accesos. Si piden una acción externa, explica que requiere el panel de gestión y una conexión verificada.\n\nOFERTA OFICIAL\n'+catalog
 (home/'SOUL.md').write_text(instructions)

@@ -72,28 +72,23 @@ def create_lead(db, payload):
     lead=Lead(phone=phone,name=payload['name'],profile=payload['answers'],attribution=payload['attribution'],consent={'adult':True,'contact':True,'marketing':payload['marketing_consent'],'version':payload['consent_version'],'at':time.time(),'source':'landing'})
     db.add(lead); db.flush()
     add_record(db,'audit',lead.id,{'action':'lead_created','catalog_version':CATALOG['version']})
-    message(db,lead,'Hola, soy el asistente virtual de Scorus Team. Hemos recibido tu solicitud de valoración. ¿Seguimos por aquí?',f'lead:{lead.id}:welcome','welcome',[lead.name])
-    schedule_followups(db,lead)
+    message(db,lead,'Hola '+lead.name.split()[0]+', soy el asistente virtual del equipo Scorus. Ya tengo los datos de tu solicitud. Te cuento cómo funciona el plan y el seguimiento de Bernat.',f'lead:{lead.id}:welcome','welcome',[lead.name])
     return lead
 
 def schedule_followups(db, lead):
-    if not lead.consent.get('marketing') or lead.paused or lead.opted_out or lead.state in ('paid','active','ended','not_interested'):
-        return
-    for index,days in enumerate((1,3,7,14),1):
-        if index+lead.followups>4:
-            break
-        enqueue(db,f'followup:{lead.id}:{lead.generation}:{index}','followup',lead.id,{'generation':lead.generation,'index':index,'expires_at':time.time()+(days+1)*DAY},time.time()+days*DAY)
+    from .conversation import schedule_followup
+    return schedule_followup(db,lead)
 
-def within_sales_window(ts):
-    local=datetime.fromtimestamp(ts,ZoneInfo('Europe/Madrid'))
+def within_sales_window(ts,tz='Europe/Madrid'):
+    local=datetime.fromtimestamp(ts,ZoneInfo(tz))
     minutes=local.hour*60+local.minute
-    return 600<=minutes<810 or 1020<=minutes<1230
+    return 600<=minutes<1230
 
-def next_sales_window(ts):
-    local=datetime.fromtimestamp(ts,ZoneInfo('Europe/Madrid'))
-    if within_sales_window(ts): return ts
+def next_sales_window(ts,tz='Europe/Madrid'):
+    local=datetime.fromtimestamp(ts,ZoneInfo(tz))
+    if within_sales_window(ts,tz): return ts
     for days in (0,1):
-        for hour in (10,17):
+        for hour in (10,):
             target=(local+timedelta(days=days)).replace(hour=hour,minute=0,second=0,microsecond=0)
             if target.timestamp()>ts: return target.timestamp()
     raise RuleError('No se pudo calcular el horario.')

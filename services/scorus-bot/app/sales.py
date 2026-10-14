@@ -4,6 +4,7 @@ import re
 import time
 from .domain import CATALOG, DAY, PROGRAMS, handoff, latest_contract, require, settings
 from .store import Record, add_record
+from .conversation import intent, turn_text, POLICY_VERSION
 
 QUALIFICATION = ('goal', 'experience', 'days', 'duration', 'location', 'timing')
 HUMAN_CATEGORIES = ('professional', 'billing_dispute', 'contract_exception', 'customer_request', 'technical_incident')
@@ -18,6 +19,7 @@ def readiness(db):
         'calendar_ready': bool(os.getenv('CALENDLY_TOKEN') and cfg['event_types'] and cfg['published_blocks']),
         'terms_url': cfg['terms_url'],
         'valuation_required': cfg.get('sales_mode', 'autonomous') == 'valuation',
+        'policy_version':POLICY_VERSION,'discounts':{'authorized':False},
     }
 
 
@@ -60,6 +62,10 @@ def request_review(db, lead, category, reason):
             db.add(Record(id=key, kind='alert', lead_id=lead.id, data={'reason': reason[:500], 'type': 'setup', 'status': 'open'}))
         return {'handed_off': False, 'status': 'setup_pending', 'next_action': 'Explica qué gestión está pendiente y continúa atendiendo las preguntas comerciales. No confirmes una operación que no se ha realizado.'}
     allowed = bool(re.search(patterns[category], text, re.I))
+    if category=='contract_exception' and allowed and re.search(r'descuento|discount',text,re.I) and not re.search(r'cancelar|pausar|cancel my|pause my',text,re.I):
+        key='commercial-proposal:'+incoming.id
+        if not db.get(Record,key):db.add(Record(id=key,kind='task',lead_id=lead.id,data={'type':'commercial_proposal','status':'open','reason':reason[:500],'proposal':'discount_request','current_price_unchanged':True}))
+        return {'handed_off':False,'status':'proposal_pending','next_action':'La petición queda registrada para revisión. Mantén las tarifas oficiales y sigue atendiendo; no prometas descuentos, no pauses la conversación y no envíes un pago con condiciones distintas.'}
     if category == 'professional':
         allowed = allowed or health_concern(text)
     if not allowed:
@@ -84,12 +90,12 @@ def quote_text(offer, language='es'):
     url = offer['terms_url']
     if language == 'en':
         payment = f'{months} monthly payments of €{monthly}' if offer['payment_mode']=='installments' else f'a single payment of €{total}'
-        return f'{tier} for {months} months: total €{total}, VAT included, with {payment}. The programme starts when Bernat activates your personalised plan; renewal is manual. Terms: {url}\nWould you like me to prepare the payment link for this offer?'
+        return f'{tier} for {months} months: total €{total}, VAT included, with {payment}. Payment reserves your place; the programme starts when Bernat activates your personalised plan. Renewal is manual. Terms: {url}\nIf that works for you, just confirm and I will prepare the payment link.'
     if language == 'hu':
         payment = f'{months} havi részlet, egyenként {monthly} €' if offer['payment_mode']=='installments' else f'egyszeri {total} € fizetés'
-        return f'{tier}, {months} hónap: összesen {total} €, áfával, {payment}. A program Bernat személyre szabott tervének aktiválásával indul; a megújítás külön elfogadást igényel. Feltételek: {url}\nElőkészítsem ennek az ajánlatnak a fizetési linkjét?'
+        return f'{tier}, {months} hónap: összesen {total} €, áfával, {payment}. A program Bernat személyre szabott tervének aktiválásával indul; a megújítás külön elfogadást igényel. Feltételek: {url}\nHa így megfelel, jelezd, és előkészítem a fizetési linket.'
     payment = f'{months} cuotas mensuales de {monthly} €' if offer['payment_mode']=='installments' else f'un pago completo de {total} €'
-    return f'{tier} de {months} meses: compromiso total de {total} €, IVA incluido, con {payment}. El programa empieza cuando Bernat activa tu plan personalizado; la renovación es manual. Condiciones: {url}\n¿Quieres que prepare el enlace de pago de esta oferta?'
+    return f'{tier} de {months} meses: total {total} €, IVA incluido, con {payment}. El pago confirma la plaza y el programa empieza cuando Bernat activa tu plan personalizado. Renovación manual. Condiciones: {url}\nCuando me confirmes que te encaja así, te preparo el enlace de pago.'
 
 
 def offer_summary(db, lead, program_id, payment_mode, confirmed, source_turn):
@@ -98,6 +104,14 @@ def offer_summary(db, lead, program_id, payment_mode, confirmed, source_turn):
     require(payment_mode in ('full', 'installments'), 'Modalidad de pago desconocida.')
     program = PROGRAMS[program_id]
     summary = {'program': program_id, 'catalog_version': CATALOG['version'], 'monthly_cents': program['monthly_cents'], 'total_cents': program['total_cents'], 'months': program['months'], 'payment_mode': payment_mode, 'renewal': 'manual', 'service_start': 'Activación del plan personalizado por Bernat', 'terms_url': cfg['terms_url']}
+    customer_text=turn_text(db,lead,source_turn)
+    customer_intent=intent(customer_text)
+    if customer_intent in ('deferred','declined'):
+        return {'status':'customer_deferred','next_action':'Dale espacio y responde breve. No preparar oferta de cierre, reserva ni pago mientras el cliente lo está pensando o lo ha rechazado.'},None
+    prior_offers=db.query(Record).filter_by(kind='sales_offer',lead_id=lead.id).all()
+    has_sent_offer=any(r.data.get('program')==program_id and r.data.get('payment_mode')==payment_mode and r.data.get('terms_version')==cfg['terms_version'] and r.data.get('catalog_version')==CATALOG['version'] and r.data.get('expires_at',0)>time.time() and r.data.get('delivered_at') for r in prior_offers)
+    if customer_intent!='purchase' and not (confirmed and has_sent_offer):
+        return {'status':'information_only','offer':summary,'next_action':'Explica lo que incluye y el precio, o confirma la preferencia. Elegir Core/Elite no significa pedir contratar. No enviar ni proponer el enlace de pago todavía.'},None
     if program_id not in cfg['catalog_approved']:
         return {'status': 'tariff_pending', 'offer': summary, 'next_action': 'Esta tarifa es provisional. Explica la diferencia y ofrece Core 6 como alternativa confirmada; no cobrar esta modalidad.'}, None
     if not readiness(db)['checkout_ready']:
@@ -115,6 +129,12 @@ def offer_summary(db, lead, program_id, payment_mode, confirmed, source_turn):
         incoming = last_input(db, lead)
         affirmation = r'^\s*(s[ií]|yes|igen|ok|vale|adelante|de acuerdo|confirmo|acepto)\b|(?:quiero|vamos a).{0,20}(?:contratar|pagar|empezar)|(?:c[oó]mo (?:pago|contrato)|env[ií]a(?:me)?.{0,20}(?:enlace|link).{0,15}pago)|(?:i want to (?:pay|join)|send me the payment|let.s proceed)|(?:szeretnék fizetni)'
         require(incoming is not None and incoming.created > offer.data['delivered_at'] and re.search(affirmation, incoming.data.get('text', ''), re.I) and not re.search(r'\b(?:no quiero|no acepto|no confirmo|no contratar|don.t want|do not|not now|nem kérem|pero|but|a condici[oó]n|con descuento)\b', incoming.data.get('text', ''), re.I), 'El cliente debe aceptar expresamente esta oferta después de recibirla. Pide confirmación; no asumirla.')
+        accepted_text=incoming.data['text']
+        choices=re.findall(r'\b(core|elite)\s*(?:de\s*)?(\d{1,2})?',accepted_text,re.I)
+        require(all(tier.lower()==program['tier'] and (not months or int(months)==program['months']) for tier,months in choices),'El cliente ha elegido otra modalidad. Explica su oferta correspondiente antes de cobrar.')
+        normalized=re.sub(r'(?<=\d)[.\s](?=\d{3}(?:\D|$))','',accepted_text)
+        amounts=re.findall(r'(\d+(?:[.,]\d{1,2})?)\s*(?:€|euros?\b|EUR\b)',normalized,re.I)
+        require(all(round(float(value.replace(',','.'))*100) in (program['monthly_cents'],program['total_cents']) for value in amounts),'La aceptación propone otro importe. Mantén la tarifa y pide aceptación de la oferta exacta.')
         offer.data = {**offer.data, 'accepted_at': offer.data.get('accepted_at') or time.time(), 'accepted_message': incoming.id}
         lead.profile = {**lead.profile, 'approved_program': program_id, 'approved_at': offer.data['accepted_at'], 'approved_by': 'autonomous_sales', 'accepted_offer': offer.id}
         lead.state = 'approved'

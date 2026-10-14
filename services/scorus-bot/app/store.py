@@ -81,6 +81,12 @@ def init():
         from .queueing import DEFAULT_PACING
         cfg=db.get(Config,'settings')
         cfg.data={**cfg.data,'sales_mode':cfg.data.get('sales_mode','autonomous'),'pacing':{**DEFAULT_PACING,**cfg.data.get('pacing',{})}}
+        from .conversation import POLICY_VERSION
+        cfg.data={**cfg.data,'commercial_policy_version':POLICY_VERSION}
+        # Cancel the old four-touch sequence without creating retrospective messages.
+        for job in db.query(Job).filter(Job.status=='pending').with_for_update():
+            if (job.kind=='followup' or job.data.get('template')=='lead_followup') and job.data.get('policy_version')!=POLICY_VERSION:
+                job.status='cancelled'
         if not db.get(Config,'delivery'):
             db.add(Config(id='delivery',data={'connection':'unknown','connected_since':0,'last_send':0,'contacts':{},'attempts':[],'failures':[],'pause_until':0,'restricted':False,'typing_job':''}))
         # Legacy history was not marked as answered. Do not replay old questions.

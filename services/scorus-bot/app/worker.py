@@ -13,6 +13,7 @@ from .domain import CATALOG, DAY, RuleError, cancel_sales, handoff, latest_contr
 from .providers import api, cap_installments, send_whatsapp, mark_read, presence, connection_state
 from .i18n import text
 from .queueing import LEASE_SECONDS, budget_due, claim, delivery, pacing, permitted, priority, recover, response_target, transport_result, typing_seconds, unanswered
+from .conversation import POLICY_VERSION, after_reply, context_for, followup_text, timezone_for
 
 log=logging.getLogger('scorus.worker')
 
@@ -65,10 +66,11 @@ def respond(db,job,lead):
     previous=next((r for r in history if r.data.get('direction')=='out'),None)
     target=response_target(len(prompt),not previous or time.time()-previous.created>=21600)
     first=batch[0].created;owner=job.owner
+    job.data={**job.data,'message_ids':ids,'first_inbound':first}
     from .sales import readiness
-    context={'name':lead.name,'answers':lead.profile,'state':lead.state,'commercial':readiness(db)}
+    context={'name':lead.name,'answers':lead.profile,'state':lead.state,'language':lead.language,'commercial':readiness(db),'sales_context':context_for(db,lead,job.id)}
     cfg=pacing(db);token=scoped_token(lead.id,os.getenv('MCP_SECRET',''),turn=job.id,generation=lead.generation,owner=owner)
-    job.data={**job.data,'message_ids':ids,'first_inbound':first};db.commit()
+    db.commit()
     if cfg['read_receipts']:
         try:mark_read(batch)
         except Exception:log.warning('Read receipt unavailable')
@@ -142,25 +144,23 @@ def process(db,job):
     elif job.kind=='audio':audio(db,job,lead)
     elif job.kind=='hold_reminder':
         contract=db.get(Record,job.data['contract_id'])
-        if lead.paused or lead.opted_out or lead.followups>=4 or contract.data['status']!='checkout' or contract.data['hold_until']<=time.time():return
-        due=next_sales_window(time.time())
+        if lead.paused or lead.opted_out or contract.data.get('reminders_sent',0)>=1 or contract.data['status']!='checkout' or contract.data['hold_until']<=time.time():return
+        due=next_sales_window(time.time(),timezone_for(lead))
         if due>=contract.data['hold_until']:return
         if due>time.time()+1:job.due=due;job.status='pending';return
-        lead.followups+=1
-        sent=message(db,lead,'Tu reserva provisional sigue disponible hasta '+time.strftime('%d/%m %H:%M',time.gmtime(contract.data['hold_until']))+' UTC. Si quieres continuar, utiliza el enlace de pago; si necesitas aclaraciones, escríbenos.',f'hold-send:{job.id}','payment_reminder',commercial=True)
-        sent.data={**sent.data,'hold_until':contract.data['hold_until']}
+        sent=message(db,lead,'Tu enlace de pago sigue disponible hasta '+time.strftime('%d/%m %H:%M',time.gmtime(contract.data['hold_until']))+' UTC. Si te queda alguna duda antes de seguir, me dices.',f'hold-send:{job.id}','payment_reminder')
+        sent.data={**sent.data,'hold_until':contract.data['hold_until'],'sales_reminder':True,'guard_generation':True,'contract_id':contract.id}
     elif job.kind=='expire_hold':
         contract=db.get(Record,job.data['contract_id'])
         if contract.data['status'] in ('held','checkout'):contract.data={**contract.data,'status':'expired'}
     elif job.kind=='followup':
-        if not lead.consent.get('marketing') or job.data.get('expires_at',float('inf'))<=time.time() or lead.paused or lead.opted_out or lead.generation!=job.data['generation'] or lead.followups>=4 or lead.state in ('paid','active','ended','not_interested'):return
+        if job.data.get('policy_version')!=POLICY_VERSION or (not job.data.get('customer_requested') and not lead.consent.get('marketing')) or job.data.get('expires_at',float('inf'))<=time.time() or lead.paused or lead.opted_out or lead.generation!=job.data['generation'] or lead.followups>=1 or lead.state in ('paid','active','ended','not_interested'):return
         contract=latest_contract(db,lead)
         if contract and contract.data['status'] in ('held','checkout') and contract.data['hold_until']>time.time():return
-        due=next_sales_window(time.time())
+        due=next_sales_window(time.time(),timezone_for(lead))
         if due>time.time()+1:job.due=due;job.status='pending';return
-        lead.followups+=1
-        sent=message(db,lead,text('followup',lead),f'followup-send:{job.id}','lead_followup',commercial=True)
-        sent.data={**sent.data,'expires_at':job.data.get('expires_at',time.time()+DAY)}
+        sent=message(db,lead,followup_text(lead,job.data.get('reason','offer')),f'followup-send:{job.id}','lead_followup',commercial=not job.data.get('customer_requested'))
+        sent.data={**sent.data,'sales_followup':True,'guard_generation':True,'customer_requested':job.data.get('customer_requested',False),'policy_version':POLICY_VERSION,'expires_at':job.data.get('expires_at',time.time()+DAY)}
     elif job.kind=='renewal':
         contract=db.get(Record,job.data['contract_id'])
         if contract.data['status']!='active' or lead.opted_out or lead.paused:return
@@ -189,7 +189,7 @@ def dispatch(db,job,lead):
         if job.data.get('phase')=='typing':clear_typing(lead.phone)
         return
     due=budget_due(state,cfg,lead.id,now)
-    if job.data.get('commercial'):due=max(due,next_sales_window(now))
+    if job.data.get('commercial') or job.data.get('sales_followup') or job.data.get('sales_reminder'):due=max(due,next_sales_window(now,timezone_for(lead)))
     if state.get('restricted') or state.get('connection')!='open':due=max(due,now+15)
     elif now-state.get('connected_since',0)<30:due=max(due,state.get('connected_since',now)+30)
     if due>now+.1:
@@ -224,6 +224,10 @@ def dispatch(db,job,lead):
         receipt=db.get(Record,'receipt:'+provider_id)
         if not db.get(Record,'sent:'+provider_id):
             db.add(Record(id='sent:'+provider_id,kind='message',lead_id=lead.id,data={'direction':'out','text':job.data['text'],'provider_id':provider_id,'delivery_status':receipt.data.get('status') if receipt else 'accepted','response_seconds':max(0,time.time()-job.data['first_inbound']) if job.data.get('first_inbound') else None}))
+            after_reply(db,lead,job)
+            if job.data.get('sales_reminder'):
+                contract=db.get(Record,job.data.get('contract_id'))
+                if contract:contract.data={**contract.data,'reminders_sent':contract.data.get('reminders_sent',0)+1}
         for identifier in job.data.get('message_ids',[]):
             rec=db.get(Record,identifier)
             if rec:rec.data={**rec.data,'answered':True,'answered_by':job.id}

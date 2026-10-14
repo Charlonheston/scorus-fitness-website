@@ -40,7 +40,7 @@ def checkout(db, lead, payment_mode):
     session=client.checkout.Session.create(**params,idempotency_key=f'scorus-checkout-{contract.id}')
     contract.data={**contract.data,'status':'checkout','checkout_id':session.id,'checkout_url':session.url}
     from .store import enqueue
-    for hours in (12,23):
+    for hours in (12,):
         enqueue(db,f'hold:{contract.id}:{hours}','hold_reminder',lead.id,{'contract_id':contract.id},contract.created+hours*3600)
     enqueue(db,f'hold:{contract.id}:expire','expire_hold',lead.id,{'contract_id':contract.id},contract.data['hold_until'])
     return {'status':'checkout_ready','url':session.url,'expires':contract.data['hold_until']}

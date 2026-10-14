@@ -56,6 +56,10 @@ def permitted(db,job,lead):
     if not lead or lead.opted_out or not lead.consent.get('contact'):return False
     if pacing(db)['automatic_paused'] and not job.data.get('human'):return False
     if lead.paused and not (job.data.get('human') or job.data.get('system')):return False
+    if job.data.get('sales_followup') and lead.followups>=1:return False
+    if job.data.get('sales_reminder'):
+        contract=db.get(Record,job.data.get('contract_id'))
+        if not contract or contract.data.get('status')!='checkout' or contract.data.get('reminders_sent',0)>=1:return False
     if (job.data.get('commercial') or job.data.get('guard_generation')) and lead.generation!=job.data.get('generation'):return False
     if job.data.get('category')=='marketing' or (job.data.get('commercial') and job.data.get('template')!='payment_reminder'):
         if not lead.consent.get('marketing'):return False

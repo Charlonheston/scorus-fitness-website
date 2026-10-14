@@ -13,6 +13,7 @@ from starlette.routing import Route
 from starlette.concurrency import run_in_threadpool
 import yaml
 from dotenv import dotenv_values
+from sales_profile import load_sales_profile
 
 def runtime(read_only=False):
     home=Path(os.getenv('HERMES_SETTINGS_HOME','/home/scorus/.hermes'))
@@ -59,7 +60,7 @@ async def run_response(request:Request):
         config={'model':{'default':model['model'],'provider':model['provider'],'base_url':model['base_url']},'memory':{'memory_enabled':False,'user_profile_enabled':False},'mcp_servers':{'scorus':{'url':os.getenv('SCORUS_INTERNAL_URL','http://backend:4280')+'/mcp','headers':{'Authorization':'Bearer '+body['mcp_token']},'tools':{'include':['get_offer','get_profile','update_profile','get_slots','book_call','prepare_checkout','request_human','get_client_status'],'resources':False,'prompts':False},'sampling':{'enabled':False},'elicitation':{'enabled':False}}}}
         config['tools']={'tool_search':{'enabled':'off'}}
         (home/'config.yaml').write_text(yaml.safe_dump(config))
-        skill=Path('/runtime/scorus-commercial.md').read_text()
+        skill=load_sales_profile()
         knowledge=Path('/runtime/catalog.json').read_text()
         payload={**body,'system':skill+'\nOFERTA OFICIAL:\n'+knowledge}
         env={key:os.environ[key] for key in ('PATH','LANG') if key in os.environ}

@@ -18,6 +18,7 @@ from .domain import CATALOG, PROGRAMS, DAY, RuleError, activate, approve, cancel
 from .providers import book, checkout, slots
 from .queueing import delivery, pacing, queue_snapshot, queue_turn, validate_pacing
 from .sales import HUMAN_CATEGORIES, flag_health, offer_summary, readiness, request_review
+from .conversation import ingest
 
 @asynccontextmanager
 async def lifespan(app):
@@ -146,8 +147,6 @@ def inbound(db,phone,text,external_id,from_me=False,provider_key=None):
         lead=Lead(phone=phone,name='Contacto WhatsApp',consent={'contact':True,'marketing':False,'source':'whatsapp_inbound','at':time.time()},profile={})
         db.add(lead);db.flush()
     if db.query(Record).filter_by(id='inbound:'+external_id).first(): return
-    if re.search(r'\b(hello|hi|please|programme|program|assessment|thank you)\b',text,re.I):lead.language='en'
-    if re.search(r'\b(szia|ár|szeretnék|köszönöm|edzés|programom|időpont)\b',text,re.I):lead.language='hu'
     cancel_sales(db,lead); lead.last_inbound=time.time()
     record=Record(id='inbound:'+external_id,kind='message',lead_id=lead.id,data={'direction':'in','text':text[:6000],'provider_key':provider_key,'answered':False})
     db.add(record)
@@ -156,8 +155,7 @@ def inbound(db,phone,text,external_id,from_me=False,provider_key=None):
         lead.opted_out=True
         add_record(db,'audit',lead.id,{'action':'opt_out'})
         return
-    if re.fullmatch(r'\s*(no|no gracias|no me interesa|not interested|nem érdekel)[.!]?\s*',text,re.I):
-        lead.state='not_interested'; return
+    ingest(lead,text)
     flag_health(db,lead,text)
     if lead.paused or lead.opted_out: return
     queue_turn(db,lead,external_id)
@@ -313,10 +311,17 @@ def mcp_rpc(scope,body):
                     db.refresh(lead)
                     require(lead.generation==scope.get('generation') and not lead.paused and not lead.opted_out,'Turno invalidado antes de ejecutar.')
                 if name=='get_offer': data={**CATALOG,'commercial':readiness(db)}
-                elif name=='get_profile': data={'name':lead.name,'answers':lead.profile,'state':lead.state}
+                elif name=='get_profile': data={'name':lead.name,'answers':lead.profile,'state':lead.state,'language':lead.language}
                 elif name=='update_profile':
-                    require(isinstance(args['answers'],dict) and set(args['answers'])<= {'name','email','goal','obstacle','experience','location','days','duration','support','timing','material','timezone','adult'},'Campos no permitidos.')
+                    require(isinstance(args['answers'],dict) and set(args['answers'])<= {'language','name','email','goal','obstacle','experience','location','days','duration','support','timing','material','timezone','adult'},'Campos no permitidos.')
                     require(all(isinstance(v,str) and len(v)<=200 for v in args['answers'].values()),'Valores no válidos.')
+                    if 'language' in args['answers']:
+                        require(args['answers']['language'] in ('es','en','hu'),'Idioma no disponible.')
+                        lead.language=args['answers']['language']
+                    if 'timezone' in args['answers']:
+                        from zoneinfo import ZoneInfo,ZoneInfoNotFoundError
+                        try:ZoneInfo(args['answers']['timezone'])
+                        except (ValueError,ZoneInfoNotFoundError):raise RuleError('Zona horaria desconocida.')
                     if 'adult' in args['answers']:
                         require(args['answers']['adult'] in ('true','false'),'Confirmación de edad inválida.')
                         lead.consent={**lead.consent,'adult':args['answers']['adult']=='true'}

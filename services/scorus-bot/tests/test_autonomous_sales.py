@@ -15,6 +15,7 @@ def autonomous(db, monkeypatch):
     cfg=db.get(Config,'settings');cfg.data={**cfg.data,'sales_mode':'autonomous'}
     lead=make_lead(db)
     lead.profile={**lead.profile,'experience':'6 días por semana','days':'6','duration':'45','location':'gym','timing':'ahora'}
+    db.add(Record(kind='message',lead_id=lead.id,data={'direction':'in','text':'Quiero contratar, ¿cómo pago?'}));db.flush()
     return lead
 
 
@@ -57,7 +58,7 @@ def test_unsent_offer_or_changed_terms_need_a_fresh_quote(monkeypatch):
     with Session.begin() as db:
         lead=autonomous(db,monkeypatch)
         _,old=offer_summary(db,lead,'core-6','full',False,'old')
-        db.add(Record(kind='message',lead_id=lead.id,data={'direction':'in','text':'Sí'}));db.flush()
+        db.add(Record(kind='message',lead_id=lead.id,data={'direction':'in','text':'Sí, quiero contratar'}));db.flush()
         result,_=offer_summary(db,lead,'core-6','full',True,'new')
         assert result['status']=='needs_confirmation'
         old.data={**old.data,'delivered_at':time.time()-5}
