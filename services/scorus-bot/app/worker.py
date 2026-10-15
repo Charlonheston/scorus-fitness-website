@@ -14,6 +14,7 @@ from .providers import api, cap_installments, send_whatsapp, mark_read, presence
 from .i18n import text
 from .queueing import LEASE_SECONDS, budget_due, claim, delivery, pacing, permitted, priority, recover, response_target, transport_result, typing_seconds, unanswered
 from .conversation import POLICY_VERSION, after_reply, context_for, followup_text, timezone_for
+from .evolution_events import phone_origin
 
 log=logging.getLogger('scorus.worker')
 
@@ -131,15 +132,26 @@ def process(db,job):
         if not db.get(Record,'sent:'+job.data['provider_id']):
             target=db.query(Lead).filter_by(phone=job.data['phone']).first()
             if target:
+                evidence=job.data.get('evidence',{})
+                origin=phone_origin(evidence,delivery(db).data)
+                identifier='phone-echo:'+job.data['provider_id']
+                if db.get(Record,identifier):return
                 active=db.query(Job).filter_by(kind='send',lead_id=target.id,status='running').first()
                 if active:job.status='pending';job.due=time.time()+5;return
+                if origin!='manual_live':
+                    db.add(Record(id=identifier,kind='provider_echo',lead_id=target.id,data={'origin':origin,'provider_id':job.data['provider_id'],**evidence}))
+                    if origin=='unverified':
+                        add_record(db,'alert',target.id,{'type':'unverified_phone_echo','reason':'Un evento saliente de WhatsApp no tiene fecha reciente verificable. No se ha activado atención humana; revisa el expediente si has intervenido desde el móvil.','provider_id':job.data['provider_id']})
+                    return
                 uncertain=db.query(Job).filter_by(kind='send',lead_id=target.id,status='review').first()
                 handoff(db,target,'Envío pendiente de verificar.' if uncertain else 'Respuesta manual desde WhatsApp.',notify=False)
+                db.add(Record(id=identifier,kind='provider_echo',lead_id=target.id,data={'origin':origin,'provider_id':job.data['provider_id'],**evidence}))
                 if not uncertain:
                     identifier='manual-message:'+job.data['provider_id']
                     if job.data.get('text') and not db.get(Record,identifier):
-                        db.add(Record(id=identifier,kind='message',lead_id=target.id,data={'direction':'out','text':job.data['text'],'provider_id':job.data['provider_id'],'human':True}))
-                    for rec in unanswered(db,target.id):rec.data={**rec.data,'answered':True,'handled_by':'human'}
+                        db.add(Record(id=identifier,kind='message',lead_id=target.id,created=evidence['provider_timestamp'],data={'direction':'out','text':job.data['text'],'provider_id':job.data['provider_id'],'human':True,'provider_timestamp':evidence['provider_timestamp'],'observed_at':evidence['received_at']}))
+                    for rec in unanswered(db,target.id):
+                        if rec.created<=min(evidence['received_at'],evidence['provider_timestamp']+1):rec.data={**rec.data,'answered':True,'handled_by':'human'}
     elif job.kind=='respond':respond(db,job,lead)
     elif job.kind=='audio':audio(db,job,lead)
     elif job.kind=='hold_reminder':

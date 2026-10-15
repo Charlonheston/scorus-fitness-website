@@ -19,6 +19,7 @@ from .providers import book, checkout, slots
 from .queueing import delivery, pacing, queue_snapshot, queue_turn, validate_pacing
 from .sales import HUMAN_CATEGORIES, flag_health, offer_summary, readiness, request_review
 from .conversation import ingest
+from .evolution_events import phone_event
 
 @asynccontextmanager
 async def lifespan(app):
@@ -203,6 +204,7 @@ def evolution_event(event):
     data=event.get('data',{})
     for item in data if isinstance(data,list) else [data]:
         key=item.get('key',{}); remote=key.get('remoteJid','')
+        if not isinstance(key.get('id'),str) or not key['id']: continue
         if remote.endswith('@g.us') or remote=='status@broadcast': continue
         number=key.get('remoteJidAlt') or item.get('senderPn') or remote
         if '@lid' in number:
@@ -217,7 +219,10 @@ def evolution_event(event):
             if from_me:
                 # Our own sends generate fromMe too. Delivery echoes are reconciled by provider ID.
                 sent=db.query(Record).filter_by(id='sent:'+key.get('id','')).first()
-                if not sent: enqueue(db,'manual:'+key.get('id',''),'manual_echo','',{'phone':'+'+digits,'provider_id':key.get('id'),'text':(text or '[Respuesta multimedia desde el teléfono]')[:6000]},time.time())
+                if not sent:
+                    received=time.time()
+                    evidence=phone_event(item,event,delivery(db).data,received)
+                    enqueue(db,'manual:'+key['id'],'manual_echo','',{'phone':'+'+digits,'provider_id':key['id'],'text':(text or '[Respuesta multimedia desde el teléfono]')[:6000],'evidence':evidence},received)
             elif text: inbound(db,'+'+digits,text,key['id'],provider_key={'id':key['id'],'remoteJid':remote,'fromMe':False})
             elif msg.get('audioMessage'):
                 lead=inbound(db,'+'+digits,'[Nota de voz recibida; contenido pendiente de transcripción]',key['id'],provider_key={'id':key['id'],'remoteJid':remote,'fromMe':False})

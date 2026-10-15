@@ -169,7 +169,7 @@ def test_phone_reply_is_paused_and_preserved_without_fixed_delay(monkeypatch):
     monkeypatch.setenv('EVOLUTION_INSTANCE','scorus-test')
     with Session.begin() as db:
         lead=contact(db);inbound(db,lead.phone,'Consulta pendiente','before-human')
-    evolution_event({'instance':'scorus-test','event':'MESSAGES_UPSERT','data':{'key':{'id':'human-phone','remoteJid':'34600900001@s.whatsapp.net','fromMe':True},'message':{'conversation':'Hola, soy Bernat. Lo reviso contigo.'}}})
+    evolution_event({'instance':'scorus-test','event':'MESSAGES_UPSERT','data':{'key':{'id':'human-phone','remoteJid':'34600900001@s.whatsapp.net','fromMe':True},'messageTimestamp':time.time(),'source':'android','message':{'conversation':'Hola, soy Bernat. Lo reviso contigo.'}}})
     assert worker.once('maintenance')
     with Session() as db:
         assert db.get(Lead,lead.id).paused
