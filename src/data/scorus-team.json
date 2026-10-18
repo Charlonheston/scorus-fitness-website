@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-14.1",
+  "version": "2026-10-18.1",
   "brand": "Scorus Team",
   "company": "SCORUSFITNESS SL",
   "default_program": "core-6",
@@ -12,6 +12,34 @@
     {"id":"elite-6","tier":"elite","months":6,"monthly_cents":29700,"total_cents":178200,"confirmed":false},
     {"id":"elite-12","tier":"elite","months":12,"monthly_cents":26700,"total_cents":320400,"confirmed":false}
   ],
+  "other_services": {
+    "currency": "EUR",
+    "vat_included": true,
+    "status": "published_pending_trainer_confirmation",
+    "checkout_enabled": false,
+    "in_person": {
+      "name": "Entrenamiento presencial en Alicante",
+      "source_url": "https://scorusfitness.com/es/servicios/entrenamiento-personal",
+      "billing": "monthly_session_pack",
+      "offers": [
+        {"id":"in-person-8","sessions":8,"price_cents":24200},
+        {"id":"in-person-12","sessions":12,"price_cents":34485},
+        {"id":"in-person-16","sessions":16,"price_cents":43560}
+      ]
+    },
+    "consulting": {
+      "name": "Consultoría online puntual por videollamada",
+      "source_url": "https://scorusfitness.com/es/servicios/consultoria-online",
+      "billing": "one_off_session_pack",
+      "session_minutes": 60,
+      "offers": [
+        {"id":"consulting-1","sessions":1,"price_cents":7260},
+        {"id":"consulting-4","sessions":4,"price_cents":26620},
+        {"id":"consulting-8","sessions":8,"price_cents":50820}
+      ]
+    },
+    "limits": "Tarifas informativas publicadas en las páginas oficiales, distintas de Core/Elite. Condiciones y contratación pendientes de confirmación. No inferir caducidad de bonos, permanencia, duración presencial por sesión, plazas, disponibilidad ni descuentos. No hay checkout ni tipos de reserva habilitados para estos servicios. El total de un pack de consultoría no es una cuota mensual."
+  },
   "knowledge": {
     "identity": "Asistente virtual de Scorus Team; nunca se hace pasar por Bernat.",
     "languages": ["es","en","hu"],

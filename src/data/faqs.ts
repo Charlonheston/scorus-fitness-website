@@ -3,6 +3,15 @@
  * Optimizadas para SEO y rich snippets de Google
  */
 
+import scorusCatalog from './scorus-team.json';
+
+const publishedServicePrice = (id: string): string => {
+  const offers = [...scorusCatalog.other_services.in_person.offers, ...scorusCatalog.other_services.consulting.offers];
+  const offer = offers.find((item) => item.id === id);
+  if (!offer) throw new Error(`Tarifa de Scorus desconocida: ${id}`);
+  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(offer.price_cents / 100);
+};
+
 export interface FAQ {
   question: string;
   answer: string;
@@ -27,7 +36,7 @@ export const faqsHome: FAQ[] = [
   },
   {
     question: '¿Cuánto cuesta el entrenamiento personal en Scorus Fitness?',
-    answer: 'Ofrecemos tres bonos de entrenamiento personal: Bono de 8 sesiones (200€/mes) para entrenar 1-2 veces por semana, Bono de 12 sesiones (285€/mes) para 3 veces por semana, y Bono de 16 sesiones (360€/mes) para 4 veces por semana. Todos incluyen evaluación física completa, plan personalizado, seguimiento continuo y asesoramiento nutricional.',
+    answer: `Los precios publicados de los bonos mensuales de entrenamiento personal son: 8 sesiones por ${publishedServicePrice('in-person-8')}, 12 sesiones por ${publishedServicePrice('in-person-12')} y 16 sesiones por ${publishedServicePrice('in-person-16')}. IVA incluido. Incluyen evaluación física, plan personalizado, seguimiento y asesoramiento nutricional.`,
   },
   {
     question: '¿Qué diferencia a Scorus Fitness de otros gimnasios en Alicante?',
@@ -65,7 +74,7 @@ export const faqsServiciosIndex: FAQ[] = [
 export const faqsEntrenamientoPersonal: FAQ[] = [
   {
     question: '¿Cuánto cuesta el entrenamiento personal en Scorus Fitness Alicante?',
-    answer: 'Ofrecemos tres opciones: Bono de 8 sesiones por 200€/mes (1-2 veces por semana), Bono de 12 sesiones por 285€/mes (3 veces por semana, el más popular), y Bono de 16 sesiones por 360€/mes (4 veces por semana). Todos incluyen evaluación física, plan personalizado, seguimiento continuo y asesoramiento nutricional.',
+    answer: `Los precios publicados son ${publishedServicePrice('in-person-8')}/mes por 8 sesiones, ${publishedServicePrice('in-person-12')}/mes por 12 sesiones y ${publishedServicePrice('in-person-16')}/mes por 16 sesiones. IVA incluido. Incluyen evaluación física, plan personalizado, seguimiento y asesoramiento nutricional.`,
   },
   {
     question: '¿Qué incluye el servicio de entrenamiento personal?',
@@ -104,7 +113,7 @@ export const faqsConsultoriaOnline: FAQ[] = [
   },
   {
     question: '¿Cuánto cuesta una consultoría online?',
-    answer: "Una sesión individual de 60 minutos cuesta 60€. También ofrecemos Pack de 4 sesiones por 220€ (ahorro de 20€) y Pack de 8 sesiones por 420€ (ahorro de 60€).",
+    answer: `Los precios publicados son ${publishedServicePrice('consulting-1')} por una consulta de 60 minutos, ${publishedServicePrice('consulting-4')} por un pack de 4 y ${publishedServicePrice('consulting-8')} por un pack de 8. IVA incluido. Los packs se cobran por el conjunto de sesiones, no son cuotas mensuales.`,
   },
   {
     question: '¿Qué temas puedo consultar en la sesión?',

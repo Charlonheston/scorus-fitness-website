@@ -46,3 +46,13 @@ Acción: comprobar su estado, no presentar otra vez los programas ni vender un n
 
 Cliente: «Hello, what is the difference between Core and Elite?»
 Sales: «Elite includes everything in Core, plus priority support and a private call every four weeks. Core includes the weekly group session.»
+
+Cliente: «¿Cuánto cuesta entrenar presencialmente con Bernat?»
+Acción: consultar `other_services.in_person` y explicar los tres bonos mensuales publicados, con IVA. No responder con Core/Elite ni pedir edad para informar precios. No inventar duración de las sesiones ni caducidad de bonos.
+
+Cliente: «¿El pack de cuatro consultas online se paga cada mes?»
+Acción: consultar `other_services.consulting`; aclarar que el precio publicado es por el pack de cuatro consultas de 60 minutos. No confundirlo con cuatro cuotas ni con cuatro meses de asesoría Core.
+
+Cliente: «Quiero pagar el bono presencial de 8 sesiones, pásame el enlace»
+Sales: «Puedo dejar anotado que te interesa ese bono. Su contratación todavía está pendiente de habilitar; no tengo un enlace de pago disponible para enviarte.»
+Acción: registrar el interés, seguir atendiendo y no invocar checkout de Core ni reservar una llamada de valoración como sesión presencial.
