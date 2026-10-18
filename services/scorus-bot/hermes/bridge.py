@@ -57,7 +57,7 @@ async def run_response(request:Request):
     # Each invocation has a fresh process and home. Neither global tool registry nor memory can cross clients.
     with tempfile.TemporaryDirectory(prefix='scorus-') as directory:
         home=Path(directory)
-        config={'model':{'default':model['model'],'provider':model['provider'],'base_url':model['base_url']},'memory':{'memory_enabled':False,'user_profile_enabled':False},'mcp_servers':{'scorus':{'url':os.getenv('SCORUS_INTERNAL_URL','http://backend:4280')+'/mcp','headers':{'Authorization':'Bearer '+body['mcp_token']},'tools':{'include':['get_offer','get_profile','update_profile','get_slots','book_call','prepare_checkout','request_human','get_client_status'],'resources':False,'prompts':False},'sampling':{'enabled':False},'elicitation':{'enabled':False}}}}
+        config={'model':{'default':model['model'],'provider':model['provider'],'base_url':model['base_url']},'memory':{'memory_enabled':False,'user_profile_enabled':False},'mcp_servers':{'scorus':{'url':os.getenv('SCORUS_INTERNAL_URL','http://backend:4280')+'/mcp','headers':{'Authorization':'Bearer '+body['mcp_token']},'tools':{'include':['get_offer','get_profile','update_profile','get_slots','book_call','prepare_checkout','request_human','get_client_status','share_gym_photos'],'resources':False,'prompts':False},'sampling':{'enabled':False},'elicitation':{'enabled':False}}}}
         config['tools']={'tool_search':{'enabled':'off'}}
         (home/'config.yaml').write_text(yaml.safe_dump(config))
         skill=load_sales_profile()

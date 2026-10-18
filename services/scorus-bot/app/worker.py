@@ -62,7 +62,7 @@ def respond(db,job,lead):
     batch=unanswered(db,lead.id)
     if not batch:return
     ids=[r.id for r in batch];prompt='\n'.join(r.data['text'] for r in batch)
-    history=db.query(Record).filter_by(kind='message',lead_id=lead.id).order_by(Record.created.desc()).limit(20).all()
+    history=db.query(Record).filter_by(kind='message',lead_id=lead.id).filter(Record.data['media_id'].as_string().is_(None)).order_by(Record.created.desc()).limit(20).all()
     messages=[{'role':'user' if r.data['direction']=='in' else 'assistant','content':r.data['text']} for r in reversed(history) if r.id not in ids]
     previous=next((r for r in history if r.data.get('direction')=='out'),None)
     target=response_target(len(prompt),not previous or time.time()-previous.created>=21600)
@@ -70,6 +70,8 @@ def respond(db,job,lead):
     job.data={**job.data,'message_ids':ids,'first_inbound':first}
     from .sales import readiness
     context={'name':lead.name,'answers':lead.profile,'state':lead.state,'language':lead.language,'commercial':readiness(db),'sales_context':context_for(db,lead,job.id)}
+    from .media import gallery_status
+    context['gym_gallery']=gallery_status(db,lead)
     cfg=pacing(db);token=scoped_token(lead.id,os.getenv('MCP_SECRET',''),turn=job.id,generation=lead.generation,owner=owner)
     db.commit()
     if cfg['read_receipts']:
@@ -207,7 +209,7 @@ def dispatch(db,job,lead):
     if due>now+.1:
         job.status='pending';job.due=due;db.commit();return
     owner=job.owner
-    if cfg['typing'] and not job.data.get('phase') and not job.data.get('human') and not priority(job)==0:
+    if cfg['typing'] and not job.data.get('media_id') and not job.data.get('phase') and not job.data.get('human') and not priority(job)==0:
         seconds=typing_seconds(job.data['text'])
         job.data={**job.data,'phase':'typing'};job.due=now+seconds
         runtime.data={**state,'typing_job':job.id};db.commit()
@@ -235,8 +237,10 @@ def dispatch(db,job,lead):
         db.expire_all();db.refresh(job)
         receipt=db.get(Record,'receipt:'+provider_id)
         if not db.get(Record,'sent:'+provider_id):
-            db.add(Record(id='sent:'+provider_id,kind='message',lead_id=lead.id,data={'direction':'out','text':job.data['text'],'provider_id':provider_id,'delivery_status':receipt.data.get('status') if receipt else 'accepted','response_seconds':max(0,time.time()-job.data['first_inbound']) if job.data.get('first_inbound') else None}))
+            db.add(Record(id='sent:'+provider_id,kind='message',lead_id=lead.id,data={'direction':'out','text':job.data['text'],**({'media_id':job.data['media_id'],'gallery_version':job.data['gallery_version']} if job.data.get('media_id') else {}),'provider_id':provider_id,'delivery_status':receipt.data.get('status') if receipt else 'accepted','response_seconds':max(0,time.time()-job.data['first_inbound']) if job.data.get('first_inbound') else None}))
             after_reply(db,lead,job)
+            from .media import activate_gallery
+            activate_gallery(db,lead,job)
             if job.data.get('sales_reminder'):
                 contract=db.get(Record,job.data.get('contract_id'))
                 if contract:contract.data={**contract.data,'reminders_sent':contract.data.get('reminders_sent',0)+1}

@@ -36,14 +36,17 @@ def phone_number(value):
 
 def cancel_sales(db, lead):
     lead.generation += 1
+    if lead.paused or lead.opted_out:
+        from .media import cancel_gallery
+        cancel_gallery(db,lead)
     for job in db.query(Job).filter(Job.lead_id==lead.id, Job.status=='pending').all():
         if job.kind in ('followup','hold_reminder','respond') or job.data.get('commercial') or job.data.get('guard_generation'):
             job.status='cancelled'
 
 def handoff(db, lead, reason, notify=True):
     already_paused=lead.paused
-    cancel_sales(db, lead)
     lead.paused = True
+    cancel_sales(db, lead)
     add_record(db,'task',lead.id,{'type':'human','reason':reason,'status':'open'})
     add_record(db,'audit',lead.id,{'action':'handoff','reason':reason})
     if notify and not already_paused and not lead.opted_out:

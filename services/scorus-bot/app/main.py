@@ -154,8 +154,12 @@ def inbound(db,phone,text,external_id,from_me=False,provider_key=None):
     stop=bool(re.fullmatch(r'\s*(stop|baja|no me escribas(?: más)?|no quiero más mensajes|unsubscribe|leiratkozás)\s*[.!]?\s*',text,re.I))
     if stop:
         lead.opted_out=True
+        from .media import cancel_gallery
+        cancel_gallery(db,lead)
         add_record(db,'audit',lead.id,{'action':'opt_out'})
         return
+    from .media import media_preference
+    media_preference(db,lead,text)
     ingest(lead,text)
     flag_health(db,lead,text)
     if lead.paused or lead.opted_out: return
@@ -261,6 +265,7 @@ async def meta_webhook(request:Request):
     return {'received':True}
 
 TOOLS={
+    'share_gym_photos':('Prepara las fotos oficiales del gimnasio para este cliente, una sola vez, después de explicar el entrenamiento presencial. No acepta URL ni teléfono.',{}),
     'get_offer':('Consultar catálogo y reglas oficiales.',{}),
     'get_profile':('Consultar solo el expediente del interlocutor.',{}),
     'update_profile':('Guardar nombre, correo y cualificación explícitamente aportados por el cliente, sin alterar precio, aprobación ni contrato.',{'answers':{'type':'object'}}),
@@ -316,7 +321,12 @@ def mcp_rpc(scope,body):
                     db.refresh(lead)
                     require(lead.generation==scope.get('generation') and not lead.paused and not lead.opted_out,'Turno invalidado antes de ejecutar.')
                 if name=='get_offer': data={**CATALOG,'commercial':readiness(db)}
-                elif name=='get_profile': data={'name':lead.name,'answers':lead.profile,'state':lead.state,'language':lead.language}
+                elif name=='get_profile':
+                    from .media import gallery_status
+                    data={'name':lead.name,'answers':lead.profile,'state':lead.state,'language':lead.language,'gym_gallery':gallery_status(db,lead)}
+                elif name=='share_gym_photos':
+                    from .media import prepare_gallery
+                    data=prepare_gallery(db,lead,scope['turn'])
                 elif name=='update_profile':
                     require(isinstance(args['answers'],dict) and set(args['answers'])<= {'language','name','email','goal','obstacle','experience','location','days','duration','support','timing','material','timezone','adult'},'Campos no permitidos.')
                     require(all(isinstance(v,str) and len(v)<=200 for v in args['answers'].values()),'Valores no válidos.')
@@ -376,7 +386,7 @@ def mcp_rpc(scope,body):
 
 @app.get('/admin',response_class=HTMLResponse)
 def panel(user=Depends(admin)):
-    return HTMLResponse(Path('/app/panel.html').read_text(),headers={'Cache-Control':'no-store','Content-Security-Policy':"default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'"})
+    return HTMLResponse(Path('/app/panel.html').read_text(),headers={'Cache-Control':'no-store','Content-Security-Policy':"default-src 'self'; img-src 'self' data: https://scorusfitness.com; style-src 'unsafe-inline'; script-src 'unsafe-inline'; frame-ancestors 'none'; base-uri 'none'"})
 
 @app.get('/admin/data')
 def panel_data(lead_id:str|None=None,user=Depends(admin)):

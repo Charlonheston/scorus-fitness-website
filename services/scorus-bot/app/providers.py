@@ -137,6 +137,8 @@ def send_whatsapp(db,lead,payload):
     require(lead.consent.get('contact') and not lead.opted_out,'Sin autorización de contacto.')
     if cfg['mode']=='test': require(lead.phone in cfg['test_recipients'] or (cfg.get('test_allow_inbound_any') and 0<time.time()-lead.last_inbound<DAY),'Prueba sin entrada reciente ni destinatario autorizado.')
     else: require(cfg['launch_approved'],'Producción pendiente de validación.')
+    from .media import asset
+    photo=asset(payload['media_id']) if payload.get('media_id') else None
     transport=os.getenv('WHATSAPP_TRANSPORT','evolution')
     if transport=='evolution':
         url=os.getenv('EVOLUTION_URL','http://evolution:8080')
@@ -147,10 +149,15 @@ def send_whatsapp(db,lead,payload):
         require(mine is not None and mine.get('connectionStatus')=='open','Teléfono Scorus todavía sin vincular.')
         expected=os.getenv('TEST_PHONE') if cfg['mode']=='test' else os.getenv('PRODUCTION_PHONE')
         require(bool(expected) and mine.get('ownerJid','').split('@')[0]==expected.lstrip('+'),'El número vinculado no coincide con el configurado para este entorno.')
+        if photo:
+            return api('POST',url+'/message/sendMedia/'+instance,headers={'apikey':key},json={'number':lead.phone.lstrip('+'),'mediatype':'image','mimetype':'image/jpeg','media':photo['url'],'fileName':photo['id']+'.jpg','caption':payload['text'],'delay':0})
         return api('POST',url+'/message/sendText/'+instance,headers={'apikey':key},json={'number':lead.phone.lstrip('+'),'text':payload['text'],'delay':0,'linkPreview':False})
     require(transport=='cloud','Transporte desconocido.')
     key=os.getenv('META_ACCESS_TOKEN',''); require(bool(key),'Meta no configurado.')
     body={'messaging_product':'whatsapp','to':lead.phone.lstrip('+'),'type':'text','text':{'body':payload['text']}}
+    if photo:
+        require(time.time()-lead.last_inbound<DAY,'Las fotos necesitan una ventana de atención abierta en Meta.')
+        body.pop('text');body.update(type='image',image={'link':photo['url'],'caption':payload['text']})
     if time.time()-lead.last_inbound>=DAY:
         name=cfg['template_names'].get(payload.get('template'))
         require(cfg['templates_approved'] and name,'Plantilla aprobada pendiente; no enviar fuera de la ventana de atención.')

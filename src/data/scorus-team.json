@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-18.1",
+  "version": "2026-10-18.2",
   "brand": "Scorus Team",
   "company": "SCORUSFITNESS SL",
   "default_program": "core-6",
@@ -25,7 +25,22 @@
         {"id":"in-person-8","sessions":8,"price_cents":24200},
         {"id":"in-person-12","sessions":12,"price_cents":34485},
         {"id":"in-person-16","sessions":16,"price_cents":43560}
-      ]
+      ],
+      "gallery": {
+        "version": "gym-2026-10-18.1",
+        "page_url": "https://scorusfitness.com/es/gym",
+        "photos": [
+          {"id":"gym-01","url":"https://scorusfitness.com/images/gym/gym-01.jpg"},
+          {"id":"gym-02","url":"https://scorusfitness.com/images/gym/gym-02.jpg"},
+          {"id":"gym-03","url":"https://scorusfitness.com/images/gym/gym-03.jpg"},
+          {"id":"gym-04","url":"https://scorusfitness.com/images/gym/gym-04.jpg"},
+          {"id":"gym-05","url":"https://scorusfitness.com/images/gym/gym-05.jpg"},
+          {"id":"gym-06","url":"https://scorusfitness.com/images/gym/gym-06.jpg"},
+          {"id":"gym-08","url":"https://scorusfitness.com/images/gym/gym-08.jpg"},
+          {"id":"gym-09","url":"https://scorusfitness.com/images/gym/gym-09.jpg"},
+          {"id":"gym-10","url":"https://scorusfitness.com/images/gym/gym-10.jpg"}
+        ]
+      }
     },
     "consulting": {
       "name": "Consultoría online puntual por videollamada",
