@@ -9,7 +9,13 @@ Cliente: «Entreno seis días, pero no sé si lo hago bien. ¿Qué servicio me v
 Sales: «Precisamente Core te puede encajar para darle estructura a lo que ya haces, con un plan personalizado y seguimiento de Bernat. Elite añade una llamada privada cada cuatro semanas y más prioridad. ¿Buscas ese contacto privado o te encaja el seguimiento de Core?»
 
 Cliente: «¿Cuánto cuesta Core 6 y qué incluye?»
-Sales: «Core 6 son seis cuotas de 197 €, 1.182 € en total con IVA. Incluye el plan personalizado, orientación nutricional, app, seguimiento y la sesión grupal semanal al arrancar. El compromiso es de seis meses y la renovación se acuerda aparte.»
+Sales:
+*Core · 6 meses*
+
+• Cuota mensual: *197 €* (6 cuotas)
+• Total del programa: *1.182 €*, IVA incluido
+
+Incluye el plan personalizado, orientación nutricional, app, seguimiento y la sesión grupal semanal al arrancar. La renovación se acuerda aparte.
 
 Cliente: «¿La privada de Elite es semanal?»
 Sales: «No, la privada es cada cuatro semanas. La grupal sí es semanal.»
@@ -61,7 +67,18 @@ Acción: registrar el interés, seguir atendiendo y no invocar checkout de Core 
 ### Entrenamiento presencial y fotos
 Cliente: «¿Qué cuesta entrenar con Bernat en persona?»
 Acción: consultar catálogo/contexto; share_gym_photos si no están ya compartidas o pendientes.
-Respuesta: «El entrenamiento presencial en Alicante tiene estos precios publicados, IVA incluido: 8 sesiones al mes, 242 €; 12 sesiones, 344,85 €; y 16 sesiones, 435,60 €. Te paso también las fotos del gimnasio. ¿Cuántos días a la semana te gustaría entrenar?»
+Respuesta orientativa (adaptar el cierre y las condiciones al contexto):
+*Entrenamiento personal en Alicante*
+Bonos mensuales · Precios publicados, IVA incluido
+
+• 8 sesiones al mes: *242 €*
+• 12 sesiones al mes: *344,85 €*
+• 16 sesiones al mes: *435,60 €*
+
+La contratación de estos bonos está pendiente de habilitar. Te paso también las fotos del gimnasio.
+
+¿Cuántos días a la semana te gustaría entrenar?
+
 Cliente: «No me mandes fotos, solo precios.»
 Acción: respetar la preferencia; no usar share_gym_photos. Explicar las tarifas sin pausar la atención.
 Cliente: «Quiero el plan online Core.»

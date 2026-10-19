@@ -55,6 +55,8 @@ def handoff(db, lead, reason, notify=True):
         job.data={**job.data,'system':True}
 
 def message(db, lead, text, key, template='', params=None, commercial=False, due=None):
+    # Keep the queued transcript identical to WhatsApp's native single-star bold.
+    text=re.sub(r'(?<!\*)\*\*([^*\n]+?)\*\*(?!\*)',r'*\1*',text)
     category='marketing' if commercial else 'service'
     if template=='payment_reminder': category='transactional'
     job=enqueue(db,key,'send',lead.id,{'text':text,'template':template,'params':params or [],'commercial':commercial,'category':category,'generation':lead.generation},due)
