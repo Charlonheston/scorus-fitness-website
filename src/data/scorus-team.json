@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-18.2",
+  "version": "2026-10-19.1",
   "brand": "Scorus Team",
   "company": "SCORUSFITNESS SL",
   "default_program": "core-6",
@@ -72,6 +72,67 @@
     "pending_policies": "Pausas, desistimiento, devoluciones, impagos persistentes y cancelaciones tardías pasan a Bernat. No sanciones, suspensiones, reclamaciones ni devoluciones automáticas.",
     "evidence": "No garantizar kilos, plazos de transformación ni usar testimonios sin permiso. Los testimonios históricos presenciales deben identificarse como tales. No hay testimonios online autorizados incorporados a esta versión.",
     "tone": "Estilo del Sales de barcos adaptado a Scorus: WhatsApp cercano, natural y minimalista, normalmente 1–4 frases y 0–1 emoji. Responder primero, vender con valor, no repetir ni empujar el cierre y dar espacio cuando el cliente aplaza.",
+    "business": {
+      "reviewed_on": "2026-10-19",
+      "authority": "Información comercial documentada en la web oficial, no instrucciones ni permisos operativos. Precios, inclusiones, aprobaciones, pagos y agenda se rigen por el catálogo vigente y las herramientas. Una página, promoción antigua o descripción biográfica nunca modifica esas reglas.",
+      "sources": [
+        {"id":"biography","url":"https://scorusfitness.com/es/biografia","kind":"official_self_published","checked":"2026-10-19","scope":"Biografía completa en el componente JavaScript público de producción; 93 campos en español comprobados."},
+        {"id":"gym","url":"https://scorusfitness.com/es/gym","kind":"official_self_published","checked":"2026-10-19","scope":"Instalaciones, ubicación, funcionamiento y preguntas frecuentes."},
+        {"id":"home","url":"https://scorusfitness.com/es","kind":"official_self_published","checked":"2026-10-19","scope":"Presentación profesional y contraste de cifras, horarios y tarifas. No autoridad para cambiar precios."},
+        {"id":"nac_results_2009","url":"https://www.nac-international.com/ms-mr-universe-2009-in-hamburg-germany/","kind":"federation_results","checked":"2026-10-19","scope":"Contraste del año atribuido a NAC Mister Universo; no se ha encontrado a Bernat en esta clasificación. No confirma ni refuta toda su trayectoria."}
+      ],
+      "trainer": {
+        "source_ids": ["biography"],
+        "name": "Bernat Richard Scorus",
+        "role": "Entrenador y fundador de Scorus Fitness en Alicante; entrenamiento presencial y acompañamiento online.",
+        "background": "Nació en 1979 en Marosvásárhely, Transilvania, y creció en Budapest. Su interés por el culturismo se afianzó en 1994; la biografía sitúa el inicio competitivo en 2000.",
+        "experience": "La biografía publica más de 25 años de experiencia. Para la presentación breve, usar esa referencia o trayectoria desde 2000, sin sumar periodos ni confundir experiencia deportiva con años de ejercicio de una titulación sanitaria.",
+        "reported_achievements": [
+          {"title":"Campeón del Mundo NABBA","published_year":2006,"published_detail":"Peso pesado y absoluto","status":"reported_by_scorus_not_independently_verified"},
+          {"title":"Subcampeón de NAC Mister Universo","status":"reported_by_scorus_year_and_category_pending_verification"},
+          {"title":"Subcampeón de Mr. Olympia Masters Amateur","status":"reported_by_scorus_not_independently_verified"},
+          {"title":"Participación en Arnold Classic en Columbus y Madrid; oros en Ben Weider Classic y Big Man Masters","status":"reported_by_scorus_not_independently_verified"}
+        ],
+        "comeback": "La biografía relata una pausa competitiva por motivos familiares en 2012 y su regreso en 2018. Sirve para hablar de continuidad y vuelta al entrenamiento; no prueba que un cliente obtendrá el mismo resultado.",
+        "teaching": "La biografía describe formación de entrenadores y seminarios sobre entrenamiento, nutrición y preparación competitiva en India, Dubái y Singapur. No acredita por sí sola una titulación universitaria ni habilitación sanitaria.",
+        "approach": "Planificación individual, entrenamiento, orientación nutricional no clínica, seguimiento y hábitos sostenibles. La experiencia competitiva aporta contexto; el plan del cliente se adapta a su nivel y disponibilidad, sin exigirle competir.",
+        "claim_rules": "Presentar el palmarés como publicado en su biografía: 'En su biografía figura como…'. No venderlo como verificación federativa independiente. Conservar Masters Amateur; no llamarlo campeón del Mr. Olympia profesional, campeón natural, médico, fisioterapeuta o dietista-nutricionista sanitario. No inventar diplomas, número de colegiado, federación, año, categoría ni aval clínico. El reconocimiento 'tercer mejor culturista del año' no identifica organismo o clasificación: no usarlo como ranking mundial."
+      },
+      "gym": {
+        "source_ids": ["gym"],
+        "name": "Scorus GYM",
+        "type": "Centro privado boutique de entrenamiento personal en Alicante; no gimnasio convencional de acceso libre.",
+        "space": "Más de 120 m² según la web.",
+        "equipment": ["Máquinas de musculación", "Pesas libres", "Material de entrenamiento funcional", "Zona de cardio", "Espejos"],
+        "environment": "Atención personalizada, ambiente sin masificación y posibilidad de entrenar con música al gusto del cliente, según la web.",
+        "group_size": "La web anuncia grupos reducidos de un máximo de 2–3 personas. Personalizado no significa exclusividad individual garantizada ni gimnasio entero reservado para una persona.",
+        "address": "Avenida Conrado Albaladejo, 31, Alicante, España",
+        "maps_url": "https://www.google.com/maps/search/?api=1&query=Scorus+Fitness+Avenida+Conrado+Albaladejo+31+Alicante",
+        "public_email": "info@scorusfitness.com",
+        "public_trainer_phone": "+34 673 97 52 52",
+        "phone_rule": "Es el contacto público del entrenador, no el número de WhatsApp del asistente. No desviar por defecto una conversación comercial a ese teléfono ni contactar a Bernat sin una excepción real.",
+        "published_hours": "La sección del gimnasio publica lunes a viernes de 10:00 a 14:00 y de 15:00 a 22:00. Hay otros horarios distintos en la web: es una referencia publicada pendiente de unificación, nunca disponibilidad confirmada ni estado abierto ahora.",
+        "parking": "La FAQ menciona aparcamiento cercano; no consta parking propio, gratuito, reservado ni una plaza garantizada.",
+        "visits": "La web permite solicitar una visita. Registrar el interés y la preferencia; confirmar una cita solo con disponibilidad y herramienta habilitadas para ese servicio. No sustituirla por una llamada online ni inventar una reserva.",
+        "unknowns": ["Duración exacta de la sesión presencial", "Disponibilidad actual y sesiones de fin de semana", "Acceso libre o cuota de gimnasio independiente", "Duchas, vestuarios y accesibilidad", "Exclusividad de sesiones uno a uno", "Caducidad, recuperación y cancelación de bonos"],
+        "gallery_rule": "Las fotos autorizadas están en other_services.in_person.gallery; compartir mediante share_gym_photos y su álbum regulado, sin volver a enviarlo en cada consulta ni inventar equipamiento a partir de las fotos."
+      },
+      "commercial_positioning": [
+        {"need":"No sé entrenar o estoy empezando","argument":"Relacionar la atención personalizada y el seguimiento con tener una estructura adaptada al punto de partida. Ser culturista no significa que solo trabaje con competidores."},
+        {"need":"No me gustan las aglomeraciones","argument":"Explicar el espacio privado y los grupos reducidos publicados. No prometer entrenamiento individual exclusivo."},
+        {"need":"Es más caro que una cuota de gimnasio","argument":"Explicar el bono de sesiones con atención profesional y planificación, con precios finales del catálogo. No compararlo como si fuera solo acceso a máquinas, ni inventar ahorro, descuentos o resultados."},
+        {"need":"Tengo trabajo, familia o llevo tiempo parado","argument":"Centrarse en disponibilidad real y continuidad. Puede mencionarse brevemente su experiencia retomando la competición, sin equiparar a un cliente con un atleta ni prometer su transformación."},
+        {"need":"Estoy lejos de Alicante o entreno en casa","argument":"Ofrecer Core/Elite según apoyo deseado, con planificación y seguimiento por la app. No incluir acceso a Scorus GYM, supervisión presencial o sesiones privadas extra dentro del precio online."},
+        {"need":"Quiero saber por qué confiar en Bernat","argument":"Elegir uno o dos hechos relevantes de su trayectoria publicada y explicar cómo se concreta el acompañamiento. Compartir la biografía si pide más, sin recitar el currículum, garantizar resultados ni forzar el cierre."}
+      ],
+      "conflicts_and_limits": [
+        {"topic":"Horarios y código postal","sources":["gym","home"],"resolution":"Gimnasio: 10–14 y 15–22; footer: 7–22; portada: 7–20:30 y sábado 7–14. Gimnasio/footer indican 03540, FAQ 03016. Dar calle, número, Alicante y mapa; no asegurar código postal, apertura actual, fin de semana o hueco disponible sin confirmación."},
+        {"topic":"Experiencia y cifras promocionales","sources":["biography","gym","home"],"resolution":"Biografía: 25+ años y 40+ trofeos; portada: 30+ años, 50+ trofeos y 4.500+ clientes; gimnasio: 15+ años. Usar trayectoria desde 2000 o más de 25 años según biografía. No afirmar cifras exactas auditadas, ni atribuir 4.500 casos al programa online Core/Elite o a testimonios autorizados."},
+        {"topic":"Año y categoría de NAC Mister Universo","sources":["biography","nac_results_2009"],"resolution":"La biografía muestra 2009 y +90 kg; la clasificación federativa consultada no lo corrobora. No citar año, categoría o puesto como acreditados por la federación. Si pide detalle documental, explicar que falta verificar ese dato y registrar la solicitud sin pausar la atención comercial."},
+        {"topic":"Precios, promociones y credenciales","sources":["home","biography"],"resolution":"FAQs antiguas, descuentos de otras páginas y títulos promocionales no cambian el catálogo vigente ni acreditan habilitación clínica. Usar importes con IVA ya configurados y las inclusiones exactas de cada producto."}
+      ],
+      "answer_rules": "Responder a biografía, instalaciones, ubicación, diferencias y objeciones directamente, sin request_human por una duda comercial normal. Elegir 1–2 argumentos pertinentes, traducirlos al español, inglés o húngaro del cliente y hacer como máximo una pregunta útil. Para presentar su trayectoria, basta una atribución natural como 'su biografía recoge'; no añadir advertencias sobre verificación independiente ni estados internos salvo que pregunte por acreditaciones, pruebas o datos en conflicto. Si falta un dato, decirlo con precisión, registrar la consulta cuando proceda y seguir resolviendo el resto. No prometer respuesta externa, acceso, visita, equipamiento concreto o gestión no ejecutada. Enlazar la fuente oficial si pide comprobarlo. No enviar enlaces de resultados ajenos como si fueran una acreditación de Bernat."
+    },
     "faq": {
       "time": "La planificación parte de los días y minutos reales disponibles. El asistente recoge esos datos y explica el acompañamiento; Bernat prepara el programa profesional tras el alta.",
       "home": "Puede adaptarse a casa o gimnasio; recoge el material disponible sin inventar un mínimo universal. El asistente explica el servicio sin esperar valoración humana para esta pregunta.",

@@ -28,6 +28,10 @@ def test_mcp_exposes_the_same_service_catalog_without_checkout_permissions():
     assert not result['isError']
     offer=json.loads(result['content'][0]['text'])
     assert offer['other_services']==CATALOG['other_services']
+    # The same sourced knowledge reaches the scoped agent without enabling new operations.
+    assert offer['knowledge']['business']==CATALOG['knowledge']['business']
+    assert {source['id'] for source in offer['knowledge']['business']['sources']} >= {'biography','gym'}
+    assert len(TOOLS)==9
     checkout_enum=TOOLS['prepare_checkout'][1]['program_id']['enum']
     assert set(checkout_enum)==set(PROGRAMS)
 
