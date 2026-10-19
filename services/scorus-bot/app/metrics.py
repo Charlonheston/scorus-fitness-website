@@ -7,7 +7,7 @@ def snapshot(db):
     usages=db.query(Record).filter_by(kind='usage').all()
     valuations=[r for r in bookings if r.data.get('type')=='valuation']
     samples=[]; pending={}
-    messages=db.query(Record).filter_by(kind='message').filter(Record.data['media_id'].as_string().is_(None)).order_by(Record.created.desc()).limit(1000).all()
+    messages=db.query(Record).filter_by(kind='message').filter(Record.data['media_id'].as_string().is_(None),Record.data['media_ids'].as_string().is_(None)).order_by(Record.created.desc()).limit(1000).all()
     for record in reversed(messages):
         if record.data.get('direction')=='in': pending.setdefault(record.lead_id,record.created)
         elif record.lead_id in pending: samples.append(max(0,record.created-pending.pop(record.lead_id)))

@@ -62,7 +62,7 @@ def respond(db,job,lead):
     batch=unanswered(db,lead.id)
     if not batch:return
     ids=[r.id for r in batch];prompt='\n'.join(r.data['text'] for r in batch)
-    history=db.query(Record).filter_by(kind='message',lead_id=lead.id).filter(Record.data['media_id'].as_string().is_(None)).order_by(Record.created.desc()).limit(20).all()
+    history=db.query(Record).filter_by(kind='message',lead_id=lead.id).filter(Record.data['media_id'].as_string().is_(None),Record.data['media_ids'].as_string().is_(None)).order_by(Record.created.desc()).limit(20).all()
     messages=[{'role':'user' if r.data['direction']=='in' else 'assistant','content':r.data['text']} for r in reversed(history) if r.id not in ids]
     previous=next((r for r in history if r.data.get('direction')=='out'),None)
     target=response_target(len(prompt),not previous or time.time()-previous.created>=21600)
@@ -209,7 +209,7 @@ def dispatch(db,job,lead):
     if due>now+.1:
         job.status='pending';job.due=due;db.commit();return
     owner=job.owner
-    if cfg['typing'] and not job.data.get('media_id') and not job.data.get('phase') and not job.data.get('human') and not priority(job)==0:
+    if cfg['typing'] and not job.data.get('media_id') and not job.data.get('media_ids') and not job.data.get('phase') and not job.data.get('human') and not priority(job)==0:
         seconds=typing_seconds(job.data['text'])
         job.data={**job.data,'phase':'typing'};job.due=now+seconds
         runtime.data={**state,'typing_job':job.id};db.commit()
@@ -225,13 +225,19 @@ def dispatch(db,job,lead):
     state['contacts']={k:v for k,v in state.get('contacts',{}).items() if v>now-86400}
     state['contacts'][lead.id]=now;state['typing_job']=''
     runtime.data=state;job.data={**job.data,'dispatching':True}
-    add_record(db,'send_attempt',lead.id,{'job_id':job.id,'status':'dispatching'})
+    add_record(db,'send_attempt',lead.id,{'job_id':job.id,'status':'dispatching','photo_count':len(job.data.get('media_ids',[])) or int(bool(job.data.get('media_id')))})
     db.commit()
     db.refresh(lead);db.refresh(job)
     if job.owner!=owner or not permitted(db,job,lead):
         job.status='cancelled';job.data={**job.data,'dispatching':False};db.commit();clear_typing(lead.phone);return
     try:
         result=send_whatsapp(db,lead,job.data)
+        if job.data.get('media_ids'):
+            from .media import record_album_result
+            db.expire_all();db.refresh(job)
+            if not record_album_result(db,lead,job,result):
+                finish_delivery(db,lead.id,now);db.commit();return
+            db.flush() # Preserve accepted child IDs before the provider-result reload below.
         provider_id=result.get('key',{}).get('id') or (result.get('messages') or [{}])[0].get('id')
         require(bool(provider_id),'Proveedor sin identificador de envío; comprobar entrega antes de repetir.')
         db.expire_all();db.refresh(job)

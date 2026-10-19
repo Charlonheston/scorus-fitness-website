@@ -38,12 +38,12 @@ def test_gallery_starts_after_text_acceptance_and_is_persistent_and_private(monk
     worker.execute_claim(*get_claim('send'))
     with Session.begin() as db:
         lead=db.get(Lead,lead.id);jobs=gallery_jobs(db,lead)
-        assert len(jobs)==9 and len({j.data['media_id'] for j in jobs})==9
+        assert len(jobs)==1 and len(set(jobs[0].data['media_ids']))==9
         assert all(j.status=='pending' and priority(j)==2 for j in jobs)
         assert gallery_status(db,lead)['pending']==9
         assert gallery_status(db,db.get(Lead,other.id))['pending']==0
         activate_gallery(db,lead,db.get(Job,reply.id))
-        assert len(gallery_jobs(db,lead))==9
+        assert len(gallery_jobs(db,lead))==1
         # The next customer's question does not repeat or truncate a useful gallery.
         inbound(db,lead.phone,'¿Dónde está el gimnasio?','gym-following')
         assert all(permitted(db,j,lead) for j in jobs)
@@ -52,7 +52,7 @@ def test_gallery_starts_after_text_acceptance_and_is_persistent_and_private(monk
 
 
 def gallery_jobs(db,lead):
-    return [j for j in db.query(Job).filter_by(kind='send',lead_id=lead.id) if j.data.get('media_id')]
+    return [j for j in db.query(Job).filter_by(kind='send',lead_id=lead.id) if j.data.get('media_id') or j.data.get('media_ids')]
 
 
 def start_again(db,lead):
@@ -124,32 +124,31 @@ def test_cancelled_turn_cannot_activate_photos_or_call_tool():
 def test_no_repetition_of_accepted_or_uncertain_photos():
     with Session.begin() as db:
         lead=contact(db);turn,reply=stage(db,lead);activate_gallery(db,lead,reply)
-        jobs=gallery_jobs(db,lead)
-        jobs[0].status='done';jobs[0].data={**jobs[0].data,'provider_id':'accepted-image'}
-        jobs[1].status='review'
-        for job in jobs[2:]:job.status='cancelled'
+        job=gallery_jobs(db,lead)[0];job.status='review'
+        job.data={**job.data,'provider_id':'parent','accepted_media_ids':['gym-01']}
+        status=gallery_status(db,lead)
+        assert status['accepted']==1 and status['uncertain']==8
         inbound(db,lead.phone,'Mándame fotos del gimnasio','ask-again')
-        turn=start_again(db,lead);prepare_gallery(db,lead,turn.id)
-        again=message(db,lead,'Te paso las fotos restantes.','remaining');again.data={**again.data,'turn_id':turn.id}
-        activate_gallery(db,lead,again)
-        pending=[j for j in gallery_jobs(db,lead) if j.status=='pending']
-        assert len(pending)==7
-        assert jobs[0].data['media_id'] not in {j.data['media_id'] for j in pending}
-        assert jobs[1].data['media_id'] not in {j.data['media_id'] for j in pending}
+        turn=start_again(db,lead)
+        assert prepare_gallery(db,lead,turn.id)['status']=='already_shared_or_queued'
+        assert len(gallery_jobs(db,lead))==1
 
 
 def test_media_delivery_uses_budget_and_records_photo_without_typing(monkeypatch):
     sent=[]
     monkeypatch.setattr(worker,'presence',lambda phone,status,*a:sent.append(status))
-    monkeypatch.setattr(worker,'send_whatsapp',lambda db,lead,payload:{'key':{'id':'photo-id'}})
+    monkeypatch.setattr(worker,'send_whatsapp',lambda db,lead,payload:{'key':{'id':'album-id'},'scorus_album':{'status':'accepted','total':9,'items':[{'media_id':v,'key':{'id':'photo-'+v}} for v in payload['media_ids']]}})
     with Session.begin() as db:
         lead=contact(db);turn,reply=stage(db,lead);activate_gallery(db,lead,reply);reply.status='done'
     worker.execute_claim(*get_claim('send'))
     with Session() as db:
-        assert db.get(Record,'sent:photo-id').data['media_id']=='gym-01'
+        assert db.get(Record,'sent:album-id').data['media_ids']==[p['id'] for p in gallery()['photos']]
+        assert db.get(Record,'sent:photo-gym-01').data['album_parent']=='album-id'
+        assert db.query(Record).filter_by(kind='provider_message').count()==9
+        assert gallery_status(db,db.get(Lead,lead.id))['accepted']==9
         assert len(delivery(db).data['attempts'])==1
         assert 'composing' not in sent
-        assert len(gallery_jobs(db,db.get(Lead,lead.id)))==9
+        assert len(gallery_jobs(db,db.get(Lead,lead.id)))==1
 
 
 def test_photo_records_do_not_crowd_text_history_or_response_metrics(monkeypatch):
@@ -198,3 +197,83 @@ def test_cloud_image_requires_open_service_window(monkeypatch):
         lead.last_inbound=time.time()-DAY-1
         with pytest.raises(RuleError):providers.send_whatsapp(db,lead,{'text':'Gym','media_id':'gym-01'})
         assert len(calls)==1
+
+
+def test_album_uses_fixed_catalog_ids_and_persistent_provider_request(monkeypatch):
+    monkeypatch.setenv('EVOLUTION_API_KEY','fake-key');monkeypatch.setenv('EVOLUTION_INSTANCE','scorus-test')
+    monkeypatch.setenv('PRODUCTION_PHONE','+34600909999');monkeypatch.setenv('WHATSAPP_TRANSPORT','evolution')
+    calls=[]
+    def api(method,url,**kwargs):
+        calls.append((method,url,kwargs))
+        return [{'name':'scorus-test','connectionStatus':'open','ownerJid':'34600909999@s.whatsapp.net'}] if method=='GET' else {}
+    monkeypatch.setattr(providers,'api',api)
+    with Session.begin() as db:
+        lead=contact(db);cfg=db.get(Config,'settings');cfg.data={**cfg.data,'launch_approved':True}
+        payload={'text':'Scorus gym','media_ids':['gym-01','gym-02'],'album_request_id':'stable-request'}
+        providers.send_whatsapp(db,lead,payload)
+        body=calls[-1][2]['json']
+        assert body['scorusAlbum']=={'requestId':'stable-request','mediaIds':['gym-01','gym-02']}
+        assert body['media']==asset('gym-01')['url'] and calls[-1][2]['timeout']==120
+        with pytest.raises(RuleError):providers.send_whatsapp(db,lead,{**payload,'media_ids':['gym-01','https://other.example/image.jpg']})
+        monkeypatch.setenv('WHATSAPP_TRANSPORT','cloud')
+        with pytest.raises(RuleError):providers.send_whatsapp(db,lead,payload)
+
+
+def test_partial_album_preserves_provider_ids_and_never_retries(monkeypatch):
+    monkeypatch.setattr(worker,'presence',lambda *a:None)
+    monkeypatch.setattr(worker,'send_whatsapp',lambda *a:{'key':{'id':'partial-parent'},'scorus_album':{
+        'status':'review','total':9,'items':[{'media_id':'gym-01','key':{'id':'partial-child'}}]}})
+    with Session.begin() as db:
+        lead=contact(db);turn,reply=stage(db,lead);activate_gallery(db,lead,reply);reply.status='done'
+    worker.execute_claim(*get_claim('send'))
+    with Session() as db:
+        job=db.query(Job).filter_by(kind='send',status='review',lead_id=lead.id).one()
+        assert job.data['accepted_media_ids']==['gym-01']
+        assert db.get(Record,'sent:partial-child').data['album_parent']=='partial-parent'
+        assert db.get(Record,'sent:partial-parent').data['delivery_status']=='review'
+        assert gallery_status(db,db.get(Lead,lead.id))['uncertain']==8
+    assert get_claim('send') is None
+
+
+def test_album_echoes_and_receipts_are_not_human_takeovers(monkeypatch):
+    from app.main import evolution_event
+    monkeypatch.setenv('EVOLUTION_INSTANCE','scorus-test')
+    with Session.begin() as db:
+        lead=contact(db)
+        db.add(Record(id='sent:album-child',kind='provider_message',lead_id=lead.id,data={'media_id':'gym-01','album_parent':'parent'}))
+    evolution_event({'instance':'scorus-test','event':'MESSAGES_UPSERT','data':{'key':{'id':'album-child','remoteJid':lead.phone.lstrip('+')+'@s.whatsapp.net','fromMe':True},'messageTimestamp':time.time(),'source':'android','message':{'imageMessage':{'caption':''}}}})
+    evolution_event({'instance':'scorus-test','event':'MESSAGES_UPDATE','data':{'key':{'id':'album-child'},'status':'READ'}})
+    with Session() as db:
+        assert not db.get(Lead,lead.id).paused
+        assert not db.query(Job).filter_by(kind='manual_echo').count()
+        assert db.get(Record,'sent:album-child').data['delivery_status']=='READ'
+
+
+def test_completed_album_repeats_only_on_explicit_photo_request():
+    with Session.begin() as db:
+        lead=contact(db);turn,reply=stage(db,lead);activate_gallery(db,lead,reply)
+        job=gallery_jobs(db,lead)[0];job.status='done';job.data={**job.data,'provider_id':'parent','accepted_media_ids':job.data['media_ids']}
+        inbound(db,lead.phone,'¿Cuánto cuesta el bono presencial?','repeat-prices')
+        turn=start_again(db,lead)
+        assert prepare_gallery(db,lead,turn.id)['status']=='already_shared_or_queued'
+        turn.status='done'
+        inbound(db,lead.phone,'Mándame las fotos en galería','repeat-photos')
+        turn=start_again(db,lead)
+        assert prepare_gallery(db,lead,turn.id)['status']=='prepared'
+        again=message(db,lead,'Te paso el álbum.','album-again');again.data={**again.data,'turn_id':turn.id}
+        activate_gallery(db,lead,again)
+        assert len(gallery_jobs(db,lead))==2
+        assert gallery_status(db,lead)['pending']==9
+
+
+def test_pending_legacy_images_migrate_without_replaying_delivered_photos():
+    from app.media import migrate_pending_galleries
+    with Session.begin() as db:
+        lead=contact(db)
+        for index in range(3):
+            j=message(db,lead,'Gym','old-image-'+str(index))
+            j.data={**j.data,'media_id':f'gym-0{index+1}','gallery_version':gallery()['version'],'expires_at':time.time()+3600}
+            if index==0:j.status='done';j.data={**j.data,'provider_id':'old-accepted'}
+        migrate_pending_galleries(db);db.flush();migrate_pending_galleries(db)
+        pending=[j for j in gallery_jobs(db,lead) if j.status=='pending']
+        assert len(pending)==1 and pending[0].data['media_ids']==['gym-02','gym-03']

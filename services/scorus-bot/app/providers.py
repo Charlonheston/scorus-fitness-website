@@ -7,7 +7,7 @@ from .domain import DAY, RuleError, PROGRAMS, latest_contract, prepare_contract,
 from .store import Record, add_record
 
 def api(method, url, **kwargs):
-    response=httpx.request(method,url,timeout=25,**kwargs)
+    response=httpx.request(method,url,timeout=kwargs.pop('timeout',25),**kwargs)
     response.raise_for_status()
     return response.json()
 
@@ -139,7 +139,13 @@ def send_whatsapp(db,lead,payload):
     else: require(cfg['launch_approved'],'Producción pendiente de validación.')
     from .media import asset
     photo=asset(payload['media_id']) if payload.get('media_id') else None
+    album_ids=payload.get('media_ids') or []
+    if album_ids:
+        require(isinstance(album_ids,list) and 2<=len(album_ids)<=9 and len(set(album_ids))==len(album_ids),'Álbum inválido.')
+        photos=[asset(identifier) for identifier in album_ids]
+        require(bool(payload.get('album_request_id')),'El álbum necesita un identificador persistente.')
     transport=os.getenv('WHATSAPP_TRANSPORT','evolution')
+    require(not album_ids or transport=='evolution','El transporte configurado no permite álbumes nativos.')
     if transport=='evolution':
         url=os.getenv('EVOLUTION_URL','http://evolution:8080')
         key=os.getenv('EVOLUTION_API_KEY',''); require(bool(key),'Evolution no configurado.')
@@ -149,6 +155,8 @@ def send_whatsapp(db,lead,payload):
         require(mine is not None and mine.get('connectionStatus')=='open','Teléfono Scorus todavía sin vincular.')
         expected=os.getenv('TEST_PHONE') if cfg['mode']=='test' else os.getenv('PRODUCTION_PHONE')
         require(bool(expected) and mine.get('ownerJid','').split('@')[0]==expected.lstrip('+'),'El número vinculado no coincide con el configurado para este entorno.')
+        if album_ids:
+            return api('POST',url+'/message/sendMedia/'+instance,headers={'apikey':key},json={'number':lead.phone.lstrip('+'),'mediatype':'image','media':photos[0]['url'],'caption':payload['text'],'delay':0,'scorusAlbum':{'requestId':payload['album_request_id'],'mediaIds':album_ids}},timeout=120)
         if photo:
             return api('POST',url+'/message/sendMedia/'+instance,headers={'apikey':key},json={'number':lead.phone.lstrip('+'),'mediatype':'image','mimetype':'image/jpeg','media':photo['url'],'fileName':photo['id']+'.jpg','caption':payload['text'],'delay':0})
         return api('POST',url+'/message/sendText/'+instance,headers={'apikey':key},json={'number':lead.phone.lstrip('+'),'text':payload['text'],'delay':0,'linkPreview':False})

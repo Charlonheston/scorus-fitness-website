@@ -27,9 +27,13 @@ services:
     restart: unless-stopped
     mem_limit: 320m
   evolution:
-    image: evoapicloud/evolution-api:v2.3.7
+    image: scorus-evolution:album-v2.3.7
+    build:
+      context: ../..
+      dockerfile: services/scorus-bot/evolution/Dockerfile
     environment:
       SERVER_URL: http://evolution:8080
+      SCORUS_ALBUM_INSTANCE: ${EVOLUTION_INSTANCE:-scorus-test}
       AUTHENTICATION_API_KEY: ${EVOLUTION_API_KEY:?}
       AUTHENTICATION_EXPOSE_IN_FETCH_INSTANCES: "false"
       DATABASE_ENABLED: "true"

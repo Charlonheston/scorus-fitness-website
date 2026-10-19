@@ -50,13 +50,13 @@ def typing_seconds(text):return max(2,min(6,math.ceil(len(text)/100)))
 
 def priority(job):
     if job.data.get('human') or job.data.get('category')=='transactional' or job.data.get('template') in ('payment_confirmed','appointment_reminder'):return 0
-    return 2 if job.data.get('commercial') or job.data.get('media_id') else 1
+    return 2 if job.data.get('commercial') or job.data.get('media_id') or job.data.get('media_ids') else 1
 
 def permitted(db,job,lead):
     if not lead or lead.opted_out or not lead.consent.get('contact'):return False
     if pacing(db)['automatic_paused'] and not job.data.get('human'):return False
     if lead.paused and not (job.data.get('human') or job.data.get('system')):return False
-    if job.data.get('media_id') and lead.profile.get('gym_photos_opt_out'):return False
+    if (job.data.get('media_id') or job.data.get('media_ids')) and lead.profile.get('gym_photos_opt_out'):return False
     if job.data.get('sales_followup') and lead.followups>=1:return False
     if job.data.get('sales_reminder'):
         contract=db.get(Record,job.data.get('contract_id'))
